@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 1.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 1</div>
+        <div style="font-size: 12px; color: #666;">Intro to Chemistry: The Science of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Chemistry in Context</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Chemistry in Context</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">What is this whole subject actually about &mdash; and how would anyone ever <em>know</em> what the world is made of?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For most of human history, no one could see an atom, weigh a gas, or watch a reaction at the scale where it really happens. And yet, slowly, people figured out an astonishing amount about what matter is and how it behaves. This first lesson is about <strong>what chemistry studies, how chemists came to know it, and the three different scales of thinking</strong> you will use all year. It is the doorway to our Grand Question for the whole course: <em>How do humans investigate, understand, and explain the behavior of matter?</em></div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe what chemistry is and give examples of why it matters in everyday life.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how scientists build knowledge, and tell the difference among a hypothesis, a law, and a theory.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify whether a description of matter belongs to the macroscopic, microscopic, or symbolic domain.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook (set up in Module 0) &mdash; you will jot observations and answers as you read.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT IS CHEMISTRY?</div>
+
+        <!-- Reflective check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+          <div class="widget-question">When you hear the word <em>chemistry</em>, what comes to mind first? (No wrong answer &mdash; just check in with yourself.)</div>
+          <div class="widget-options">
+            <button data-response="A great place to start. Explosions and color changes are real chemistry &mdash; but by the end of the year you'll see they are the visible tip of something much deeper happening among atoms.">&#128165; Reactions, fizzing, color changes</button>
+            <button data-response="Honest and common. Formulas and equations are chemistry's written language &mdash; the &lsquo;symbolic domain&rsquo; you'll meet below. They stand for real things, and this course will keep tying them back to the matter they describe.">&#129518; Formulas and equations to memorize</button>
+            <button data-response="Exactly the spirit we want. Chemistry began as people wondering what the world is made of. Hold onto that curiosity &mdash; it is the engine of everything we'll do.">&#129504; A way to understand what stuff is made of</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Observation-first hook: three puzzling samples -->
+        <div style="background: #FFFFFF; border: 1px dashed #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 16px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 10px;">&#128064; START WITH WHAT YOU CAN OBSERVE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-bottom: 12px;">Before any definitions, look at three ordinary situations and just notice what they have in common &mdash; and what makes them tricky:</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+                <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                    <div style="font-size: 24px; text-align:center;">&#127880;</div>
+                    <div style="font-size: 15px; color: #1a2340; line-height: 1.5;">A balloon looks nearly empty, yet a sensitive balance reads <em>heavier</em> when you inflate it. What did you add?</div>
+                </div>
+                <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                    <div style="font-size: 24px; text-align:center;">&#128293;</div>
+                    <div style="font-size: 15px; color: #1a2340; line-height: 1.5;">A candle flame holds a steady shape and gives off light and heat &mdash; but you cannot bottle the flame or set it on a scale. Is the flame itself a <em>thing</em>?</div>
+                </div>
+                <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                    <div style="font-size: 24px; text-align:center;">&#9728;&#65039;</div>
+                    <div style="font-size: 15px; color: #1a2340; line-height: 1.5;">Sunlight pours through a window and warms your hand. Does the light take up space and have mass the way the window does?</div>
+                </div>
+            </div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">All three press on the same question: <strong>what counts as matter, and how would we know?</strong> Notice that you answered by reasoning from evidence &mdash; a balance reading, a flame you can&rsquo;t weigh, warmth without weight. Hold that question in mind; the rest of this lesson is how humans learned to answer it.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A 2,500-year-old question</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Long before anyone used the word <em>chemistry</em>, people were already doing it. Our distant ancestors learned to control fire, and with it they cooked food, fired clay into pottery, and pulled metals out of rock. Somewhere in that long stretch of trial and error, humans crossed a line: they stopped merely <em>reshaping</em> materials and began <strong>changing what those materials actually were</strong> &mdash; turning copper and tin into bronze, ashes and fat into soap, grain into bread, and crushed plants into dyes and medicines.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Underneath all of this sat a question that is still the heartbeat of the subject: <em>what is the world actually made of?</em> As early as the sixth century BCE, Greek thinkers were arguing about it. You may have heard the old idea that everything is built from four elements &mdash; earth, air, fire, and water. Centuries of alchemists then chased the dream of turning &ldquo;base&rdquo; metals like lead into gold and brewing elixirs to cure disease and cheat death. They never managed it &mdash; but in trying, they built furnaces, glassware, and laboratory techniques, and they accumulated stubborn observations about how substances behave. That hard-won, patient observing is where real chemistry grew from.</p>
+
+        <!-- Historical inquiry: Democritus vs Aristotle (competing explanations) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; A LOOK BACK &middot; TWO ANSWERS, NO INSTRUMENTS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6; margin-bottom: 10px;">Around 400 BCE two Greek thinkers gave opposite answers to that very question. <strong>Democritus</strong> argued that if you kept cutting a piece of matter in half, you would eventually reach a piece too small to divide again &mdash; he called it <em>atomos</em>, &ldquo;uncuttable.&rdquo; Matter, he said, is countless tiny particles moving through empty space. <strong>Aristotle</strong> rejected the idea of empty space entirely and held the opposite: matter is <em>continuous</em> &mdash; divisible without end &mdash; and built from four elements (earth, water, air, and fire).</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Both were reasoning carefully from everyday observation, and neither could test the other &mdash; so <em>what evidence would decide between them?</em> The question hidden inside their debate is sharp: can matter be divided forever, or is there a smallest piece? It would take more than two thousand years, and instruments neither man could have imagined, before evidence finally settled it. That is the story Module 2 will pick up.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">We can finally name it. <strong>Chemistry is the study of the composition, properties, and interactions of matter</strong> &mdash; and &ldquo;matter&rdquo; means anything that takes up space and has mass, which is to say nearly everything around you and inside you. Chemistry isn't confined to a lab. It is happening in your cells as you read this, in the battery powering your screen, and in the bread rising in an oven.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the 1930s and 1940s, lifesaving hormones like progesterone and cortisone could only be extracted from animal tissue in tiny, hugely expensive amounts. The chemist <strong>Percy Lavon Julian</strong> found a better source &mdash; the humble soybean &mdash; and worked out how to coax these molecules out of plant material in quantity. His chemistry turned scarce, costly medicines into widely available ones and helped lay the groundwork for modern drug design. The point: chemistry's real power is taking what we understand about matter and using it to make life better.</div>
+        </div>
+
+        <!-- Current research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &middot; CHEMISTRY'S MODERN REACH</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Chemistry is often called <strong>&ldquo;the central science&rdquo;</strong> because so many other fields run through it. Today chemists are designing batteries for electric cars, building materials a few atoms thick, engineering &ldquo;green&rdquo; processes that waste less and pollute less, and reading the chemistry of distant planets through their light. The questions are not finished &mdash; they are wide open, and this course is the on-ramp.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; HOW SCIENTISTS COME TO KNOW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the part that makes chemistry a <em>science</em> rather than a list of claims: every idea has to answer to evidence that anyone can check. Chemists ask questions, make careful observations, and then try to explain what they see &mdash; using procedures other people can repeat to confirm the results. There is no single magic recipe for this, but there is one thing every approach shares: <strong>knowledge is built on experiments that can be reproduced.</strong></p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Three words get used carefully along the way, and people mix them up constantly:</p>
+
+        <!-- Hypothesis / Law / Theory comparison visual -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Hypothesis</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">A <em>tentative</em> explanation that guides what to test next. It is a proposed answer &mdash; an educated guess you can check, refine, or throw out.</div>
+            </div>
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Law</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">A statement that <em>summarizes</em> a huge number of observations and reliably describes or predicts what happens &mdash; but does not, by itself, explain <em>why</em>.</div>
+            </div>
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Theory</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">A well-tested, comprehensive <em>explanation</em> that ties many observations together. It is accepted because it works &mdash; and it can still be revised if new evidence demands it.</div>
+            </div>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice the surprising part: in science, a &ldquo;theory&rdquo; is not a wild guess &mdash; it is among the strongest things we have. And even the strongest theory stays open to revision. That willingness to change your mind when the evidence changes is not a weakness of science. It is the whole point. The looping path from question and observation, to hypothesis, to experiment, to law or theory &mdash; and back again whenever a result surprises us &mdash; is what we call the <strong>scientific method</strong>.</p>
+
+        <!-- Scientific method flow visual -->
+        <div style="background: #FFFFFF; border: 1px dashed #C5DCE5; border-radius: 8px; padding: 16px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 12px; text-align:center;">THE SCIENTIFIC METHOD &mdash; A LOOP, NOT A LADDER</div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;">
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Observe &amp; question</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Form a hypothesis</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Test by experiment</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Analyze evidence</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#2A9D5C; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Law / Theory</span>
+            </div>
+            <div style="text-align:center; font-size:13px; color:#6b7a99; margin-top:12px; font-style:italic;">&#8634; A surprising result sends you back to the start with a sharper question.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE THREE DOMAINS OF CHEMISTRY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists think about matter at three different scales at once, and learning to slide between them is one of the real skills of the subject. These three scales are called the <strong>domains</strong> of chemistry.</p>
+
+        <!-- Three domains visual (water example) -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 240px; background: #EEF1F8; border-radius: 8px; padding: 16px;">
+                <div style="font-size: 30px; text-align:center;">&#127754;</div>
+                <div style="font-size: 16px; color: #0E1C42; text-align:center; margin: 6px 0;"><strong>Macroscopic</strong></div>
+                <div style="font-size: 14px; color: #1a2340; line-height: 1.5;">What you can see and touch directly. <em>Water example:</em> ice cubes, a glass of liquid water, steam rising from a kettle.</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #EEF1F8; border-radius: 8px; padding: 16px;">
+                <div style="font-size: 30px; text-align:center;">&#9883;&#65039;</div>
+                <div style="font-size: 16px; color: #0E1C42; text-align:center; margin: 6px 0;"><strong>Microscopic</strong></div>
+                <div style="font-size: 14px; color: #1a2340; line-height: 1.5;">The world of particles, far too small to see &mdash; often pictured only in the mind. <em>Water example:</em> molecules each made of two hydrogen atoms and one oxygen atom, packed or spread apart.</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #EEF1F8; border-radius: 8px; padding: 16px;">
+                <div style="font-size: 30px; text-align:center; color:#0E1C42; font-weight:bold;">H<sub>2</sub>O</div>
+                <div style="font-size: 16px; color: #0E1C42; text-align:center; margin: 6px 0;"><strong>Symbolic</strong></div>
+                <div style="font-size: 14px; color: #1a2340; line-height: 1.5;">The shorthand chemists write down. <em>Water example:</em> the formula H<sub>2</sub>O, and labels like (<em>s</em>) solid, (<em>l</em>) liquid, (<em>g</em>) gas.</div>
+            </div>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">The fascinating move &mdash; and the hard one &mdash; is using a domain you have to <em>imagine</em> (the microscopic) to explain something you can <em>see</em> (the macroscopic), and capturing both in a few symbols. Water freezing on a windowpane, the molecules locking into place, and the equation that describes it are three views of one reality. You will practice switching between them all year.</p>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; AI AS A SCIENTIFIC INSTRUMENT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Every era of chemists got a new instrument that let them &ldquo;see&rdquo; further &mdash; the balance, the microscope, the spectrometer. AI is the instrument of your era: it can summarize a topic, generate diagrams, and suggest explanations in seconds. That can genuinely extend your investigation. It <em>cannot</em> tell whether its answer is actually true &mdash; only you can do that, by checking it against real evidence and your own reasoning. Next week, for instance, AI can help you <em>sort</em> examples of matter into categories &mdash; but it cannot observe your actual sample or verify your data. You remain the scientist. Throughout this course, treat an AI answer the way a careful chemist treats any instrument reading: useful, but verified before you trust it.</div>
+        </div>
+
+        <!-- Single-select widget: classify into domains -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH DOMAIN?</div>
+          <div class="widget-question">For each description of water, decide whether it belongs to the <strong>macroscopic</strong>, <strong>microscopic</strong>, or <strong>symbolic</strong> domain. You get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; an ice cube is something you can see and hold, so it's the macroscopic domain." data-hint="Could you observe this directly with your eyes or hands? If so, it's macroscopic.">
+            <div class="widget-row-prompt">1. &ldquo;A 30&nbsp;g ice cube sits melting in a glass.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Symbolic</button>
+              <button data-choice="1">Microscopic</button>
+              <button data-choice="2">Macroscopic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; H&#8322;O is written shorthand, so it lives in the symbolic domain." data-hint="Is this a written symbol or formula? Those are the symbolic domain.">
+            <div class="widget-row-prompt">2. &ldquo;Water is written as H&#8322;O.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Symbolic</button>
+              <button data-choice="1">Microscopic</button>
+              <button data-choice="2">Macroscopic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; individual molecules are far too small to see, so this is the microscopic domain." data-hint="Are we talking about particles too small to see? That's microscopic.">
+            <div class="widget-row-prompt">3. &ldquo;Each water molecule is two hydrogen atoms bonded to one oxygen atom.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Symbolic</button>
+              <button data-choice="1">Microscopic</button>
+              <button data-choice="2">Macroscopic</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Is &ldquo;a theory is just a guess&rdquo; a fair statement in science?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. In everyday speech &ldquo;theory&rdquo; can mean a hunch, but in science a theory is a well-tested explanation that already accounts for a large body of evidence &mdash; it has survived many attempts to prove it wrong. A <em>hypothesis</em> is closer to the everyday &ldquo;guess.&rdquo; The honest scientist's stance is that even a strong theory can be revised, but it is not a casual opinion.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin building your <strong>Matter Classification Museum</strong> in OptimaXR &mdash; the project you'll add to every week of this module and narrate on camera at the end. Lesson 1.01 gives you the lens: you're not just sorting objects, you're learning to <em>see</em> matter at three scales and to back up every claim with evidence. Keep that habit close; it's exactly what your museum exhibits (and your final recorded explanation) will be graded on.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 1.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz to confirm you caught the big ideas. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Classify &amp; Justify Matter</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">After Lessons 1.02 and 1.03 you'll sort real samples and defend your reasoning &mdash; plus check that matter is conserved.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Matter Classification Museum</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Enter OptimaXR and start your exhibit. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Chemistry is the centuries-long human effort to understand matter &mdash; built on observation, tested against evidence, and willing to change its mind. You now have its three working scales (macroscopic, microscopic, symbolic) and its honest vocabulary (hypothesis, law, theory). Next, we get specific about <em>what matter is</em> and how to sort it.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.01 &middot; Chemistry in Context</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

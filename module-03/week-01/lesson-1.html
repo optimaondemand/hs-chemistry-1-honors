@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Ionic Bonding</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Ionic Bonding</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Why does a soft, explosive metal joined to a poisonous green gas make something you sprinkle on your food?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In Module 2 you learned that an atom's chemistry is decided by its electrons &mdash; especially the outermost ones. Now the payoff begins. Sodium is a metal so reactive it bursts into flame in water; chlorine is a choking yellow-green gas. Bring them together and they don't stay sodium and chlorine &mdash; they become <strong>table salt</strong>, stable enough to eat. This lesson is about the first great way atoms join: by <em>giving and taking</em> electrons. Once you see why an atom would surrender an electron, the periodic table you spent a module learning starts to <em>predict</em> what bonds will form.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how metals form cations and nonmetals form anions by transferring electrons toward noble-gas (octet) configurations.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe an ionic bond as electrostatic attraction and predict relative lattice energy from ionic charge and size.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> connect the lattice structure of an ionic compound to its properties: high melting point, brittleness, and conductivity only when molten or dissolved.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table &mdash; you'll record a prediction and a couple of charge-balanced formulas.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHY ATOMS GIVE AND TAKE ELECTRONS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A sodium atom has exactly one electron in its outer shell; a chlorine atom is one electron short of a full outer shell. If these two atoms met, what do you predict would happen to that one lonely sodium electron? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson rewards. Sodium's single outer electron is loosely held, and chlorine has a perfect vacancy for it. Sodium hands it over &mdash; and both atoms end up with a stable, noble-gas-like outer shell. That transfer is the heart of ionic bonding.">&#10145;&#65039; Sodium gives it to chlorine &mdash; both end up more stable</button>
+            <button data-response="A fair guess &mdash; sharing is real (it's the next lesson). But when one atom holds an electron loosely and the other has a strong pull and a vacancy, a clean hand-off is more favorable than a tug-of-war. Watch how a full transfer leaves both atoms stable.">&#129309; They share it equally between them</button>
+            <button data-response="Reasonable to wonder &mdash; but atoms don't tend to sit still when a more stable arrangement is one electron away. The drive toward a full outer shell is strong enough to make sodium and chlorine react vigorously. Let's see why.">&#128274; Nothing &mdash; the electron just stays put on sodium</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Recall the pattern you found in Module 2: the noble gases &mdash; helium, neon, argon &mdash; are famously unreactive, and they share one trait. Their outermost electron shells are <em>full</em>. That full outer shell is a low-energy, stable arrangement, and it turns out to be a kind of goal that other atoms &ldquo;chase.&rdquo; For most main-group elements, a full outer shell means <strong>eight</strong> valence electrons &mdash; the so-called <strong>octet</strong>. Atoms tend to gain, lose, or share electrons until they reach an octet (a noble-gas configuration). This is one of the most useful predictive ideas in all of chemistry.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now look at where elements sit. <strong>Metals</strong>, on the left of the table, have just a few valence electrons &mdash; only one or two or three to shed. Losing those few is the <em>easiest</em> path to the octet of the noble gas just below them. When an atom <em>loses</em> electrons, it now has more protons than electrons, so it carries a positive charge: it becomes a <strong>cation</strong>. <strong>Nonmetals</strong>, on the right, are only one, two, or three electrons short of a full shell; <em>gaining</em> those is their easiest path. An atom that <em>gains</em> electrons becomes negatively charged: an <strong>anion</strong>.</p>
+
+        <!-- Sodium chloride transfer visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 18px; text-align:center; min-width:150px;">
+                <div style="font-size:22px; color:#0E1C42;"><strong>Na</strong></div>
+                <div style="font-size:13px; color:#666;">1 valence e&minus;</div>
+                <div style="font-size:14px; color:#1a2340; margin-top:6px;">loses 1 e&minus; &rarr;</div>
+                <div style="font-size:22px; color:#1A6B3D; margin-top:6px;"><strong>Na<sup>+</sup></strong></div>
+                <div style="font-size:12px; color:#666;">cation (like neon)</div>
+            </div>
+            <div style="font-size:30px; color:#C7922C;">+</div>
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 18px; text-align:center; min-width:150px;">
+                <div style="font-size:22px; color:#0E1C42;"><strong>Cl</strong></div>
+                <div style="font-size:13px; color:#666;">7 valence e&minus;</div>
+                <div style="font-size:14px; color:#1a2340; margin-top:6px;">gains 1 e&minus; &rarr;</div>
+                <div style="font-size:22px; color:#8A1F16; margin-top:6px;"><strong>Cl<sup>&minus;</sup></strong></div>
+                <div style="font-size:12px; color:#666;">anion (like argon)</div>
+            </div>
+            <div style="font-size:30px; color:#C7922C;">&rarr;</div>
+            <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; text-align:center; min-width:120px;">
+                <div style="font-size:24px; color:#ffffff;"><strong>NaCl</strong></div>
+                <div style="font-size:12px; color:#55C8E8;">table salt</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">There is the salt story, atom by atom. Sodium (1 valence electron) loses it to become Na<sup>+</sup>, which now has the electron arrangement of neon. Chlorine (7 valence electrons) accepts that electron to become Cl<sup>&minus;</sup>, which now has the arrangement of argon. <em>One</em> electron changes hands, and both atoms reach a stable octet. Notice the matchmaking: sodium needs to lose one, chlorine needs to gain one &mdash; a perfect 1-to-1 fit, which is exactly why the formula is NaCl.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In 1916 the German physicist <strong>Walther Kossel</strong> proposed that atoms bond by <em>transferring</em> electrons to reach the stable electron count of a noble gas &mdash; the picture you just walked through with sodium and chlorine. In the very same year, an American chemist named G. N. Lewis was proposing a different mechanism: atoms <em>sharing</em> electrons (you'll meet his idea in the next lesson). Two scientists, the same year, reaching for the same goal &mdash; a full outer shell &mdash; by two different routes. Neither was &ldquo;wrong&rdquo;; chemistry needed <em>both</em> ideas. That is a quiet lesson in perseverance: the model of the chemical bond was assembled piece by piece, by many hands.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE BOND, THE LATTICE, AND LATTICE ENERGY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So sodium becomes Na<sup>+</sup> and chlorine becomes Cl<sup>&minus;</sup>. Now there are two oppositely charged particles in the same space &mdash; and opposite charges <em>attract</em>. That electrostatic attraction between a positive ion and a negative ion <em>is</em> the <strong>ionic bond</strong>. There is no need for a special force; it is the same pull that makes a balloon stick to a wall, scaled down to atoms and made enormous.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">But here is something that surprises many students. An ionic compound is <em>not</em> made of separate &ldquo;NaCl molecules&rdquo; floating around. Because every positive ion attracts <em>every</em> nearby negative ion (and vice versa), the ions pack together into a vast, repeating three-dimensional grid called a <strong>lattice</strong>. In a salt crystal each Na<sup>+</sup> is surrounded by six Cl<sup>&minus;</sup>, and each Cl<sup>&minus;</sup> by six Na<sup>+</sup>, on and on through the whole crystal. The formula NaCl doesn't name a molecule &mdash; it names the <em>ratio</em> of ions (1 to 1) in that endless lattice.</p>
+
+        <!-- Worth-knowing / Coulomb callout -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128300; WORTH KNOWING &middot; WHAT SETS THE STRENGTH OF AN IONIC BOND</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The energy released when gaseous ions snap together into a lattice is called the <strong>lattice energy</strong>, and the bigger it is, the more tightly the crystal is held together. It follows the logic of Coulomb's law &mdash; the attraction between two charges grows with the <em>product of the charges</em> and shrinks as the <em>distance between them</em> grows:
+            <div style="background:#FFFFFF; border-radius:8px; padding:10px 16px; margin:10px 0; font-size:17px; color:#0e1c42; text-align:center;">attraction &prop; (q<sub>1</sub> &times; q<sub>2</sub>) &divide; d</div>
+            So <em>higher charges</em> and <em>smaller ions</em> (which sit closer together) both make a stronger, higher-lattice-energy crystal.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">That single relationship explains a striking comparison. In NaCl the charges are +1 and &minus;1. In <strong>magnesium oxide (MgO)</strong> the charges are +2 and &minus;2 &mdash; and the ions are also smaller. Plug that into the Coulomb logic: doubling each charge multiplies the charge product by four, and the smaller distance pushes it higher still. The result is that MgO has a <em>far</em> larger lattice energy than NaCl. You can even feel the consequence: ordinary table salt melts around 800&nbsp;&deg;C, while magnesium oxide doesn't melt until roughly 2800&nbsp;&deg;C &mdash; which is exactly why MgO is used to line high-temperature furnaces. Same kind of bond; very different strength, because the charges and sizes are different.</p>
+
+        <!-- Single-select widget: lattice-energy comparisons -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH HAS THE LARGER LATTICE ENERGY?</div>
+          <div class="widget-question">Use the Coulomb logic &mdash; bigger charges and smaller ions mean a stronger pull. Pick the compound with the <strong>larger</strong> lattice energy in each pair. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; MgO has +2 and &minus;2 charges (a charge product of 4) versus NaCl's +1 and &minus;1 (product of 1), so MgO is far more strongly held." data-hint="Compare the charges: NaCl is 1+/1&minus;, MgO is 2+/2&minus;.">
+            <div class="widget-row-prompt">1. NaCl (Na<sup>+</sup>, Cl<sup>&minus;</sup>) &nbsp;vs.&nbsp; MgO (Mg<sup>2+</sup>, O<sup>2&minus;</sup>)</div>
+            <div class="widget-options">
+              <button data-choice="0">NaCl</button>
+              <button data-choice="1">MgO</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; same charges (1+/1&minus;) in both, but the lithium and fluoride ions are smaller than sodium and chloride, so the ions sit closer (smaller d) and LiF is held more tightly." data-hint="Charges are equal here; the deciding factor is ion size. Smaller ions sit closer.">
+            <div class="widget-row-prompt">2. LiF (small ions) &nbsp;vs.&nbsp; NaCl (larger ions) &mdash; both 1+/1&minus;</div>
+            <div class="widget-options">
+              <button data-choice="0">LiF</button>
+              <button data-choice="1">NaCl</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; CaO has 2+/2&minus; charges, while KCl has only 1+/1&minus;. The larger charge product makes CaO much more strongly held." data-hint="Which pair carries the doubled charges?">
+            <div class="widget-row-prompt">3. KCl (K<sup>+</sup>, Cl<sup>&minus;</sup>) &nbsp;vs.&nbsp; CaO (Ca<sup>2+</sup>, O<sup>2&minus;</sup>)</div>
+            <div class="widget-options">
+              <button data-choice="0">KCl</button>
+              <button data-choice="1">CaO</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY IONIC COMPOUNDS BEHAVE THE WAY THEY DO</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the part worth pausing on: you can <em>predict</em> the everyday properties of an ionic compound straight from the lattice picture. The properties are not a list to memorize &mdash; they are consequences of a tightly bonded grid of charged ions. Tap each card to see the property and the reason behind it.</p>
+
+        <!-- Flip cards: ionic properties -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to reveal the property and the &ldquo;why&rdquo;:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">High melting &amp; boiling points</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">To melt the crystal you must overcome the attraction between <em>every</em> ion and its neighbors at once &mdash; an enormous amount of energy. That's why salt melts near 800&nbsp;&deg;C and MgO near 2800&nbsp;&deg;C. <em>Bigger lattice energy &rarr; higher melting point.</em></div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Hard, but brittle</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Strike a crystal and a layer of ions shifts. Suddenly + ions sit next to + ions and &minus; next to &minus;. Like charges <em>repel</em>, and the crystal splits cleanly along that plane &mdash; it shatters rather than bends.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Conducts only when molten or dissolved</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Electric current needs moving charges. In a <em>solid</em> the ions are locked in the lattice &mdash; no conduction. <em>Melt</em> it or <em>dissolve</em> it in water, and the ions break free to move &mdash; now it conducts.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A MODEL THAT EARNS ITS KEEP</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice what the &ldquo;transfer electrons, then pack into a lattice&rdquo; model just did: it didn't only describe salt &mdash; it <em>predicted</em> a whole set of properties (brittleness, high melting point, conducting only when molten or dissolved) that we can go and check in the lab. A model that makes testable predictions and survives them is a model worth keeping. Watch, though, for its limits: not every compound behaves this way, because not every bond is a clean electron transfer. That is precisely the door into the next lesson, where atoms <em>share</em> instead of give.</div>
+        </div>
+    </div>
+
+    <!-- Modern research: Then -> Now -> Future (Week 1 box) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #E0A93E; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 10px;">&#10024; THEN &rarr; NOW &rarr; FUTURE &middot; WHY IONIC BONDING STILL MATTERS</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;"><strong>Then:</strong> A century ago, Kossel and his contemporaries worked out that ionic compounds are held together by the electrostatic pull between transferred-charge ions in a lattice &mdash; the very picture you just built. <strong>Now:</strong> that same picture is at the center of one of today's most active fields, <em>battery science</em>. A battery works by moving ions; the salts you are studying (and close cousins of them) are the materials engineers tune to carry those ions faster and more safely. The push toward <strong>solid-state batteries</strong> &mdash; where a solid ionic compound replaces the flammable liquid inside today's lithium batteries &mdash; is, at bottom, a search for a lattice that lets ions slip through it easily while staying strong and stable. <strong>Future:</strong> chemists are still hunting for ionic solids that combine high ion mobility with a rugged lattice, an open problem that reaches into electric cars, grid storage, and the ceramics (like the MgO you met above) that line the hottest furnaces and spacecraft heat shields. The rule you learned today &mdash; charge and size set the strength of the lattice &mdash; is exactly the knob these researchers are turning.</div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your module-long project in OptimaXR &mdash; the <strong>Molecule Build &amp; Geometry Showcase</strong>, which you'll add to every week and narrate on camera at the end. Lesson 3.01 gives you the first build: an <strong>ion pair</strong>. You'll build a sodium-chloride pair (and one more, such as magnesium oxide), showing the electron <em>transfer</em> from metal to nonmetal and labeling the cation and anion with their charges. Keep this lesson's core question close as you build: <em>which atom gave, which took, and why did that leave both stable?</em> That story is exactly what your showcase &mdash; and your final recorded walkthrough &mdash; is graded on.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz to confirm you caught the big ideas. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 3.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">What about two nonmetals, where neither atom will simply give up an electron? You'll see the second great way atoms bond: by <em>sharing</em>.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Molecule Build &amp; Geometry Showcase</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Enter OptimaXR and build your first ion pair. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">An ionic bond is electrons <em>changing hands</em>: a metal loses electrons to become a cation, a nonmetal gains them to become an anion, and opposite charges lock together into a vast lattice &mdash; not a molecule. The strength of that lattice (its lattice energy) grows with bigger charges and smaller ions, and from that one idea flow all the familiar behaviors of salts: high melting points, brittleness, and conducting only when the ions are free to move. Next we ask what happens when no atom is willing to simply give an electron away.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.01 &middot; Ionic Bonding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 0.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Module 0 &middot; Getting Started</div>
+        <div style="font-size: 12px; color: #666;">Your On-Ramp to the Course</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 0.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">OptimaXR Onboarding</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 0.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">OptimaXR Onboarding</div>
+        <div style="font-size: 16px; color: #666;">Getting Started &middot; Orientation Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; START HERE</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">This year you'll do something most chemistry students never get to do: pick up a molecule, turn it in your hands, and explain it out loud &mdash; in a space built just for that. Let's learn how.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Welcome to Chemistry I Honors. A few times each module you'll step into <strong>OptimaXR</strong>, the school's virtual campus, to build and explain chemistry with your own hands. This is the most important orientation lesson in the course, because the skills you learn here &mdash; moving around, spawning objects, labeling your work, and especially <strong>recording yourself explaining it</strong> &mdash; come back in every single module. Read it once, carefully, and you'll be ready for everything that follows. And if you don't have a headset? You're covered &mdash; keep reading.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe what OptimaXR is and choose between the VR-headset pathway and the non-VR (desktop app) pathway.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the core OptimaXR tools &mdash; the tablet/menu, the IFX object library, the 3D pen, sticky notes, and locking &mdash; and explain what each one is for.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> capture an in-VR video recording of myself explaining my work &mdash; the deliverable I'll create in every module &mdash; and know the screen-recording fallback.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Either a VR headset with the OptimaXR app installed, <em>or</em> the OptimaXR desktop app on a computer. (Don't have either set up yet? Read first, then set up before the VR Orientation activity.)</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">A clear space around you if you're in a headset, and about 25&ndash;30 minutes of reading and exploring.</div>
+        </div>
+    </div>
+
+    <!-- ===== HISTORICAL OPENING: WHY SCIENTISTS BUILD INSTRUMENTS ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128300; BEFORE THE TOOL, THE IDEA &middot; WHY SCIENTISTS BUILD INSTRUMENTS</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Before you learn <em>how</em> to use OptimaXR, it's worth asking <em>why</em> a scientist would want a tool like it at all. For most of human history, people could only investigate what their own senses could reach &mdash; and matter, the subject of this course, is mostly too small, too far, or too faint to see. So scientists built <strong>instruments</strong> to extend their senses. When Galileo turned a <strong>telescope</strong> to the night sky, he saw moons circling Jupiter that no unaided eye had ever caught. The <strong>microscope</strong> opened a living world hidden in a drop of pond water. Later, the <strong>spectroscope</strong> let scientists read the light coming off glowing substances and stars &mdash; and, astonishingly, figure out what those distant things are made of.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each of these instruments extended human observation &mdash; but not one of them did the thinking. A telescope shows moons; it does not explain why they orbit. An instrument gathers evidence; a <em>scientist</em> still has to interpret it, judge how far to trust it, and reason toward an explanation. <strong>OptimaXR is the newest instrument in that long line.</strong> It lets you hold a molecule too small to ever really touch, walk around a model of an atom, and make the invisible large enough to examine. Like every instrument before it, it extends what you can observe &mdash; and, like every instrument before it, it still leaves the reasoning to you.</p>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT OPTIMAXR IS &mdash; AND THE TWO WAYS IN</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;"><strong>OptimaXR</strong> is Optima's spatial-computing (virtual reality) platform &mdash; the school's virtual campus. In this course it is where you'll do hands-on labs and build the projects you explain on camera. Instead of only reading about a molecule or a reaction, you'll stand next to a three-dimensional model of it, walk around it, label it, and talk through it the way a scientist would at a whiteboard. Chemistry is the study of things too small to see; OptimaXR lets you make those invisible things big enough to hold.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There are <strong>two ways into OptimaXR</strong>, and you choose the one that fits what you have:</p>
+
+        <!-- Two pathways visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;">&#129488; Pathway A &middot; VR headset</div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;">A VR headset running the OptimaXR app. You see the virtual campus all around you and use hand controllers to point, grab, and build. This is the most immersive way in.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;">&#128421;&#65039; Pathway B &middot; Desktop app (non-VR)</div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;">The OptimaXR desktop app on a regular computer &mdash; no headset required. You explore the same spaces with your mouse and keyboard. You can do the same work; it just appears on your screen.</div>
+            </div>
+        </div>
+
+        <!-- Helpful info callout: every VR has a non-VR alternate -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; GOOD TO KNOW &middot; NO ONE IS BLOCKED</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Every VR assignment in this course ships with a <strong>non-VR alternate</strong> that meets the same goals. If you don't have a headset, you'll use the OptimaXR desktop app &mdash; or, where it makes sense, a short screen-recorded walkthrough you narrate yourself. The chemistry you learn and the work you turn in are the same either way. Pick the pathway that fits your situation and move forward with confidence.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MOVING AROUND &mdash; AND STAYING SAFE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Getting around in OptimaXR is quick to learn. You <strong>look around</strong> by turning your head (in a headset) or moving your mouse (on desktop). You <strong>move</strong> through a space by teleporting or gliding to a spot you point at. And you interact with objects by <strong>pointing</strong> at them and using the <strong>grab/trigger</strong> control to pick them up, move them, or activate a tool. The exact buttons differ from one headset to another, so this lesson keeps the steps general on purpose &mdash; the precise controls for your device live in the in-headset quick-start.</p>
+
+        <!-- Helpful info callout: in-headset quick start -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WHERE THE EXACT BUTTONS LIVE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For the precise button-by-button controls on your specific device, open the <strong>in-headset quick-start (the OptimaXR tutorial)</strong> the first time you enter. It walks you through pointing, grabbing, teleporting, and opening the menu hands-on &mdash; which sticks far better than reading about it. This page tells you <em>what</em> each control does; the quick-start shows you <em>which button</em> does it.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There is one setup step you should never skip in a headset: your <strong>boundary (guardian)</strong>. When you first put the headset on, you'll draw or confirm the edges of your real, physical play space &mdash; the area clear of furniture, walls, and people. While you're immersed you can't see your real room, so this boundary is what warns you before you walk into a chair or a doorframe. <em>Set it honestly, give yourself room, and clear the floor first.</em> Safety in OptimaXR starts with your real-world space.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE TABLET/MENU AND YOUR TOOLKIT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Your home base inside OptimaXR is the <strong>tablet/menu</strong> &mdash; an in-world panel you open to reach your tools, join sessions, and change settings. Think of it as your control center: almost everything you'll do starts by opening the tablet/menu and choosing something from it. Get comfortable opening and closing it, because the recording tool you'll use all year lives there too.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">From the tablet/menu (and your controllers) you reach the handful of <strong>core tools you'll reuse in every module</strong>. Learn these five and you can build almost anything this course asks for:</p>
+
+        <!-- Tools grid -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;">&#129513; IFX object library</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Spawn ready-made 3D objects into your space &mdash; atoms, spheres, lab items, and more. This is how you bring your building blocks onto the table.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;">&#9999;&#65039; 3D pen</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Draw and annotate directly in the air &mdash; sketch a bond, circle a part of your model, or trace a path while you explain.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;">&#128221; Sticky notes</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Drop text labels onto your work &mdash; name a molecule, mark a charge, or write the key idea so it's visible on camera.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;">&#128274; Locking</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Lock an object in place so you don't accidentally bump or move it while you build the rest of your model or record.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;">&#127909; Recording tool</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Capture a video of yourself explaining your work &mdash; the deliverable for every module project. (Part 5 walks you through it.)</div>
+            </div>
+        </div>
+
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 8px 0;">Again, the exact icon or button for each tool depends on your device &mdash; let the in-headset quick-start show you where they sit, then practice each one in the VR Orientation activity at the end of this module.</p>
+    </div>
+
+    <!-- ===== PART 4 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 4 &middot; SESSIONS &amp; LOCATIONS: WHERE YOUR WORK LIVES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">OptimaXR is organized into <strong>Locations</strong> (the different virtual places &mdash; classrooms, labs, build spaces) and <strong>Sessions</strong> (a specific shared instance you join). The important thing for chemistry is that the course uses <strong>persistent Sessions</strong>: the objects you place stay put between visits. Build a model today, leave, come back tomorrow, and your work is still there waiting.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That persistence is exactly how the <strong>cumulative module projects</strong> work. In most modules you'll add to the same build week by week &mdash; a little more each time &mdash; until it's complete and you record your final explanation. Because the Session remembers your work, your project grows across the whole module instead of starting over each week. To get into the right space, you'll join from the <strong>pinned OptimaXR Sessions list</strong> (each activity tells you which Session to choose).</p>
+
+        <!-- ow-flip: persistence idea -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL &middot; WHY PERSISTENCE MATTERS</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">If I leave a persistent Session in the middle of building, what happens to my work?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">It stays exactly where you left it. The next time you join that same Session from the pinned Sessions list, your placed objects, notes, and drawings are still there &mdash; so you can keep adding to a project across many weeks. <em>That</em> is what makes a multi-week cumulative build possible.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 5 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 5 &middot; THE HEADLINE SKILL: CAPTURING AN IN-VR VIDEO RECORDING</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the one skill from this lesson you'll use most. In every module, the cumulative VR project is turned in as a <strong>video recording of you explaining your build</strong> &mdash; narrating the chemistry, walking through your model, showing a process in action. The model matters, but <em>the graded work is your spoken explanation</em>. So it's worth learning the recording workflow now, while the stakes are zero.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">And that recording is more than a tour of your build &mdash; it's how you make a <strong>scientific explanation</strong>. A strong walkthrough does what a scientist does when presenting work: you point out what you <strong>observe</strong> in your model, you show the <strong>evidence</strong> built into it, you give the <strong>reasoning</strong> that ties your evidence to your claim, and you're honest about any <strong>uncertainty</strong> &mdash; what your model simplifies or leaves out. Keep that shape in mind every time you record, and your explanations will carry real scientific weight, not just describe what a viewer can already see.</p>
+
+        <!-- Helpful info: what a strong recorded explanation contains -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WHAT A STRONG RECORDED EXPLANATION SOUNDS LIKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Not &ldquo;here is my model.&rdquo; Instead: <em>&ldquo;Notice this part &mdash; that's my <strong>observation</strong>. Here's the <strong>evidence</strong> I built in to show it. This is <strong>why</strong> that evidence supports my point &mdash; my <strong>reasoning</strong>. And here's what my model doesn't capture yet &mdash; the <strong>uncertainty</strong>.&rdquo;</em> You'll practice exactly this arc in the VR Orientation, long before it counts.</div>
+        </div>
+
+        <!-- Steps -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:13px; color:#0E1C42; margin-bottom:12px; letter-spacing:0.4px;">&#127909; THE RECORDING WORKFLOW (GENERAL STEPS)</div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Open the tablet/menu</strong> and choose the <strong>recording tool</strong>.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Start the recording</strong>, then <strong>narrate while you move</strong> &mdash; point to parts of your model and explain them out loud, as if teaching someone.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Stop and save</strong> when you're done.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">4</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Find your saved file</strong> and <strong>upload it to Canvas</strong> as your assignment submission.</div>
+            </div>
+        </div>
+
+        <!-- Gold highlight: fallback -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128300; IF IN-HEADSET RECORDING ISN'T AVAILABLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">If your device can't capture audio inside the headset, use the <strong>screen-recording fallback</strong>: run a screen recorder on the computer or device showing your OptimaXR view (or your desktop-app view) and narrate over it. The result is the same &mdash; a video of you explaining your build &mdash; which is exactly what's graded. Check the precise control names for your device in the in-headset quick-start.</div>
+        </div>
+
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 8px 0;">Don't aim for a perfect take. A clear, honest, one-take explanation that shows you understand the chemistry beats a polished video that says nothing. You'll rehearse this exact workflow in the VR Orientation activity &mdash; so the first time it counts, it won't be the first time you've done it.</p>
+
+        <!-- Self-check widget: match tool to purpose -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; MATCH EACH TOOL TO WHAT IT DOES</div>
+          <div class="widget-question">For each tool, pick the job it's used for. Instant feedback on each &mdash; this is a no-stakes warm-up for the real thing.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; the IFX object library is where you spawn ready-made 3D objects (like atoms) into your space." data-hint="Which tool brings new objects onto your table?">
+            <div class="widget-row-prompt">1. The <strong>IFX object library</strong> is for&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Locking an object so it can't be bumped</button>
+              <button data-choice="1">Recording a narrated video</button>
+              <button data-choice="2">Spawning ready-made 3D objects into your space</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; the 3D pen lets you draw and annotate directly in the air to point things out as you explain." data-hint="Which tool lets you draw in mid-air?">
+            <div class="widget-row-prompt">2. The <strong>3D pen</strong> is for&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Adding a text label to your work</button>
+              <button data-choice="1">Drawing and annotating in the air</button>
+              <button data-choice="2">Setting your real-world boundary</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; sticky notes drop text labels onto your work so a name, charge, or key idea is visible on camera." data-hint="Which tool adds readable text labels?">
+            <div class="widget-row-prompt">3. <strong>Sticky notes</strong> are for&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Labeling your work with text</button>
+              <button data-choice="1">Teleporting across a Location</button>
+              <button data-choice="2">Spawning an atom</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; locking holds an object in place so you don't accidentally move it while you build or record." data-hint="Which tool keeps an object from being bumped?">
+            <div class="widget-row-prompt">4. <strong>Locking</strong> an object is for&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Recording a video</button>
+              <button data-choice="1">Drawing in the air</button>
+              <button data-choice="2">Holding an object in place so it isn't bumped</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Exactly &mdash; the recording tool (in the tablet/menu) captures a narrated video of you explaining your build, which is your module deliverable." data-hint="Which tool produces the file you upload to Canvas?">
+            <div class="widget-row-prompt">5. The <strong>recording tool</strong> is for&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Spawning objects from the library</button>
+              <button data-choice="1">Capturing a narrated video of your work</button>
+              <button data-choice="2">Locking objects in place</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Activity callout (green) — Module 0 has no cumulative project -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR ACTIVITY FOR THIS MODULE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Now you get to try all of this for real. The Module 0 VR activity &mdash; <strong>&ldquo;Build Your Own Instructions&rdquo;</strong> &mdash; has you join the orientation Session, practice each core tool (spawn an object from the IFX library, draw with the 3D pen, add a sticky note, and lock an object), and then <strong>record a short, roughly one-minute narrated video</strong> rehearsing the exact recorded-walkthrough you'll create in every module. No chemistry required yet &mdash; this is pure practice of the tools and the recording workflow. A non-VR pathway is provided that meets the same goals. Don't worry about being perfect; the point is simply to do each step once so it feels familiar.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 0.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the OptimaXR basics. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR Orientation: &ldquo;Build Your Own Instructions&rdquo;</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Practice every core tool and record your first short narrated video. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 0.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Lab safety and the science notebook &mdash; the habits that make you a careful, honest scientist.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">OptimaXR is your newest scientific instrument &mdash; a hands-on chemistry space reachable two ways (a VR headset or the desktop app), with a non-VR alternate for every task so no one is left out. Open the tablet/menu to reach your toolkit (the IFX library to spawn objects, the 3D pen and sticky notes to annotate and label, locking to keep things put), and remember that persistent Sessions let your projects grow week by week. Above all, master the one skill that returns every module: <em>open the recording tool and give a real scientific explanation &mdash; observe, show your evidence, reason from it, and name what's still uncertain &mdash; then save and upload.</em> Like every instrument before it, OptimaXR extends what you can observe; the reasoning is still yours. Learn it now while it's just practice, and you'll be ready for everything ahead.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Module 0 &middot; Getting Started &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 0.01 &middot; OptimaXR Onboarding &middot; Pre-Course Onboarding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

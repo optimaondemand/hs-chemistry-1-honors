@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.07</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== orbital-matcher custom widget ===== */
+    .om-grid { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+    .om-card { flex:1; min-width:150px; background:#fff; border:1px solid #D0D9E8; border-radius:8px; padding:12px 14px; }
+    .om-card .om-shape { font-size:15px; color:#0E1C42; margin-bottom:8px; line-height:1.5; }
+    .om-card .widget-options { display:flex; flex-wrap:wrap; gap:6px; }
+    .om-feedback { padding:8px 12px; margin-top:8px; font-size:13px; border-radius:4px; line-height:1.45; display:none; }
+    .om-feedback.correct { background:#D8F0DD; border-left:3px solid #2A9D5C; color:#1A6B3D; display:block; }
+    .om-feedback.incorrect { background:#FDECEC; border-left:3px solid #C0392B; color:#8A1F16; display:block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.07</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Development of Quantum Theory</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.07</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Development of Quantum Theory</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If the Bohr model works beautifully for hydrogen and breaks down for every other atom, what should replace the tidy picture of an electron circling on a track?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last week Bohr's orbits explained hydrogen's line spectrum with stunning precision &mdash; and then failed the moment a second electron entered the picture. A failure that sharp is a clue. This lesson follows the thinkers who answered it by giving up something we badly want to believe: that an electron has a definite path at all. In its place they built a <strong>stranger but far more powerful</strong> model &mdash; one where we trade certainty about <em>where</em> an electron is for probability about <em>where it is likely to be</em>. Welcome to quantum theory.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why wave&ndash;particle duality and the uncertainty principle make the idea of a fixed electron &ldquo;orbit&rdquo; untenable.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe an atomic orbital as a region of high probability &mdash; an electron &ldquo;cloud&rdquo; &mdash; rather than a path.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> name the four quantum numbers and match the s, p, and d subshells to their shapes and electron capacities.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook &mdash; you'll sketch orbital shapes and jot the four quantum numbers as you read.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE ELECTRON THAT REFUSED TO BE A DOT</div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A baseball and an electron are both moving. Which do you think behaves like a tidy little ball traveling along a path? (No wrong answer &mdash; just predict before you read.)</div>
+          <div class="widget-options">
+            <button data-response="A sensible bet &mdash; and right for the baseball. But here's the surprise this lesson rests on: at the electron's tiny scale, that &lsquo;tidy ball on a path&rsquo; picture stops working. Watch how the evidence forces a stranger model.">&#9918; The baseball</button>
+            <button data-response="Reasonable to wonder! It turns out the electron sometimes behaves like a wave, not a ball &mdash; spread out rather than located at one point. That wave-like behavior is exactly what breaks the &lsquo;orbit&rsquo; idea.">&#9883;&#65039; The electron</button>
+            <button data-response="A bold guess &mdash; and closer to the truth than it sounds. Everything has some wave nature, but for a baseball it's far too small to notice. For an electron it dominates. That's the heart of today's lesson.">&#129523; Both, a little</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Guided bridge: line spectra → Bohr → limits → waves → probability (M2-15) -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#129517; THE ROAD FROM LINE SPECTRA TO THE MODERN ATOM</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">This lesson is the last turn of a road you have been walking since Lesson 2.05. Before the new ideas arrive, here is the whole path on one strip &mdash; five steps, each forced by the evidence of the one before it. Steps 1&ndash;3 are behind you; this lesson makes the leap of steps 4 and 5.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:stretch;">
+                <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><span style="min-width:24px; height:24px; border-radius:50%; background:#8aa0c0; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center;">1</span><span style="font-size:14px; color:#0E1C42;"><strong>Line spectra</strong></span></div>
+                    <div style="font-size:12px; color:#6b7a99; margin-bottom:4px;">Lesson 2.05</div>
+                    <div style="font-size:13px; color:#1a2340; line-height:1.5;">Energized atoms emit only a few exact colors &mdash; never a full rainbow.</div>
+                </div>
+                <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><span style="min-width:24px; height:24px; border-radius:50%; background:#6b83a8; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center;">2</span><span style="font-size:14px; color:#0E1C42;"><strong>Bohr levels</strong></span></div>
+                    <div style="font-size:12px; color:#6b7a99; margin-bottom:4px;">Lesson 2.06</div>
+                    <div style="font-size:13px; color:#1a2340; line-height:1.5;">Electrons sit on fixed energy rungs; jumps between rungs make the exact colors.</div>
+                </div>
+                <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><span style="min-width:24px; height:24px; border-radius:50%; background:#4b658f; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center;">3</span><span style="font-size:14px; color:#0E1C42;"><strong>Where Bohr breaks</strong></span></div>
+                    <div style="font-size:12px; color:#6b7a99; margin-bottom:4px;">Lesson 2.06</div>
+                    <div style="font-size:13px; color:#1a2340; line-height:1.5;">Perfect for hydrogen &mdash; but wrong for every atom with more than one electron.</div>
+                </div>
+                <div style="flex:1; min-width:150px; background:#EEF1F8; border:1px solid #C5D0E5; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><span style="min-width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#55C8E8,#0E1C42); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center;">4</span><span style="font-size:14px; color:#0E1C42;"><strong>Matter is wavelike</strong></span></div>
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">this lesson</div>
+                    <div style="font-size:13px; color:#1a2340; line-height:1.5;">Electrons diffract like waves; you cannot fix both position and speed. A definite &ldquo;orbit&rdquo; is impossible.</div>
+                </div>
+                <div style="flex:1; min-width:150px; background:#EEF1F8; border:1px solid #C5D0E5; border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><span style="min-width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#55C8E8,#0E1C42); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center;">5</span><span style="font-size:14px; color:#0E1C42;"><strong>Probability model</strong></span></div>
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">this lesson</div>
+                    <div style="font-size:13px; color:#1a2340; line-height:1.5;">Electrons live in <em>orbitals</em> &mdash; clouds of where they are likely to be. No path, and it works for every atom.</div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Matter that behaves like a wave</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">By the 1920s scientists were comfortable with a strange idea about light: it could behave as a stream of particles (photons) <em>and</em> as a wave, depending on the experiment. A young French physicist, <strong>Louis de Broglie</strong>, asked a daring question in reverse. If light &mdash; long thought to be a pure wave &mdash; can act like particles, might <em>matter</em> &mdash; long thought to be pure particles &mdash; act like waves?</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">He proposed exactly that: every moving particle has a wavelength, and the smaller and faster the particle, the more its wave nature shows. For a thrown baseball the wavelength is so absurdly tiny that you would never notice it. But for an electron &mdash; thousands of times lighter than a single proton &mdash; the wave behavior is impossible to ignore. Within a few years, experiments confirmed it: beams of electrons could be made to <em>diffract</em>, bending and spreading in patterns that only waves produce. The electron was not simply a tiny ball. This is what we call <strong>wave&ndash;particle duality</strong>.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; THREE MINDS, ONE NEW PICTURE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In just a handful of years in the 1920s, the atom was rebuilt. <strong>Louis de Broglie</strong> proposed that matter has a wavelength. <strong>Werner Heisenberg</strong> showed there is a hard limit on how precisely we can pin down a particle's position and motion at the same time. And <strong>Erwin Schr&ouml;dinger</strong> wrote an equation describing the electron as a wave, whose solutions tell us where an electron is <em>likely</em> to be found. Together they replaced Bohr's orbits with something far less intuitive &mdash; and far more accurate. Notice the pattern of science here: a model that fails is not discarded in shame; it is the signpost pointing to the next, better model.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">You cannot know both at once</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">If an electron is partly a wave &mdash; something spread out rather than sitting at a point &mdash; then asking &ldquo;exactly where is it, and exactly how fast is it going?&rdquo; turns out to be a question with no answer. This is the <strong>Heisenberg uncertainty principle</strong>: you cannot simultaneously know an electron's exact position and its exact momentum (its mass times velocity). The more precisely you fix one, the blurrier the other becomes. This is not a flaw in our instruments &mdash; it is a built-in feature of nature at this scale.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That single sentence quietly demolishes the orbit picture. Bohr's model put the electron on a precise circular track, which means at every instant you would know both exactly where it is <em>and</em> exactly which way it is going. Uncertainty says that is impossible. So &ldquo;orbit&rdquo; &mdash; a definite path &mdash; is simply the wrong word for what an electron does. We need a new language.</p>
+
+        <!-- Common-mistake callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Uncertainty is <em>not</em> &ldquo;we just don't have good enough microscopes yet.&rdquo; It is a fundamental limit: an electron does not <em>possess</em> a single exact position and a single exact velocity at the same time. The fuzziness is real, not a measurement problem. This is one of the deepest and most surprising claims in all of science &mdash; it is worth sitting with the strangeness of it.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; FROM ORBIT TO ORBITAL: THE QUANTUM-MECHANICAL MODEL</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Schr&ouml;dinger's response was to stop tracking the electron as a point and instead describe it with a wave equation. The solutions to that equation do not give a path; they give a <strong>probability map</strong> &mdash; for each region of space around the nucleus, how likely you are to find the electron there. We call each of these regions an <strong>orbital</strong>.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Picture it as an <strong>electron cloud</strong>: thick where the electron is very likely to be, thin where it rarely ventures. The cloud has no sharp edge and no track running through it. An orbital is not a thing the electron travels <em>on</em>; it is a three-dimensional region where the electron probably <em>is</em>. This is the single most important shift in this lesson &mdash; from a line (orbit) to a fog of probability (orbital).</p>
+
+        <!-- orbit vs orbital visual (side-by-side comparison, M2-C3) -->
+        <div style="font-size:11px; color:#1B6A94; text-align:center; margin:14px 0 8px 0; letter-spacing:0.4px;">SIDE BY SIDE &middot; ORBIT (BOHR) vs. ORBITAL (QUANTUM)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:0 0 14px 0;">
+            <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:16px;">
+                <div style="font-size:16px; color:#0E1C42; text-align:center; margin-bottom:10px;"><strong>Bohr&rsquo;s &ldquo;orbit&rdquo; (old picture)</strong></div>
+                <div style="height:118px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
+                    <div style="position:relative; width:104px; height:104px; border:2px dashed #0E1C42; border-radius:50%;">
+                        <span style="position:absolute; left:50%; top:50%; width:15px; height:15px; margin:-7.5px 0 0 -7.5px; background:#C0392B; border-radius:50%;"></span>
+                        <span style="position:absolute; left:50%; top:-8px; margin-left:-7px; width:14px; height:14px; background:#2196D0; border-radius:50%;"></span>
+                    </div>
+                </div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">A definite circular track. The electron sits <em>exactly on the line</em>, like a planet on a rail (blue dot). Tidy, intuitive &mdash; and ruled out by uncertainty.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:16px;">
+                <div style="font-size:16px; color:#0E1C42; text-align:center; margin-bottom:10px;"><strong>Quantum &ldquo;orbital&rdquo; (new picture)</strong></div>
+                <div style="height:118px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
+                    <div style="position:relative; width:104px; height:104px; border-radius:50%; background:radial-gradient(circle, rgba(33,150,208,0.60) 0%, rgba(33,150,208,0.30) 42%, rgba(33,150,208,0.08) 70%, rgba(33,150,208,0) 100%);">
+                        <span style="position:absolute; left:50%; top:50%; width:15px; height:15px; margin:-7.5px 0 0 -7.5px; background:#C0392B; border-radius:50%;"></span>
+                    </div>
+                </div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">A 3-D <em>cloud of probability</em> &mdash; dense where the electron is likely, fading with no sharp edge. No track, no shell to travel on; just where the electron probably <em>is</em>. It matches the evidence for every atom.</div>
+            </div>
+        </div>
+        <div style="text-align:center; font-size:12px; color:#6b7a99; margin:0 0 14px 0; font-style:italic;">Red dot = nucleus. The orbital is a region of high probability, <strong>not</strong> a path or a physical shell.</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Four numbers that describe every electron's address</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each orbital is specified by a small set of <strong>quantum numbers</strong> &mdash; think of them as an electron's address, narrowing from the broadest region down to the finest detail. There are four:</p>
+
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li><strong>Principal quantum number, <em>n</em></strong> &mdash; the <em>shell</em>. It sets the orbital's size and how far, on average, the electron is from the nucleus. <em>n</em> = 1, 2, 3&hellip; A bigger <em>n</em> means a larger, higher-energy orbital. (This is the &ldquo;energy level&rdquo; from Bohr's model, kept and refined.)</li>
+            <li><strong>Angular-momentum (subshell) quantum number, <em>l</em></strong> &mdash; the <em>shape</em>. It labels the subshell as <strong>s, p, d,</strong> or <strong>f</strong>, each with its own characteristic shape.</li>
+            <li><strong>Magnetic quantum number, <em>m<sub>l</sub></em></strong> &mdash; the <em>orientation</em> in space. It tells you which way a given shape is pointing (for example, a p orbital can lie along the x, y, or z direction).</li>
+            <li><strong>Spin quantum number, <em>m<sub>s</sub></em></strong> &mdash; the electron's own intrinsic property, which can take one of two values, <strong>+&frac12;</strong> or <strong>&minus;&frac12;</strong>. Two electrons can share one orbital only if their spins are opposite.</li>
+        </ul>
+
+        <!-- flip cards: the four quantum numbers -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to check what the quantum number controls:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:200px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;"><em>n</em> &mdash; principal</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The shell. Sets the orbital's <strong>size</strong> and average distance from the nucleus (its energy level). <em>n</em> = 1, 2, 3&hellip;</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:200px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;"><em>l</em> &mdash; subshell</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The <strong>shape</strong>. Names the subshell s, p, d, or f &mdash; each a different orbital geometry.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:200px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;"><em>m<sub>l</sub></em> &mdash; magnetic</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The <strong>orientation</strong>. Which way the shape points in space (e.g., a p orbital along x, y, or z).</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:200px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;"><em>m<sub>s</sub></em> &mdash; spin</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The electron's intrinsic <strong>spin</strong>, +&frac12; or &minus;&frac12;. Two electrons share an orbital only with opposite spins.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE SHAPES OF ORBITALS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The subshell letter tells you the orbital's shape, and the shape matters &mdash; it will help you understand how atoms bond in Module 3. The two you'll meet most are the simplest:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li>An <strong>s orbital</strong> is <em>spherical</em> &mdash; a ball of probability centered on the nucleus, the same in every direction.</li>
+            <li>A <strong>p orbital</strong> is shaped like a <em>dumbbell</em> &mdash; two lobes on opposite sides of the nucleus. Because they can point three different ways (along x, y, or z), every p subshell holds three orbitals.</li>
+            <li>A <strong>d orbital</strong> is more elaborate &mdash; most look like a four-lobed &ldquo;cloverleaf.&rdquo; There are five of them in a d subshell.</li>
+        </ul>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is a clean rule that ties it together. Each orbital holds at most <strong>two</strong> electrons. So count the orbitals in a subshell and double it to get its electron capacity: <strong>s</strong> = 1 orbital = <strong>2</strong> electrons; <strong>p</strong> = 3 orbitals = <strong>6</strong>; <strong>d</strong> = 5 orbitals = <strong>10</strong>; <strong>f</strong> = 7 orbitals = <strong>14</strong>. Hold onto those four numbers (2, 6, 10, 14) &mdash; they are the backbone of the next two lessons and, it turns out, of the shape of the periodic table itself.</p>
+
+        <!-- CUSTOM orbital matcher widget -->
+        <div class="optima-widget" id="orbital-matcher">
+          <div class="widget-kicker">&#9889; TRY IT &middot; ORBITAL MATCHER</div>
+          <div class="widget-question">For each subshell, pick the correct <strong>electron capacity</strong>. The shape is shown to jog your memory. You get instant feedback on each.</div>
+
+          <div class="om-grid">
+            <div class="om-card" data-correct="2">
+              <div class="om-shape"><strong>s</strong> subshell<br><span style="color:#666;font-size:13px;">spherical &middot; 1 orbital</span></div>
+              <div class="widget-options">
+                <button data-choice="2">2</button>
+                <button data-choice="6">6</button>
+                <button data-choice="10">10</button>
+                <button data-choice="14">14</button>
+              </div>
+              <div class="om-feedback"></div>
+            </div>
+            <div class="om-card" data-correct="6">
+              <div class="om-shape"><strong>p</strong> subshell<br><span style="color:#666;font-size:13px;">dumbbell &middot; 3 orbitals</span></div>
+              <div class="widget-options">
+                <button data-choice="2">2</button>
+                <button data-choice="6">6</button>
+                <button data-choice="10">10</button>
+                <button data-choice="14">14</button>
+              </div>
+              <div class="om-feedback"></div>
+            </div>
+            <div class="om-card" data-correct="10">
+              <div class="om-shape"><strong>d</strong> subshell<br><span style="color:#666;font-size:13px;">cloverleaf &middot; 5 orbitals</span></div>
+              <div class="widget-options">
+                <button data-choice="2">2</button>
+                <button data-choice="6">6</button>
+                <button data-choice="10">10</button>
+                <button data-choice="14">14</button>
+              </div>
+              <div class="om-feedback"></div>
+            </div>
+            <div class="om-card" data-correct="14">
+              <div class="om-shape"><strong>f</strong> subshell<br><span style="color:#666;font-size:13px;">complex &middot; 7 orbitals</span></div>
+              <div class="widget-options">
+                <button data-choice="2">2</button>
+                <button data-choice="6">6</button>
+                <button data-choice="10">10</button>
+                <button data-choice="14">14</button>
+              </div>
+              <div class="om-feedback"></div>
+            </div>
+          </div>
+          <button class="widget-reset" id="om-reset">Reset</button>
+        </div>
+
+        <!-- ow-select: match shape to subshell -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH SUBSHELL?</div>
+          <div class="widget-question">Match each described shape to the correct subshell letter.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; a single sphere centered on the nucleus is the s orbital." data-hint="One ball-shaped region, the same in every direction.">
+            <div class="widget-row-prompt">1. A spherical cloud, identical in all directions, holding up to 2 electrons.</div>
+            <div class="widget-options">
+              <button data-choice="0">s</button>
+              <button data-choice="1">p</button>
+              <button data-choice="2">d</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; the two-lobed dumbbell is a p orbital, and a p subshell (3 orbitals) holds up to 6 electrons." data-hint="Two lobes on opposite sides of the nucleus; comes in sets of three.">
+            <div class="widget-row-prompt">2. A two-lobed &ldquo;dumbbell,&rdquo; one of a set of three, holding up to 6 electrons in all.</div>
+            <div class="widget-options">
+              <button data-choice="0">s</button>
+              <button data-choice="1">p</button>
+              <button data-choice="2">d</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; the cloverleaf shapes are d orbitals; a d subshell (5 orbitals) holds up to 10 electrons." data-hint="Mostly four-lobed; comes in sets of five.">
+            <div class="widget-row-prompt">3. A four-lobed &ldquo;cloverleaf,&rdquo; one of a set of five, holding up to 10 electrons in all.</div>
+            <div class="widget-options">
+              <button data-choice="0">s</button>
+              <button data-choice="1">p</button>
+              <button data-choice="2">d</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Is the quantum model &ldquo;worse&rdquo; than Bohr's because it gives up the tidy orbit?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No &mdash; it is better, even though it is harder to picture. Bohr's orbits worked only for hydrogen; the quantum-mechanical model correctly describes <em>every</em> atom and predicts the shapes and energies of orbitals that the periodic table is built on. A good model in science is judged by how well it matches and predicts evidence, not by how comfortable it feels. Trading a vivid-but-wrong picture for an abstract-but-accurate one is exactly the trade mature science keeps making.</div>
+        </details>
+
+        <!-- ===== THE EVIDENCE CHAIN (M2-03) ===== -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128279; THE EVIDENCE CHAIN &middot; WHY THE MODEL HAD TO CHANGE</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">The same three-step shape, one last time in this module: an <strong>old explanation</strong>, the <strong>troubling evidence</strong> it could not survive, and the <strong>revised model</strong>. Trace it &mdash; then name the evidence yourself.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:stretch;">
+                <div style="flex:1; min-width:180px; background:#EEF1F8; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#6b7a99; margin-bottom:4px;">1 &middot; OLD EXPLANATION</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Bohr's orbits</strong> &mdash; electrons on fixed circular tracks at set radii, like tidy planetary orbits.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#8a6d1d; margin-bottom:4px;">2 &middot; TROUBLING EVIDENCE</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Multi-electron spectra and the electron's wave nature.</strong> Bohr's formula matched hydrogen but failed for every atom with more than one electron; and electrons were shown to behave as <em>waves</em>, which cannot be pinned to an exact circular path.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#1A6B3D; margin-bottom:4px;">3 &middot; REVISED MODEL</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>The quantum-mechanical model</strong> &mdash; electrons are described by <em>orbitals</em>: regions where an electron is most probably found. No fixed path &mdash; only a probability cloud.</div>
+                </div>
+            </div>
+            <details style="margin-top:12px; background:#F4F9FC; border:1px solid #C5DCE5; border-radius:6px; padding:10px 16px;">
+                <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#2196D0;">&#9654;</span>&nbsp; <strong>Name the evidence:</strong> Bohr worked beautifully for hydrogen. What evidence showed it was not the final answer?</summary>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; padding-top:10px; border-top:1px solid #DCEAF0;">It <strong>could not predict the spectra of multi-electron atoms</strong> (helium, lithium, and beyond), and <strong>electrons were found to behave as waves</strong>. A single fixed orbit cannot describe a wave-like electron or a many-electron atom, so the tidy orbit gave way to the probability-cloud orbital.</div>
+            </details>
+        </div>
+
+        <!-- MODEL LIMITATIONS · Quantum-mechanical model -->
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-left:5px solid #6b5b95; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#4b3f6b; margin-bottom:10px; letter-spacing:0.4px;">&#9878;&#65039; MODEL LIMITATIONS &middot; THE QUANTUM-MECHANICAL MODEL</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:190px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; WHAT IT EXPLAINS</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">The spectra of <em>every</em> atom, not just hydrogen; the shapes and energies of orbitals; and, ahead of us, the structure of the periodic table and how atoms bond. This is the model chemists still use.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDECEC; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; WHAT IT CANNOT (EASILY) DO</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Its equation is solved <em>exactly</em> only for one-electron atoms; every larger atom needs approximation. It is also deeply un-intuitive &mdash; the orbital pictures you use here are simplified. A model can be our best and still not be the final word.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">&#128300; WHERE THE STORY CONTINUES</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Physicists still refine how these rules play out in complex atoms and materials &mdash; the frontier work in the box just below. Even our best model stays open to sharper evidence.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current research callout (NOW/FUTURE) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &amp; NEXT &middot; QUANTUM THEORY AT THE FRONTIER</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The strange rules you just met are not a historical curiosity &mdash; they are the working physics behind some of today's most active research. <strong>Quantum computers</strong> aim to harness the way tiny particles can exist in blended states to solve certain problems no ordinary computer can touch. At facilities like <strong>CERN</strong>, physicists smash particles together to probe matter far below the level of the atom. And <strong>nanotechnology</strong> builds materials and devices a few atoms across, where quantum behavior rules. These are open frontiers &mdash; many of the deepest questions are still unanswered, which is precisely what makes them worth pursuing.</div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week is <strong>Build 3 of 4</strong> of your <strong>Atomic Model Evolution Gallery</strong> in OptimaXR. You'll return to the fully-built atom you assembled last week and add its <em>electron structure</em> &mdash; shells, subshells, or an electron-cloud annotation &mdash; then label the configuration and mark the valence electrons. The shift you learned today, from orbit to orbital, is exactly what your annotation should capture: the electron isn't on a track, it's a cloud of probability. Lessons 2.08 and 2.09 give you the configuration and the trends to label it correctly.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on duality, uncertainty, orbitals, and the quantum numbers. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Electron configurations &mdash; the rule book for where every electron in an atom actually goes.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Atomic Model Evolution Gallery (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add electron structure to your atom. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The electron is not a tiny planet on a track. Because matter has wave nature and because position and momentum cannot both be pinned down at once, the right picture is an <strong>orbital</strong> &mdash; a cloud of probability with a definite shape (s, p, d, f) and a precise capacity (2, 6, 10, 14). Four quantum numbers give each electron its address. The model is stranger than Bohr's and far more powerful &mdash; and next we'll use it to predict exactly how an atom's electrons are arranged.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.07 &middot; Development of Quantum Theory</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.om-feedback').forEach(function (f) { f.className = 'om-feedback'; f.textContent = ''; });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    // custom orbital-matcher (per-card capacity check)
+    var omBtn = e.target.closest('#orbital-matcher .om-card .widget-options button');
+    if (omBtn) {
+      var card = omBtn.closest('.om-card');
+      var want = card.dataset.correct;
+      card.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var ok = omBtn.dataset.choice === want;
+      omBtn.classList.add(ok ? 'correct' : 'incorrect');
+      var fb = card.querySelector('.om-feedback');
+      fb.className = 'om-feedback ' + (ok ? 'correct' : 'incorrect');
+      fb.textContent = ok ? ('Correct — ' + want + ' electrons (' + (want/2) + ' orbital' + (want/2 === 1 ? '' : 's') + ', 2 each).') : 'Not quite — count the orbitals in this subshell and double it (2 electrons per orbital).';
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb2 = rw.querySelector('.widget-feedback');
+      fb2.textContent = rBtn.dataset.response || '';
+      fb2.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

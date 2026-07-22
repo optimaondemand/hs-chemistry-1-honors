@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.10</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* mini periodic-table strip visual */
+    .ptrow { display:flex; gap:4px; flex-wrap:nowrap; justify-content:center; margin:2px 0; }
+    .pcell { width:30px; height:30px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#fff; }
+    .p-alk { background:#C0392B; } .p-ear { background:#E67E22; } .p-tm { background:#16A085; }
+    .p-met { background:#2980B9; } .p-mtl { background:#8E44AD; } .p-non { background:#27AE60; } .p-hal { background:#D4A017; } .p-nob { background:#34495E; }
+    .p-gap { width:30px; height:30px; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.10</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">The Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.10</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">The Periodic Table</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How did a single chart turn a scattered list of elements into a <em>map</em> &mdash; one so reliable it could describe elements no one had ever found?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">By the 1860s, chemists had isolated more than sixty elements, each with its own weight and its own quirks. It looked like a junk drawer. Then one chemist laid the elements out in the right order and a stunning pattern appeared &mdash; properties that came back, again and again, like a melody that repeats. Today you'll see how that pattern became the <strong>periodic table</strong>: how it is organized, why elements in the same column behave alike, and how a good map lets you <em>predict</em> before you discover. This is wonder put to work.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how the periodic table is organized into periods and groups, and why it is ordered by atomic number.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> locate metals, nonmetals, and metalloids and identify the major families &mdash; alkali metals, alkaline earth metals, halogens, noble gases, and transition metals.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why elements in the same group share similar properties, using their valence-electron configurations.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table to look at (the one in your course resources, or any printed table).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; A PATTERN HIDING IN A LIST</div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; PREDICT FIRST</div>
+          <div class="widget-question">Imagine you are handed cards for sixty elements &mdash; each card lists the element's mass and a few of its properties. If you lined the cards up by increasing mass, what do you predict you'd find? (No wrong answer &mdash; just commit to a guess.)</div>
+          <div class="widget-options">
+            <button data-response="That was the great surprise. The properties do not change randomly &mdash; certain traits return at regular intervals, like a rhyme. That repeating return is exactly what the word &lsquo;periodic&rsquo; captures, and it is what this lesson is about.">&#128260; Properties might repeat at regular intervals</button>
+            <button data-response="A sensible first guess &mdash; and it's what most people expect. But the evidence says otherwise: as mass climbs, similar properties keep coming back around. Watch for that returning pattern as you read.">&#128200; Properties would change smoothly with mass</button>
+            <button data-response="Reasonable caution &mdash; but there IS an order. When the elements are arranged correctly, a striking pattern of repeating properties appears. Finding that order was one of chemistry's great detective stories.">&#127922; Probably just random &mdash; no real pattern</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">By the middle of the nineteenth century, chemists were drowning in data. Dozens of elements had been isolated, each with a measured mass and a personality all its own: some were soft, reactive metals; some were choking, colored gases; a few were almost completely unreactive. The pressing question was whether all of this was simply a catalogue to be memorized &mdash; or whether some deeper order was waiting to be found.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The breakthrough came when the elements were arranged in order of increasing <strong>atomic mass</strong> and the chemist watched for properties that <em>returned</em>. They did. After a very reactive metal came a string of elements whose behavior shifted step by step &mdash; until, a predictable distance later, another very reactive metal appeared, then the pattern began again. Properties recurred at regular intervals. This is the <strong>periodic law</strong>: when elements are placed in the proper order, their properties repeat in a regular, predictable way. Stack each repeat beneath the one before it, and the list folds into a <em>table</em> &mdash; the most useful single chart in all of science.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The Russian chemist <strong>Dmitri Mendeleev</strong> published his arrangement in 1869, and he did something bold: where the pattern demanded an element that no one had yet discovered, he left an empty space rather than forcing a wrong one into it. More than that, he <em>predicted</em> the missing elements' properties from their position in the table &mdash; their approximate mass, density, and how they would react. He called one of them &ldquo;eka-silicon.&rdquo; Years later it was discovered and named <strong>germanium</strong>, and its measured properties matched his prediction closely. Another, &ldquo;eka-aluminum,&rdquo; turned out to be <strong>gallium</strong>. A table that can describe things not yet found is no longer a list &mdash; it is a working model of nature. And that points to a crucial lesson about evidence: a model that merely reorganizes what we already know might be clever bookkeeping, but a model that correctly <em>predicts</em> what no one has yet seen has captured something real. <strong>Successful prediction is the strongest test a model can pass</strong> &mdash; and Mendeleev's table passed it.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Mendeleev's table was a triumph, but it had a few stubborn hiccups: in a handful of places, ordering strictly by mass put an element in the wrong family. The fix came decades later from <strong>Henry Moseley</strong>, who measured a property tied to the number of protons in each nucleus. He showed that the elements line up perfectly when ordered by <strong>atomic number</strong> &mdash; the proton count &mdash; rather than by mass. With that single change, the anomalies vanished. The modern periodic table is ordered by atomic number, and it explains <em>why</em> the pattern exists: equal jumps in proton count drive the repeating arrangement of electrons, and it is the electrons that decide chemical behavior.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; READING THE MAP</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The table has two directions, and each one means something. The horizontal <strong>rows</strong> are called <strong>periods</strong>, numbered 1 through 7 from top to bottom. The vertical <strong>columns</strong> are called <strong>groups</strong> (or <strong>families</strong>), numbered 1 through 18 from left to right. Period and group together give every element a unique address &mdash; and from that address you can read a great deal about how the element behaves.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A bold, stair-step line runs down the right side of the table. It divides the <strong>metals</strong> on the left &mdash; shiny, bendable, good conductors, the great majority of the elements &mdash; from the <strong>nonmetals</strong> on the upper right, which tend to be dull, brittle, and poor conductors. Hugging that staircase are a handful of in-between elements called <strong>metalloids</strong> (such as silicon and germanium), which show some properties of each. This is why silicon, an in-between element, is the heart of computer chips: it conducts &mdash; but only sometimes.</p>
+
+        <!-- mini periodic-table strip visual -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px;">THE FAMILIES AT A GLANCE &mdash; a simplified map (columns = groups, rows = periods)</div>
+            <div class="ptrow"><span class="pcell p-alk">1</span><span class="pcell p-ear">2</span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="p-gap"></span><span class="pcell p-met">13</span><span class="pcell p-non">14</span><span class="pcell p-non">15</span><span class="pcell p-non">16</span><span class="pcell p-hal">17</span><span class="pcell p-nob">18</span></div>
+            <div class="ptrow"><span class="pcell p-alk"></span><span class="pcell p-ear"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-met"></span><span class="pcell p-mtl"></span><span class="pcell p-non"></span><span class="pcell p-non"></span><span class="pcell p-hal"></span><span class="pcell p-nob"></span></div>
+            <div class="ptrow"><span class="pcell p-alk"></span><span class="pcell p-ear"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-tm"></span><span class="pcell p-mtl"></span><span class="pcell p-mtl"></span><span class="pcell p-mtl"></span><span class="pcell p-non"></span><span class="pcell p-hal"></span><span class="pcell p-nob"></span></div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px; font-size:12px; color:#1a2340;">
+                <span><span style="display:inline-block;width:12px;height:12px;background:#C0392B;border-radius:3px;vertical-align:middle;"></span> Alkali metals (1)</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#E67E22;border-radius:3px;vertical-align:middle;"></span> Alkaline earth (2)</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#16A085;border-radius:3px;vertical-align:middle;"></span> Transition metals</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#2980B9;border-radius:3px;vertical-align:middle;"></span> Other metals</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#8E44AD;border-radius:3px;vertical-align:middle;"></span> Metalloids</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#27AE60;border-radius:3px;vertical-align:middle;"></span> Nonmetals</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#D4A017;border-radius:3px;vertical-align:middle;"></span> Halogens (17)</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#34495E;border-radius:3px;vertical-align:middle;"></span> Noble gases (18)</span>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Certain columns are famous enough to have names, because the elements in them are so much alike. Tap each card below to meet a family and its signature behavior:</p>
+
+        <!-- flip cards: the families -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Alkali metals &middot; Group 1</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Soft, silvery metals (lithium, sodium, potassium&hellip;) that are <em>extremely</em> reactive &mdash; so reactive they fizz and even ignite in water, and are never found pure in nature. Each has one valence electron it readily gives away. (Hydrogen sits atop the column but is a special case, not a metal.)</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Alkaline earth metals &middot; Group 2</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Reactive metals (magnesium, calcium&hellip;), though tamer than Group 1. Each has two valence electrons. Calcium builds your bones and teeth; magnesium burns with a brilliant white light.</div>
+              </div>
+            </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Halogens &middot; Group 17</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Very reactive nonmetals (fluorine, chlorine, bromine, iodine). Each is one electron short of a full set, so each grabs electrons hungrily. Chlorine disinfects water; fluorine is the most reactive element of all.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Noble gases &middot; Group 18</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Helium, neon, argon&hellip; &mdash; almost completely unreactive gases. Their valence shells are already full, so they have little reason to react. Neon glows in signs; argon fills light bulbs to protect the filament.</div>
+              </div>
+            </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Transition metals &middot; the d-block</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The wide central block (iron, copper, gold, silver&hellip;). Hard, dense, often colorful in their compounds, and the metals of everyday life &mdash; tools, wiring, coins, and jewelry.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY A FAMILY ACTS LIKE A FAMILY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the deep reason the pattern exists &mdash; and it ties back to the electron arrangements you studied in the last lessons. The chemical personality of an atom is set almost entirely by its <strong>valence electrons</strong>: the electrons in its outermost shell. Elements in the same group have the <em>same number of valence electrons</em>, even though they have different total numbers of electrons. Every alkali metal has one valence electron; every halogen has seven; every noble gas has a full outer shell. Same outer arrangement, same chemistry. That is why sodium and potassium behave so much alike, and why the properties repeat each time the count of valence electrons cycles back around.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So the periodic law is not a coincidence of weights &mdash; it is a shadow cast by electron structure. The table is really a map of how electrons fill up around the nucleus. Read across a period and you are watching one shell fill, one electron at a time; drop down a group and you find the same outer arrangement repeating in a larger atom. Mendeleev saw the pattern decades before anyone knew electrons existed. The model later explained <em>why</em> his map worked &mdash; a beautiful example of how science deepens an idea over time.</p>
+
+        <!-- Modern research: Then → Now → Future (M2-21) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 10px;">&#11088; MODERN RESEARCH &middot; THEN &rarr; NOW &rarr; FUTURE</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">THEN</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Mendeleev (1869) turned the <em>gaps</em> in his table into predictions, and the missing elements &mdash; germanium, gallium &mdash; turned up just as forecast. The periodic law had proven itself a real model of nature.</div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">NOW</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Chemists extend the table by <em>synthesizing</em> super-heavy elements &mdash; smashing nuclei together to make atoms that survive only fractions of a second. Meanwhile the table's logic guides the hunt for <strong>rare-earth elements</strong> that power the strongest magnets, rechargeable batteries, and the glowing colors in phone and TV screens.</div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">FUTURE</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">A long-predicted &ldquo;island of stability&rdquo; may hold super-heavy atoms that last far longer than their neighbors. No one yet knows how far the table can extend &mdash; or where it must finally stop. And increasingly, scientists use an element's <em>place</em> on the table to design brand-new materials on purpose. The map Mendeleev began is still being drawn.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUSTOM widget: Where on the table? -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHERE ON THE TABLE?</div>
+          <div class="widget-question">Use the clue in each description to name the element's <strong>family</strong> (or its metal/nonmetal status). You get instant feedback on each &mdash; tap <strong>Reset</strong> to try again.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; one valence electron and a violent reaction with water are the signature of a Group 1 alkali metal." data-hint="Which family has a single valence electron and reacts explosively with water?">
+            <div class="widget-row-prompt">1. A soft, silvery metal with one valence electron that fizzes violently in water.</div>
+            <div class="widget-options">
+              <button data-choice="0">Alkali metal</button>
+              <button data-choice="1">Halogen</button>
+              <button data-choice="2">Noble gas</button>
+              <button data-choice="3">Transition metal</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a reactive nonmetal in Group 17 that is one electron short of a full shell is a halogen (like chlorine)." data-hint="A reactive nonmetal one electron short of a full outer shell &mdash; think chlorine or fluorine.">
+            <div class="widget-row-prompt">2. A reactive nonmetal gas, one electron short of a full outer shell, used to disinfect water.</div>
+            <div class="widget-options">
+              <button data-choice="0">Alkali metal</button>
+              <button data-choice="1">Halogen</button>
+              <button data-choice="2">Noble gas</button>
+              <button data-choice="3">Transition metal</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; a full outer shell and near-total unreactivity place it among the Group 18 noble gases (like argon or neon)." data-hint="A full valence shell and almost no reactivity &mdash; which family barely reacts at all?">
+            <div class="widget-row-prompt">3. A colorless, almost completely unreactive gas with a full outer shell, used in light bulbs.</div>
+            <div class="widget-options">
+              <button data-choice="0">Alkali metal</button>
+              <button data-choice="1">Halogen</button>
+              <button data-choice="2">Noble gas</button>
+              <button data-choice="3">Transition metal</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="3" data-fb="Correct &mdash; a hard, dense metal from the wide central block that forms colorful compounds is a transition metal (like copper or iron)." data-hint="A hard, dense metal from the wide central block, often forming colorful compounds.">
+            <div class="widget-row-prompt">4. A hard, dense metal from the central block of the table; its compounds are often brightly colored.</div>
+            <div class="widget-options">
+              <button data-choice="0">Alkali metal</button>
+              <button data-choice="1">Halogen</button>
+              <button data-choice="2">Noble gas</button>
+              <button data-choice="3">Transition metal</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; sitting on the stair-step line with in-between properties (semiconducting) makes it a metalloid, like silicon." data-hint="It sits on the stair-step line and acts partly like a metal, partly not &mdash; what do we call those?">
+            <div class="widget-row-prompt">5. An element on the stair-step line that conducts electricity only sometimes &mdash; the basis of computer chips.</div>
+            <div class="widget-options">
+              <button data-choice="0">Metal</button>
+              <button data-choice="1">Metalloid</button>
+              <button data-choice="2">Noble gas</button>
+              <button data-choice="3">Alkali metal</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Sodium (Group 1) and potassium (Group 1) sit in the same column. Why should they behave so similarly, even though potassium is a much larger, heavier atom?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Because chemical behavior is governed by the <em>valence</em> electrons, and both sodium and potassium have exactly one. Potassium has more total electrons and a bigger atom, but it still has a single electron in its outermost shell, which it gives away just as readily as sodium does. Same valence count &rarr; same chemistry. The extra inner electrons change the size and some details, but the family resemblance comes from that shared outer arrangement.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the <strong>final build</strong> of your <strong>Atomic Model Evolution Gallery</strong> in OptimaXR. This week you'll take the fully built atom you've been working on and <strong>place it onto a giant periodic table</strong> in the gallery &mdash; marking its period, its group/family, and its block (s, p, d, or f), then adding a sticky note that predicts the ion it tends to form. Today's lesson is the key: you now know how an element's <em>address</em> on the table reveals its family and its behavior. Putting your atom in its right place completes the gallery and sets you up for the module's recorded walkthrough.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.10</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on periods, groups, families, and why the pattern repeats. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.11</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Ionic &amp; molecular compounds &mdash; how an element's place on the table decides whether it gives electrons away, shares them, or stays aloof.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &amp; VR (Build 4 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Rank elements by trend and predict compounds, then place your atom on the periodic table in OptimaXR to finish the gallery. A non-VR pathway is provided.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The periodic table is ordered by atomic number, organized into periods and groups, and arranged so that elements with the same number of valence electrons line up in the same family &mdash; which is why a column shares a chemistry. A good map does more than record what we've found; it predicts what we haven't. Next, we'll use an element's address to predict the <em>ion</em> it forms and the <em>compounds</em> it builds.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.10 &middot; The Periodic Table</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom molarity calculator ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:90px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Molarity</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Molarity</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A bottle of saltwater and a glass of seawater both taste salty &mdash; but how would a chemist say <em>exactly</em> how salty each one is, in a number another chemist anywhere could reproduce?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Most chemistry doesn't happen with dry powders on a bench &mdash; it happens in <strong>solution</strong>, with substances dissolved in water. And the moment something dissolves, a new question appears: <em>how much</em> is dissolved in <em>how much</em> liquid? &ldquo;A pinch&rdquo; and &ldquo;a splash&rdquo; won't do; a reaction needs counted particles. Last week you learned to count particles with the mole. This lesson marries the mole to volume to give chemistry its most-used measure of concentration: <strong>molarity</strong>. By the end you'll be able to state precisely how concentrated a solution is, prepare one to a target concentration, and dilute a strong stock down to a weaker working solution &mdash; the everyday arithmetic of every laboratory.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the molarity of a solution from the moles (or grams) of solute and the volume of solution, and use molarity as a conversion factor.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe how to prepare a solution of a known molarity using a volumetric flask.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the dilution relationship M&#8321;V&#8321; = M&#8322;V&#8322; to find the volume of stock solution needed for a target concentration, and explain why moles of solute are conserved on dilution.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a calculator, and a periodic table &mdash; you'll work a few molarity and dilution calculations.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a molarity calculator tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; CONCENTRATION AND MOLARITY</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Two beakers each hold one spoonful of dissolved salt. The first beaker holds half a liter of water; the second holds two liters. Which solution is <em>more concentrated</em> &mdash; and what does that tell you about what &ldquo;concentration&rdquo; must depend on? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right &mdash; and notice what your instinct just revealed. The same amount of salt in less water is more crowded, more concentrated. So concentration can't be about the amount of solute alone; it must be amount of solute PER amount of liquid. That ratio is the whole idea of molarity.">&#129516; The half-liter beaker &mdash; same salt, less water means more crowded</button>
+            <button data-response="Not quite &mdash; the two-liter beaker has the salt spread through four times the water, so it's actually more dilute. The key insight is still yours to keep: concentration depends on solute AMOUNT relative to the VOLUME it's spread through. Read on to make that a number.">&#127754; The two-liter beaker &mdash; more water means more dissolved</button>
+            <button data-response="A reasonable instinct &mdash; the amount of salt IS the same. But the water amount differs, and that's the point: concentration is a ratio of solute to volume, so the same salt in less water is more concentrated. Watch how molarity captures exactly that ratio.">&#9878;&#65039; They're equally concentrated &mdash; same amount of salt</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>solution</strong> is a uniform mixture in which one substance &mdash; the <strong>solute</strong> &mdash; is dissolved in another &mdash; the <strong>solvent</strong> (very often water). To describe a solution quantitatively, we need its <strong>concentration</strong>: how much solute is present in a given amount of solution. As your prediction showed, this has to be a <em>ratio</em>; the bare amount of solute isn't enough, because the same salt spread through more water is more dilute.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists reach for one concentration measure more than any other, because it speaks the language of reactions &mdash; counted particles. It is <strong>molarity</strong> (symbol <em>M</em>): the number of <strong>moles of solute</strong> per <strong>liter of solution</strong>.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:21px; color:#0e1c42; text-align:center;">
+            molarity (M) = <span style="display:inline-block; text-align:center; vertical-align:middle; margin:0 6px;"><span style="display:block; border-bottom:2px solid #0e1c42; padding:0 8px;">moles of solute</span><span style="display:block; padding:0 8px;">liters of solution</span></span>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">A 1.0 M solution holds one mole of solute in every liter of solution. Read the units out loud &mdash; &ldquo;moles per liter&rdquo; &mdash; and the formula tells you how to use it: amount of solute on top, volume of <em>solution</em> (not solvent) on the bottom.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: dissolving table salt</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Suppose you dissolve <strong>5.85 g of sodium chloride (NaCl)</strong> in enough water to make <strong>0.250 L</strong> of solution. What is its molarity? First convert grams to moles using NaCl's molar mass, 58.44 g/mol:</p>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            moles NaCl = 5.85 g &divide; 58.44 g/mol = <strong>0.100 mol</strong><br>
+            molarity = 0.100 mol &divide; 0.250 L = <strong>0.400 M</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The solution is 0.400 M &mdash; &ldquo;0.400 molar&rdquo; &mdash; meaning every liter would hold 0.400 mol of NaCl. Notice the two-step shape: <em>grams &rarr; moles</em> (the mole bridge from last week), then <em>moles &divide; liters</em>. Here's a second, simpler case to fix the pattern: dissolve <strong>0.50 mol</strong> of NaCl in enough water to make <strong>2.0 L</strong> of solution, and the molarity is just 0.50 mol &divide; 2.0 L = <strong>0.25 M</strong>. Fewer moles spread through more liters &mdash; a dilute solution, exactly as your prediction anticipated.</p>
+
+        <!-- Worth-knowing / molarity-as-conversion callout -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128300; WORTH KNOWING &middot; MOLARITY IS A CONVERSION FACTOR</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Once you know a solution's molarity, the ratio works in both directions, just like the mole bridge. A 0.400 M NaCl solution carries the conversion factor &ldquo;0.400 mol per 1 L.&rdquo; Need the moles in 0.500 L of it? Multiply: 0.500 L &times; 0.400 mol/L = 0.200 mol. Need the volume that contains 0.200 mol? Divide: 0.200 mol &divide; 0.400 mol/L = 0.500 L. Molarity is the bridge between a <em>volume</em> you can measure with a flask and the <em>moles</em> a reaction actually counts.</div>
+        </div>
+
+        <!-- Nature of Science · reproducibility prompt -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; WHY THE NUMBER (AND ITS UNIT) MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Pause on something easy to overlook: <em>why</em> do chemists bother to define concentration this precisely? Because a measurement is only worth anything if another person, in another lab, can reproduce it. &ldquo;I added a spoonful of salt&rdquo; can't be checked by anyone else; &ldquo;0.400 mol of solute per liter of solution&rdquo; can be rebuilt exactly, anywhere, by anyone. That demand for <strong>reproducibility</strong> is the evidence standard that turned chemistry from recipes into a science &mdash; and it is the whole reason a careful unit like molarity exists. As you work, ask yourself: <em>could someone else remake my solution from the number I wrote down?</em> If yes, you have measured; if no, you have only guessed.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PREPARING A SOLUTION OF KNOWN MOLARITY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Knowing the formula is one thing; making the real solution is another, and it hides a trap. Molarity is moles per liter of <strong>solution</strong> &mdash; the final mixture &mdash; not moles per liter of <em>water you start with</em>. The solute itself takes up space, so you can't simply add solute to a liter of water and expect a liter of solution. The fix is a piece of glassware built for exactly this: the <strong>volumetric flask</strong>, which has a single etched line marking one precise volume.</p>
+
+        <!-- Three-step preparation visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>1 &middot; Weigh the solute</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Decide your target moles (molarity &times; volume), convert to grams with the molar mass, and weigh out that mass on a balance.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>2 &middot; Dissolve in some solvent</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Add the solute to the volumetric flask with <em>part</em> of the water and swirl until it fully dissolves &mdash; not all the way to the line yet.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>3 &middot; Fill to the mark</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Carefully add water until the bottom of the meniscus sits exactly on the etched line. Now the <em>solution</em> volume is exact &mdash; and so is the molarity.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Walk it through with numbers. To make <strong>0.250 L of 0.400 M NaCl</strong>, you need 0.250 L &times; 0.400 mol/L = 0.100 mol of NaCl, which is 0.100 mol &times; 58.44 g/mol = 5.85 g. So you weigh 5.85 g of salt, dissolve it in a little water inside a 250 mL volumetric flask, then top up with water to the 250 mL line. That is precisely the solution from Part 1 &mdash; now you know how to <em>build</em> it, not just describe it.</p>
+
+        <!-- History-of-science vignette (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; THEN &middot; MAKING &ldquo;HOW CONCENTRATED&rdquo; A MEASURABLE NUMBER</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For most of history, describing a solution meant vague words &mdash; &ldquo;strong,&rdquo; &ldquo;weak,&rdquo; &ldquo;a good pinch.&rdquo; The problem that pushed chemists forward was practical and urgent: an apothecary measuring a dose, or an analyst testing the purity of a metal, needed to say <em>exactly</em> how much was dissolved, in a way anyone else could match. Out of that need grew <strong>volumetric analysis</strong> &mdash; the practice of preparing solutions of a known, standardized concentration and measuring precise volumes with purpose-built glassware like the volumetric flask you just met. Slowly, concentration stopped being an opinion and became a number. Molarity is the modern heir of that long effort to turn &ldquo;how concentrated&rdquo; into something you could measure and report rather than merely sense.</div>
+        </div>
+
+        <!-- CUSTOM WIDGET: molarity calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; MOLARITY CALCULATOR &amp; ANSWER CHECKER</div>
+          <div class="widget-question">Pick a scenario, work it out on paper first, then type your <strong>answer</strong> and check it. The tool tells you only whether your number is right (with a too-high / too-low hint) &mdash; <em>you</em> do the chemistry.</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="mc-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">A. 0.100 mol NaCl in 0.250 L &rarr; molarity (M)?</option>
+                <option value="B">B. 0.50 mol NaCl in 2.0 L &rarr; molarity (M)?</option>
+                <option value="C">C. 5.85 g NaCl (M = 58.44) in 0.250 L &rarr; molarity (M)?</option>
+                <option value="D">D. Moles in 0.500 L of 0.400 M NaCl (mol)?</option>
+                <option value="E">E. Grams of NaCl needed for 0.250 L of 0.400 M (g)?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="number" step="any" id="mc-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="mc-check">Check my answer</button>
+            <button class="widget-reset" id="mc-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="mc-out"></div>
+        </div>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; THE TOOL PROPOSES, YOUR ARITHMETIC CONFIRMS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Type &ldquo;how much salt for 0.250 L of 0.400 M NaCl?&rdquo; into an AI chatbot and it will hand you a number in seconds. That is genuinely useful &mdash; but it is an <em>instrument reading</em>, not a verdict. AI tools sometimes use the wrong molar mass, confuse solution volume with solvent volume, or quietly drop a unit. Treat the AI's answer the way a chemist treats any instrument: a reading to be checked against the primary evidence, which here is <em>your own worked calculation</em>. The calculator above gives you the verified value to confirm it. The skill being built isn't &ldquo;getting the answer&rdquo; &mdash; it's knowing whether an answer can be trusted.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; DILUTION &mdash; MAKING WEAKER FROM STRONGER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Laboratories rarely make every solution from scratch. Instead they keep concentrated <strong>stock solutions</strong> and water them down to whatever working concentration a task needs. This is <strong>dilution</strong>: adding more solvent to lower the concentration. And dilution hides one beautifully simple idea &mdash; <em>adding water does not add or remove solute</em>. The number of moles of solute is exactly the same before and after; you've only spread those same moles through more liquid.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That conservation gives us the dilution equation. Since moles = molarity &times; volume, and the moles don't change, the moles before equals the moles after:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:24px; color:#0e1c42; text-align:center;">
+            <strong>M&#8321;V&#8321; = M&#8322;V&#8322;</strong>
+            <div style="font-size:14px; color:#666; margin-top:8px;">(concentrated stock) &nbsp;=&nbsp; (diluted solution) &mdash; same moles on both sides</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: diluting acid stock</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A bottle of <strong>6.0 M hydrochloric acid (HCl)</strong> sits on the shelf, but your procedure needs <strong>0.500 L of 0.50 M HCl</strong>. How much of the stock should you measure out? Label what you know &mdash; the diluted side is M&#8322; = 0.50 M and V&#8322; = 0.500 L; the stock is M&#8321; = 6.0 M; you want V&#8321;. Rearrange and solve:</p>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            V&#8321; = (M&#8322; &times; V&#8322;) &divide; M&#8321;<br>
+            V&#8321; = (0.50 M &times; 0.500 L) &divide; 6.0 M = 0.0417 L = <strong>41.7 mL of stock</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So you carefully measure <strong>41.7 mL</strong> of the 6.0 M stock into a 500 mL volumetric flask, then add water up to the 500 mL mark. (With acids, always add acid <em>to</em> water, never the reverse.) Sanity-check it: you took 41.7 mL of strong acid and spread it through twelve times the volume, so the concentration should drop by about twelve-fold &mdash; from 6.0 M to 0.50 M. It does. The moles of HCl never changed; only the volume they occupy did.</p>
+
+        <!-- Single-select widget: dilution / conservation reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; REASON ABOUT DILUTION</div>
+          <div class="widget-question">Use the idea that <em>moles of solute are conserved</em> when you add water. Pick the best answer for each. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; adding water spreads the same moles through more volume, so the concentration drops while the number of moles stays put. That conservation is exactly why M&#8321;V&#8321; = M&#8322;V&#8322; works." data-hint="What happens to the actual number of moles of solute when you only add water?">
+            <div class="widget-row-prompt">1. You add water to a salt solution. What happens to the moles of salt and to the molarity?</div>
+            <div class="widget-options">
+              <button data-choice="0">Both the moles and the molarity increase</button>
+              <button data-choice="1">Moles stay the same; molarity decreases</button>
+              <button data-choice="2">Moles decrease; molarity stays the same</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; V&#8321; = M&#8322;V&#8322; &divide; M&#8321; = (0.10 M)(1.0 L) &divide; (2.0 M) = 0.050 L = 50 mL of stock, then water to 1.0 L." data-hint="Use V&#8321; = M&#8322;V&#8322; &divide; M&#8321; with M&#8321; = 2.0 M, M&#8322; = 0.10 M, V&#8322; = 1.0 L.">
+            <div class="widget-row-prompt">2. From 2.0 M stock, how much do you need to make 1.0 L of 0.10 M solution?</div>
+            <div class="widget-options">
+              <button data-choice="0">200 mL of stock</button>
+              <button data-choice="1">20 mL of stock</button>
+              <button data-choice="2">50 mL of stock</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; diluting 100 mL of 6.0 M to 600 mL is a six-fold increase in volume, so molarity falls six-fold to about 1.0 M. Same moles, six times the volume." data-hint="By what factor did the volume grow? The molarity falls by that same factor.">
+            <div class="widget-row-prompt">3. You dilute 100 mL of 6.0 M HCl up to 600 mL total. The new molarity is about&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">1.0 M</button>
+              <button data-choice="1">6.0 M (unchanged)</button>
+              <button data-choice="2">36 M</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your module-long OptimaXR project &mdash; the <strong>Reaction Stoichiometry Walkthrough</strong> for the reaction 2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O &mdash; moves to its second build. Last week you spawned the molecules and connected one molecule to one mole. This week's station is a <strong>mole / solution station</strong>: you'll represent measured <em>amounts</em> as moles and set up a <strong>molarity beaker</strong> showing moles per liter, then set out the correct counts of reactant molecules ready to react. This is <strong>Build 2 of 4</strong>. Keep this lesson's question in view as you build: <em>how do we turn a measurable volume into a counted number of particles?</em> &mdash; because that is exactly what molarity, and your beaker, do.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on molarity, solution prep, and dilution. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 4.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Molarity isn't the only way to say &ldquo;how much.&rdquo; Next you'll meet mass percent, parts per million, and volume percent &mdash; and learn to choose the right unit for the job.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Mole / Solution Station (Build 2 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Set up your molarity beaker and reactant counts in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Molarity is the mole made measurable: moles of solute per liter of solution, the ratio that lets a volume you can pour stand in for a particle count a reaction can use. Prepare a solution by weighing solute and filling to the mark on a volumetric flask; dilute one by remembering that water changes the volume but never the moles, so M&#8321;V&#8321; = M&#8322;V&#8322;. With concentration now under quantitative control, you're ready to ask what <em>other</em> units chemists use when molarity isn't the most natural fit.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.03 &middot; Molarity</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom molarity calculator =====
+  var MC = {
+    A: { ans:0.400, tol:0.005, unit:'M', sol:'0.100 mol ÷ 0.250 L = 0.400 M.' },
+    B: { ans:0.25,  tol:0.005, unit:'M', sol:'0.50 mol ÷ 2.0 L = 0.25 M.' },
+    C: { ans:0.400, tol:0.005, unit:'M', sol:'5.85 g ÷ 58.44 g/mol = 0.100 mol; 0.100 mol ÷ 0.250 L = 0.400 M.' },
+    D: { ans:0.200, tol:0.003, unit:'mol', sol:'0.500 L × 0.400 mol/L = 0.200 mol.' },
+    E: { ans:5.85,  tol:0.05,  unit:'g', sol:'0.250 L × 0.400 mol/L = 0.100 mol; 0.100 mol × 58.44 g/mol = 5.85 g.' }
+  };
+  var mcBtn = document.getElementById('mc-check');
+  if (mcBtn) {
+    mcBtn.addEventListener('click', function () {
+      var out = document.getElementById('mc-out');
+      var key = document.getElementById('mc-prob').value;
+      var raw = document.getElementById('mc-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      if (raw === '' || isNaN(parseFloat(raw))) { out.classList.add('warn'); out.textContent = 'Type your numerical answer first.'; return; }
+      var guess = parseFloat(raw);
+      var d = MC[key];
+      if (Math.abs(guess - d.ans) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — the answer is ' + d.ans + ' ' + d.unit + '. ' + d.sol + ' Well reasoned.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.ans ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer (' + guess + ') is ' + hi + '. Recheck your setup: molarity = moles ÷ liters (convert grams to moles first if needed), and watch your units. Try again.';
+      }
+    });
+  }
+  var mcReset = document.getElementById('mc-reset');
+  if (mcReset) {
+    mcReset.addEventListener('click', function () {
+      document.getElementById('mc-prob').value = '';
+      document.getElementById('mc-ans').value = '';
+      var out = document.getElementById('mc-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

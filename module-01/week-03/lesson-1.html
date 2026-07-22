@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 1.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 1</div>
+        <div style="font-size: 12px; color: #666;">Intro to Chemistry: The Science of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Dimensional Analysis</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Dimensional Analysis &mdash; The Factor-Label Method</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">What if you could convert <em>any</em> unit into <em>any</em> other &mdash; grams to pounds, hours to seconds, even atoms to moles &mdash; with one reliable method that tells you when you've made a mistake?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You can. It's called <strong>dimensional analysis</strong> (or the factor-label method), and it is the single most useful problem-solving tool in all of chemistry. The idea is almost embarrassingly simple &mdash; multiply by cleverly chosen forms of the number 1 &mdash; but it will carry you from this lesson all the way through stoichiometry, gas laws, and beyond. Learn it well now and the math of the whole year gets easier.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write a conversion factor from an equality and use it to cancel units.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> solve a single-step and a multi-step unit conversion by chaining conversion factors.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use unit cancellation to check whether a setup is correct before I calculate.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a calculator, and about 35 minutes. Work the examples by hand as you go &mdash; this is a skill, and skills are built by doing.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE BIG IDEA: MULTIPLY BY 1</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+          <div class="widget-question">You know there are 12 inches in 1 foot. So what is the value of the fraction (12 inches) / (1 foot)?</div>
+          <div class="widget-options">
+            <button data-response="Exactly &mdash; and this is the whole secret. Because 12 inches and 1 foot are the SAME length, their ratio equals 1. Multiplying by it changes the units without changing the actual amount. That's dimensional analysis.">&#9989; It equals 1 &mdash; top and bottom are the same length</button>
+            <button data-response="Reasonable guess, but look again: 12 inches IS 1 foot, so the fraction is 12-inches-over-something-equal-to-12-inches &mdash; it equals 1. That &lsquo;hidden 1&rsquo; is the engine of every conversion you'll do this year.">&#129518; It equals 12</button>
+            <button data-response="Not quite &mdash; since 12 inches and 1 foot are equal lengths, the fraction equals 1, not 0. Keep that in mind; it's the key to the whole method.">&#10060; It equals 0</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Conceptual framing: units as evidence of valid reasoning -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:10px;">&#129504; THE REAL QUESTION BEHIND THE METHOD</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">Dimensional analysis looks like a calculation trick, but it is really a way of asking: <strong>how can the units reveal whether our reasoning is valid?</strong> Think of a conversion as a short <em>logical argument</em>. Each conversion factor is a true premise (a known equality). The units are the <em>evidence</em> that the premises were combined correctly &mdash; if they cancel down to the unit the question asks for, the argument is sound; if they don&rsquo;t, the reasoning has a flaw no arithmetic can hide. You are not just converting numbers; you are checking your own logic.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Any true equality between two units can be written as a fraction that equals <strong>1</strong>. Since 1&nbsp;foot = 12&nbsp;inches, both of these fractions equal 1:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:16px 20px; margin:14px 0; text-align:center;">
+            <div style="font-size:22px; color:#ffffff;">12 in / 1 ft&nbsp;&nbsp;=&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 ft / 12 in&nbsp;&nbsp;=&nbsp;&nbsp;1</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">These are called <strong>conversion factors</strong>. Multiplying any measurement by 1 leaves its real value unchanged &mdash; but if you choose the right form, the units you don't want <em>cancel</em>, and the units you do want are left standing. That's the entire method. You're not changing the amount; you're changing the clothes it wears.</p>
+
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THE RULE THAT MAKES IT WORK</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Set up each factor so the unit you want to <strong>get rid of</strong> is on the <em>opposite</em> side of the fraction line from where it starts &mdash; that's what lets it cancel, just like a number in algebra. If your units cancel down to the answer's unit, your setup is right. If they don't, stop &mdash; you've set it up backward, and no amount of arithmetic will fix it.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; A SINGLE-STEP CONVERSION, STEP BY STEP</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;"><strong>Problem:</strong> A sample of water has a volume of 2500&nbsp;mL. Convert this to liters.</p>
+
+        <!-- worked setup visual -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px;">THE SETUP &mdash; FOLLOW THE CANCELING UNITS</div>
+            <div style="text-align:center; font-size:20px; color:#0E1C42; line-height:2;">
+                2500 <span style="color:#C0392B; text-decoration:line-through;">mL</span>
+                &nbsp;&times;&nbsp;
+                <span style="display:inline-block; vertical-align:middle; text-align:center;">
+                    <span style="display:block; border-bottom:2px solid #0E1C42; padding:0 8px; color:#2A9D5C;">1 L</span>
+                    <span style="display:block; padding:0 8px; color:#C0392B; text-decoration:line-through;">1000 mL</span>
+                </span>
+                &nbsp;=&nbsp; <strong style="color:#2A9D5C;">2.5 L</strong>
+            </div>
+            <div style="text-align:center; font-size:15px; color:#0E1C42; margin-top:8px;">&#8598;&nbsp; the two <span style="color:#C0392B;">mL</span> cancel (top &times; bottom)&nbsp; &#8599;&nbsp;&nbsp;&#8594;&nbsp; only <span style="color:#2A9D5C;">L</span> survives</div>
+            <div style="text-align:center; font-size:14px; color:#666; margin-top:8px; font-style:italic;">Why this answers the question: the problem asked &ldquo;how many <em>liters</em>?&rdquo;, and the surviving unit is <span style="color:#2A9D5C;">L</span> &mdash; that match is your evidence the setup is valid. Only then do the numbers: 2500 &divide; 1000 = 2.5.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Three moves, every time: (1) write what you're given, with its unit; (2) multiply by the conversion factor arranged so the starting unit cancels; (3) do the arithmetic and keep the surviving unit. Notice we wrote the equality <strong>1&nbsp;L = 1000&nbsp;mL</strong> with the &ldquo;mL&rdquo; on the bottom <em>because</em> we needed it to cancel the mL we started with.</p>
+
+        <!-- set-up-the-conversion widget -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH SETUP CANCELS CORRECTLY?</div>
+          <div class="widget-question">For each conversion, pick the setup whose units cancel to give the right answer. (Don't calculate yet &mdash; just check the units.)</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; g on top of the given cancels g on the bottom of the factor, leaving kg. (5.0 &divide; 1000 = 0.0050 kg.)" data-hint="You want kg to survive, so g must cancel. Which setup puts g on the bottom of the factor?">
+            <div class="widget-row-prompt">1. Convert 5.0 g to kg. (1 kg = 1000 g)</div>
+            <div class="widget-options">
+              <button data-choice="0">5.0 g &times; (1 kg / 1000 g)</button>
+              <button data-choice="1">5.0 g &times; (1000 g / 1 kg)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; min on top of the given cancels min on the bottom of the factor, leaving s. (3.0 &times; 60 = 180 s.)" data-hint="You want seconds to survive, so minutes must cancel. Put min on the bottom of the factor.">
+            <div class="widget-row-prompt">2. Convert 3.0 minutes to seconds. (1 min = 60 s)</div>
+            <div class="widget-options">
+              <button data-choice="0">3.0 min &times; (1 min / 60 s)</button>
+              <button data-choice="1">3.0 min &times; (60 s / 1 min)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; cm on top of the given cancels cm on the bottom of the factor, leaving m. (45 &divide; 100 = 0.45 m.)" data-hint="You want meters, so cm must cancel. Which setup has cm on the bottom?">
+            <div class="widget-row-prompt">3. Convert 45 cm to m. (1 m = 100 cm)</div>
+            <div class="widget-options">
+              <button data-choice="0">45 cm &times; (1 m / 100 cm)</button>
+              <button data-choice="1">45 cm &times; (100 cm / 1 m)</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; CHAINING FACTORS: THE MULTI-STEP CONVERSION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The real power shows up when no single conversion factor gets you all the way. Then you <strong>chain</strong> factors, one after another, each one canceling the unit the last one produced &mdash; like stepping stones across a river. You don't need to see the far bank from the start; you just need each next stone.</p>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;" open>
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Worked example: how many seconds are in 2.0 hours?</summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+            We don't have a direct &ldquo;hours &rarr; seconds&rdquo; factor in mind, but we know two equalities: 1&nbsp;h = 60&nbsp;min and 1&nbsp;min = 60&nbsp;s. Chain them:<br><br>
+            <span style="font-size:17px;">2.0 h &times; (60 min / 1 h) &times; (60 s / 1 min) = <strong>7200 s</strong></span><br><br>
+            The <em>h</em> cancels with the first factor, leaving min; the <em>min</em> cancels with the second factor, leaving s. Arithmetic: 2.0 &times; 60 &times; 60 = 7200&nbsp;s (or 7.2 &times; 10&sup3;&nbsp;s).
+            </div>
+        </details>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Here is the habit that will save you all year: <strong>set up the whole chain and check the units <em>before</em> you touch the calculator.</strong> If the units cancel to the answer you want, press the buttons with confidence. If they don't, your reasoning is off and the arithmetic can't rescue it. Dimensional analysis is self-checking &mdash; that's why chemists love it.</p>
+
+        <!-- Writing prompt: reasonable because -->
+        <div style="background:#FFFFFF; border:1px solid #D0D9E8; border-left:4px solid #C7922C; border-radius:6px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#c7922c; margin-bottom:8px;">&#9998; SAY WHY IT WORKS &middot; A ONE-SENTENCE HABIT</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">After <em>every</em> multi-step conversion you set up &mdash; in this lesson, on the weekly assignment, and all year &mdash; write one sentence completing this stem in your notebook:</div>
+            <div style="background:#EEF1F8; border-radius:6px; padding:10px 14px; margin:10px 0; font-size:16px; color:#0E1C42; font-style:italic;">&ldquo;I know my setup is reasonable because ______.&rdquo;</div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.6;">A strong answer names the <em>units</em> as evidence &mdash; for the example above: &ldquo;I know my setup is reasonable because the hours and minutes both cancel, leaving seconds, which is what the question asked for; and 7200 s for 2 hours is sensible since an hour already holds 3600 s.&rdquo; The point is to defend the reasoning, not just report the number.</div>
+        </div>
+
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Flipping a factor upside down. If you write 2.0&nbsp;h &times; (1&nbsp;h / 60&nbsp;min), the hours <em>don't</em> cancel (you'd get h&sup2;/min &mdash; nonsense). The cancellation check catches this instantly: if a unit you meant to remove is still there &mdash; or shows up squared &mdash; flip that factor over.</div>
+        </div>
+
+        <!-- flip cards -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to check yourself:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Why write the conversion factor as a fraction at all?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Because a true equality (like 1&nbsp;L = 1000&nbsp;mL) written as a fraction equals <strong>1</strong>, and multiplying by 1 changes the units without changing the amount.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">How do you know your setup is right before calculating?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Check the units: every unit except the answer's unit should cancel. If it does, the setup is correct; if not, a factor is flipped.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you finish your <strong>Matter Classification Museum</strong> with a density exhibit &mdash; and density itself is a conversion factor in disguise (g per mL). The factor-label habit you just built is exactly how you'll move between a sample's mass and its volume. Bring the &ldquo;check the units&rdquo; discipline into the headset with you.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 1.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on conversion factors and unit cancellation.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 1.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Density &mdash; the property that identifies substances, and your first big payoff for mastering the factor-label method.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Dimensional analysis converts any unit to any other by multiplying by carefully chosen forms of 1. Arrange each factor so unwanted units cancel, chain as many as you need, and check the surviving units before you calculate. This one method &mdash; not memorized formulas &mdash; is how chemists do quantitative work.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.06 &middot; Dimensional Analysis &mdash; The Factor-Label Method</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

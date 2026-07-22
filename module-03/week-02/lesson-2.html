@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Formal Charges &amp; Resonance</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Formal Charges &amp; Resonance</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When a molecule can be drawn more than one way &mdash; which drawing is right? And what does it mean when the honest answer is "none of them, exactly"?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Yesterday's six-step procedure usually gives one good structure. But sometimes it gives <em>several</em> &mdash; and sometimes no single drawing tells the whole truth. Today you get two tools for those cases. <strong>Formal charge</strong> is a quick bookkeeping check that lets you pick the most believable structure when there's a choice. <strong>Resonance</strong> is what you reach for when one drawing simply can't capture a molecule that is, in reality, an average of several. The second tool is more than a technique &mdash; it's a window into how scientific models work, and where they reach their limits.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the formal charge on each atom in a Lewis structure.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use formal charges to choose the most plausible Lewis structure among alternatives.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> draw resonance structures and explain why a real molecule is best described as a hybrid of them.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table, and your Lewis-structure skills from Lesson 3.04.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; FORMAL CHARGE: A TIE-BREAKER</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Suppose two different Lewis structures both obey the octet rule for the same molecule. They can't both be the &ldquo;best&rdquo; drawing. What kind of test would you invent to break the tie? (No wrong answer &mdash; commit to an idea.)</div>
+          <div class="widget-options">
+            <button data-response="That's the right instinct. Formal charge does exactly this: it asks, atom by atom, how far each atom’s electron count strays from its neutral, free-atom count. The structure that keeps every atom closest to neutral is usually the better drawing.">&#129518; Check which structure keeps each atom closest to "fair"</button>
+            <button data-response="Reasonable — symmetry often matters. But there's a more general, countable test: formal charge. It tracks, for each atom, how its electrons in the structure compare to the free atom. You'll use it below; symmetry often falls out of it.">&#9878;&#65039; Pick whichever one looks more symmetric</button>
+            <button data-response="Fair guess, and stability is indeed the goal — but you need a way to MEASURE it from the drawing. Formal charge is that measurable proxy: smaller formal charges, closer to zero, usually mean a more stable, more believable structure.">&#128302; Just pick the more stable one somehow</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>formal charge</strong> is a bookkeeping number: it's the charge an atom <em>would</em> carry if every bond's electrons were split exactly evenly between the two atoms. It is not a real, measured charge &mdash; it's a tool for comparing structures. To find it for any atom in a Lewis structure, use this formula:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.8; text-align:center;">
+            <strong>Formal charge = (valence e&#8315;) &minus; (nonbonding e&#8315;) &minus; &frac12;(bonding e&#8315;)</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In words: start with the atom's normal valence-electron count (its group number), then subtract the electrons it &ldquo;owns&rdquo; in the structure &mdash; all of its lone-pair (nonbonding) electrons, plus <em>half</em> of every bonding-pair electron it shares. Three rules turn this into a decision:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 12px 0;">
+            <li>The best structure keeps formal charges <strong>as close to zero</strong> as possible.</li>
+            <li>If a structure must carry a negative formal charge, it should sit on the <strong>most electronegative</strong> atom.</li>
+            <li>The formal charges of all atoms must <strong>sum to the overall charge</strong> of the molecule or ion (zero for a neutral molecule). This is a built-in check.</li>
+        </ul>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: carbon dioxide, CO<sub>2</sub></h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Yesterday you drew CO<sub>2</sub> as O=C=O. Check its formal charges. <strong>Carbon</strong> has 4 valence electrons, 0 nonbonding electrons, and 8 bonding electrons (two double bonds): 4 &minus; 0 &minus; &frac12;(8) = 4 &minus; 4 = <strong>0</strong>. <strong>Each oxygen</strong> has 6 valence electrons, 4 nonbonding electrons (two lone pairs), and 4 bonding electrons (one double bond): 6 &minus; 4 &minus; &frac12;(4) = 6 &minus; 4 &minus; 2 = <strong>0</strong>. Every atom is zero, and they sum to zero &mdash; matching the neutral molecule.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now compare an alternative that <em>also</em> satisfies octets: a single&ndash;triple arrangement, O&minus;C&equiv;O. Here one oxygen has a single bond (formal charge of about &minus;1), and the other oxygen has a triple bond (formal charge of about +1). Both structures obey the octet rule, but the symmetric O=C=O leaves <em>every</em> atom at zero, while the alternative forces a +1 and a &minus;1 into existence. The rule "minimize formal charge" picks the symmetric structure &mdash; and that matches what experiments show: CO<sub>2</sub>'s two bonds are identical.</p>
+
+        <!-- worked FC comparison visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#D8F0DD; border:1px solid #BfE3C8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:22px; color:#0E1C42; text-align:center; margin-bottom:6px;">O=C=O</div>
+                <div style="font-size:14px; color:#1A6B3D; text-align:center;"><strong>Formal charges: 0, 0, 0</strong><br>Best structure &mdash; all atoms neutral</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#FDECEC; border:1px solid #F3CFCB; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:22px; color:#0E1C42; text-align:center; margin-bottom:6px;">O&minus;C&equiv;O</div>
+                <div style="font-size:14px; color:#8A1F16; text-align:center;"><strong>Formal charges: &minus;1, 0, +1</strong><br>Less favorable &mdash; needless charge separation</div>
+            </div>
+        </div>
+
+        <!-- Single-select widget: which structure is best by formal charge -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH STRUCTURE WINS BY FORMAL CHARGE?</div>
+          <div class="widget-question">Use the rules &mdash; minimize formal charge; any negative charge belongs on the most electronegative atom &mdash; to choose. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right — the structure with all-zero formal charges is preferred. Forcing a +1/−1 pair into existence is less favorable when a neutral arrangement is available." data-hint="Which option keeps every atom closest to zero?">
+            <div class="widget-row-prompt">1. For CO<sub>2</sub>, which Lewis structure is best?</div>
+            <div class="widget-options">
+              <button data-choice="0">O&minus;C&equiv;O (FC: &minus;1, 0, +1)</button>
+              <button data-choice="1">O=C=O (FC: 0, 0, 0)</button>
+              <button data-choice="2">Both are equally good</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct — formal charges must sum to the ion's actual charge. For a 2− ion, they sum to −2. If your structure’s formal charges sum to anything else, you miscounted." data-hint="The sum of formal charges always equals the overall charge of the species.">
+            <div class="widget-row-prompt">2. In the carbonate ion CO<sub>3</sub><sup>2&minus;</sup>, the formal charges of all atoms must add up to&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">0</button>
+              <button data-choice="1">+2</button>
+              <button data-choice="2">&minus;2</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes — when a structure must carry a negative formal charge, the best drawing puts it on the most electronegative atom, which holds extra electron density most comfortably." data-hint="Which atom 'wants' the extra electrons most — the more electronegative one or the less?">
+            <div class="widget-row-prompt">3. If a structure must place a &minus;1 formal charge somewhere, it should go on&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">the most electronegative atom</button>
+              <button data-choice="1">the least electronegative atom</button>
+              <button data-choice="2">the central atom, always</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; RESONANCE: WHEN ONE DRAWING ISN'T ENOUGH</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Some molecules defeat the whole idea of a single best structure &mdash; not because we drew them wrong, but because the molecule genuinely is not any one of our drawings. Consider <strong>ozone, O<sub>3</sub></strong>. Follow the six steps and you get a central oxygen with one <em>double</em> bond to one outer oxygen and one <em>single</em> bond to the other. That predicts two <em>different</em> bonds &mdash; one short (double) and one long (single). But when chemists measure ozone, they find both O&ndash;O bonds are <strong>exactly the same length</strong>, intermediate between a normal single and a normal double bond. The drawing predicts a difference that isn't there.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The resolution is honest and a little humbling. We can draw <em>two</em> equally valid structures for ozone &mdash; identical except that the double bond is on the left in one and on the right in the other. Neither is correct by itself. The real molecule is a blend, or <strong>hybrid</strong>, of both. We write the two structures connected by a double-headed arrow (&harr;) to signal "the truth is the average of these." These alternative drawings are called <strong>resonance structures</strong>, and the real molecule is the <strong>resonance hybrid</strong>.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:12px 0; font-size:22px; color:#0e1c42; text-align:center; line-height:1.5;">
+            O=O&minus;O &nbsp;&harr;&nbsp; O&minus;O=O<br>
+            <span style="font-size:14px; color:#666;">two resonance structures &mdash; the real ozone is the average of both (both bonds equal)</span>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A crucial caution about the arrow: the molecule is <em>not</em> flickering back and forth between the two structures, like a light switch. The double-headed arrow does not mean "it rapidly becomes one, then the other." It means the true structure is a single, unchanging average that our simple dots-and-dashes notation cannot draw in one picture. The molecule is always the hybrid; the separate drawings are a limitation of our pencils, not of the molecule.</p>
+
+        <!-- History callout (THEN): Pauling and resonance -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Resonance wasn't in Lewis's original dots-and-dashes. It arrived in the early 1930s, when <strong>Linus Pauling</strong> &mdash; the same chemist who put numbers to electronegativity &mdash; borrowed an idea from the brand-new quantum mechanics to explain molecules whose measured bonds stubbornly refused to match any single Lewis drawing. Benzene, a six-carbon ring, was the famous puzzle: its carbon&ndash;carbon bonds were all measured identical, halfway between single and double, when the obvious structure predicted alternating long and short bonds. Pauling's answer was that the real molecule is a <em>hybrid</em> of several drawings at once. It's a clean example of how new evidence (equal bond lengths) plus a new tool (quantum theory) can extend an older model instead of discarding it.</div>
+        </div>
+
+        <!-- Resonance flip cards -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 14px 0 8px 0;">Three classic resonance cases. Tap each card to see how many equivalent structures it needs and what the evidence shows:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Ozone &mdash; O<sub>3</sub></div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>2 equivalent resonance structures.</strong> Each shows one single and one double O&ndash;O bond, on opposite sides. Evidence: both bonds are measured equal in length &mdash; each is "one-and-a-half" bonds, the average of the two drawings.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Nitrate &mdash; NO<sub>3</sub><sup>&minus;</sup></div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>3 equivalent resonance structures.</strong> The double bond can sit on any one of the three oxygens. Evidence: all three N&ndash;O bonds are measured identical &mdash; the real ion spreads the &ldquo;extra&rdquo; bond evenly over all three.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Carbonate &mdash; CO<sub>3</sub><sup>2&minus;</sup></div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>3 equivalent resonance structures.</strong> Like nitrate: the one double bond is shared among three equivalent C&ndash;O positions. Evidence: all three C&ndash;O bonds are identical in length, each intermediate between single and double.</div>
+              </div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The pattern is the same every time: when the &ldquo;extra&rdquo; bond could plausibly go in more than one equivalent place, the real molecule doesn't choose &mdash; it spreads that bonding evenly over all the equivalent positions. And we have hard evidence this is what nature does: the bonds we'd expect to differ are measured to be <em>identical</em>. The equal bond lengths are the fingerprint of resonance.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHAT RESONANCE TEACHES ABOUT MODELS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Step back and notice something larger than ozone. We have a model &mdash; Lewis structures &mdash; that has carried us beautifully through dozens of molecules. Then we meet a molecule the model <em>cannot draw in a single picture</em>. We don't throw the model away. We don't pretend the molecule is something it isn't. Instead, we draw several pictures, label them as approximations, and read the truth as their average. That move &mdash; recognizing exactly where a model breaks down, and patching it honestly rather than hiding the seam &mdash; is one of the most mature things a scientist ever does.</p>
+
+        <!-- Nature of Science callout (the Q2 NoS thread - strong) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 16px 22px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; MODELS ARE USEFUL APPROXIMATIONS &mdash; AND THEY HAVE LIMITS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;">Resonance is one of the clearest lessons in all of chemistry about <em>what a scientific model actually is</em>. The Lewis structure is not reality &mdash; it is a drawing that <em>represents</em> reality well enough to be useful. For most molecules, one drawing is plenty. For ozone, nitrate, and carbonate, the single-drawing model <strong>breaks down</strong>: it predicts unequal bonds that measurement flatly contradicts. A weaker science would shrug or fudge the data. Chemistry instead does something better &mdash; it keeps the useful model, marks precisely where it fails, and extends it (resonance) to match the evidence. The equal bond lengths are not an embarrassment to be explained away; they are the <strong>evidence that corrected the model</strong>. Every model you meet this year &mdash; Lewis dots, VSEPR shapes, even the tidy octet rule &mdash; is a useful approximation with a boundary. Knowing where that boundary lies is not a footnote to understanding the model. It <em>is</em> understanding the model.</div>
+        </div>
+
+        <!-- Modern research / worth-knowing -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#9889; NOW &middot; WHY THIS STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Resonance is not a museum curiosity. The spreading-out of electrons it describes &mdash; chemists call it <em>delocalization</em> &mdash; is exactly what makes graphite slippery and conductive, what stabilizes the ring molecules at the heart of countless medicines, and what lets the pigments in your eyes and in plants absorb light. When chemists today design a new drug or a new battery material, predicting where electrons delocalize is part of the daily work &mdash; and increasingly, AI tools help propose those structures. But the same caution from last week applies: a tool can <em>propose</em> a resonance picture; only you can verify that its formal charges add up and its octets hold. The model is powerful precisely because a human still checks it against the evidence.</div>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A classmate says ozone &ldquo;switches back and forth&rdquo; between its two resonance structures. What's the precise correction?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Ozone does <strong>not</strong> switch between structures. It is always a single, unchanging molecule whose true electron arrangement is the <em>average</em> (the hybrid) of the two drawings &mdash; both O&ndash;O bonds are identical at all times. The double-headed arrow describes a limitation of our one-picture-at-a-time notation, not a real motion of the molecule. The evidence for the hybrid is the equal, intermediate bond lengths that neither single drawing predicts.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's <strong>Lewis-Structure Build</strong> station (<strong>Build 2 of 3</strong> of your Molecule Build &amp; Geometry Showcase) has you construct <strong>H<sub>2</sub>O, CO<sub>2</sub>, and NH<sub>3</sub></strong> with correct bonds and lone pairs. None of those three needs resonance &mdash; but the formal-charge habit from this lesson is exactly how you'll <em>check</em> your CO<sub>2</sub> build: confirm it's the all-zero O=C=O, not a charge-separated alternative. As you place each atom's bonding and lone pairs in VR, you're doing the same accounting you practiced here, just in three dimensions. Keep room to lift these into their real shapes next week.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on formal charge and resonance. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Lewis Structures &amp; Formal Charge</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You'll describe Lewis structures for several molecules, then compute formal charges, pick best structures, and identify resonance.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Lewis-Structure Build (Build 2 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build H<sub>2</sub>O, CO<sub>2</sub>, and NH<sub>3</sub> in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Formal charge is the tie-breaker: minimize it, put any negative charge on the most electronegative atom, and check that the charges sum correctly. Resonance is the rescue for molecules one drawing can't capture &mdash; the real molecule is the hybrid, and equal measured bond lengths are the evidence. Both tools point at the same deep idea: a Lewis structure is a <em>model</em>, powerful and honest about its limits. Tomorrow that model goes 3D, when these flat structures become real molecular shapes.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.05 &middot; Formal Charges &amp; Resonance</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

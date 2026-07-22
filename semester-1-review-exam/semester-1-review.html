@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Semester 1 Review</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom calculator / checker widgets ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1&ndash;Q3 &middot; Semester 1</div>
+        <div style="font-size: 12px; color: #666;">Cumulative Review &mdash; Modules 1&ndash;4</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Semester 1 Review</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Matter &rarr; Atoms &rarr; Bonding &rarr; Reactions</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Semester 1 Review</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Pulling the Semester Together &mdash; Modules 1&ndash;4</div>
+        <div style="font-size: 16px; color: #666;">Study Guide &amp; Self-Check (not graded)</div>
+    </div>
+
+    <!-- Today's Focus reframed -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS REVIEW IS FOR</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">In one semester you walked all the way from &ldquo;what <em>is</em> matter?&rdquo; to &ldquo;how much of it reacts, and how do we count it?&rdquo; This page gathers that whole journey into one place so you can see the spine before you test on it.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Four modules, but really <strong>one connected argument</strong>: matter has structure (M1) &rarr; that structure is atomic, and atoms are organized by the periodic table (M2) &rarr; atomic structure decides how atoms <em>bond</em> and what shapes molecules take (M3) &rarr; bonded substances <em>react</em>, and we measure those reactions with the mole (M4). Each idea is the foundation of the next. This is a <strong>study and self-check page, not a graded one</strong>. Work through the four module sections, redo the worked examples on paper, and use the self-check widgets to find your weak spots. When the four sections feel solid, you're ready for the cumulative <strong>Semester 1 Exam</strong>.</div>
+    </div>
+
+    <!-- Exam Blueprint panel -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; THE EXAM BLUEPRINT &mdash; KNOW WHAT'S COMING</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">The Semester 1 Exam has <strong>30 questions</strong>, split into four sections &mdash; one per module. The four review sections below mirror it exactly, so reviewing in order walks you straight through the exam.</p>
+        <div style="overflow-x: auto;">
+        <table style="width:100%; border-collapse: collapse; font-size: 16px; color:#1a2340; min-width: 480px;">
+            <thead>
+                <tr style="background:#0E1C42; color:#fff;">
+                    <th style="text-align:left; padding:10px 14px; border:1px solid #0E1C42;">Section</th>
+                    <th style="text-align:left; padding:10px 14px; border:1px solid #0E1C42;">Module &amp; focus</th>
+                    <th style="text-align:center; padding:10px 14px; border:1px solid #0E1C42;">Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background:#F4F6FA;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>A</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 1 &middot; Matter, Measurement &amp; Density</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>6</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>B</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 2 &middot; Atomic Structure &amp; the Periodic Table</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>8</strong></td>
+                </tr>
+                <tr style="background:#F4F6FA;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>C</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 3 &middot; Chemical Bonds &amp; Molecular Geometry</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>8</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>D</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 4 &middot; Chemical Reactions &amp; Stoichiometry</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>8</strong></td>
+                </tr>
+                <tr style="background:#EEF1F8;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;" colspan="2"><strong>Total</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>30</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;">
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Time</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>~60 minutes</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Attempts</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>One</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Allowed</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>Calculator + periodic table</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Question types</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>MC / TF / Matching</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION A · MODULE 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION A &middot; MODULE 1 &mdash; MATTER, MEASUREMENT &amp; DENSITY</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 1 set the rules of the game: <strong>how chemists know</strong> and <strong>how they measure</strong>. Science moves from a tested <strong>hypothesis</strong> (a testable proposed explanation) to a <strong>law</strong> (a pattern that describes <em>what</em> happens) to a <strong>theory</strong> (a well-tested explanation of <em>why</em> &mdash; strong, but still open to revision). Every idea can be viewed in three <strong>domains</strong>: the macroscopic (what we see and weigh), the microscopic (atoms and molecules), and the symbolic (formulas and equations).</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Classifying matter</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Pure substances = <strong>elements</strong> (one kind of atom) or <strong>compounds</strong> (atoms chemically bonded in a fixed ratio). Mixtures = <strong>homogeneous</strong> (uniform throughout, e.g. air) or <strong>heterogeneous</strong> (visibly non-uniform).</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Properties</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Physical</strong> (color, density, melting point) can be observed without changing identity. <strong>Chemical</strong> (flammability, reactivity) only show when the substance becomes something new.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Measuring well</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>SI units</strong>, <strong>significant figures</strong> (leading zeros never count), <strong>accuracy</strong> (close to true) vs. <strong>precision</strong> (repeatable), and <strong>dimensional analysis</strong> (cancel units to guide the math).</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: density -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: identify a metal by density</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A solid sample has a mass of <strong>54.0 g</strong> and a volume of <strong>20.0 cm&sup3;</strong>. Reference densities: aluminum 2.70, iron 7.87, copper 8.96 g/cm&sup3;. Which metal is it?</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            Use the density formula <strong>D = m / V</strong>:<br>
+            D &nbsp;=&nbsp; 54.0 g &divide; 20.0 cm&sup3; &nbsp;=&nbsp; <strong>2.70 g/cm&sup3;</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">2.70 g/cm&sup3; matches the reference value for <strong>aluminum</strong>.</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Density is an <strong>intensive property</strong> &mdash; it doesn't depend on sample size &mdash; so it identifies a material no matter how big the piece is.</p>
+
+        <!-- sig-fig reminder -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Sig-fig reminder:</strong> How many significant figures are in <strong>0.003080 m</strong>? Leading zeros don't count; the digits 3, 0, 8, and the trailing 0 after the decimal do &rarr; <strong>4 significant figures</strong>.
+        </div>
+
+        <!-- Self-check widget: ow-select classify -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; CLASSIFY &amp; DECIDE</div>
+          <div class="widget-question">Test the core Module 1 distinctions. Pick an answer in each row for instant feedback.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; air is a uniform blend of gases whose parts can be separated physically, so it is a homogeneous mixture. O&#8322; is an element, NaCl a compound (both pure substances)." data-hint="Is air one kind of substance, or a uniform blend you could physically separate?">
+            <div class="widget-row-prompt">1. Which of these is a <em>homogeneous mixture</em>?</div>
+            <div class="widget-options">
+              <button data-choice="0">Pure oxygen gas, O&#8322;</button>
+              <button data-choice="1">Air</button>
+              <button data-choice="2">Table salt, NaCl</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; flammability describes how a substance reacts to form NEW substances, so it is a chemical property. Color, density, and melting point are physical." data-hint="Does observing this property require the substance to turn into something new?">
+            <div class="widget-row-prompt">2. Which is a <em>chemical</em> property?</div>
+            <div class="widget-options">
+              <button data-choice="0">Density</button>
+              <button data-choice="1">Melting point</button>
+              <button data-choice="2">Flammability</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; five readings very close to each other but all about 3 g too high are repeatable (precise) yet systematically off (not accurate). Precise but not accurate." data-hint="Close to each other = one quality; close to the true value = another. Which is missing here?">
+            <div class="widget-row-prompt">3. Five weighings cluster tightly together but are all ~3 g above the true mass. This data is:</div>
+            <div class="widget-options">
+              <button data-choice="0">Precise but not accurate</button>
+              <button data-choice="1">Accurate but not precise</button>
+              <button data-choice="2">Both accurate and precise</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== SECTION B · MODULE 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION B &middot; MODULE 2 &mdash; ATOMIC STRUCTURE &amp; THE PERIODIC TABLE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 2 zoomed inside the atom &mdash; and showed a <strong>model that evolved as evidence arrived</strong>: <strong>Dalton</strong> (solid spheres) &rarr; <strong>Thomson</strong> (electrons in a positive cloud) &rarr; <strong>Rutherford</strong> (the gold-foil experiment revealed a tiny dense positive nucleus) &rarr; <strong>Bohr</strong> (electrons in fixed energy levels) &rarr; the <strong>quantum model</strong> (electrons in orbitals/probability regions). Each model kept what worked and fixed what didn't &mdash; the Nature of Science in action.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Counting the atom</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Z</strong> (atomic number) = protons. <strong>A</strong> (mass number) = protons + neutrons. A neutral atom has electrons = protons. <strong>Isotopes</strong> share Z but differ in neutrons (so differ in A).</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Light &amp; electrons</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Light: <strong>c = &lambda;&nu;</strong> and <strong>E = h&nu;</strong>. Because energy levels are <strong>quantized</strong>, atoms emit only certain photon energies &mdash; a sharp <strong>line spectrum</strong>, not a continuous rainbow.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Organizing matter</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Electron configuration</strong> and <strong>valence electrons</strong> drive chemistry. Periodic trends: atomic radius and electronegativity. The table is ordered by <strong>increasing atomic number</strong>.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: average atomic mass -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: average atomic mass (weighted)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">An element has two isotopes: mass <strong>35.0 u</strong> at <strong>75.0%</strong> abundance and mass <strong>37.0 u</strong> at <strong>25.0%</strong> abundance. Find the average atomic mass.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            Multiply each mass by its abundance (as a decimal), then add:<br>
+            (0.750 &times; 35.0) + (0.250 &times; 37.0) &nbsp;=&nbsp; 26.25 + 9.25 &nbsp;=&nbsp; <strong>35.5 u</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">The average leans toward the more abundant, lighter isotope. These values match <strong>chlorine</strong>.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>More to know cold:</strong> A neutral atom with <strong>17 protons and 18 neutrons</strong> &rarr; Z = 17, A = 35, 17 electrons (chlorine). Its configuration is <strong>1s&sup2; 2s&sup2; 2p&#8310; 3s&sup2; 3p&#8309;</strong> = 17 electrons, <strong>7 valence</strong>. And <strong>c = &lambda;&nu;</strong> for 5.0&times;10&#8315;&#8311; m light: &nu; = (3.0&times;10&#8312;) &divide; (5.0&times;10&#8315;&#8311;) = <strong>6.0&times;10&sup1;&#8308; Hz</strong>.
+        </div>
+
+        <!-- Self-check widget: custom calculator (.aam-widget) -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; ATOMIC-MEASUREMENT CALCULATOR</div>
+          <div class="widget-question">Pick a Module 2 calculation, work it on paper, type <strong>your</strong> answer, and check it. The tool tells you high or low and reminds you of the relationship &mdash; but <em>you</em> do the math. (A checker verifies a number; it can't teach you the path.)</div>
+          <div class="aam-row">
+            <label>Calculation:
+              <select id="b-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">Avg. atomic mass: 75.0% &times; 35.0 u + 25.0% &times; 37.0 u = ?</option>
+                <option value="B">Frequency: c = &lambda;&nu;, &lambda; = 5.0&times;10&#8315;&#8311; m, c = 3.0&times;10&#8312; m/s &rarr; &nu; = ?</option>
+                <option value="C">Electrons in 1s&sup2;2s&sup2;2p&#8310;3s&sup2;3p&#8309; = ?</option>
+                <option value="D">Valence electrons in 1s&sup2;2s&sup2;2p&#8310;3s&sup2;3p&#8309; = ?</option>
+                <option value="E">Mass number A of an atom with 17 protons + 18 neutrons = ?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="b-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="b-check">Check my answer</button>
+            <button class="widget-reset" id="b-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="b-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION C · MODULE 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION C &middot; MODULE 3 &mdash; CHEMICAL BONDS &amp; MOLECULAR GEOMETRY</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 3 turned atomic structure into <strong>bonding</strong>. In an <strong>ionic bond</strong> a metal <em>transfers</em> electrons to a nonmetal; the resulting oppositely charged ions lock into a <strong>lattice</strong> (which is why solid salt doesn't conduct, but molten or dissolved salt does &mdash; the freed ions can carry charge). In a <strong>covalent bond</strong> atoms <em>share</em> electrons. Whether the sharing is fair is set by the <strong>electronegativity difference</strong> &mdash; the Module 2 trend doing real work:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:12px 0;">
+            <div style="flex:1; min-width:160px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #2A9D5C; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:15px; color:#0E1C42;"><strong>~0&ndash;0.4</strong></div>
+                <div style="font-size:14px; color:#1a2340;">Nonpolar covalent</div>
+            </div>
+            <div style="flex:1; min-width:160px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #C7922C; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:15px; color:#0E1C42;"><strong>~0.4&ndash;1.7</strong></div>
+                <div style="font-size:14px; color:#1a2340;">Polar covalent (&delta;+/&delta;&minus;)</div>
+            </div>
+            <div style="flex:1; min-width:160px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #C0392B; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:15px; color:#0E1C42;"><strong>large</strong></div>
+                <div style="font-size:14px; color:#1a2340;">Trends ionic</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;"><strong>Naming:</strong> ionic compounds use Roman numerals for transition metals (FeCl<sub>3</sub> = iron(III) chloride); two nonmetals use Greek prefixes (N<sub>2</sub>O<sub>4</sub> = dinitrogen tetroxide); polyatomic ions keep their names (Ca(NO<sub>3</sub>)<sub>2</sub> = calcium nitrate). <strong>Lewis structures</strong> account for all valence electrons (CO<sub>2</sub> = 4 + 2(6) = 16). <strong>Resonance</strong> (e.g. ozone's equal bonds) shows the single-drawing model has limits &mdash; the real molecule is one averaged hybrid. <strong>VSEPR</strong> predicts shape from electron domains.</p>
+
+        <!-- Worked refresher: nomenclature + valence count -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: name a compound &amp; count valence electrons</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Name FeCl<sub>3</sub>:</strong> Iron is a transition metal with more than one possible charge, so a Roman numeral is required. Three Cl&minus; demand <strong>Fe&sup3;+</strong> &rarr; <strong>iron(III) chloride</strong>.<br><br>
+            <strong>Total valence electrons in CO<sub>2</sub>:</strong> carbon contributes 4, each oxygen 6 &rarr; 4 + 2(6) = <strong>16 valence electrons</strong>, drawn as O=C=O with two lone pairs on each oxygen.
+        </div>
+
+        <!-- VSEPR geometry reference -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:12px 0;">
+            <div style="flex:1; min-width:130px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>CH<sub>4</sub></strong></div>
+                <div style="font-size:14px; color:#1a2340;">Tetrahedral, 109.5&deg;</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>NH<sub>3</sub></strong></div>
+                <div style="font-size:14px; color:#1a2340;">Trigonal pyramidal, ~107&deg;</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>H<sub>2</sub>O</strong></div>
+                <div style="font-size:14px; color:#1a2340;">Bent, ~104.5&deg;</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>CO<sub>2</sub></strong></div>
+                <div style="font-size:14px; color:#1a2340;">Linear, 180&deg;</div>
+            </div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 8px 0;"><strong>Polarity twist:</strong> CO<sub>2</sub> has polar bonds but is a <em>nonpolar</em> molecule &mdash; its linear shape makes the bond dipoles cancel. H<sub>2</sub>O is bent, so its dipoles don't cancel: it's polar.</p>
+
+        <!-- Self-check widget: ow-select geometry/polarity -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; BONDING, SHAPE &amp; NAMES</div>
+          <div class="widget-question">One pick per row, with instant feedback. These mirror the matching and multiple-choice items in Section C.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; CH&#8324; has 4 bonding pairs and no lone pairs on carbon, giving a tetrahedral shape with 109.5&deg; angles." data-hint="Four bonds, no lone pairs on the central atom &mdash; what shape pushes the four pairs as far apart as possible?">
+            <div class="widget-row-prompt">1. The molecular geometry of CH&#8324; is:</div>
+            <div class="widget-options">
+              <button data-choice="0">Bent</button>
+              <button data-choice="1">Linear</button>
+              <button data-choice="2">Tetrahedral</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; CO&#8322; has polar C=O bonds, but its linear shape makes those bond dipoles point in opposite directions and cancel, so the whole molecule is nonpolar." data-hint="The bonds ARE polar. Does the molecule's linear shape let the dipoles cancel or add up?">
+            <div class="widget-row-prompt">2. CO&#8322; has polar bonds, yet the molecule overall is:</div>
+            <div class="widget-options">
+              <button data-choice="0">Polar</button>
+              <button data-choice="1">Nonpolar</button>
+              <button data-choice="2">Ionic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; an electronegativity difference around 1.0 falls in the ~0.4&ndash;1.7 range: electrons are shared unequally, making a polar covalent bond with &delta;+/&delta;&minus; partial charges." data-hint="Where does ~1.0 fall: near 0 (nonpolar), the 0.4&ndash;1.7 middle, or very large (ionic)?">
+            <div class="widget-row-prompt">3. A bond with an electronegativity difference of about 1.0 is:</div>
+            <div class="widget-options">
+              <button data-choice="0">Polar covalent</button>
+              <button data-choice="1">Nonpolar covalent</button>
+              <button data-choice="2">Purely ionic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; iron is a transition metal needing a Roman numeral; three Cl&minus; force Fe&sup3;+, so FeCl&#8323; is iron(III) chloride." data-hint="Three chlorides each carry 1&minus;. What charge must the single iron have, and how is that shown in the name?">
+            <div class="widget-row-prompt">4. The correct name for FeCl&#8323; is:</div>
+            <div class="widget-options">
+              <button data-choice="0">Iron chloride</button>
+              <button data-choice="1">Iron(II) chloride</button>
+              <button data-choice="2">Iron(III) chloride</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== SECTION D · MODULE 4 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION D &middot; MODULE 4 &mdash; CHEMICAL REACTIONS &amp; STOICHIOMETRY</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 4 made chemistry <strong>quantitative</strong>. The <strong>mole</strong> is the chemist's counting unit: one mole = <strong>6.022 &times; 10<sup>23</sup></strong> particles (Avogadro's number). <strong>Molar mass</strong> (g/mol) links the balance to the molecule, so you can move freely along the bridge <strong>grams &harr; moles &harr; particles</strong>. We balance equations by changing only <strong>coefficients</strong> (never subscripts &mdash; that would change the substance's identity), honoring <strong>conservation of mass</strong>.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Formulas &amp; concentration</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Empirical</strong> = simplest whole-number ratio; <strong>molecular</strong> = the actual count. <strong>Molarity M = mol &divide; L</strong>; dilution <strong>M&#8321;V&#8321; = M&#8322;V&#8322;</strong>; plus mass percent / ppm.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>The mole bridge</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">grams A &rarr; mol A &rarr; (coefficient ratio) mol B &rarr; grams B. The balanced equation's coefficients are the mole-to-mole bridge between substances.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Reaction types &amp; yield</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Precipitation, acid-base, redox, and combination / decomposition / replacement / combustion. The <strong>limiting reactant</strong> makes the least product; <strong>% yield = actual &divide; theoretical &times; 100</strong>.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: limiting reactant -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: limiting reactant</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For <strong>2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O</strong>, you combine <strong>4 mol H<sub>2</sub></strong> with <strong>1 mol O<sub>2</sub></strong>. Which runs out first, and how much water forms?</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            Test each reactant against the coefficient ratios:<br>
+            If all <strong>4 mol H<sub>2</sub></strong> reacted (H<sub>2</sub> : H<sub>2</sub>O = 2 : 2) &rarr; up to <strong>4 mol H<sub>2</sub>O</strong>.<br>
+            If all <strong>1 mol O<sub>2</sub></strong> reacted (O<sub>2</sub> : H<sub>2</sub>O = 1 : 2) &rarr; only <strong>2 mol H<sub>2</sub>O</strong>.<br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">O<sub>2</sub> makes the least, so <strong>O<sub>2</sub> is limiting &rarr; 2 mol H<sub>2</sub>O forms</strong>, with 2 mol H<sub>2</sub> left over as excess.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Have these conversions ready:</strong> 88.02 g CO<sub>2</sub> &divide; 44.01 g/mol = <strong>2.00 mol</strong>; molarity 0.100 mol &divide; 0.250 L = <strong>0.400 M</strong>; empirical formula from 40.0% C / 6.7% H / 53.3% O &rarr; ratio 1:2:1 = <strong>CH<sub>2</sub>O</strong>; percent yield 31.0 &divide; 35.7 &times; 100 = <strong>86.8%</strong>.
+        </div>
+
+        <!-- Self-check widget: custom calculator (.aam-widget) -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; STOICHIOMETRY CALCULATOR</div>
+          <div class="widget-question">Choose a Module 4 calculation, work it on paper, type <strong>your</strong> answer, and check it. The tool flags too-high / too-low and names the relationship &mdash; but the path is yours. Watch your units cancel.</div>
+          <div class="aam-row">
+            <label>Calculation:
+              <select id="d-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">Moles in 88.02 g CO&#8322; (molar mass 44.01 g/mol) = ?</option>
+                <option value="B">Molarity: 0.100 mol NaCl in 0.250 L = ?</option>
+                <option value="C">Percent yield: actual 31.0 g, theoretical 35.7 g = ?</option>
+                <option value="D">2 H&#8322;+O&#8322;&rarr;2 H&#8322;O: mol H&#8322;O from 4 mol H&#8322; + 1 mol O&#8322; = ?</option>
+                <option value="E">Avogadro's number (particles per mole) = ?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="d-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="d-check">Check my answer</button>
+            <button class="widget-reset" id="d-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="d-out"></div>
+        </div>
+    </div>
+
+    <!-- How to study this / Nature-of-Science note -->
+    <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 16px 22px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HOW TO STUDY THIS &middot; A NATURE-OF-SCIENCE NOTE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;">Don't study these four modules as four separate piles of facts &mdash; study the <strong>spine</strong> that runs through them. <em>Structure</em> (M1&ndash;M2) explains <em>bonding</em> (M3), which explains <em>reaction and measurement</em> (M4). When a fact feels isolated, ask what it explains downstream. Two habits of mind recur all semester and are worth carrying into the exam: first, <strong>models evolve</strong> &mdash; Dalton to the quantum atom, the single Lewis structure to resonance &mdash; because science revises explanations when evidence demands it, and that is a strength, not a weakness. Second, <strong>honesty in measurement</strong> &mdash; significant figures, accuracy vs. precision, conservation of mass, and unit-canceling are not busywork; they are how a chemist tells what the evidence actually says from what they wish it said. To prepare: re-read the worked examples and redo each one on paper without looking, run every self-check widget until the feedback is green, and revisit any module's reading checks where you stumble.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Shore up weak spots first</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Any widget row or worked example that didn't click? Go back to that module's reading and redo its Reading Checks and hands-on assignment. Those are your fastest path to confidence &mdash; and they're untimed.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Take the Semester 1 Exam</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">When all four sections feel solid, take the cumulative <strong>Semester 1 Exam</strong> &mdash; 30 auto-graded questions across Modules 1&ndash;4, one attempt, ~60 minutes, with a calculator and periodic table allowed. It mirrors this review section for section, so a strong run here means you're ready.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Over one semester you answered the first Grand Question &mdash; <em>What is matter?</em> &mdash; by following it down to atoms, watching atomic structure decide how atoms bond, and seeing bonded substances react in measurable amounts. Along the way you also began the next question, <em>Can chemistry be measured?</em>, the moment you met the mole. That question opens wide in <strong>Module 5</strong>, where matter on the move &mdash; <strong>gases and energy</strong> &mdash; gets pinned down with the same quantitative tools you just reviewed. The spine holds: structure, bonding, reaction, measurement. Carry it forward.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1&ndash;3 &middot; Student Review Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Semester 1 Review &middot; Cumulative Study Guide &mdash; Modules 1&ndash;4</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== shared number parser (handles scientific notation forms) =====
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+
+  // generic checker wiring: (probId, ansId, checkId, resetId, outId, dataMap)
+  function wireChecker(probId, ansId, checkId, resetId, outId, MAP) {
+    var btn = document.getElementById(checkId);
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var out = document.getElementById(outId);
+        var key = document.getElementById(probId).value;
+        var raw = document.getElementById(ansId).value;
+        out.className = 'aam-result show';
+        if (!key) { out.classList.add('warn'); out.textContent = 'Pick a calculation from the menu first.'; return; }
+        var guess = parseNum(raw);
+        if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number. For powers of ten you can write forms like 6.022e23 or 6.0x10^14.'; return; }
+        var d = MAP[key];
+        if (Math.abs(guess - d.val) <= d.tol) {
+          out.classList.add('good');
+          out.textContent = '✓ Correct — ' + d.how + ' Confirm your units cancel: that is how you know the relationship was applied the right way.';
+        } else {
+          out.classList.add('warn');
+          var hi = guess > d.val ? 'too high' : 'too low';
+          out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.how + ' Re-check the relationship and whether you multiplied or divided.';
+        }
+      });
+    }
+    var rst = document.getElementById(resetId);
+    if (rst) {
+      rst.addEventListener('click', function () {
+        document.getElementById(probId).value = '';
+        document.getElementById(ansId).value = '';
+        var out = document.getElementById(outId); out.className = 'aam-result'; out.textContent = '';
+      });
+    }
+  }
+
+  // ===== Section B: atomic-measurement calculator =====
+  var BMAP = {
+    A: { val:35.5, tol:0.1, how:'Weighted average: (0.750 × 35.0) + (0.250 × 37.0) = 26.25 + 9.25 = 35.5 u (chlorine).' },
+    B: { val:6.0e14, tol:0.1e14, how:'Rearrange c = λν to ν = c ÷ λ = (3.0 × 10⁸) ÷ (5.0 × 10⁻⁷) = 6.0 × 10¹⁴ Hz.' },
+    C: { val:17, tol:0.5, how:'Add the superscripts: 2 + 2 + 6 + 2 + 5 = 17 electrons (chlorine).' },
+    D: { val:7, tol:0.5, how:'The outermost shell is 3s² 3p⁵ → 2 + 5 = 7 valence electrons.' },
+    E: { val:35, tol:0.5, how:'Mass number A = protons + neutrons = 17 + 18 = 35.' }
+  };
+  wireChecker('b-prob','b-ans','b-check','b-reset','b-out', BMAP);
+
+  // ===== Section D: stoichiometry calculator =====
+  var DMAP = {
+    A: { val:2.00, tol:0.02, how:'moles = mass ÷ molar mass = 88.02 g ÷ 44.01 g/mol = 2.00 mol.' },
+    B: { val:0.400, tol:0.005, how:'M = moles ÷ liters = 0.100 mol ÷ 0.250 L = 0.400 M.' },
+    C: { val:86.8, tol:0.3, how:'% yield = (actual ÷ theoretical) × 100 = (31.0 ÷ 35.7) × 100 = 86.8%.' },
+    D: { val:2.00, tol:0.02, how:'O₂ is limiting (1 mol O₂ × 2 mol H₂O / 1 mol O₂ = 2 mol H₂O); 4 mol H₂ would have made 4, so O₂ caps it at 2 mol H₂O.' },
+    E: { val:6.022e23, tol:0.01e23, how:'Avogadro’s number is 6.022 × 10²³ particles per mole.' }
+  };
+  wireChecker('d-prob','d-ans','d-check','d-reset','d-out', DMAP);
+})();
+</script>
+
+</body>
+</html>

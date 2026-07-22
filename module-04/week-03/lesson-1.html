@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom balance-checker widget ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:64px; text-align:center; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-eq { font-size:19px; color:#0e1c42; text-align:center; line-height:2; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Writing &amp; Balancing Equations</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Writing &amp; Balancing Chemical Equations</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When a candle burns, where does the wax go &mdash; and how can chemistry promise that not a single atom was lost?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You can watch a log shrink to ash, a strip of magnesium flash into white powder, two clear liquids mix and turn solid. Matter is clearly <em>changing</em>. But for two hundred years one idea has held firm beneath every one of those changes: the atoms don't vanish and they don't appear from nowhere &mdash; they only rearrange. A <strong>chemical equation</strong> is how chemists write that promise down precisely, with every atom accounted for on both sides. In this lesson you learn to read an equation, to write one with the correct symbols, and to <strong>balance</strong> it so the books close perfectly &mdash; the bookkeeping discipline that the rest of this module is built on.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read a chemical equation &mdash; identifying reactants, products, coefficients, and the state symbols (s), (l), (g), and (aq).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain conservation of mass and why a balanced equation must have equal atom counts on each side.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> balance a chemical equation by adjusting coefficients only &mdash; never changing subscripts &mdash; and verify it with an atom inventory.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook &mdash; you'll keep an atom inventory and balance a couple of equations by hand.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction (this lesson includes a balance-checking tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT AN EQUATION SAYS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Burn a 100-gram log in a sealed, airtight box and weigh the box <em>before</em> and <em>after</em> the fire. What do you predict the scale reads afterward? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson rewards. In a sealed box nothing can escape, so the total mass is unchanged &mdash; the wood and oxygen simply rearrange into ash, gases, and water vapor, all still trapped inside. That unchanging total is conservation of mass, the rule every equation must obey.">&#9878;&#65039; Exactly the same &mdash; nothing got in or out</button>
+            <button data-response="A very natural guess &mdash; an open fire really does seem to make matter disappear. The trick is the box. In the open, the gases (CO&#8322; and water vapor) drift away and the ash that's left weighs less. Seal the box and trap those gases, and the scale doesn't budge. Watch why.">&#11015;&#65039; Less &mdash; the log clearly shrank to ash</button>
+            <button data-response="Reasonable to wonder &mdash; fire feels like it adds something. But mass isn't created. In a sealed box the reactants (wood + oxygen) and the products (ash + gases) weigh exactly the same. Let's see how an equation captures that.">&#11014;&#65039; More &mdash; the fire added heat and light</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>chemical equation</strong> is a sentence written in the symbolic language of chemistry. On the left are the <strong>reactants</strong> &mdash; the substances you start with. On the right are the <strong>products</strong> &mdash; what they become. An arrow, read as &ldquo;yields&rdquo; or &ldquo;produces,&rdquo; points from reactants to products. The combustion of methane (natural gas) looks like this:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:22px; color:#0e1c42; text-align:center; line-height:1.6;">
+            CH<sub>4</sub>(g) &nbsp;+&nbsp; 2&nbsp;O<sub>2</sub>(g) &nbsp;&rarr;&nbsp; CO<sub>2</sub>(g) &nbsp;+&nbsp; 2&nbsp;H<sub>2</sub>O(g)
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Every part of that line carries information. The formulas (CH<sub>4</sub>, O<sub>2</sub>, CO<sub>2</sub>, H<sub>2</sub>O) name the substances. The large numbers in front &mdash; the <strong>coefficients</strong> &mdash; tell you <em>how many</em> of each: here, one methane and two oxygen molecules react to make one carbon dioxide and two water molecules. (A coefficient of 1 is never written; it is understood.) And the small italic tags after each formula are <strong>state symbols</strong>, telling you the physical state of each substance.</p>
+
+        <!-- State symbols visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:24px; color:#0E1C42;"><strong>(s)</strong></div>
+                <div style="font-size:14px; color:#1a2340;">solid</div>
+            </div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:24px; color:#0E1C42;"><strong>(l)</strong></div>
+                <div style="font-size:14px; color:#1a2340;">liquid</div>
+            </div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:24px; color:#0E1C42;"><strong>(g)</strong></div>
+                <div style="font-size:14px; color:#1a2340;">gas</div>
+            </div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:24px; color:#0E1C42;"><strong>(aq)</strong></div>
+                <div style="font-size:13px; color:#1a2340;">aqueous &mdash; dissolved in water</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">That last one, <strong>(aq)</strong>, will matter a great deal: it means the substance is <em>dissolved in water</em> &mdash; the molarity world you just left in Lesson 4.04. When silver nitrate solution meets table-salt solution, both dissolved, a solid suddenly appears: AgNO<sub>3</sub>(aq) + NaCl(aq) &rarr; AgCl(s) + NaNO<sub>3</sub>(aq). The state symbols let the equation tell you, at a glance, that a solid dropped out of two clear solutions.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; CONSERVATION OF MASS &mdash; THE RULE BEHIND IT ALL</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the single most important idea in this lesson, and it is the reason equations must be <em>balanced</em> at all. In any ordinary chemical reaction, <strong>matter is neither created nor destroyed</strong> &mdash; atoms are only rearranged. This is the <strong>law of conservation of mass</strong>. Whatever atoms you start with on the reactant side, you must end with on the product side: the same number of carbon atoms, the same number of hydrogen atoms, the same of everything. They may be bonded differently, but they are all still there.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the late 1700s the French chemist <strong>Antoine Lavoisier</strong> did something deceptively simple: he <em>weighed everything</em>. Burning and rusting were long thought to release or consume a mysterious substance, and an open flame really does leave less ash behind. Lavoisier's move was to run his reactions in <strong>sealed, closed vessels</strong> and weigh them before and after with a precise balance. The total mass never changed &mdash; not when metals were heated and gained weight, not when substances burned. When a metal gained mass on heating, that mass had come from a gas in the air (oxygen) combining with it, not from nothing. With the balance as his instrument, Lavoisier turned a vague intuition into a measurable law. It is a quiet model of scientific honesty: <em>let the careful measurement, not the appearance, decide what is true.</em></div>
+        </div>
+
+        <!-- Competing explanations (Nature of Science) -->
+        <div style="background: #E8F6FB; border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 10px;">&#128300; HOW SCIENTISTS KNOW &middot; TWO COMPETING EXPLANATIONS, AND WHAT DECIDED BETWEEN THEM</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6; margin-bottom: 12px;">Conservation of mass did not arrive obvious and unopposed. For most of the 1700s the leading explanation of burning was <strong>phlogiston theory</strong> &mdash; a careful, widely accepted idea, not a foolish one. It held that flammable materials contained a fire-substance called <em>phlogiston</em> that was <em>released</em> as they burned. That theory explained a great deal: why a flame goes out in a sealed jar (the air becomes &ldquo;full&rdquo; of phlogiston), why ash weighs less than the wood. It was the reasonable prior view of its day. The two rival explanations lined up like this:</div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+                <div style="flex:1; min-width:240px; background:#FFFFFF; border:1px solid #D0D9E8; border-top:3px solid #8A6D1D; border-radius:8px; padding:12px 16px;">
+                    <div style="font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Phlogiston theory</strong> (the prior explanation)</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Burning <em>releases</em> a hidden substance. Prediction: a burned material should weigh <em>less</em> afterward, because it lost its phlogiston.</div>
+                </div>
+                <div style="flex:1; min-width:240px; background:#FFFFFF; border:1px solid #D0D9E8; border-top:3px solid #2196D0; border-radius:8px; padding:12px 16px;">
+                    <div style="font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Oxygen theory</strong> (Lavoisier's explanation)</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Burning <em>combines</em> the material with a gas from the air (oxygen). Prediction: a metal that burns or rusts should weigh <em>more</em> afterward, because it gained that gas.</div>
+                </div>
+            </div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;"><strong>What evidence decided?</strong> When metals were heated in air, careful weighing showed they <em>gained</em> mass &mdash; exactly what oxygen theory predicts and exactly what phlogiston theory could not explain (losing a substance cannot make you heavier). In a sealed vessel the total mass held constant, because the gas that combined with the metal was still inside being weighed. The measurement, not the theory's elegance or its long acceptance, settled it. That is the lasting Nature-of-Science lesson here: <em>a coherent, reasonable, widely believed theory can still be wrong &mdash; and evidence, not authority, is what reveals it.</em></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Because of this law, a correct equation needs the same count of each kind of atom on both sides. We make that happen by choosing the right <strong>coefficients</strong> &mdash; the numbers in front of each formula. And here is the rule you must never break:</p>
+
+        <!-- Worth-knowing callout: coefficients vs subscripts -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; BALANCE WITH COEFFICIENTS, NEVER SUBSCRIPTS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">To balance an equation you change only the <strong>coefficients</strong> (the big numbers in front). You may <em>never</em> change a <strong>subscript</strong> (the small numbers <em>inside</em> a formula). Why? The subscripts <em>are</em> the substance. H<sub>2</sub>O is water; rewrite it as H<sub>2</sub>O<sub>2</sub> and you have hydrogen peroxide &mdash; a different chemical entirely. Changing a subscript doesn't balance the equation; it changes what reacted. Coefficients say <em>how many molecules</em>; subscripts say <em>what the molecule is</em>. Only the first is yours to adjust.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; BALANCING, STEP BY STEP</div>
+
+        <!-- Particle-count-first framing (balancing as evidence for conservation of mass) -->
+        <div style="background: #F4F6FA; border: 1px solid #D0D9E8; border-left: 5px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 0 0 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#129513; START WITH THE PARTICLES, NOT THE NUMBERS</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Before you reach for a coefficient, do the one thing balancing is really about: <strong>count the atoms &mdash; the actual particles &mdash; on each side.</strong> Picture the molecules as clusters of atoms. If one kind of atom appears more often on the left than on the right, then atoms would have to vanish for the reaction to happen &mdash; and they can't, because mass is conserved. So an unequal particle count is the equation <em>telling you it isn't finished yet.</em> Coefficients are simply the tool you use to make the two particle counts agree. The habit is always the same three moves: <strong>count the particles &rarr; adjust a coefficient &rarr; re-count to prove they match.</strong> Balancing an equation is nothing more than writing conservation of mass down one atom at a time.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Worked once: the synthesis of water</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Hydrogen gas and oxygen gas combine to form water. A first, unbalanced sketch &mdash; just the right substances &mdash; looks like this:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">
+            H<sub>2</sub> &nbsp;+&nbsp; O<sub>2</sub> &nbsp;&rarr;&nbsp; H<sub>2</sub>O &nbsp;&nbsp;<span style="color:#8A1F16; font-size:15px;">(not balanced yet)</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;"><strong>Take an atom inventory.</strong> Left side: 2 H and 2 O. Right side: 2 H and only <em>1</em> O. The hydrogens match, but oxygen does not &mdash; 2 on the left, 1 on the right. Remember the rule: we cannot rewrite H<sub>2</sub>O as H<sub>2</sub>O<sub>2</sub> to fix it. Instead we adjust coefficients. Put a <strong>2</strong> in front of H<sub>2</sub>O to supply a second oxygen:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">
+            H<sub>2</sub> &nbsp;+&nbsp; O<sub>2</sub> &nbsp;&rarr;&nbsp; <strong>2</strong>&nbsp;H<sub>2</sub>O
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Re-inventory. Right side now: 4 H and 2 O. Oxygen is fixed (2 = 2), but now hydrogen is off &mdash; only 2 on the left, 4 on the right. Add a <strong>2</strong> in front of H<sub>2</sub> on the left:</p>
+        <div style="background:#E9F7EF; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:22px; color:#0e1c42; text-align:center; border:1px solid #B9E2C8;">
+            <strong>2</strong>&nbsp;H<sub>2</sub>(g) &nbsp;+&nbsp; O<sub>2</sub>(g) &nbsp;&rarr;&nbsp; <strong>2</strong>&nbsp;H<sub>2</sub>O(g)
+        </div>
+
+        <!-- Atom inventory table -->
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin:10px 0 6px 0; min-width:360px;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Atom</th><th style="padding:8px 10px; color:#fff; text-align:center; border:1px solid #334;">Left side</th><th style="padding:8px 10px; color:#fff; text-align:center; border:1px solid #334;">Right side</th><th style="padding:8px 10px; color:#fff; text-align:center; border:1px solid #334;">Balanced?</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#0e1c42;">H</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1a2340;">2 &times; 2 = 4</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1a2340;">2 &times; 2 = 4</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1A6B3D;">&#10003;</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#0e1c42;">O</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1a2340;">1 &times; 2 = 2</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1a2340;">2 &times; 1 = 2</td><td style="padding:8px 10px; border:1px solid #D0D9E8; text-align:center; color:#1A6B3D;">&#10003;</td></tr>
+        </table>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0 10px 0;">Both columns match: 4 H and 2 O on each side. The equation is balanced &mdash; and <em>this very reaction</em>, 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, is the one you'll build to scale in your OptimaXR project this week.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked again: methane combustion (the equation from Part 1)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Look back at CH<sub>4</sub> + 2&nbsp;O<sub>2</sub> &rarr; CO<sub>2</sub> + 2&nbsp;H<sub>2</sub>O. Do the inventory yourself before reading on. <strong>Carbon:</strong> 1 on the left (in CH<sub>4</sub>), 1 on the right (in CO<sub>2</sub>) &mdash; balanced. <strong>Hydrogen:</strong> 4 on the left (CH<sub>4</sub>), 4 on the right (2 &times; H<sub>2</sub>O = 4) &mdash; balanced. <strong>Oxygen:</strong> 4 on the left (2 &times; O<sub>2</sub> = 4), and on the right 2 (in CO<sub>2</sub>) + 2 (in 2&nbsp;H<sub>2</sub>O) = 4 &mdash; balanced. Every element checks. <em>Always close the loop by re-counting every atom &mdash; that final inventory is your proof.</em></p>
+
+        <!-- CUSTOM WIDGET: balance checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COEFFICIENT BALANCE-CHECKER</div>
+          <div class="widget-question">Pick an unbalanced equation, type a coefficient into each box (leave blank to mean 1), and check it. The tool tallies the atoms on each side and tells you exactly which element is off &mdash; but <em>you</em> choose the coefficients. (A checker can count atoms; reasoning out the right numbers is your job.)</div>
+          <div class="aam-row">
+            <label>Reaction:
+              <select id="bal-rxn">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="water">H&#8322; + O&#8322; &rarr; H&#8322;O (synthesis of water)</option>
+                <option value="methane">CH&#8324; + O&#8322; &rarr; CO&#8322; + H&#8322;O (methane combustion)</option>
+                <option value="ammonia">N&#8322; + H&#8322; &rarr; NH&#8323; (ammonia synthesis)</option>
+              </select>
+            </label>
+          </div>
+          <div class="aam-row" id="bal-eq-wrap" style="display:none;">
+            <div class="aam-eq" id="bal-eq"></div>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="bal-check">Check balance</button>
+            <button class="widget-reset" id="bal-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="bal-out"></div>
+        </div>
+
+        <!-- Single-select: is this balanced? -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; IS THIS EQUATION BALANCED?</div>
+          <div class="widget-question">Run a quick atom inventory in your head for each line, then decide. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; left: 1 Mg, 2 O; right: 2 Mg, 2 O. The magnesium atoms don't match (1 vs 2), so it is NOT balanced. It would balance as 2 Mg + O&#8322; &rarr; 2 MgO." data-hint="Count magnesium on each side. Left has 1 Mg; right has 2 Mg.">
+            <div class="widget-row-prompt">1. &nbsp;Mg + O<sub>2</sub> &rarr; 2&nbsp;MgO</div>
+            <div class="widget-options">
+              <button data-choice="0">Balanced</button>
+              <button data-choice="1">Not balanced</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; left: 2 H, 2 Cl; right: 2 H (in 2 HCl), 2 Cl (in 2 HCl). Every atom matches, so it IS balanced." data-hint="Count H and Cl on each side. The coefficient 2 on HCl supplies 2 H and 2 Cl.">
+            <div class="widget-row-prompt">2. &nbsp;H<sub>2</sub> + Cl<sub>2</sub> &rarr; 2&nbsp;HCl</div>
+            <div class="widget-options">
+              <button data-choice="0">Balanced</button>
+              <button data-choice="1">Not balanced</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; left: 1 C, 4 H, 2 O; right: 1 C, 2 H, 3 O. Hydrogen (4 vs 2) and oxygen (2 vs 3) are both off, so it is NOT balanced." data-hint="Tally H: 4 on the left, only 2 on the right. That alone breaks it.">
+            <div class="widget-row-prompt">3. &nbsp;CH<sub>4</sub> + O<sub>2</sub> &rarr; CO<sub>2</sub> + H<sub>2</sub>O</div>
+            <div class="widget-options">
+              <button data-choice="0">Balanced</button>
+              <button data-choice="1">Not balanced</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; left: 2 Na, 2 Cl; right: 2 Na, 2 Cl. All atoms match, so it IS balanced." data-hint="Count Na and Cl. The 2 in front of NaCl gives 2 Na and 2 Cl, matching 2 Na and 1 Cl&#8322;.">
+            <div class="widget-row-prompt">4. &nbsp;2&nbsp;Na + Cl<sub>2</sub> &rarr; 2&nbsp;NaCl</div>
+            <div class="widget-options">
+              <button data-choice="0">Balanced</button>
+              <button data-choice="1">Not balanced</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; VERIFY THE ATOM COUNT YOURSELF</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Type &ldquo;balance this equation&rdquo; into an AI chatbot and it will hand you coefficients in a second. Useful &mdash; but an AI can confidently produce coefficients that <em>don't</em> actually conserve atoms, and it cannot know that you typed the formula correctly. So treat the AI's answer as a proposal, not a verdict: run your own atom inventory on its result. If carbon, hydrogen, and oxygen each tally equal on both sides, the answer earns your trust; if not, you've caught a mistake the machine couldn't. The balance-checker above models exactly this habit &mdash; the tool counts, but <em>you</em> confirm conservation of mass.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is <strong>Build 3 of 4</strong> of your OptimaXR <strong>Reaction Stoichiometry Walkthrough</strong>. The first two weeks you built the molecules and a mole/solution station; this week you <em>balance the reaction in space</em>. You'll arrange <strong>2 H<sub>2</sub> + 1 O<sub>2</sub></strong> on the reactant side and <strong>2 H<sub>2</sub>O</strong> on the product side, then walk around and verify with your own eyes that <strong>4 H and 2 O</strong> sit on each side &mdash; conservation of mass made physical. Keep this lesson's question close as you build: <em>did every atom on the left reappear on the right?</em> That is exactly what your final recorded walkthrough is graded on.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on reactants/products, state symbols, conservation of mass, and balancing. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 4.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can balance them, you'll <em>classify</em> reactions &mdash; precipitation, acid-base, and redox &mdash; and meet the idea of electron transfer.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Balance the Reaction (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Arrange 2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O to scale and verify the atom count. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A chemical equation is a promise kept in atoms: reactants on the left, products on the right, and &mdash; because matter is conserved &mdash; every atom that starts must finish. You balance an equation by adjusting <em>coefficients</em>, never subscripts, and you prove it with an atom inventory that matches on both sides. Lavoisier earned that law with a balance and a sealed flask; you now wield it every time you write a reaction. Next, you'll sort the endless variety of reactions into a handful of recognizable families.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.05 &middot; Writing &amp; Balancing Chemical Equations</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom balance-checker =====
+  // Each reaction: ordered list of species; each species has element subscript counts
+  // and which side it sits on. The student supplies coefficients; we tally per element.
+  var RXN = {
+    water: {
+      label: 'H₂ + O₂ → H₂O',
+      species: [
+        { id:'a', formula:'H₂',  side:'L', atoms:{H:2} },
+        { id:'b', formula:'O₂',  side:'L', atoms:{O:2} },
+        { id:'c', formula:'H₂O', side:'R', atoms:{H:2,O:1} }
+      ],
+      answer:'2 H₂ + O₂ → 2 H₂O'
+    },
+    methane: {
+      label: 'CH₄ + O₂ → CO₂ + H₂O',
+      species: [
+        { id:'a', formula:'CH₄', side:'L', atoms:{C:1,H:4} },
+        { id:'b', formula:'O₂',  side:'L', atoms:{O:2} },
+        { id:'c', formula:'CO₂', side:'R', atoms:{C:1,O:2} },
+        { id:'d', formula:'H₂O', side:'R', atoms:{H:2,O:1} }
+      ],
+      answer:'CH₄ + 2 O₂ → CO₂ + 2 H₂O'
+    },
+    ammonia: {
+      label: 'N₂ + H₂ → NH₃',
+      species: [
+        { id:'a', formula:'N₂',  side:'L', atoms:{N:2} },
+        { id:'b', formula:'H₂',  side:'L', atoms:{H:2} },
+        { id:'c', formula:'NH₃', side:'R', atoms:{N:1,H:3} }
+      ],
+      answer:'N₂ + 3 H₂ → 2 NH₃'
+    }
+  };
+
+  var sel = document.getElementById('bal-rxn');
+  var eqWrap = document.getElementById('bal-eq-wrap');
+  var eqBox = document.getElementById('bal-eq');
+  var outBox = document.getElementById('bal-out');
+
+  function renderEq(key) {
+    if (!key) { eqWrap.style.display='none'; eqBox.innerHTML=''; return; }
+    var r = RXN[key];
+    var parts = { L:[], R:[] };
+    r.species.forEach(function (s) {
+      parts[s.side].push('<input type="number" min="1" step="1" data-sid="' + s.id + '" placeholder="1" /> ' + s.formula);
+    });
+    eqBox.innerHTML = parts.L.join(' &nbsp;+&nbsp; ') + ' &nbsp;&rarr;&nbsp; ' + parts.R.join(' &nbsp;+&nbsp; ');
+    eqWrap.style.display = 'flex';
+  }
+
+  if (sel) {
+    sel.addEventListener('change', function () {
+      renderEq(sel.value);
+      outBox.className = 'aam-result'; outBox.textContent = '';
+    });
+  }
+
+  var checkBtn = document.getElementById('bal-check');
+  if (checkBtn) {
+    checkBtn.addEventListener('click', function () {
+      outBox.className = 'aam-result show';
+      var key = sel.value;
+      if (!key) { outBox.classList.add('warn'); outBox.textContent = 'Pick a reaction from the menu first.'; return; }
+      var r = RXN[key];
+      var tally = { L:{}, R:{} };
+      var anyEntered = false;
+      r.species.forEach(function (s) {
+        var inp = eqBox.querySelector('input[data-sid="' + s.id + '"]');
+        var c = parseInt(inp && inp.value, 10);
+        if (inp && inp.value !== '') anyEntered = true;
+        if (isNaN(c) || c < 1) c = 1;
+        for (var el in s.atoms) {
+          tally[s.side][el] = (tally[s.side][el] || 0) + s.atoms[el] * c;
+        }
+      });
+      if (!anyEntered) { outBox.classList.add('warn'); outBox.textContent = 'Type a coefficient into at least one box (a blank box counts as 1), then check.'; return; }
+      var elements = {};
+      Object.keys(tally.L).forEach(function (k){ elements[k]=true; });
+      Object.keys(tally.R).forEach(function (k){ elements[k]=true; });
+      var offenders = [];
+      var lines = [];
+      Object.keys(elements).forEach(function (el) {
+        var l = tally.L[el] || 0, rr = tally.R[el] || 0;
+        lines.push(el + ': ' + l + ' (left) vs ' + rr + ' (right)' + (l === rr ? ' ✓' : ' ✗'));
+        if (l !== rr) offenders.push(el);
+      });
+      if (offenders.length === 0) {
+        outBox.classList.add('good');
+        outBox.textContent = '✓ Balanced! ' + lines.join('  ·  ') + '. Every element matches on both sides — mass is conserved. (Correct balanced form: ' + r.answer + '.)';
+      } else {
+        outBox.classList.add('warn');
+        outBox.textContent = 'Not balanced yet. ' + lines.join('  ·  ') + '. Off: ' + offenders.join(', ') + '. Adjust a coefficient (never a subscript) and re-check.';
+      }
+    });
+  }
+
+  var balReset = document.getElementById('bal-reset');
+  if (balReset) {
+    balReset.addEventListener('click', function () {
+      sel.value = '';
+      renderEq('');
+      outBox.className = 'aam-result'; outBox.textContent = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

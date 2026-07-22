@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 1.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 1</div>
+        <div style="font-size: 12px; color: #666;">Intro to Chemistry: The Science of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Physical &amp; Chemical Properties</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Physical &amp; Chemical Properties</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When ice melts and when iron rusts, both are &ldquo;changes&rdquo; &mdash; so why does a chemist treat them as completely different events?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Melted ice is still water; rusted iron is no longer iron. That single difference &mdash; whether the <em>identity</em> of the substance survived &mdash; is one of the sharpest tools in chemistry. Today you'll learn to describe matter by its <strong>properties</strong>, to tell <strong>physical</strong> changes from <strong>chemical</strong> ones, and to sort properties into the two kinds that behave differently when you change the amount.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify a property or a change in matter as physical or chemical, and justify why.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a property as extensive or intensive, and explain the difference.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and about 30 minutes.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; PROPERTIES: HOW WE TELL SUBSTANCES APART</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; OBSERVE FIRST</div>
+          <div class="widget-question">A silver spoon slowly darkens (tarnishes) over months. Before reading on &mdash; do you think the silver is still silver underneath? (No wrong answer &mdash; commit to a prediction.)</div>
+          <div class="widget-options">
+            <button data-response="Good prediction. Tarnish is actually a new substance (silver sulfide) forming on the surface &mdash; a chemical change. Underneath, most of the silver is unchanged, which is why polishing can restore it. You'll sharpen this distinction below.">&#127773; Yes &mdash; it's just a coating on top</button>
+            <button data-response="A careful thought. The darkening itself is a chemical change: a thin layer of silver has reacted to form a new compound. The bulk metal beneath is still silver. Watch for the test: did the identity of the substance change?">&#9899; No &mdash; the silver itself changed</button>
+            <button data-response="Honest &mdash; and exactly why we need a reliable test. By the end of this lesson you'll have one: ask whether a new substance with new properties was formed.">&#129300; I'm not sure yet</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Observation-first: four everyday changes, evidence before definitions -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:10px;">&#128064; LOOK BEFORE YOU LABEL</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6; margin-bottom:12px;">Here are four ordinary changes. Before any definitions, decide for each: <strong>is there evidence that a genuinely new substance formed &mdash; or is it the same stuff in a new form?</strong></div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                <div style="flex:1; min-width:200px; background:#EEF1F8; border-radius:8px; padding:12px 14px; font-size:15px; color:#1a2340; line-height:1.5;">&#129482; An <strong>ice cube melts</strong> into a puddle.</div>
+                <div style="flex:1; min-width:200px; background:#EEF1F8; border-radius:8px; padding:12px 14px; font-size:15px; color:#1a2340; line-height:1.5;">&#127754; A spoon of <strong>salt dissolves</strong> and vanishes into water.</div>
+                <div style="flex:1; min-width:200px; background:#EEF1F8; border-radius:8px; padding:12px 14px; font-size:15px; color:#1a2340; line-height:1.5;">&#128293; A sheet of <strong>paper burns</strong>, giving off smoke and leaving ash.</div>
+                <div style="flex:1; min-width:200px; background:#EEF1F8; border-radius:8px; padding:12px 14px; font-size:15px; color:#1a2340; line-height:1.5;">&#127773; A copper roof slowly <strong>tarnishes green</strong>.</div>
+            </div>
+            <div style="font-size:16px; color:#0E1C42; line-height:1.6;">In your notebook, sort them into &ldquo;same substance&rdquo; and &ldquo;new substance,&rdquo; and jot the <em>observation</em> that decided each one. Notice that two of these can be reversed to recover the original (freeze the puddle, evaporate the water) while two cannot. Keep your reasons &mdash; the rest of the lesson gives you the vocabulary to name what you just found.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>property</strong> is any characteristic that helps you tell one substance from another. A <strong>physical property</strong> can be observed <em>without</em> changing what the substance is &mdash; color, hardness, density, melting point, boiling point, electrical conductivity. Some you can see at a glance (color); others show up only during a <strong>physical change</strong>, a change in form or state that leaves the substance's identity intact. Melting wax, dissolving sugar in coffee, and steam condensing on a lid are all physical changes: rearranged, restated, but chemically the same stuff.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>chemical property</strong> describes how a substance <em>changes into a different substance</em> &mdash; or refuses to. Flammability, the tendency to rust, acidity, and toxicity are chemical properties. You can only observe a chemical property by letting (or trying to let) a <strong>chemical change</strong> happen, which always produces one or more <em>new</em> substances with new properties. Iron rusting, a match burning, food rotting, copper dissolving in acid &mdash; in each, what you end with is genuinely different matter from what you started with.</p>
+
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THE ONE QUESTION THAT DECIDES IT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask: <strong>&ldquo;After the change, is it still the same substance?&rdquo;</strong> If yes &rarr; physical. If a new substance with new properties has formed &rarr; chemical. Clues that point to chemical change: an unexpected color shift, gas bubbling out, a solid forming from liquids, light or heat released, or a smell that wasn't there before.</div>
+        </div>
+
+        <!-- physical vs chemical comparison visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:14px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Physical change</strong> &mdash; identity survives</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Ice &rarr; liquid water &rarr; steam &middot; sugar dissolving &middot; chopping wood &middot; bending copper. Often reversible. Still the same substance.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#FDECEC; border-radius:8px; padding:14px;">
+                <div style="font-size:16px; color:#8A1F16; margin-bottom:6px;"><strong>Chemical change</strong> &mdash; new substance forms</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Iron rusting &middot; wood burning &middot; bread baking &middot; a banana browning. New properties appear. Usually not easily reversed.</div>
+            </div>
+        </div>
+
+        <!-- Historical vignette: Lavoisier -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; A LOOK BACK &middot; WHEN CHEMISTRY LEARNED TO WEIGH</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the 1770s the French chemist <strong>Antoine Lavoisier</strong> insisted on doing something earlier investigators had mostly skipped: <em>weighing everything</em>, before and after, including the gases. When he heated metals in sealed vessels, the careful numbers told a story the eye could not &mdash; the metal gained exactly the mass that the air inside lost. Burning was not a substance escaping (the old &ldquo;phlogiston&rdquo; idea); it was the metal <em>combining</em> with a gas he named oxygen. By trusting the balance over the assumption, Lavoisier turned chemistry into a <strong>quantitative</strong> science &mdash; one where a chemical change is something you can measure, not just watch. You&rsquo;ll practice that same discipline in this module&rsquo;s lab.</div>
+        </div>
+
+        <!-- scale/spectrum widget -->
+        <div class="optima-widget ow-scale">
+          <div class="widget-kicker">&#9889; PLACE IT &middot; PHYSICAL OR CHEMICAL?</div>
+          <div class="widget-question">Slide each event toward the kind of change it is. Use the test above: did the substance's identity survive?</div>
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; the water is still water after it freezes, just in solid form. Purely physical." data-hint="Is the frozen water still water? If the substance is unchanged, slide toward 'physical'.">
+            <div class="widget-row-prompt">1. Liquid water freezes into ice</div>
+            <div class="widget-options">
+              <button data-choice="0">Definitely physical</button>
+              <button data-choice="1">Leaning physical</button>
+              <button data-choice="2">Leaning chemical</button>
+              <button data-choice="3">Definitely chemical</button>
+            </div>
+          </div>
+          <div class="widget-row" data-correct="3" data-fb="Correct &mdash; burning produces carbon dioxide and water vapor: brand-new substances. Definitely chemical." data-hint="Is the ash-and-gas you end with the same substance as the wood? New substances mean chemical.">
+            <div class="widget-row-prompt">2. A log burns in a fireplace</div>
+            <div class="widget-options">
+              <button data-choice="0">Definitely physical</button>
+              <button data-choice="1">Leaning physical</button>
+              <button data-choice="2">Leaning chemical</button>
+              <button data-choice="3">Definitely chemical</button>
+            </div>
+          </div>
+          <div class="widget-row" data-correct="3" data-fb="Yes &mdash; rust (iron oxide) is a different substance from iron. The reddish flaking and new properties give it away. Chemical." data-hint="Is rust the same stuff as iron? It has different color and properties &mdash; that's a clue.">
+            <div class="widget-row-prompt">3. An iron nail rusts in the rain</div>
+            <div class="widget-options">
+              <button data-choice="0">Definitely physical</button>
+              <button data-choice="1">Leaning physical</button>
+              <button data-choice="2">Leaning chemical</button>
+              <button data-choice="3">Definitely chemical</button>
+            </div>
+          </div>
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; dissolved salt is still salt; evaporate the water and you get it back. Physical." data-hint="If you could recover the salt unchanged by evaporating the water, the salt's identity survived.">
+            <div class="widget-row-prompt">4. Table salt dissolves in water</div>
+            <div class="widget-options">
+              <button data-choice="0">Definitely physical</button>
+              <button data-choice="1">Leaning physical</button>
+              <button data-choice="2">Leaning chemical</button>
+              <button data-choice="3">Definitely chemical</button>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- CER writing prompt: physical or chemical? -->
+        <div style="background:#FFFFFF; border:1px solid #D0D9E8; border-left:4px solid #C7922C; border-radius:6px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#c7922c; margin-bottom:8px;">&#9998; WRITE A CER &middot; MAKE THE CASE (5&ndash;7 SENTENCES)</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6; margin-bottom:10px;">A shiny iron nail left outside for a month is now coated in reddish-brown flakes; the flakes crumble, don&rsquo;t conduct or shine like the metal, and the nail weighs slightly <em>more</em> than before. In your notebook, argue whether this was a <strong>physical</strong> or a <strong>chemical</strong> change, in 5&ndash;7 sentences:</div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.6;">
+                &bull; <strong>Claim:</strong> state which kind of change it was.<br>
+                &bull; <strong>Evidence:</strong> give <em>two</em> specific observations from above that support your claim.<br>
+                &bull; <strong>Reasoning:</strong> explain how each observation connects to your claim &mdash; and rule out the competing explanation (that the nail is still just iron in a new form) by pointing to evidence that a <em>new substance</em> with different properties formed.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; EXTENSIVE vs. INTENSIVE PROPERTIES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Properties also split a second way &mdash; by whether they depend on <em>how much</em> matter you have. An <strong>extensive property</strong> depends on the amount: mass and volume are extensive, because a gallon of milk has more of both than a cup of milk. An <strong>intensive property</strong> does <em>not</em> depend on the amount: temperature, density, color, and boiling point stay the same no matter how big the sample is. Pour the gallon and the cup together (both at 20&nbsp;&deg;C) and the temperature is still 20&nbsp;&deg;C &mdash; it didn't add up.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This matters more than it first looks. Because intensive properties don't change with size, they are how we <em>identify</em> substances. Density is the star example: every pure sample of gold has the same density regardless of whether it's a coin or a bar. You'll use exactly this idea in this module's lab to identify an unknown material &mdash; and in Lesson 1.07 you'll calculate density yourself.</p>
+
+        <!-- extensive/intensive flip cards -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to check yourself:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Is <em>mass</em> extensive or intensive?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>Extensive.</strong> More matter means more mass &mdash; it depends on the amount. (Volume is extensive too.)</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Is <em>density</em> extensive or intensive?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>Intensive.</strong> A small gold nugget and a large gold bar have the same density &mdash; it doesn't depend on amount, which is why it identifies a substance.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- physical vs chemical PROPERTY single-select -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; PHYSICAL OR CHEMICAL PROPERTY?</div>
+          <div class="widget-question">Each statement describes a <em>property</em>. Is it physical or chemical? Remember: a chemical property can only be seen by attempting to change the substance into something new.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; flammability describes how a substance reacts (burns) to form new substances. That's a chemical property." data-hint="To observe burning, the substance has to turn into something new. What kind of property is that?">
+            <div class="widget-row-prompt">1. Rubbing alcohol is flammable.</div>
+            <div class="widget-options">
+              <button data-choice="0">Physical</button>
+              <button data-choice="1">Chemical</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; you can measure density without changing what the substance is, so it's a physical property." data-hint="Can you measure this without turning the substance into something else?">
+            <div class="widget-row-prompt">2. Aluminum has a density of 2.70 g/cm&sup3;.</div>
+            <div class="widget-options">
+              <button data-choice="0">Physical</button>
+              <button data-choice="1">Chemical</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; reacting with acid to form a new gas is a chemical property; it describes a chemical change." data-hint="Forming a new gas from the metal-and-acid means a new substance appeared.">
+            <div class="widget-row-prompt">3. Zinc reacts with acid, releasing hydrogen gas.</div>
+            <div class="widget-options">
+              <button data-choice="0">Physical</button>
+              <button data-choice="1">Chemical</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; melting point is observed during a physical change (melting), with no new substance formed: physical property." data-hint="When a metal melts, is it still the same metal? Then the property is physical.">
+            <div class="widget-row-prompt">4. Copper melts at 1085 &deg;C.</div>
+            <div class="widget-options">
+              <button data-choice="0">Physical</button>
+              <button data-choice="1">Chemical</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== Safety -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PROPERTIES YOU CAN'T IGNORE: READING A HAZARD DIAMOND</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because chemical properties like flammability and reactivity can be dangerous, substances are labeled with a four-color <strong>hazard diamond</strong> (the NFPA&nbsp;704 system). Each colored diamond rates one kind of hazard from 0 (none) to 4 (severe). Knowing how to read it is a real-world application of everything in this lesson &mdash; it is properties, turned into safety information at a glance.</p>
+
+        <!-- hazard diamond CSS visual -->
+        <div style="text-align:center; margin:16px 0;">
+            <table style="border-collapse:collapse; margin:0 auto; transform:rotate(45deg);">
+                <tr>
+                    <td style="width:54px; height:54px;"></td>
+                    <td style="width:54px; height:54px; background:#E74C3C; border:2px solid #0E1C42; text-align:center; vertical-align:middle;"><span style="display:inline-block; transform:rotate(-45deg); color:#fff; font-size:13px;">FIRE</span></td>
+                    <td style="width:54px; height:54px;"></td>
+                </tr>
+                <tr>
+                    <td style="width:54px; height:54px; background:#2196D0; border:2px solid #0E1C42; text-align:center; vertical-align:middle;"><span style="display:inline-block; transform:rotate(-45deg); color:#fff; font-size:12px;">HEALTH</span></td>
+                    <td style="width:54px; height:54px; background:#fff; border:2px solid #0E1C42;"></td>
+                    <td style="width:54px; height:54px; background:#F1C40F; border:2px solid #0E1C42; text-align:center; vertical-align:middle;"><span style="display:inline-block; transform:rotate(-45deg); color:#0E1C42; font-size:11px;">REACT</span></td>
+                </tr>
+                <tr>
+                    <td style="width:54px; height:54px;"></td>
+                    <td style="width:54px; height:54px; background:#fff; border:2px solid #0E1C42; text-align:center; vertical-align:middle;"><span style="display:inline-block; transform:rotate(-45deg); color:#0E1C42; font-size:11px;">SPECIAL</span></td>
+                    <td style="width:54px; height:54px;"></td>
+                </tr>
+            </table>
+            <div style="font-size:13px; color:#666; margin-top:28px;"><strong>Red</strong> = flammability &middot; <strong>Blue</strong> = health hazard &middot; <strong>Yellow</strong> = reactivity &middot; <strong>White</strong> = special hazards (oxidizer, reacts with water, corrosive, &hellip;)</div>
+        </div>
+
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; SAFETY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A high number on the red diamond means highly flammable; a 4 on the blue diamond means a brief exposure could be fatal. In any lab &mdash; physical or virtual &mdash; read the hazard diamond <em>before</em> you handle a substance, and follow the safety practices from your Module 0 lab-safety lesson and signed safety contract.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">As you label exhibits in your <strong>Matter Classification Museum</strong>, you'll also note a key <em>property</em> of each sample (a physical property you could observe, like color or state). The habit you build here &mdash; describing matter precisely and saying <em>why</em> a change is physical or chemical &mdash; is exactly what your end-of-module recorded explanation will showcase.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 1.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on physical vs. chemical and extensive vs. intensive.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Classify &amp; Justify Matter</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now you have all three lessons &mdash; sort the sample set, justify each call, and confirm matter is conserved.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build Your Matter Classification Museum</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Enter OptimaXR (or use the non-VR pathway) to classify, arrange, and label your first exhibits.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Properties are how we recognize and identify matter; the physical/chemical line comes down to one question &mdash; did the substance's identity survive? &mdash; and intensive properties like density are the fingerprints we'll use to tell substances apart for the rest of the year.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.03 &middot; Physical &amp; Chemical Properties</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

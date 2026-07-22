@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.11</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom Ionic Formula Builder ===== */
+    .ifb-pickrow { display:flex; flex-wrap:wrap; gap:18px; margin-bottom:14px; }
+    .ifb-col { flex:1; min-width:240px; }
+    .ifb-label { font-size:12px; color:#1B6A94; margin-bottom:6px; }
+    .ifb-chips { display:flex; flex-wrap:wrap; gap:6px; }
+    .ifb-chip { background:#FFFFFF; border:1.5px solid #D0D9E8; border-radius:8px; padding:7px 12px; font-size:14px; color:#0E1C42; cursor:pointer; font-family:inherit; }
+    .ifb-chip:hover { border-color:#55C8E8; background:#F4F6FA; }
+    .ifb-chip.sel-cat { background:#16A085; border-color:#16A085; color:#fff; }
+    .ifb-chip.sel-an { background:#C0392B; border-color:#C0392B; color:#fff; }
+    .ifb-readout { background:#0E1C42; color:#fff; border-radius:8px; padding:14px 18px; font-size:16px; line-height:1.6; margin-top:6px; }
+    .ifb-formula { font-size:26px; color:#55C8E8; letter-spacing:1px; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.11</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Ionic &amp; Molecular Compounds</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.11</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Ionic &amp; Molecular Compounds</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Which atoms give their electrons away, which ones share, and how does that single choice decide what a compound's formula <em>has</em> to be?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You now know that an element's place on the table reveals its valence electrons. Today you'll use that to answer a practical question: when two elements meet, how do they combine, and in what ratio? You'll see that atoms reorganize their electrons to reach a stable arrangement &mdash; and that this drive splits compounds into two great families, <strong>ionic</strong> and <strong>molecular</strong>. This is the doorway into Module 3, where bonding becomes the whole story.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict the charge of the ion a main-group element tends to form from its group on the periodic table.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write the neutral formula of an ionic compound by balancing the charges of its cation and anion.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> tell whether a compound is ionic or molecular from the kinds of elements it contains.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table, and about 35&ndash;45 minutes (including time with the formula builder below).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE DRIVE TOWARD A FULL SHELL</div>
+
+        <!-- Bridge-lesson scope framing (M2-22) -->
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 14px 20px; margin: 0 0 16px 0;">
+            <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">&#128279; A BRIDGE LESSON &middot; FROM ATOMIC STRUCTURE TO BONDING</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Every lesson so far has been about the structure of a <em>single</em> atom. This last lesson of Module 2 is the <strong>bridge</strong> into Module 3: you'll take everything you know about periodic position and valence electrons and use it to predict what happens when atoms <em>meet</em> &mdash; which <strong>ions</strong> an element forms, and what <strong>formula</strong> a compound must have to stay neutral. That is exactly as far as we go here. The deeper questions &mdash; <em>what kind of bond forms and why, whether a molecule is polar, what three-dimensional shape it takes, and how separate molecules attract one another (intermolecular forces)</em> &mdash; are the whole work of <strong>Module 3</strong>. For now, hold one idea: <strong>an atom's place on the table predicts how it will combine.</strong></div>
+        </div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; PREDICT FIRST</div>
+          <div class="widget-question">Sodium (Group 1) has one lonely valence electron. Chlorine (Group 17) is one electron short of a full shell. When the two meet, what do you predict happens? (Commit to a guess &mdash; you'll check it as you read.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the heart of it. Sodium hands its single electron to chlorine. Now each has a stable, noble-gas-like shell &mdash; but sodium is left positive and chlorine negative, and their opposite charges lock them together. That is an ionic bond.">&#11014;&#65039; Sodium gives its electron to chlorine</button>
+            <button data-response="A reasonable thought &mdash; and sharing IS what happens between two nonmetals. But a metal as eager to lose an electron as sodium, meeting a nonmetal as hungry for one as chlorine, doesn't share &mdash; it transfers. Watch for that distinction below.">&#129309; They share the electron equally</button>
+            <button data-response="Good instinct to question it &mdash; but they react readily and famously. Sodium and chlorine combine to form ordinary table salt, releasing a lot of energy. The key is WHY: each atom reaches a more stable electron arrangement.">&#128683; Nothing &mdash; they probably don't react</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Recall the noble gases from the last lesson: almost completely unreactive, because their outermost shells are already full. That hints at something powerful. Atoms behave as though a <strong>full outer shell is a stable, comfortable place to be</strong> &mdash; and most atoms will gain, lose, or share electrons to reach an arrangement like a noble gas. For the main-group elements, that target is usually eight valence electrons, an idea chemists call the <strong>octet</strong>. (You'll meet the full story of bonding in Module 3; here we just need the driving force.)</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">An atom that gains or loses electrons is no longer electrically neutral &mdash; it becomes an <strong>ion</strong>. Lose one or more electrons and the atom is left with more protons than electrons, giving it a positive charge: a <strong>cation</strong>. Gain electrons and it has a surplus of negative charge: an <strong>anion</strong>. And here is the payoff from the periodic table: an element's group tells you, at a glance, how many electrons it tends to gain or lose &mdash; and therefore the charge of the ion it forms.</p>
+
+        <!-- ion-charge by group visual -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px;">PREDICTING ION CHARGE FROM THE GROUP (main-group elements)</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
+                <div style="background:#16A085; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 1</div><div style="font-size:20px;">+1</div><div style="font-size:11px;">loses 1 e&#8315;</div></div>
+                <div style="background:#16A085; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 2</div><div style="font-size:20px;">+2</div><div style="font-size:11px;">loses 2 e&#8315;</div></div>
+                <div style="background:#16A085; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 13</div><div style="font-size:20px;">+3</div><div style="font-size:11px;">loses 3 e&#8315;</div></div>
+                <div style="background:#C0392B; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 15</div><div style="font-size:20px;">&minus;3</div><div style="font-size:11px;">gains 3 e&#8315;</div></div>
+                <div style="background:#C0392B; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 16</div><div style="font-size:20px;">&minus;2</div><div style="font-size:11px;">gains 2 e&#8315;</div></div>
+                <div style="background:#C0392B; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 17</div><div style="font-size:20px;">&minus;1</div><div style="font-size:11px;">gains 1 e&#8315;</div></div>
+                <div style="background:#34495E; color:#fff; border-radius:8px; padding:10px 12px; text-align:center; min-width:90px;"><div style="font-size:13px;">Group 18</div><div style="font-size:20px;">0</div><div style="font-size:11px;">full shell</div></div>
+            </div>
+            <div style="text-align:center; font-size:13px; color:#6b7a99; margin-top:12px; font-style:italic;">Metals (left) lose electrons &rarr; cations. Nonmetals (right) gain electrons &rarr; anions. Noble gases mostly form no ions at all.</div>
+        </div>
+
+        <!-- Helpful-info callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WORTH KNOWING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The periodic trends from the last lesson explain <em>why</em> this works. Metals on the left have low ionization energy &mdash; their outer electrons are loosely held, so they let them go and become positive. Nonmetals on the right have high electron affinity &mdash; they pull electrons in, becoming negative. The table doesn't just sort the elements; it predicts which way the electrons will move. (The transition metals are less tidy &mdash; many can form more than one charge &mdash; so the clean group rule is for the main-group elements.)</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; IONIC COMPOUNDS: BALANCING THE CHARGES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When a <strong>metal</strong> meets a <strong>nonmetal</strong>, electrons transfer: the metal becomes a cation, the nonmetal an anion, and the opposite charges pull together into an <strong>ionic compound</strong>. These are not really discrete molecules but vast, repeating three-dimensional arrays of alternating positive and negative ions &mdash; which is why we describe them with a <strong>formula unit</strong>, the simplest whole-number ratio of ions. There is one ironclad rule for that ratio: <strong>the total positive charge must exactly cancel the total negative charge, so the compound is electrically neutral.</strong></p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Watch the logic on three examples:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.7;"><strong>Sodium + chlorine:</strong> Na<sup>+</sup> (+1) and Cl<sup>&minus;</sup> (&minus;1). The charges already cancel one-to-one, so one of each &rarr; <strong>NaCl</strong>.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.7;"><strong>Magnesium + chlorine:</strong> Mg<sup>2+</sup> (+2) and Cl<sup>&minus;</sup> (&minus;1). One chloride only cancels +1, so you need <em>two</em> chlorides to balance the +2 &rarr; <strong>MgCl<sub>2</sub></strong>.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:14px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.7;"><strong>Aluminum + oxygen:</strong> Al<sup>3+</sup> (+3) and O<sup>2&minus;</sup> (&minus;2). The smallest number both 3 and 2 divide into is 6, so you need two Al (2 &times; +3 = +6) and three O (3 &times; &minus;2 = &minus;6) &rarr; <strong>Al<sub>2</sub>O<sub>3</sub></strong>.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the shortcut hiding in that last one: the size of each ion's charge becomes the <em>subscript</em> of the other ion. This &ldquo;crossover&rdquo; is a quick check &mdash; but always reduce to the simplest whole-number ratio, and let the goal (a net charge of zero) be your guide. Try it yourself in the builder:</p>
+
+        <!-- CUSTOM Ionic Formula Builder -->
+        <div class="optima-widget" id="ifb">
+          <div class="widget-kicker">&#9889; TRY IT &middot; IONIC FORMULA BUILDER</div>
+          <div class="widget-question">Pick one <strong>cation</strong> and one <strong>anion</strong>. The builder balances the charges and shows the correct neutral formula, with a short explanation.</div>
+          <div class="ifb-pickrow">
+            <div class="ifb-col">
+              <div class="ifb-label">&#11014;&#65039; CATION (positive)</div>
+              <div class="ifb-chips" id="ifb-cats">
+                <button class="ifb-chip" data-sym="Na" data-q="1">Na<sup>+</sup></button>
+                <button class="ifb-chip" data-sym="K" data-q="1">K<sup>+</sup></button>
+                <button class="ifb-chip" data-sym="Mg" data-q="2">Mg<sup>2+</sup></button>
+                <button class="ifb-chip" data-sym="Ca" data-q="2">Ca<sup>2+</sup></button>
+                <button class="ifb-chip" data-sym="Al" data-q="3">Al<sup>3+</sup></button>
+              </div>
+            </div>
+            <div class="ifb-col">
+              <div class="ifb-label">&#11015;&#65039; ANION (negative)</div>
+              <div class="ifb-chips" id="ifb-ans">
+                <button class="ifb-chip" data-sym="Cl" data-q="1">Cl<sup>&minus;</sup></button>
+                <button class="ifb-chip" data-sym="Br" data-q="1">Br<sup>&minus;</sup></button>
+                <button class="ifb-chip" data-sym="O" data-q="2">O<sup>2&minus;</sup></button>
+                <button class="ifb-chip" data-sym="S" data-q="2">S<sup>2&minus;</sup></button>
+                <button class="ifb-chip" data-sym="N" data-q="3">N<sup>3&minus;</sup></button>
+              </div>
+            </div>
+          </div>
+          <div class="ifb-readout" id="ifb-out">Pick a cation and an anion to build a formula.</div>
+          <button class="widget-reset" id="ifb-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; MOLECULAR COMPOUNDS, POLYATOMIC IONS, AND TELLING THEM APART</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When two <strong>nonmetals</strong> combine, neither one is willing to surrender electrons outright &mdash; both want to gain. So instead of transferring, they <strong>share</strong> electrons, and the shared pairs hold the atoms together as a true <strong>molecule</strong>. Compounds built this way are <strong>molecular</strong> (or <strong>covalent</strong>) compounds: water (H<sub>2</sub>O), carbon dioxide (CO<sub>2</sub>), and methane (CH<sub>4</sub>) are all molecules of nonmetals sharing electrons. They exist as separate, countable units &mdash; one water molecule, one carbon dioxide molecule &mdash; unlike the endless lattice of an ionic compound.</p>
+
+        <!-- MISCONCEPTION CHECK · ionic compounds are not molecules (M2-C4) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE &middot; IS EVERY COMPOUND A MOLECULE?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6; margin-bottom: 12px;">No &mdash; and the vocabulary carries the idea. An <strong>ionic compound is <em>not</em> a molecule.</strong> The word we use tells you what kind of particle (or non-particle) you are really describing.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:210px; background:#FFFFFF; border:1px solid #E4B9B4; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; NON-EXAMPLE &mdash; NaCl</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">There is no single &ldquo;NaCl molecule.&rdquo; A grain of salt is a vast lattice of alternating Na<sup>+</sup> and Cl<sup>&minus;</sup> ions. &ldquo;NaCl&rdquo; is a <strong>formula unit</strong> &mdash; the simplest whole-number ratio (one Na<sup>+</sup> to one Cl<sup>&minus;</sup>), not a discrete particle you could pluck out on its own.</div>
+                </div>
+                <div style="flex:1; min-width:210px; background:#FFFFFF; border:1px solid #B9D8C4; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; EXAMPLE &mdash; H<sub>2</sub>O</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Water really does come in separate three-atom units: one H<sub>2</sub>O <strong>molecule</strong> can drift off entirely on its own. Here &ldquo;H<sub>2</sub>O&rdquo; names a real, countable particle &mdash; that is what makes it a molecule.</div>
+                </div>
+            </div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-top:12px;">Quick rule: say <strong>&ldquo;formula unit&rdquo; for ionic compounds</strong> (metal + nonmetal, a lattice of ions) and <strong>&ldquo;molecule&rdquo; for covalent/molecular compounds</strong> (nonmetal + nonmetal, discrete shared-electron units).</div>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There is one more piece worth meeting now: not every ion is a single atom. A <strong>polyatomic ion</strong> is a small group of atoms bonded together that carries an overall charge and travels as a unit. You will see these constantly, so it helps to recognize a few:</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 10px 0 14px 0;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Polyatomic ion</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Formula</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Charge</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Nitrate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">NO<sub>3</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">&minus;1</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Sulfate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">SO<sub>4</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">&minus;2</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Hydroxide</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">OH</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">&minus;1</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Ammonium</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">NH<sub>4</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">+1</td></tr>
+        </table>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 10px 0;">They balance charges the same way single ions do &mdash; you'll learn to name and combine them fully in Module 3. For now, just recognize that ammonium (NH<sub>4</sub><sup>+</sup>) acts like a cation and the others act like anions.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So how do you tell, at a glance, which family a compound belongs to? Read the elements:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:10px 0 14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #16A085; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Ionic</strong> &mdash; metal + nonmetal</div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Electrons transfer; opposite charges attract. Examples: NaCl, MgCl<sub>2</sub>, CaO, Al<sub>2</sub>O<sub>3</sub>. (A metal or ammonium with a polyatomic ion counts too.)</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #C0392B; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Molecular</strong> &mdash; nonmetal + nonmetal</div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Electrons are shared; true molecules form. Examples: H<sub>2</sub>O, CO<sub>2</sub>, CH<sub>4</sub>, NH<sub>3</sub>.</div>
+            </div>
+        </div>
+
+        <!-- Cross-module bridge callout (red worth-knowing) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; LOOKING AHEAD &middot; THE BRIDGE TO MODULE 3</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Everything here is a preview of the next module. In <strong>Module 3</strong> you'll go deeper into <em>how</em> the bonds actually form &mdash; ionic versus covalent &mdash; and you'll learn the full system for <strong>naming compounds</strong> and writing their formulas, including all the polyatomic ions. Don't try to memorize every name today. The one habit to carry forward is the reasoning: <em>look at the elements, predict the ions from their groups, and let the charges balance to zero.</em> Get that, and the rest of bonding will have a foundation to stand on.</div>
+        </div>
+
+        <!-- ow-select: ionic or molecular? -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; IONIC OR MOLECULAR?</div>
+          <div class="widget-question">Decide whether each compound is <strong>ionic</strong> (metal + nonmetal) or <strong>molecular</strong> (nonmetal + nonmetal). Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; potassium is a metal and bromine a nonmetal, so KBr is ionic." data-hint="Is the first element a metal? Metal + nonmetal is ionic.">
+            <div class="widget-row-prompt">1. KBr (potassium bromide)</div>
+            <div class="widget-options">
+              <button data-choice="0">Ionic</button>
+              <button data-choice="1">Molecular</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; carbon and oxygen are both nonmetals, so CO&#8322; is molecular (electrons are shared)." data-hint="Are both elements nonmetals? Nonmetal + nonmetal is molecular.">
+            <div class="widget-row-prompt">2. CO&#8322; (carbon dioxide)</div>
+            <div class="widget-options">
+              <button data-choice="0">Ionic</button>
+              <button data-choice="1">Molecular</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; magnesium is a metal and oxygen a nonmetal, so MgO is ionic." data-hint="Magnesium is a Group 2 metal; oxygen is a nonmetal.">
+            <div class="widget-row-prompt">3. MgO (magnesium oxide)</div>
+            <div class="widget-options">
+              <button data-choice="0">Ionic</button>
+              <button data-choice="1">Molecular</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; hydrogen and oxygen are both nonmetals, so H&#8322;O is molecular." data-hint="Both hydrogen and oxygen are nonmetals.">
+            <div class="widget-row-prompt">4. H&#8322;O (water)</div>
+            <div class="widget-options">
+              <button data-choice="0">Ionic</button>
+              <button data-choice="1">Molecular</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Calcium is in Group 2 and fluorine is in Group 17. What ions do they form, and what is the formula of the compound they make?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Calcium (Group 2) loses two electrons to form Ca<sup>2+</sup>; fluorine (Group 17) gains one to form F<sup>&minus;</sup>. To balance +2 you need two fluoride ions (2 &times; &minus;1 = &minus;2). The neutral formula is <strong>CaF<sub>2</sub></strong>. Because calcium is a metal and fluorine a nonmetal, the compound is <em>ionic</em>.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When you place your finished atom on the giant periodic table in the <strong>Atomic Model Evolution Gallery</strong> this week, your sticky note will predict the <em>ion</em> your element forms &mdash; using exactly the group rule you just practiced. A Group 1 atom predicts a +1 cation; a Group 17 atom predicts a &minus;1 anion. That single prediction ties your whole gallery back to today's lesson and points the way toward the bonding you'll study next module.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.11</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on ion charges, ionic formulas, and ionic vs. molecular.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Periodic Trends &amp; Predicting Compounds</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Rank elements by trend, predict the ions they form, and build neutral ionic formulas &mdash; then classify compounds as ionic or molecular.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Finish Your Gallery (Build 4 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Place your atom on the periodic table, mark its period/group/block, and predict its ion. A non-VR pathway is provided.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Atoms reorganize their electrons to reach a stable, full-shell arrangement. Metals lose electrons to become cations; nonmetals gain them to become anions; the two attract into <em>ionic</em> compounds whose formula is whatever makes the charge zero. Nonmetals instead <em>share</em> electrons, forming <em>molecular</em> compounds. The element's address on the table predicts which path it takes &mdash; and that is the threshold of Module 3, where bonding becomes the whole story.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.11 &middot; Ionic &amp; Molecular Compounds</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && reset.id !== 'ifb-reset') {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+<!-- ===== CUSTOM IONIC FORMULA BUILDER RUNTIME ===== -->
+<script>
+(function () {
+  var box = document.getElementById('ifb');
+  if (!box) return;
+  var out = document.getElementById('ifb-out');
+  var state = { cat: null, an: null };
+
+  function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+  function sub(n) { return n === 1 ? '' : '<sub>' + n + '</sub>'; }
+  function wrap(sym, n) {
+    // parentheses only matter for polyatomic ions; all here are monatomic
+    return sym + sub(n);
+  }
+
+  function render() {
+    if (!state.cat || !state.an) {
+      out.innerHTML = 'Pick a cation and an anion to build a formula.';
+      return;
+    }
+    var qc = state.cat.q, qa = state.an.q;
+    var g = gcd(qc, qa);
+    var lcm = qc * qa / g;
+    var nCat = lcm / qc;   // number of cations
+    var nAn = lcm / qa;    // number of anions
+    var formula = wrap(state.cat.sym, nCat) + wrap(state.an.sym, nAn);
+    out.innerHTML =
+      '<div class="ifb-formula">' + formula + '</div>' +
+      '<div style="font-size:14px;margin-top:8px;color:#cfe6f5;">' +
+      state.cat.sym + ' is +' + qc + ' and ' + state.an.sym + ' is &minus;' + qa + '. ' +
+      'Total + must cancel total &minus;: ' + nCat + ' &times; (+' + qc + ') = +' + (nCat*qc) +
+      ', and ' + nAn + ' &times; (&minus;' + qa + ') = &minus;' + (nAn*qa) + '. ' +
+      'Net charge = 0, so the neutral formula is ' + formula + '.</div>';
+  }
+
+  box.addEventListener('click', function (e) {
+    if (e.target.closest('#ifb-reset')) {
+      state.cat = null; state.an = null;
+      box.querySelectorAll('.ifb-chip').forEach(function (c) { c.classList.remove('sel-cat', 'sel-an'); });
+      render();
+      return;
+    }
+    var chip = e.target.closest('.ifb-chip');
+    if (!chip) return;
+    var inCat = chip.parentElement.id === 'ifb-cats';
+    var group = inCat ? '#ifb-cats' : '#ifb-ans';
+    box.querySelectorAll(group + ' .ifb-chip').forEach(function (c) { c.classList.remove('sel-cat', 'sel-an'); });
+    chip.classList.add(inCat ? 'sel-cat' : 'sel-an');
+    var data = { sym: chip.dataset.sym, q: parseInt(chip.dataset.q, 10) };
+    if (inCat) state.cat = data; else state.an = data;
+    render();
+  });
+})();
+</script>
+
+</body>
+</html>

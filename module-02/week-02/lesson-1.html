@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* atom-count widget */
+    .ac-formula { font-size: 26px; color: #0E1C42; text-align: center; margin: 6px 0 14px 0; letter-spacing: 1px; }
+    .ac-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .ac-cell { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 10px 14px; }
+    .ac-cell label { display:block; font-size: 14px; color: #0E1C42; margin-bottom: 6px; }
+    .ac-cell input { width: 64px; font-size: 16px; padding: 6px 8px; border: 1.5px solid #D0D9E8; border-radius: 6px; font-family: inherit; }
+    .ac-check { background: #0E1C42; color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-size: 14px; cursor: pointer; font-family: inherit; margin-top: 12px; margin-right: 8px; }
+    .ac-check:hover { background: #16285a; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Chemical Formulas</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Chemical Formulas</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How does a short string of letters and numbers &mdash; H<sub>2</sub>O, CO<sub>2</sub>, C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> &mdash; capture <em>exactly</em> what a substance is made of?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last week you learned that atoms are real and that each element has its own symbol. Now we put those symbols to work. A <strong>chemical formula</strong> is the most compact language in all of science: in a handful of characters it tells you which elements are present and exactly how many atoms of each. Learn to read it &mdash; and to count from it &mdash; and you can speak the symbolic language of chemistry fluently.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read a chemical formula and count the number of atoms of each element, including formulas with parentheses and multipliers.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> tell the difference among a molecular, structural, and empirical formula, and explain what each one shows.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> find the empirical formula of a substance from its molecular formula, and explain why ionic compounds are written as formula units.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook &mdash; you'll practice counting atoms as you go.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; READING A MOLECULAR FORMULA</div>
+
+        <!-- Reflective check-in / predict first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Glucose &mdash; the sugar your cells burn for energy &mdash; is written C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>. Before reading on, how many atoms <em>total</em> do you think one molecule of glucose contains? (No wrong answer &mdash; you'll check it below.)</div>
+          <div class="widget-options">
+            <button data-response="Close thinking! Add the subscripts: 6 carbon + 12 hydrogen + 6 oxygen = 24 atoms in all. The trick is that every subscript counts, and an element with no written subscript counts as one.">3 &mdash; one of each element</button>
+            <button data-response="That's the count of each kind written out (6, 12, 6) but the question asked for the total. Add them: 6 + 12 + 6 = 24 atoms. You're reading the subscripts correctly &mdash; just finish the sum.">About 18</button>
+            <button data-response="Exactly right &mdash; 6 carbon + 12 hydrogen + 6 oxygen = 24 atoms total. You already read the subscripts the way a chemist does. Now let's make that habit airtight.">24 &mdash; add all the subscripts</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Every element has a one- or two-letter <strong>symbol</strong> &mdash; H for hydrogen, O for oxygen, Na for sodium, Fe for iron. (Notice the capitalization: the first letter is always uppercase and any second letter is always lowercase. <em>Co</em> is the element cobalt; <em>CO</em> is the compound carbon monoxide. The difference is not decoration &mdash; it changes the meaning entirely.)</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>molecular formula</strong> uses those symbols, with small <strong>subscripts</strong>, to state the actual number of atoms of each element in one molecule. Water is H<sub>2</sub>O: two hydrogen atoms, one oxygen atom. The subscript <em>2</em> belongs to the H right before it; the O has no subscript, so it is understood to be one. Carbon dioxide is CO<sub>2</sub> &mdash; one carbon, two oxygen. Ethane is C<sub>2</sub>H<sub>6</sub> &mdash; two carbon, six hydrogen. A subscript of 1 is never written; it is simply understood.</p>
+
+        <!-- worth knowing -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WORTH KNOWING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Some elements never travel alone. Seven common elements occur naturally as <strong>diatomic molecules</strong> &mdash; pairs of identical atoms bonded together: hydrogen (H<sub>2</sub>), nitrogen (N<sub>2</sub>), oxygen (O<sub>2</sub>), fluorine (F<sub>2</sub>), chlorine (Cl<sub>2</sub>), bromine (Br<sub>2</sub>), and iodine (I<sub>2</sub>). So the oxygen you breathe is O<sub>2</sub>, not a lone O. The subscript tells you matter is often more &ldquo;clumped&rdquo; than its one-letter symbol suggests.</div>
+        </div>
+
+        <!-- Scope note: what a formula does and doesn't tell you (M2-09) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0 0 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128271; WHAT A FORMULA DOES &mdash; AND DOESN'T &mdash; TELL YOU</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A chemical formula answers two questions and deliberately leaves a third for later. It tells you <strong>which elements are present</strong> and <strong>in what ratio</strong> their atoms combine &mdash; the <em>composition</em> of the substance. What a formula does <em>not</em> tell you is <em>why</em> those particular atoms join, what force holds them together, or what three-dimensional shape they take. Those questions &mdash; chemical bonding, molecular geometry, and polarity &mdash; are the whole subject of <strong>Module 3</strong>. For now your job is to read composition fluently; the &ldquo;why&rdquo; comes next, and it will build directly on the valence electrons you're about to study in the coming lessons.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PARENTHESES, MULTIPLIERS, AND COUNTING CAREFULLY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two more rules let you read <em>any</em> formula. First, <strong>parentheses</strong> group a set of atoms, and a subscript outside the parentheses multiplies <em>everything</em> inside. Calcium nitrate is Ca(NO<sub>3</sub>)<sub>2</sub>. The (NO<sub>3</sub>) is a group of one nitrogen and three oxygen atoms, and the <em>2</em> outside means there are two of those whole groups &mdash; so 1 calcium, 2 nitrogen, and 6 oxygen, for nine atoms in all. Second, a large number written <em>in front</em> of a formula &mdash; a <strong>coefficient</strong> &mdash; multiplies the entire formula. &ldquo;3 H<sub>2</sub>O&rdquo; means three whole water molecules: 6 hydrogen and 3 oxygen atoms.</p>
+
+        <!-- counting recipe visual -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:12px; text-align:center;">HOW TO COUNT ATOMS IN Ca(NO<sub>3</sub>)<sub>2</sub></div>
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px;">
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Ca = 1</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">N inside = 1, &times; 2 outside = 2</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">O inside = 3, &times; 2 outside = 6</span>
+                <span style="color:#C7922C; font-size:20px;">&#10142;</span>
+                <span style="background:#2A9D5C; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Total = 9 atoms</span>
+            </div>
+            <div style="text-align:center; font-size:13px; color:#6b7a99; margin-top:12px; font-style:italic;">A subscript outside parentheses multiplies <em>everything</em> inside the parentheses.</div>
+        </div>
+
+        <!-- custom count-the-atoms widget -->
+        <div class="optima-widget" id="ac-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COUNT THE ATOMS</div>
+          <div class="widget-question">Read the formula below, then type how many atoms of each element it contains. Press <em>Check</em> for instant feedback.</div>
+          <div class="ac-formula">Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub></div>
+          <div class="ac-grid">
+            <div class="ac-cell"><label>Aluminum (Al)</label><input type="number" id="ac-al" min="0" /></div>
+            <div class="ac-cell"><label>Sulfur (S)</label><input type="number" id="ac-s" min="0" /></div>
+            <div class="ac-cell"><label>Oxygen (O)</label><input type="number" id="ac-o" min="0" /></div>
+          </div>
+          <button class="ac-check" id="ac-check">Check</button>
+          <button class="widget-reset" id="ac-reset">Reset</button>
+          <div class="widget-feedback" id="ac-fb"></div>
+        </div>
+
+        <!-- common mistake -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A subscript outside parentheses multiplies <em>only</em> the atoms inside those parentheses &mdash; not the atoms written elsewhere in the formula. In Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub>, the &ldquo;3&rdquo; multiplies the S and the O inside, giving 3 sulfur and 12 oxygen &mdash; but it does <em>not</em> touch the aluminum, which stays at 2. Slow down and circle each group before you multiply.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THREE KINDS OF FORMULA &mdash; AND IONIC FORMULA UNITS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A molecular formula tells you <em>how many</em> of each atom, but chemists actually use three different kinds of formula, each answering a different question.</p>
+
+        <!-- three formulas visual -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Molecular formula</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">The <em>actual</em> count of each atom in one molecule. Glucose is C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>; hydrogen peroxide is H<sub>2</sub>O<sub>2</sub>.</div>
+            </div>
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Structural formula</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Shows <em>which atom is bonded to which</em> &mdash; the connectivity. For water, H&ndash;O&ndash;H shows both hydrogens attached to the central oxygen.</div>
+            </div>
+            <div style="flex: 1; min-width: 220px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Empirical formula</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">The <em>simplest whole-number ratio</em> of the atoms. Glucose's empirical formula is CH<sub>2</sub>O; hydrogen peroxide's is HO.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">To find an <strong>empirical formula</strong> from a molecular one, divide every subscript by the largest number that goes evenly into all of them. Glucose, C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>, has subscripts 6, 12, and 6; the largest number dividing all three is 6, giving C<sub>1</sub>H<sub>2</sub>O<sub>1</sub> &mdash; written CH<sub>2</sub>O. Hydrogen peroxide, H<sub>2</sub>O<sub>2</sub>, divides by 2 to give HO. When the subscripts already share no common factor &mdash; as in water, H<sub>2</sub>O &mdash; the molecular and empirical formulas are the <em>same</em>.</p>
+
+        <!-- think first, then check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>What is the empirical formula of butane, C<sub>4</sub>H<sub>10</sub>?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The subscripts are 4 and 10; the largest number that divides both evenly is 2. So 4&divide;2 = 2 and 10&divide;2 = 5, giving the empirical formula <strong>C<sub>2</sub>H<sub>5</sub></strong>. Notice the empirical formula does not correspond to any real, separate molecule &mdash; it is just the simplest ratio. The molecule itself is still C<sub>4</sub>H<sub>10</sub>.</div>
+        </details>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">One last case matters. <strong>Ionic compounds</strong> &mdash; like table salt, NaCl &mdash; are not made of separate molecules at all. They are vast, repeating three-dimensional lattices of alternating charged particles (ions). There is no single &ldquo;NaCl molecule&rdquo; floating around; instead, the whole crystal is built from a 1-to-1 ratio of sodium to chlorine. So the formula NaCl is a <strong>formula unit</strong>: it states the simplest whole-number ratio of ions, not a count of atoms in a discrete molecule. Ionic formulas are therefore always written as empirical formulas.</p>
+
+        <!-- flip cards: three formula types -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to check the term:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Molecular</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The actual number of each kind of atom in one molecule &mdash; e.g., C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>. Answers &ldquo;how many?&rdquo;</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Structural</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Shows which atoms are bonded to which &mdash; e.g., H&ndash;O&ndash;H. Answers &ldquo;what's connected to what?&rdquo;</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Empirical</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The simplest whole-number ratio of atoms &mdash; e.g., CH<sub>2</sub>O. Answers &ldquo;what's the ratio?&rdquo;</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- single-select: classify the formula type -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH FORMULA IS THIS?</div>
+          <div class="widget-question">Decide what each formula or description represents. You get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; CH&#8322;O is the simplest whole-number ratio (it's glucose's empirical formula), not an actual molecule count." data-hint="Could you divide these subscripts down any further? If they're already simplest, that's a clue.">
+            <div class="widget-row-prompt">1. CH<sub>2</sub>O (the simplest ratio for several different sugars)</div>
+            <div class="widget-options">
+              <button data-choice="0">Molecular formula</button>
+              <button data-choice="1">Empirical formula</button>
+              <button data-choice="2">Structural formula</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; showing H&ndash;O&ndash;H tells you the connectivity (both H atoms bond to the O), which is a structural formula." data-hint="Does it show what is bonded to what? That's connectivity.">
+            <div class="widget-row-prompt">2. H&ndash;O&ndash;H, drawn to show the bonds in water</div>
+            <div class="widget-options">
+              <button data-choice="0">Molecular formula</button>
+              <button data-choice="1">Empirical formula</button>
+              <button data-choice="2">Structural formula</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; C&#8326;H&#8321;&#8322;O&#8326; states the exact atom count in one glucose molecule, so it's the molecular formula." data-hint="Does it give the actual number of each atom in a real molecule?">
+            <div class="widget-row-prompt">3. C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>, one molecule of glucose</div>
+            <div class="widget-options">
+              <button data-choice="0">Molecular formula</button>
+              <button data-choice="1">Empirical formula</button>
+              <button data-choice="2">Structural formula</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Macro → particle → formula → atom-count translation table (M2-10) -->
+        <div style="background:#FFFFFF; border-top:3px solid #0E1C42; border:1px solid #D0D9E8; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#0E1C42; margin-bottom:6px; letter-spacing:0.4px;">&#128260; TRANSLATE ACROSS THE THREE DOMAINS</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">Back in Lesson 1.01 you met chemistry's three views of matter &mdash; the <em>macroscopic</em> (what you see), the <em>microscopic</em> (the particles), and the <em>symbolic</em> (the written formula). A formula is the bridge between them. Read each row left to right to translate the same substance across all three, then count its atoms.</div>
+            <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px; color:#1a2340; min-width:560px;">
+                <thead>
+                    <tr style="background:#EEF1F8;">
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">Macroscopic (what you'd see / name)</th>
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">Microscopic (one particle / unit)</th>
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">Symbolic (formula)</th>
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">Atoms per unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Water &mdash; a clear liquid</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">one molecule: 2 hydrogen bonded to 1 oxygen</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">H<sub>2</sub>O</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>3</strong> (2 H + 1 O)</td>
+                    </tr>
+                    <tr style="background:#FAFBFD;">
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Carbon dioxide &mdash; the gas you exhale</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">one molecule: 1 carbon, 2 oxygen</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">CO<sub>2</sub></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>3</strong> (1 C + 2 O)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Glucose &mdash; a sugar (white solid)</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">one molecule: 6 carbon, 12 hydrogen, 6 oxygen</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>24</strong> (6 + 12 + 6)</td>
+                    </tr>
+                    <tr style="background:#FAFBFD;">
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Table salt &mdash; a white crystal</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">no molecule &mdash; a lattice in a 1-to-1 ratio of Na<sup>+</sup> and Cl<sup>&minus;</sup> ions</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">NaCl <span style="color:#666;">(formula unit)</span></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>2 ions</strong> per formula unit (1 Na + 1 Cl)</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div style="font-size:13px; color:#6b7a99; line-height:1.5; margin-top:10px;">Notice the last row is different: salt has no single &ldquo;molecule,&rdquo; so its formula unit gives a <em>ratio of ions</em>, not an atom count in a discrete particle. That distinction &mdash; molecule vs. formula unit &mdash; returns in Lesson 2.11.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you continue your <strong>Atomic Model Evolution Gallery</strong> in OptimaXR &mdash; adding the Bohr-model exhibit (Build 2 of 4) and building one full atom of a chosen element. Reading formulas fluently is part of the same skill you'll show off there: translating between symbols and the real particles they stand for. Keep that translation muscle warm.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on reading formulas and counting atoms. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Electromagnetic energy &mdash; how the light an atom gives off carries its fingerprint.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A chemical formula is a compact, exact statement of what a substance is made of. Subscripts count atoms; parentheses group them; coefficients multiply whole formulas. A molecular formula gives the real count, a structural formula gives the connections, and an empirical formula gives the simplest ratio &mdash; the same form ionic compounds always take. With this language, you can now write down anything matter is made of.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.04 &middot; Chemical Formulas</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      w.querySelectorAll('input[type=number]').forEach(function (i) { i.value = ''; });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // Count-the-atoms custom widget: Al2(SO4)3 -> Al 2, S 3, O 12
+  var acCheck = document.getElementById('ac-check');
+  if (acCheck) {
+    acCheck.addEventListener('click', function () {
+      var al = parseInt(document.getElementById('ac-al').value, 10);
+      var s = parseInt(document.getElementById('ac-s').value, 10);
+      var o = parseInt(document.getElementById('ac-o').value, 10);
+      var fb = document.getElementById('ac-fb');
+      var ok = (al === 2) && (s === 3) && (o === 12);
+      if (ok) {
+        fb.style.borderLeftColor = '#2A9D5C';
+        fb.innerHTML = 'Correct! Al = 2 (untouched by the outside 3), S = 1 &times; 3 = 3, O = 4 &times; 3 = 12 — 17 atoms in all.';
+      } else {
+        fb.style.borderLeftColor = '#C0392B';
+        fb.innerHTML = 'Not yet. The 3 outside the parentheses multiplies only the S and O inside: S = 1 &times; 3 = <strong>3</strong>, O = 4 &times; 3 = <strong>12</strong>. The Al stays <strong>2</strong>. Adjust and check again.';
+      }
+      fb.classList.add('show');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Classifying Chemical Reactions</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Classifying Chemical Reactions</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">There are millions of known reactions. Could most of them really sort into just a few recognizable families?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A naturalist who can tell a mammal from a bird from a fish understands animals more deeply than someone who only memorizes individual creatures. Chemists do the same with reactions. Behind the endless variety, a small number of <em>patterns</em> repeat &mdash; a solid suddenly dropping out of solution, an acid neutralizing a base, electrons jumping from one atom to another. Once you can name the family, you can often <strong>predict the products</strong> before the reaction even runs. This lesson hands you those categories: the three great classes, the simple structural types, and the idea of electron transfer that underlies a remarkable amount of chemistry &mdash; including the very reaction you're building in VR.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> recognize the three major reaction classes &mdash; precipitation, acid-base, and oxidation-reduction (redox) &mdash; from an equation.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a reaction by its structural type: combination, decomposition, single replacement, double replacement, or combustion.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> define oxidation and reduction as loss and gain of electrons, and assign oxidation numbers using the basic rules.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table &mdash; you'll classify a few reactions and assign some oxidation numbers.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE THREE GREAT CLASSES</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You pour one clear, colorless solution into another clear, colorless solution &mdash; and a cloudy white solid instantly appears and sinks. What do you suppose just happened at the level of the ions? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson rewards. Two of the dissolved ions found each other and formed a compound that simply won't stay dissolved &mdash; so it drops out as a solid. That solid is called a precipitate, and the reaction is a precipitation reaction. You predicted the mechanism, not just the result.">&#129532; Two ions paired into something that won't dissolve</button>
+            <button data-response="A reasonable guess &mdash; color changes do signal many reactions. But here both solutions were colorless and the dramatic event was a SOLID appearing, not a color. The key idea is that two dissolved ions combined into an insoluble compound. Watch how we name that.">&#127912; The colors mixed to make a new color</button>
+            <button data-response="Tempting &mdash; it does look like something appeared from nowhere. But no atoms were created. Ions that were already floating in the two solutions simply combined into a compound that can't stay dissolved, so it became visible as a solid. Let's see why.">&#10024; New matter was created out of the liquid</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Most reactions that happen in water solution fall into three great classes. Learn to spot them and a huge fraction of chemistry becomes readable.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 8px 0;"><strong>1. Precipitation.</strong> Two soluble (dissolved) ionic compounds are mixed, their ions swap partners, and one of the new pairings is <em>insoluble</em> &mdash; so it drops out of solution as a solid called a <strong>precipitate</strong>. The classic example:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:8px 0; font-size:19px; color:#0e1c42; text-align:center;">
+            AgNO<sub>3</sub>(aq) &nbsp;+&nbsp; NaCl(aq) &nbsp;&rarr;&nbsp; <strong>AgCl(s)</strong> &nbsp;+&nbsp; NaNO<sub>3</sub>(aq)
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 10px 0;">The silver and chloride ions form silver chloride, which is insoluble &mdash; the (s) tag and the white cloud you'd actually see. How do you know <em>which</em> product is the solid? A short set of <strong>solubility rules</strong> helps: most nitrates (NO<sub>3</sub><sup>&minus;</sup>) and most group-1 (Na<sup>+</sup>, K<sup>+</sup>) salts are soluble, and most chlorides are soluble <em>except</em> those of silver (Ag<sup>+</sup>) and lead (Pb<sup>2+</sup>). Silver chloride is one of the exceptions &mdash; so it precipitates. (You'll use just this light version of the rules.) <strong>At the particle level:</strong> the Ag<sup>+</sup> and Cl<sup>&minus;</sup> ions attract each other so strongly that they lock into a solid lattice water can't pull apart &mdash; that's <em>why</em> the solid forms rather than staying dissolved. <strong>In the real world:</strong> water-treatment plants use precipitation on purpose, adding ions that make dissolved lead, phosphate, or hardness minerals drop out as solids that can be filtered away.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 8px 0;"><strong>2. Acid-base (neutralization).</strong> An acid reacts with a base, and the hydrogen ion from the acid combines with the hydroxide ion from the base to make <strong>water</strong>, leaving a dissolved salt behind:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:8px 0; font-size:19px; color:#0e1c42; text-align:center;">
+            HCl(aq) &nbsp;+&nbsp; NaOH(aq) &nbsp;&rarr;&nbsp; NaCl(aq) &nbsp;+&nbsp; H<sub>2</sub>O(l)
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 10px 0;">The tell-tale sign of a neutralization is an acid plus a base producing water and a salt. (You'll study acids and bases in depth later in the course; for now, recognizing the pattern is enough.) <strong>At the particle level:</strong> a hydrogen ion (H<sup>+</sup>) from the acid and a hydroxide ion (OH<sup>&minus;</sup>) from the base join into a neutral water molecule &mdash; that pairing is the reaction. <strong>In the real world:</strong> an antacid tablet is a base you swallow to neutralize excess stomach acid, and farmers spread lime (a base) to neutralize soil that has turned too acidic for crops.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 8px 0;"><strong>3. Oxidation-reduction (redox).</strong> Here electrons are actually <em>transferred</em> from one substance to another. When sodium metal meets chlorine gas, each sodium atom hands an electron to a chlorine atom &mdash; the same electron transfer you met back in ionic bonding:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:8px 0; font-size:19px; color:#0e1c42; text-align:center;">
+            2&nbsp;Na(s) &nbsp;+&nbsp; Cl<sub>2</sub>(g) &nbsp;&rarr;&nbsp; 2&nbsp;NaCl(s) &nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size:15px;color:#666;">and</span> &nbsp;&nbsp;&nbsp;&nbsp; Zn(s) &nbsp;+&nbsp; CuSO<sub>4</sub>(aq) &nbsp;&rarr;&nbsp; ZnSO<sub>4</sub>(aq) &nbsp;+&nbsp; Cu(s)
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;">In the second example, zinc metal gives up electrons to copper ions in solution; the copper plates out as a reddish solid while the zinc dissolves. <strong>At the particle level:</strong> what defines redox is that electrons physically <em>move</em> from one atom to another &mdash; not just a swap of partners, but a transfer of charge. Combustion (burning) and the synthesis of water, 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, are also redox reactions &mdash; which is why your VR reaction this module is, underneath, an electron-transfer story. <strong>In the real world:</strong> every battery you own runs on redox (electrons pushed through a circuit), the rusting of iron is redox, and so is the cellular respiration that powers your own body.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE SIMPLE STRUCTURAL TYPES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There is a second, simpler way to sort reactions: by the <em>shape</em> of the rearrangement &mdash; what combines with what. These five types describe the structure of the equation itself, and a single reaction can belong to a structural type <em>and</em> one of the three great classes at once. Tap each card to see the pattern and an example.</p>
+
+        <!-- History-of-science vignette (THEN, broad strokes) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; BRINGING ORDER TO A FLOOD OF REACTIONS</div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.6;">For as long as people have mixed substances and watched them change, the sheer <em>variety</em> was overwhelming &mdash; thousands upon thousands of reactions, each seemingly its own event. As chemistry matured, one of its quiet triumphs was the discovery that this variety hides a small number of repeating patterns. Just as naturalists learned to see the animal kingdom not as endless individual creatures but as a few great groups, chemists learned to sort reactions into families that behave alike. That act of classification was itself a scientific advance: naming the pattern let chemists <em>predict</em> what an unfamiliar reaction would do. The categories in this lesson are the distilled result of that long effort to find order beneath the flood.</div>
+        </div>
+
+        <!-- Flip cards: structural types -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to reveal the pattern and an example:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Combination (synthesis)</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Two or more substances join into one: <strong>A + B &rarr; AB</strong>. Example: 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, or 2&nbsp;Na + Cl<sub>2</sub> &rarr; 2&nbsp;NaCl. (Your VR reaction is a combination.) <em>Real world:</em> industry combines N<sub>2</sub> + H<sub>2</sub> into ammonia (NH<sub>3</sub>) to make the fertilizer that feeds much of the world.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Decomposition</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">One substance breaks into two or more: <strong>AB &rarr; A + B</strong>. Example: 2&nbsp;H<sub>2</sub>O &rarr; 2&nbsp;H<sub>2</sub> + O<sub>2</sub> (electrolysis of water) &mdash; the reverse of combination. <em>Real world:</em> a car airbag inflates in milliseconds when sodium azide decomposes into a burst of nitrogen gas (2&nbsp;NaN<sub>3</sub> &rarr; 2&nbsp;Na + 3&nbsp;N<sub>2</sub>).</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Single replacement</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">One element takes another's place: <strong>A + BC &rarr; AC + B</strong>. Example: Zn + CuSO<sub>4</sub> &rarr; ZnSO<sub>4</sub> + Cu (zinc replaces copper). Single replacements are always redox. <em>Real world:</em> mines recover copper metal from solution by adding a cheaper, more reactive metal like iron, which pushes the copper out.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Double replacement</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Two compounds swap partners: <strong>AB + CD &rarr; AD + CB</strong>. Example: AgNO<sub>3</sub> + NaCl &rarr; AgCl + NaNO<sub>3</sub>. Precipitation and neutralization are double replacements. <em>Real world:</em> water softeners swap the &ldquo;hard&rdquo; calcium and magnesium ions out of tap water so soap lathers and pipes don't scale up.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Combustion</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">A fuel reacts rapidly with oxygen, releasing energy: a hydrocarbon burns to CO<sub>2</sub> + H<sub>2</sub>O. Example: CH<sub>4</sub> + 2&nbsp;O<sub>2</sub> &rarr; CO<sub>2</sub> + 2&nbsp;H<sub>2</sub>O. Combustion is a redox reaction. <em>Real world:</em> burning fuels this way powers car engines, heats homes, and generates most of the world's electricity.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Current-research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128300; NOW &middot; WHERE THIS IS HEADING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Classifying reactions isn't a museum exercise &mdash; it's how industry decides which reaction to run. The field of <strong>green chemistry</strong> asks scientists to choose reactions that make the most product with the least waste, and combination reactions are prized because, in principle, every atom of the reactants ends up in the single product &mdash; nothing thrown away. Researchers today design new catalysts and pathways to turn wasteful multi-step processes into cleaner combinations, and to power redox reactions (the heart of batteries and fuel cells) more efficiently. The reaction families you're learning to name are the same families a chemist weighs when scaling a process from a flask to a factory.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; REDOX BASICS &mdash; FOLLOWING THE ELECTRONS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Redox deserves a closer look, because it underlies batteries, corrosion, combustion, metabolism, and your VR reaction. The whole idea rests on two paired events that always happen together: one substance <em>loses</em> electrons and another <em>gains</em> them.</p>
+
+        <!-- OIL RIG / LEO GER visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #C0392B; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:4px;"><strong>Oxidation = LOSS of electrons</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">An atom that loses electrons is <em>oxidized</em>. Its oxidation number goes <em>up</em>.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #2A9D5C; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:4px;"><strong>Reduction = GAIN of electrons</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">An atom that gains electrons is <em>reduced</em>. Its oxidation number goes <em>down</em>.</div>
+            </div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 4px 0 10px 0;">Two mnemonics keep the direction straight: <strong>OIL RIG</strong> &mdash; <em>O</em>xidation <em>I</em>s <em>L</em>oss, <em>R</em>eduction <em>I</em>s <em>G</em>ain &mdash; and <strong>LEO the lion says GER</strong> &mdash; <em>L</em>oss of <em>E</em>lectrons is <em>O</em>xidation, <em>G</em>ain of <em>E</em>lectrons is <em>R</em>eduction. In Zn + CuSO<sub>4</sub> &rarr; ZnSO<sub>4</sub> + Cu, zinc loses electrons (oxidized) and the copper ion gains them (reduced).</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 8px 0;">To track who lost and who gained, chemists assign each atom an <strong>oxidation number</strong> &mdash; a bookkeeping charge &mdash; using a few rules:</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin:8px 0; min-width:380px;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Rule</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Example</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">A pure element is <strong>0</strong></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Na, O<sub>2</sub>, Cl<sub>2</sub>, Zn &rarr; each atom is 0</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">A monatomic ion equals its <strong>charge</strong></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Na<sup>+</sup> = +1, &nbsp;Cl<sup>&minus;</sup> = &minus;1, &nbsp;Cu<sup>2+</sup> = +2</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Oxygen is usually <strong>&minus;2</strong></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">in H<sub>2</sub>O and CO<sub>2</sub>, each O is &minus;2</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Hydrogen is usually <strong>+1</strong></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">in H<sub>2</sub>O and HCl, each H is +1</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Oxidation numbers <strong>sum to the overall charge</strong></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">H<sub>2</sub>O: 2(+1) + (&minus;2) = 0 &#10003;</td></tr>
+        </table>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 6px 0 10px 0;">Watch the electron transfer in numbers: in 2&nbsp;Na + Cl<sub>2</sub> &rarr; 2&nbsp;NaCl, sodium goes from 0 to +1 (lost an electron &mdash; oxidized) and chlorine goes from 0 to &minus;1 (gained one &mdash; reduced). A change in oxidation number is the fingerprint of a redox reaction.</p>
+
+        <!-- Matching-style classifier: classify each reaction -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; NAME THE REACTION CLASS</div>
+          <div class="widget-question">For each equation, pick the family it belongs to. Match the pattern, not the memory. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; two soluble compounds swap partners and an insoluble solid (BaSO&#8324;) drops out. The (s) is the giveaway: this is a precipitation reaction (also a double replacement)." data-hint="One product carries the (s) tag — a solid forming from two solutions.">
+            <div class="widget-row-prompt">1. &nbsp;BaCl<sub>2</sub>(aq) + Na<sub>2</sub>SO<sub>4</sub>(aq) &rarr; BaSO<sub>4</sub>(s) + 2&nbsp;NaCl(aq)</div>
+            <div class="widget-options">
+              <button data-choice="0">Acid-base (neutralization)</button>
+              <button data-choice="1">Combustion</button>
+              <button data-choice="2">Precipitation</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; an acid (HNO&#8323;) plus a base (KOH) yields water and a dissolved salt (KNO&#8323;). Acid + base &rarr; salt + water is neutralization." data-hint="Look for an acid and a base producing water plus a salt.">
+            <div class="widget-row-prompt">2. &nbsp;HNO<sub>3</sub>(aq) + KOH(aq) &rarr; KNO<sub>3</sub>(aq) + H<sub>2</sub>O(l)</div>
+            <div class="widget-options">
+              <button data-choice="0">Decomposition</button>
+              <button data-choice="1">Acid-base (neutralization)</button>
+              <button data-choice="2">Single replacement</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; one element (Fe) takes the place of another (Cu) in a compound: A + BC &rarr; AC + B. That's single replacement, and because electrons transfer it's also redox." data-hint="A lone element swaps in for another element inside a compound.">
+            <div class="widget-row-prompt">3. &nbsp;Fe(s) + CuSO<sub>4</sub>(aq) &rarr; FeSO<sub>4</sub>(aq) + Cu(s)</div>
+            <div class="widget-options">
+              <button data-choice="0">Single replacement (redox)</button>
+              <button data-choice="1">Double replacement</button>
+              <button data-choice="2">Combination</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; one compound breaks apart into two simpler substances: AB &rarr; A + B. That's decomposition." data-hint="A single reactant splits into more than one product.">
+            <div class="widget-row-prompt">4. &nbsp;2&nbsp;HgO(s) &rarr; 2&nbsp;Hg(l) + O<sub>2</sub>(g)</div>
+            <div class="widget-options">
+              <button data-choice="0">Combustion</button>
+              <button data-choice="1">Combination</button>
+              <button data-choice="2">Decomposition</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a fuel (propane) reacts with O&#8322; to give CO&#8322; and H&#8322;O, releasing energy. That's combustion (a redox reaction)." data-hint="A hydrocarbon plus oxygen yielding carbon dioxide and water.">
+            <div class="widget-row-prompt">5. &nbsp;C<sub>3</sub>H<sub>8</sub>(g) + 5&nbsp;O<sub>2</sub>(g) &rarr; 3&nbsp;CO<sub>2</sub>(g) + 4&nbsp;H<sub>2</sub>O(g)</div>
+            <div class="widget-options">
+              <button data-choice="0">Precipitation</button>
+              <button data-choice="1">Combustion</button>
+              <button data-choice="2">Double replacement</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; CATEGORIES ARE TOOLS, NOT BOXES</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice that a single reaction can wear more than one label: 2&nbsp;Na + Cl<sub>2</sub> &rarr; 2&nbsp;NaCl is a <em>combination</em> (by structure) <em>and</em> a <em>redox</em> reaction (by electron transfer). The categories aren't rival truths competing for the one &ldquo;right&rdquo; answer &mdash; they're different lenses that each reveal something. A good scientific classification earns its place by helping you <em>predict</em>: knowing a reaction is a precipitation lets you anticipate a solid; knowing it's redox lets you follow the electrons. When you classify, ask not &ldquo;which box is correct?&rdquo; but &ldquo;which lens helps me see what happens next?&rdquo;</div>
+        </div>
+
+        <!-- Combustion: Then -> Now -> Future (highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 10px;">&#128293; COMBUSTION, THROUGH TIME &middot; THEN &rarr; NOW &rarr; FUTURE</div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px;">
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border:1px solid #E4D3AE; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:13px; color:#8a6d1d; margin-bottom:4px;"><strong>THEN</strong></div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Lavoisier showed that burning is not the release of a fire-substance but a <em>combination with oxygen</em> from the air. That reframed combustion as a redox reaction and made its products &mdash; CO<sub>2</sub> and water &mdash; predictable.</div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border:1px solid #E4D3AE; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:13px; color:#8a6d1d; margin-bottom:4px;"><strong>NOW</strong></div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">That same CO<sub>2</sub> is now a problem to manage. Engineers are developing <strong>carbon-capture</strong> systems that trap CO<sub>2</sub> from smokestacks and the air before it accumulates in the atmosphere.</div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#FFFFFF; border:1px solid #E4D3AE; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:13px; color:#8a6d1d; margin-bottom:4px;"><strong>FUTURE</strong></div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.55;">Researchers are exploring <strong>sustainable fuels</strong> &mdash; hydrogen, biofuels, and synthetic fuels made from captured CO<sub>2</sub> &mdash; that could release energy through combustion while adding little or no <em>new</em> carbon to the air.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR build &mdash; <strong>Build 3 of 4</strong> of your <strong>Reaction Stoichiometry Walkthrough</strong> &mdash; is where this lesson pays off. After you arrange 2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O to scale and verify the atoms, you'll add a <strong>sticky note classifying the reaction</strong>. Use today's two lenses: it's a <em>combination</em> (synthesis) by structure &mdash; two substances joining into one &mdash; and a <em>redox</em> reaction by electron transfer (hydrogen and oxygen change oxidation numbers as they bond). Naming the family on camera is part of what your final walkthrough is graded on.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the three classes, the structural types, and redox basics. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Week 3 Hands-On &mdash; Balance &amp; Classify</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Balance a set of equations and sort a set of reactions into their families, then check your own work.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Balance the Reaction (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Then continue to Lesson 4.07, where balanced equations become a tool for <em>measuring</em> reactions: stoichiometry.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Behind the variety of reactions are a few repeating patterns. Three great classes &mdash; precipitation (a solid forms), acid-base (water and a salt form), and redox (electrons transfer) &mdash; and five structural types &mdash; combination, decomposition, single and double replacement, and combustion &mdash; let you name almost any reaction, and a single reaction may fit more than one. Redox, the electron-transfer family, is tracked with oxidation numbers and powers an enormous amount of chemistry, your VR reaction included. Next, the balanced equation becomes a measuring tool: how <em>much</em> product does a reaction make?</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.06 &middot; Classifying Chemical Reactions</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

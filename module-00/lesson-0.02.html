@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 0.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Module 0 &middot; Getting Started</div>
+        <div style="font-size: 12px; color: #666;">Your On-Ramp to the Course</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 0.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Lab Safety &amp; the Science Notebook</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 0.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Lab Safety &amp; the Science Notebook</div>
+        <div style="font-size: 16px; color: #666;">Getting Started &middot; Orientation Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; START HERE</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Two habits separate a scientist from someone who just mixes things together: working <em>safely</em>, and recording <em>honestly</em> what actually happened.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">This course is online, but you'll still do real hands-on chemistry &mdash; sometimes in OptimaXR, and sometimes with everyday household materials in a non-VR alternate. Either way, two habits make you a scientist rather than a guesser. The first is <strong>safety</strong>: knowing the rules before you touch anything. The second is keeping a <strong>science notebook</strong> and recording in it with complete honesty &mdash; even when the result surprises you. Build both habits now and they'll serve you all year.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> follow the core lab-safety rules whenever I do hands-on work, including any at-home activity.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> keep a digital science notebook and record the date, the question, my observations, my data, and my reasoning.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why honest recording &mdash; reporting what actually happened &mdash; is the foundation of trustworthy science.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">A place to start your digital science notebook &mdash; a Word or OneNote document saved in your OneDrive (you'll set this up properly in Lesson 0.04).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 25 minutes of reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHY SAFETY MATTERS, EVEN IN AN ONLINE COURSE</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; THINK FIRST</div>
+          <div class="widget-question">You're about to do a simple at-home activity that involves vinegar and baking soda in a cup. Before you read on &mdash; which single habit would you put first to stay safe? (No wrong answer; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="A great instinct. Reading and following the directions first is the habit that prevents most mishaps &mdash; you find out what to wear, what to avoid, and what the steps actually are before anything is mixed. Safety begins before you touch a single material.">&#128214; Read and follow the directions all the way through first</button>
+            <button data-response="Smart &mdash; eye protection is a real rule, and we'll cover it. But even goggles can't protect you from a step you didn't read. The habit that comes first is reading and following the directions, so you know what you're doing before you start.">&#128083; Put on eye protection and just start</button>
+            <button data-response="Speed isn't a safety habit &mdash; rushing is how spills and mistakes happen. The first habit is to slow down, read the directions, and follow them. Careful beats fast every time in science.">&#9201;&#65039; Do it as fast as possible to get it over with</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">It's fair to wonder why an asynchronous, VR-friendly course spends time on lab safety. Here's the reason: some of your hands-on work &mdash; especially the non-VR alternates &mdash; uses real household materials, and safety habits are part of being a scientist, not just a classroom rule. A careful scientist treats every material with respect, every time, because the one time you don't is the time something goes wrong. These habits are simple, and once they're automatic, you barely think about them.</p>
+
+        <!-- Historical vignette: safety was learned the hard way -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; A LOOK BACK &middot; HOW SCIENCE LEARNED TO BE CAREFUL</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The safety rules you're about to read weren't handed down from the start &mdash; they were <em>learned</em>, often the hard way. Centuries ago, the first chemists worked with open flames, unlabeled powders, and gases nobody had names for yet. They heated mystery substances, breathed fumes we now know were poisonous, and sometimes tasted their samples to identify them &mdash; a practice that injured and even killed some of them. Out of those hard lessons grew a habit of mind that still defines good science: <strong>humility before evidence.</strong> A careful scientist admits what they don't yet know about a substance and treats every unknown with respect until the evidence says otherwise. Working safely isn't the opposite of bold inquiry &mdash; it's what makes bold inquiry <em>responsible</em>.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here are the core rules to follow whenever you do hands-on work:</p>
+
+        <!-- Safety rules grid -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#128083; Protect your eyes</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Wear goggles or safety glasses for any activity that could splash, splatter, or send anything toward your face.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#127869;&#65039; No eating or drinking</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Never eat or drink in a work space, and keep food and lab materials completely separate.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#128683; Never taste; waft to smell</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Never taste a chemical. If you must smell something, gently <em>waft</em> the odor toward your nose with your hand &mdash; never put your nose right over it and inhale.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#128094; Tie back hair &amp; loose clothing</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Tie back long hair and secure loose sleeves so nothing dangles into your materials.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#129532; Clean up &amp; report spills</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Clean up your work space when you finish, and report any spill or accident to an adult right away &mdash; never hide it.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#128680; Know your safety equipment</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Know where to find soap and water, a first-aid kit, and a way to reach an adult before you begin.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#128106; Adult supervision at home</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Have an adult present for any at-home hands-on activity, and never substitute materials the directions don't call for.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:4px;">&#9989; Follow all directions</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Read every step before you start and follow the directions exactly &mdash; don't improvise or skip ahead.</div>
+            </div>
+        </div>
+
+        <!-- classify scenario widget (ow-select) -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; SAFE OR UNSAFE?</div>
+          <div class="widget-question">Read each situation during an at-home activity and decide whether it follows the safety rules. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is unsafe. You should never taste a chemical or unknown substance, ever. Curiosity is good; tasting is dangerous." data-hint="Is tasting an unknown substance ever okay?">
+            <div class="widget-row-prompt">1. You're curious what a mixture tastes like, so you dip a finger in to try it.</div>
+            <div class="widget-options">
+              <button data-choice="0">Safe</button>
+              <button data-choice="1">Unsafe</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; this is safe and exactly right. Wafting brings a small amount of odor toward your nose without putting your face over the container." data-hint="Wafting is the recommended way to smell something &mdash; safe or not?">
+            <div class="widget-row-prompt">2. To check a smell, you gently wave your hand over the cup to waft the odor toward your nose.</div>
+            <div class="widget-options">
+              <button data-choice="0">Safe</button>
+              <button data-choice="1">Unsafe</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Unsafe &mdash; a spill should be reported and cleaned up right away, never hidden. Hiding a spill can let someone get hurt later." data-hint="What's the rule about spills and accidents?">
+            <div class="widget-row-prompt">3. You knock over some liquid, wipe a little with your sleeve, and don't mention it so you won't get in trouble.</div>
+            <div class="widget-options">
+              <button data-choice="0">Safe</button>
+              <button data-choice="1">Unsafe</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Safe &mdash; reading the full directions first, with an adult nearby, is the careful scientist's starting move." data-hint="Reading directions first with an adult present &mdash; rule-following or rule-breaking?">
+            <div class="widget-row-prompt">4. Before starting, you read all the steps, put on eye protection, and make sure an adult is in the room.</div>
+            <div class="widget-options">
+              <button data-choice="0">Safe</button>
+              <button data-choice="1">Unsafe</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE DIGITAL SCIENCE NOTEBOOK</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Every working scientist keeps a record. The notebook is where an experiment becomes evidence &mdash; without a record, an observation is just a memory, and memories fade and shift. In this course you'll keep a <strong>digital science notebook</strong>: a Word or OneNote document in your OneDrive where you log your hands-on work, your VR builds, and your thinking. It doesn't need to be fancy. It needs to be <em>complete</em> and <em>honest</em>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Whenever you investigate something, record these five things:</p>
+
+        <!-- What to record -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#128197;</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>The date</strong> &mdash; so your entries stay in order and you can track changes over time.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#10067;</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>The question</strong> &mdash; what you're trying to find out.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#128064;</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Your observations</strong> &mdash; what you actually saw, heard, smelled, and noticed.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#128202;</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Your data and measurements</strong> &mdash; numbers, amounts, times, temperatures &mdash; recorded with their units.</div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px;">
+                <div style="min-width:26px; height:26px; border-radius:50%; background:#0E1C42; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#128173;</div>
+                <div style="font-size:16px; color:#1a2340; line-height:1.55;"><strong>Your reasoning</strong> &mdash; what you think it means and why, connecting your evidence to an explanation.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice that the last item &mdash; reasoning &mdash; is the bridge from <em>what happened</em> to <em>what it means</em>. That same move is the heart of the Claim&ndash;Evidence&ndash;Reasoning writing you'll learn in the next lesson. Your notebook is where you practice it, entry by entry, all year.</p>
+
+        <!-- Notebook to CER callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 10px;">&#128279; NOTEBOOK &rarr; CER &middot; YOUR NOTES ARE ALREADY THE RAW MATERIAL</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6; margin-bottom: 12px;">A good notebook entry isn't separate from the scientific writing you'll do later &mdash; it <em>becomes</em> it. The five things you record map almost directly onto a <strong>Claim&ndash;Evidence&ndash;Reasoning</strong> response:</div>
+            <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-radius:6px; padding:12px 16px; font-size:16px; color:#1a2340; line-height:1.9;">
+                <strong>Question</strong> &rarr; the prompt your <strong style="color:#1B6A94;">Claim</strong> will answer<br>
+                <strong>Observations + Data</strong> &rarr; the <strong style="color:#1B6A94;">Evidence</strong> you cite<br>
+                <strong>Reasoning</strong> (your notebook's last field) &rarr; the <strong style="color:#1B6A94;">Reasoning</strong> in your CER &mdash; the same job, same word
+            </div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.6; margin-top: 12px;">Keep an honest, complete notebook and half of every future CER is already written. The date just keeps your entries in order &mdash; the other four fields are your argument, waiting to be shaped.</div>
+        </div>
+
+        <!-- ow-flip: observation vs interpretation -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL &middot; AN OBSERVATION OR A CONCLUSION?</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">&ldquo;The mixture bubbled and the cup felt cooler.&rdquo; &mdash; is that an observation to record, or a conclusion?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">It's an <strong>observation</strong> &mdash; exactly what belongs in the notebook. It reports what you actually sensed (bubbling, a cooler cup) without yet explaining why. Save the &ldquo;why&rdquo; for your reasoning. Good notebooks keep observations and explanations clearly separate.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; HONESTY: THE SCIENTIST'S FIRST RULE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the most important habit in this lesson, and one of the most important in the whole course: <strong>record what actually happened.</strong> Not what you expected. Not what you wish had happened. Not what would make your numbers look &ldquo;right.&rdquo; The actual result.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">It can be tempting, when an experiment doesn't match your prediction, to quietly &ldquo;fix&rdquo; a number or round it in a convenient direction. Resist that completely. A surprising result is not a mistake &mdash; it is <em>evidence</em>, and often the most valuable kind. Many of the biggest discoveries in the history of science began with a result that &ldquo;shouldn't&rdquo; have happened and a scientist honest enough to write it down anyway. When you fudge data, you don't just break a rule; you throw away the very thing science runs on &mdash; trustworthy evidence.</p>
+
+        <!-- Gold highlight: honesty thread -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#9878;&#65039; A HABIT OF MIND &middot; HONESTY OVER PREFERENCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Honesty in a notebook means letting the evidence outrank what you <em>wanted</em> to find. If your data disagrees with your hypothesis, the data wins &mdash; that's not failure, it's how science self-corrects. Record the unexpected result, write down what you think went on, and you've done exactly what a scientist does. The willingness to report what's true even when it's inconvenient is the quiet backbone of every trustworthy experiment.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>You predicted a temperature would rise, but it dropped. What should you write in your notebook &mdash; and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Write down the <strong>actual</strong> result: the temperature dropped, with the numbers you measured. Then record your reasoning &mdash; note that it surprised you and offer your best thinking about why. <em>Never</em> change the number to match your prediction. The surprising result is real evidence; it might point to something you didn't expect, and an honest record is the only kind worth keeping. Changing it would mean lying to your future self and to anyone who reads your work.</div>
+        </details>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 0.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on safety and the science notebook. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 0.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">The scientific method and how to write a Claim&ndash;Evidence&ndash;Reasoning response &mdash; the reasoning habit you just met, made into a tool you'll use all year.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Two habits make you a scientist. First, <strong>work safely</strong>: protect your eyes, never taste and only waft to smell, tie back hair, keep food away, clean up and report spills, know your safety equipment, work with an adult on any at-home activity, and follow every direction. Second, <strong>record honestly</strong> in your digital science notebook &mdash; the date, the question, your observations, your data, and your reasoning &mdash; and always write down what <em>actually</em> happened. A surprising result is evidence, not a mistake. Carry both habits into every lesson ahead.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Module 0 &middot; Getting Started &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 0.02 &middot; Lab Safety &amp; the Science Notebook &middot; Pre-Course Onboarding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

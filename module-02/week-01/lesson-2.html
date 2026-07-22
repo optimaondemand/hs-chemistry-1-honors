@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* particle / model visual */
+    .pbox { background:#0E1C42; border-radius:8px; padding:10px; position:relative; height:120px; overflow:hidden; }
+    .pdot { width:14px; height:14px; border-radius:50%; background:#55C8E8; position:absolute; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Evolution of Atomic Theory</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Evolution of Atomic Theory</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If atoms are real, what are they made of &mdash; and how did experiments crack open a particle that was supposed to be &ldquo;uncuttable&rdquo;?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Dalton handed chemistry a solid, indivisible sphere. Within a single century, that sphere was opened, weighed, and rebuilt &mdash; not by argument, but by a series of strikingly clever experiments, each one forcing the picture to change. Today you'll follow that chain of evidence: the discovery of the electron, the measurement of its charge, the astonishing scattering experiment that revealed the nucleus, and the particle that completed the picture. Watch how <strong>each model survives only until better evidence overturns it</strong>.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe the experiments of Thomson, Millikan, Rutherford, and Chadwick and what each one revealed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> trace how the model of the atom changed from solid sphere to plum pudding to nuclear atom.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how a surprising result can force scientists to revise an accepted model.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and about 35&ndash;45 minutes, including time to run the embedded simulation.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THOMSON FINDS A PIECE OF THE ATOM</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">In a moment you'll fire tiny, fast particles at an ultra-thin sheet of gold foil. If the atom were a soft, evenly-spread blob with no hard center, what would you predict happens to the particles? (No wrong answer &mdash; you'll test this in the simulation below.)</div>
+          <div class="widget-options">
+            <button data-response="A sensible prediction for a soft, uniform atom &mdash; and it's exactly what scientists expected. Hold onto it: the real result was so different that it forced the atom to be redesigned. Watch for the surprise.">&#10145;&#65039; They all pass nearly straight through</button>
+            <button data-response="An interesting guess. If the positive charge and mass were spread thinly everywhere, large bounce-backs would be very hard to explain. The fact that a few DID bounce back is the whole story of this lesson.">&#11013;&#65039; Many bounce straight back</button>
+            <button data-response="Reasonable to expect some scattering. The deep question is HOW MUCH and HOW SHARPLY &mdash; and whether anything bounces almost straight back. That single detail decided what the atom is.">&#8597;&#65039; They scatter randomly in all directions</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- MODEL LIMITATIONS · Dalton -->
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-left:5px solid #6b5b95; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#4b3f6b; margin-bottom:10px; letter-spacing:0.4px;">&#9878;&#65039; MODEL LIMITATIONS &middot; DALTON&rsquo;S SOLID SPHERE</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:190px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; WHAT IT EXPLAINS</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Matter is made of atoms; the atoms of one element are alike; they combine in fixed whole-number ratios; mass is conserved in a reaction.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDECEC; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; WHAT IT CANNOT EXPLAIN</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Electricity and charged particles; why elements differ from one another; and, above all, how a &ldquo;solid, indivisible&rdquo; atom could have anything inside it.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">&#128300; EVIDENCE THAT FORCED REVISION</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Thomson&rsquo;s cathode ray &mdash; a negative particle common to every metal and far lighter than any atom. The sphere had to be opened.</div>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The first crack in Dalton's solid sphere came in the late 1890s from <strong>J.&nbsp;J. Thomson</strong>, working with a device called a <strong>cathode-ray tube</strong> &mdash; a sealed glass tube with most of the air pumped out and a high voltage applied across two metal plates inside. A mysterious ray traveled from the negative plate (the cathode) to the positive plate. Thomson showed that this ray was bent by electric and magnetic fields, always toward the positive side, which meant the ray carried <em>negative</em> charge. By measuring exactly how much the fields bent it, he determined the ray's <strong>charge-to-mass ratio</strong> &mdash; and found that whatever these particles were, they were astonishingly light, nearly two thousand times lighter than the lightest atom.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Most importantly, the ray behaved the same way no matter which metal he used for the cathode. The conclusion was inescapable and revolutionary: he had found a particle <em>smaller than the atom itself</em>, common to all matter. We now call it the <strong>electron</strong>. The &ldquo;uncuttable&rdquo; atom had been cut. To make sense of it, Thomson proposed the <strong>plum-pudding model</strong>: a ball of positive charge with tiny negative electrons scattered through it like raisins in a pudding, so that the whole atom comes out electrically neutral.</p>
+
+        <!-- model visual: plum pudding -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; align-items:center;">
+            <div style="flex:1; min-width:200px;">
+                <div class="pbox" style="display:flex; align-items:center; justify-content:center;">
+                    <div style="width:90px; height:90px; border-radius:50%; background:rgba(85,200,232,0.25); border:2px solid #55C8E8; position:relative;">
+                        <span class="pdot" style="left:18px;top:20px;width:10px;height:10px;background:#FDF3E3;"></span>
+                        <span class="pdot" style="left:52px;top:16px;width:10px;height:10px;background:#FDF3E3;"></span>
+                        <span class="pdot" style="left:30px;top:50px;width:10px;height:10px;background:#FDF3E3;"></span>
+                        <span class="pdot" style="left:60px;top:56px;width:10px;height:10px;background:#FDF3E3;"></span>
+                        <span class="pdot" style="left:44px;top:34px;width:10px;height:10px;background:#FDF3E3;"></span>
+                    </div>
+                </div>
+                <div style="text-align:center; font-size:15px; color:#0E1C42; margin-top:6px;"><strong>Thomson&rsquo;s plum-pudding model</strong><br><span style="font-size:13px;color:#666;">electrons (light dots) embedded in a positive sphere</span></div>
+            </div>
+            <div style="flex:1; min-width:220px; font-size:16px; color:#1a2340; line-height:1.6;">The plum-pudding model was a genuine improvement: it accounted for the electron and for the atom being neutral overall. But notice what it assumes &mdash; that the positive charge and mass are spread <em>smoothly</em> throughout the whole atom. That single assumption was about to be tested, and broken.</div>
+        </div>
+
+        <!-- MODEL LIMITATIONS · Thomson -->
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-left:5px solid #6b5b95; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#4b3f6b; margin-bottom:10px; letter-spacing:0.4px;">&#9878;&#65039; MODEL LIMITATIONS &middot; THOMSON&rsquo;S PLUM PUDDING</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:190px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; WHAT IT EXPLAINS</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">The atom contains small negative electrons, and it is electrically neutral overall (electrons embedded in a matching positive charge).</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDECEC; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; WHAT IT CANNOT EXPLAIN</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">How a fast, heavy particle could ever bounce sharply backward from an atom &mdash; a smooth, thin blob of charge has nothing dense enough to turn it around.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">&#128300; EVIDENCE THAT FORCED REVISION</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Rutherford&rsquo;s gold foil (next section): a few alpha particles came almost straight back &mdash; impossible for a smooth pudding.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MILLIKAN WEIGHS THE ELECTRON</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Thomson had measured the electron's charge-to-mass <em>ratio</em>, but not the charge or the mass on its own. Around 1909, <strong>Robert Millikan</strong> closed that gap with one of the most elegant experiments in all of physics: the <strong>oil-drop experiment</strong>. He sprayed a fine mist of oil droplets between two charged plates. Some droplets picked up a few extra electrons and so carried a tiny electric charge; by adjusting the voltage, Millikan could balance a single droplet in mid-air, with the upward electric force exactly canceling gravity. From that balance he could calculate the charge on each droplet.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The result was the beautiful part. Every charge he measured turned out to be a whole-number multiple of one small basic amount &mdash; you never found half of it, or 1.7 of it, only 1&times;, 2&times;, 3&times; that fundamental unit. That smallest unit had to be the charge of a single electron. Once he had the electron's <em>charge</em>, he could combine it with Thomson's charge-to-mass <em>ratio</em> and finally pin down the electron's <strong>mass</strong> &mdash; roughly 1/1836 the mass of a hydrogen atom. (Notice the echo of Lesson 2.01: just as whole-number mass ratios revealed atoms, whole-number charges revealed that electric charge itself comes in countable pieces.)</p>
+
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Why two experiments for one particle? Because some quantities can only be reached <em>indirectly</em>, by combining separate measurements. Thomson could get the <em>ratio</em> of charge to mass; Millikan could get the <em>charge</em>. Neither alone gives the mass &mdash; but together they do. This is a common move in science: when you can't measure the thing you want directly, you measure two things you can, and let the math deliver the third.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; RUTHERFORD FINDS THE NUCLEUS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now comes the experiment you predicted about. Around 1909&ndash;1911, in <strong>Ernest Rutherford</strong>'s lab, researchers aimed a beam of <strong>alpha particles</strong> (small, fast, positively charged particles) at an extremely thin sheet of gold foil, with a detecting screen around it to record where the particles went. If Thomson's plum pudding were right &mdash; positive charge smeared thinly everywhere &mdash; the alpha particles should have sailed almost straight through, barely nudged.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Most of them did exactly that. But a tiny fraction were deflected at large angles, and a very few bounced almost <em>straight back</em>. Rutherford famously described it as nearly as incredible as firing a shell at tissue paper and having it come back at you. A thin, smooth pudding could never turn a fast particle around. The only way to explain those rare, violent bounce-backs was this: nearly all of the atom's <strong>mass</strong> and <em>all</em> of its <strong>positive charge</strong> are packed into a tiny, dense core &mdash; the <strong>nucleus</strong> &mdash; while the rest of the atom is mostly empty space, with the light electrons far outside. Most alpha particles missed the tiny nucleus entirely (empty space); the rare few that scored a near-direct hit were flung back.</p>
+
+        <!-- PhET embed: Rutherford Scattering -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Fire alpha particles at the atom &mdash; watch where they go</div>
+            <iframe src="https://phet.colorado.edu/sims/html/rutherford-scattering/latest/rutherford-scattering_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="Rutherford Scattering simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/rutherford-scattering/latest/rutherford-scattering_en.html">Rutherford Scattering</a>.</div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;"><strong>In your notebook, observe:</strong> Start with the &ldquo;Rutherford Atom&rdquo; view and watch a few alpha particles cross the screen. Do most go straight through, or bounce? Now find the few that come close to the center &mdash; what happens to <em>them</em>? Switch to the &ldquo;Plum Pudding&rdquo; view and compare: which model produces the sharp, large-angle bounce-backs Rutherford actually saw? Write down what you observe, and which model the evidence supports &mdash; not what you expected going in.</p>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; ONE SURPRISE CAN TOPPLE A MODEL</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the same habit of mind you met in Lesson 2.01, now in fast motion. A respected model &mdash; Thomson's plum pudding, proposed by a Nobel laureate &mdash; was overturned by a handful of particles that did the &ldquo;impossible.&rdquo; Rutherford did not ignore the strange result or explain it away; he trusted the evidence and let it rebuild the model. <strong>Models evolve as evidence improves</strong> &mdash; and sometimes a single unexpected observation, taken seriously, is enough to demand a brand-new picture of reality.</div>
+        </div>
+
+        <!-- OBSERVATION → INFERENCE anchor table (M2-06) -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128300; FROM OBSERVATION TO INFERENCE &middot; THREE EXPERIMENTS THAT REBUILT THE ATOM</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">No one ever <em>saw</em> an electron or a nucleus. Each part of the atom was <strong>inferred</strong> &mdash; reasoned out from something an instrument could actually record. Read across each row: the experiment, the raw <em>observation</em>, and the <em>inference</em> it forced.</div>
+            <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px; color:#1a2340; min-width:520px;">
+                <thead>
+                    <tr style="background:#EEF1F8;">
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42; width:26%;">Experiment</th>
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">What was <em>observed</em> (recorded by the instrument)</th>
+                        <th style="text-align:left; padding:9px 12px; border:1px solid #D0D9E8; color:#0E1C42;">What it let scientists <em>infer</em></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>Thomson's cathode-ray tube</strong><br><span style="color:#666;">(1890s)</span></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">The ray always bends toward the positive plate, and behaves identically no matter which metal is used.</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Atoms contain a <strong>negatively charged particle</strong> &mdash; far lighter than any atom and common to all matter (the electron). The &ldquo;indivisible&rdquo; atom has parts.</td>
+                    </tr>
+                    <tr style="background:#FAFBFD;">
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>Millikan's oil-drop</strong><br><span style="color:#666;">(&asymp;1909)</span></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Every droplet's charge is a whole-number multiple of one tiny amount &mdash; never a fraction of it.</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Charge comes in <strong>discrete units</strong>; the smallest is the charge of one electron. Combined with Thomson's ratio, this gives the electron's mass.</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;"><strong>Rutherford's gold foil</strong><br><span style="color:#666;">(1909&ndash;1911)</span></td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">Most alpha particles pass straight through, but a rare few bounce almost straight back.</td>
+                        <td style="padding:9px 12px; border:1px solid #D0D9E8; vertical-align:top;">The atom is <strong>mostly empty space</strong>, with nearly all its mass and all its positive charge in a tiny, dense <strong>nucleus</strong>.</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div style="font-size:13px; color:#6b7a99; line-height:1.5; margin-top:10px;">Notice the two-step logic in every row: the <em>observation</em> is what the instrument recorded; the <em>inference</em> is the reasoning step the scientist added. Learning to keep those two apart &mdash; and to ask whether an inference is really forced by the observation &mdash; is one of the most important habits in science.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 4 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 4 &middot; CHADWICK COMPLETES THE NUCLEUS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Rutherford's nuclear atom had one loose end. The positive particles in the nucleus &mdash; the <strong>protons</strong> &mdash; could not account for the whole mass of most atoms; the nucleus seemed heavier than its protons alone should make it. Rutherford suspected a second, electrically neutral particle was hiding there, but a neutral particle is hard to detect precisely because it carries no charge to push on. In <strong>1932</strong>, <strong>James Chadwick</strong> finally identified it through careful experiments: the <strong>neutron</strong>, with nearly the same mass as a proton but no charge. With the neutron in hand, the modern picture of the atom was essentially complete: a tiny nucleus of protons and neutrons, surrounded by a cloud of electrons in mostly empty space.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Rutherford&rsquo;s model deliberately left one question open: <em>exactly how are those electrons arranged?</em> It is tempting to picture them circling the nucleus like planets around the sun, each on a fixed track &mdash; but hold that image loosely, because it turns out to be wrong. The nuclear atom could not say why electrons don&rsquo;t simply spiral into the nucleus, nor why each element glows in only a few exact colors. Those puzzles drove the next two lessons: Bohr&rsquo;s <em>energy levels</em> (a first, historically important attempt at &ldquo;orbits&rdquo;), and finally the modern quantum model, in which the electron has <strong>no fixed path at all</strong> &mdash; only a cloud of probability.</p>
+
+        <!-- flip timeline cards -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to see how the model changed &mdash; and what evidence forced the change:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Dalton<br><span style="font-size:13px;color:#666;">solid sphere</span></div>
+                <div class="ow-flip-back" style="font-size:14px;line-height:1.5;">A tiny, indivisible solid ball. <em>Held until:</em> Thomson found a charged particle smaller than the atom &mdash; the electron.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Thomson<br><span style="font-size:13px;color:#666;">plum pudding</span></div>
+                <div class="ow-flip-back" style="font-size:14px;line-height:1.5;">Electrons embedded in a smooth positive sphere. <em>Held until:</em> Rutherford's alpha particles bounced back, impossible for a smooth blob.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:220px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Rutherford<br><span style="font-size:13px;color:#666;">nuclear atom</span></div>
+                <div class="ow-flip-back" style="font-size:14px;line-height:1.5;">A tiny dense positive nucleus in mostly empty space, with electrons outside. <em>Refined by:</em> Chadwick's neutron (1932) completing the nucleus.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Single-select widget: what did this experiment show? -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHAT DID THIS EXPERIMENT SHOW?</div>
+          <div class="widget-question">Match each experiment to its main conclusion. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; the cathode-ray tube revealed the electron: a negatively charged particle smaller than any atom." data-hint="This experiment used a glass tube and a deflected ray.">
+            <div class="widget-row-prompt">1. Thomson's cathode-ray tube</div>
+            <div class="widget-options">
+              <button data-choice="0">The atom has a dense nucleus</button>
+              <button data-choice="1">Atoms contain small negative electrons</button>
+              <button data-choice="2">The charge of one electron</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; balancing charged oil drops gave the charge of a single electron (and, with Thomson's ratio, its mass)." data-hint="This one balanced tiny droplets between charged plates.">
+            <div class="widget-row-prompt">2. Millikan's oil-drop experiment</div>
+            <div class="widget-options">
+              <button data-choice="0">The atom has a dense nucleus</button>
+              <button data-choice="1">Atoms contain small negative electrons</button>
+              <button data-choice="2">The charge of one electron</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; the rare large-angle bounce-backs revealed a tiny, dense, positive nucleus in a mostly empty atom." data-hint="This is the gold-foil experiment with the surprising bounce-backs.">
+            <div class="widget-row-prompt">3. Rutherford's gold-foil experiment</div>
+            <div class="widget-options">
+              <button data-choice="0">The atom has a dense nucleus</button>
+              <button data-choice="1">Atoms contain small negative electrons</button>
+              <button data-choice="2">The charge of one electron</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>If most alpha particles passed straight through the gold foil, what does that tell you about how much of an atom is empty space?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">It tells you the atom is <strong>mostly empty space</strong>. If the atom were solidly packed with matter everywhere, the alpha particles would have been stopped or strongly deflected over and over. Instead, the vast majority sailed straight through, meeting nothing &mdash; which means the mass and positive charge must be concentrated in a very small region (the nucleus), with enormous empty space around it.</div>
+        </details>
+
+        <!-- ===== THE EVIDENCE CHAIN (M2-03) ===== -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128279; THE EVIDENCE CHAIN &middot; WHY THE MODEL HAD TO CHANGE</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">Same three-step shape as always: an <strong>old explanation</strong>, the <strong>troubling evidence</strong> it could not survive, and the <strong>revised model</strong>. Trace it &mdash; then name the evidence yourself.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:stretch;">
+                <div style="flex:1; min-width:180px; background:#EEF1F8; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#6b7a99; margin-bottom:4px;">1 &middot; OLD EXPLANATION</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Dalton's solid sphere</strong> &mdash; a tiny, uniform, indivisible ball with no internal parts.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#8a6d1d; margin-bottom:4px;">2 &middot; TROUBLING EVIDENCE</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Cathode rays, then gold-foil bounce-backs.</strong> Thomson's tube revealed a charged particle far smaller than the atom; then a few alpha particles rebounded almost straight back off gold foil &mdash; impossible if positive charge were spread thinly.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#1A6B3D; margin-bottom:4px;">3 &middot; REVISED MODEL</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Rutherford's nuclear atom</strong> &mdash; a minute, dense, positive nucleus holding nearly all the mass, with electrons far outside in mostly empty space.</div>
+                </div>
+            </div>
+            <details style="margin-top:12px; background:#F4F9FC; border:1px solid #C5DCE5; border-radius:6px; padding:10px 16px;">
+                <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#2196D0;">&#9654;</span>&nbsp; <strong>Name the evidence:</strong> which single result made a smooth, uniform atom impossible?</summary>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; padding-top:10px; border-top:1px solid #DCEAF0;">The rare <strong>large-angle bounce-backs in the gold-foil experiment</strong>. A diffuse &ldquo;plum-pudding&rdquo; blob of charge could never turn a fast alpha particle straight back; only charge and mass concentrated in a tiny nucleus could. That one observation forced the nuclear atom.</div>
+            </details>
+        </div>
+
+        <!-- MODEL LIMITATIONS · Rutherford -->
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-left:5px solid #6b5b95; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#4b3f6b; margin-bottom:10px; letter-spacing:0.4px;">&#9878;&#65039; MODEL LIMITATIONS &middot; RUTHERFORD&rsquo;S NUCLEAR ATOM</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:190px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; WHAT IT EXPLAINS</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Nearly all the mass and all the positive charge sit in a tiny, dense nucleus; the atom is mostly empty space. This accounts for the gold-foil scattering.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDECEC; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; WHAT IT CANNOT EXPLAIN</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">How the electrons are arranged, why they don&rsquo;t spiral into the nucleus, and why each element emits only a few exact colors. It does <em>not</em> mean electrons circle like planets on fixed tracks.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">&#128300; EVIDENCE THAT FORCED REVISION</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">The sharp <em>line spectra</em> of the elements &mdash; light of only certain colors &mdash; which Bohr&rsquo;s quantized energy levels (next lesson) were built to explain.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson is the heart of this week's <strong>Atomic Model Evolution Gallery</strong> build. You'll add two more exhibits beside Dalton's sphere: <strong>Thomson's plum pudding</strong> and <strong>Rutherford's nuclear atom</strong> &mdash; and on each sticky note you'll name the <em>experiment</em> and the <em>evidence that overturned the model before it</em>. The timeline cards above are your script: solid sphere &rarr; plum pudding (electron) &rarr; nuclear atom (gold foil). Carry that chain of evidence into the headset.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the experiments and the changing model of the atom.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you know the parts, you'll learn to <em>count</em> them &mdash; protons, neutrons, electrons, isotopes, and why atomic masses aren't whole numbers.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">In one century, the &ldquo;uncuttable&rdquo; atom was opened and rebuilt: Thomson found the electron, Millikan weighed it, Rutherford discovered the nucleus, and Chadwick added the neutron. At every step a clever experiment produced evidence that the old model could not survive &mdash; and the model changed. The atom is now a tiny dense nucleus of protons and neutrons in a vast, mostly empty space patrolled by electrons. Next, we learn to count exactly what's inside.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.02 &middot; Evolution of Atomic Theory</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 1.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 1</div>
+        <div style="font-size: 12px; color: #666;">Intro to Chemistry: The Science of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Measurements</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Measurements &mdash; Units, Prefixes &amp; the SI System</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If you told a chemist in Tokyo that a sample weighs &ldquo;5,&rdquo; they'd have no idea what you meant. Five what?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A number alone is almost useless in science. <strong>5&nbsp;grams</strong>, <strong>5&nbsp;kilometers</strong>, and <strong>5&nbsp;seconds</strong> describe completely different things. Chemistry runs on measurement, and measurement runs on a shared, worldwide language of <strong>units</strong>. Today you'll learn that language &mdash; the SI base units chemists actually use, the prefixes that let one unit stretch from the size of an atom to the size of a continent, and how to read a temperature on the scale that chemistry is built on.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> name the SI base units chemists use for length, mass, time, temperature, and amount of substance, and state common derived units like the liter.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> interpret the common metric prefixes (kilo-, deci-, centi-, milli-, micro-, nano-) as powers of ten.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> convert between Celsius and Kelvin and explain why chemists favor the Kelvin scale.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and about 30&ndash;35 minutes. A calculator is handy for the temperature conversions.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHY A NUMBER NEEDS A UNIT</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+          <div class="widget-question">A recipe says &ldquo;add 2 of water.&rdquo; Before reading on &mdash; what's the problem here? (No wrong answer; just notice it.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly. &lsquo;2&rsquo; could be 2 cups, 2 liters, 2 drops, or 2 milliliters &mdash; wildly different results. A measurement is a number AND a unit; drop the unit and the number means almost nothing.">&#129534; It doesn't say 2 of WHAT</button>
+            <button data-response="Good eye for detail. The deeper problem is that no unit is given at all &mdash; without one, &lsquo;2&rsquo; can't be reproduced by anyone else, which breaks the whole point of a measurement.">&#129518; You can't tell how precise it is</button>
+            <button data-response="Fair instinct &mdash; but even with perfect water, &lsquo;2&rsquo; is unusable until we know 2 of what unit. That missing unit is the heart of today's lesson.">&#128167; You don't know the temperature</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Historical-problem hook -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:10px;">&#9203; THE PROBLEM THAT CAME FIRST</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">For most of history, the units themselves were unreliable. A &ldquo;foot&rdquo; might be the length of a particular king&rsquo;s actual foot; a &ldquo;pound&rdquo; of goods in one town was a different amount of matter than a &ldquo;pound&rdquo; a day&rsquo;s travel away. A careful measurement recorded in one place could not be trusted &mdash; or reproduced &mdash; somewhere else. That is a fatal problem for a science built on evidence anyone can check. The question this lesson answers is therefore not just &ldquo;what units do we use?&rdquo; but the deeper one: <strong>how can scientists compare evidence across time and place?</strong></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Every measurement in science is two things joined together: a <strong>number</strong> that tells you <em>how much</em>, and a <strong>unit</strong> that tells you <em>of what</em>. &ldquo;36.0&nbsp;g of water&rdquo; is a measurement; &ldquo;36.0&rdquo; is just a number waiting for meaning. Strip the unit away and you can't compare it, reproduce it, or check it &mdash; and reproducibility, as you saw in Lesson 1.01, is the whole foundation of science.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For most of history this was a genuine mess. Towns and trades each kept their own &ldquo;foot,&rdquo; &ldquo;pound,&rdquo; and &ldquo;cup,&rdquo; and a measurement that meant one thing in one market meant something else a day's travel away. Science needed a single language. The one the world settled on is the <strong>International System of Units</strong> &mdash; abbreviated <strong>SI</strong>, from the French <em>Syst&egrave;me International</em>.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MEASURE FOR ALL PEOPLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The metric system was born out of the French Revolution in the 1790s, when scientists set out to replace a tangle of local units with one rational, decimal system &ldquo;for all people, for all time.&rdquo; Its great idea was to base everything on powers of ten, so converting between sizes meant simply moving a decimal point &mdash; no remembering that 12 inches make a foot and 3 feet make a yard. Refined and formalized as SI in 1960, it is now the shared measuring language of essentially every scientist on Earth.</div>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; NATURE OF SCIENCE &middot; WHAT A MEASUREMENT REALLY IS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A measurement is not a fact handed to you by the universe &mdash; it is an <strong>observation made with an instrument</strong>. A ruler, a balance, a thermometer: each is a tool a human built, and every tool has limits to how finely and how truthfully it can read. That means every measurement carries a little uncertainty from the instrument that made it. Agreeing on units (SI) is the first half of trustworthy measurement; understanding the <em>limits</em> of your instruments is the second half &mdash; and it is exactly what the next lesson is about.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE SI BASE UNITS A CHEMIST USES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">SI defines seven <strong>base units</strong> from which every other unit is built. Five of them come up constantly in chemistry. Learn these and you have the vocabulary for nearly every measurement this year.</p>
+
+        <!-- base units table -->
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin: 12px 0; min-width:520px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Quantity</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">SI base unit</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Symbol</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Length</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">meter</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">m</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Mass</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">kilogram</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">kg</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Time</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">second</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">s</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Temperature</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">kelvin</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">K</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Amount of substance</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">mole</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">mol</td></tr>
+        </table>
+        </div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 12px 0; font-style:italic;">(SI also defines the ampere for electric current and the candela for light intensity, but those belong to physics; chemistry leans on the five above. The mole &mdash; the chemist's way of counting atoms &mdash; gets a whole lesson of its own in Module 4.)</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">From these base units we build <strong>derived units</strong> by combining them. <strong>Volume</strong> is length cubed: the SI unit is the cubic meter (m&sup3;), but it's far too big for a beaker, so chemists use the <strong>liter (L)</strong> and <strong>milliliter (mL)</strong>. A crucial equality to memorize: <strong>1&nbsp;mL = 1&nbsp;cm&sup3;</strong> exactly. <strong>Density</strong>, which you'll meet in Lesson 1.07, is mass divided by volume &mdash; another derived unit (g/mL or g/cm&sup3;).</p>
+
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; A QUIRK WORTH KNOWING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The kilogram is the only base unit with a prefix (&ldquo;kilo-&rdquo;) built into its name &mdash; a historical accident. In the lab you'll most often weigh things in <strong>grams (g)</strong>, where 1000&nbsp;g = 1&nbsp;kg. Just remember that when SI does the formal bookkeeping, mass is officially measured in kilograms.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PREFIXES: ONE UNIT, EVERY SCALE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the metric system's best trick. Instead of inventing a new word for every size &mdash; the way English has inch, foot, yard, mile &mdash; SI keeps one base unit and attaches a <strong>prefix</strong> that multiplies it by a power of ten. The meter becomes a <em>kilo</em>meter (&times;1000) or a <em>milli</em>meter (&times;1/1000) just by swapping the prefix. Learn the prefixes once and they work on <em>every</em> unit: kilograms, milliliters, nanoseconds, all of it.</p>
+
+        <!-- prefix ladder visual -->
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; margin: 12px 0; min-width:560px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Prefix</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Symbol</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Means</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Power of ten</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">kilo-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">k</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1000&times;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>3</sup></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">&mdash; (base unit) &mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">m, g, L&hellip;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1&times;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>0</sup></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">deci-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">d</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>&minus;1</sup></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">centi-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">c</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/100</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>&minus;2</sup></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">milli-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">m</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/1000</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>&minus;3</sup></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">micro-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&micro;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/1,000,000</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>&minus;6</sup></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;">nano-</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">n</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/1,000,000,000</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10<sup>&minus;9</sup></td></tr>
+        </table>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">A sense of scale makes these stick. A <strong>kilo</strong>meter is a brisk ten-minute walk; a <strong>centi</strong>meter is about the width of your fingernail; a <strong>milli</strong>meter is the thickness of a credit card; and a <strong>nano</strong>meter is the realm of single atoms and molecules &mdash; which is exactly why cutting-edge materials science is called <em>nano</em>technology. The same prefixes carry you from the everyday all the way down to the world you met in Lesson 1.02.</p>
+
+        <!-- Etymology callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128220; WHERE THE WORDS COME FROM</div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.6;">The prefixes are ancient Greek and Latin, and the root usually tells you the size &mdash; so you can reason to the meaning instead of memorizing it. The larger units borrow Greek: <strong>kilo-</strong> from <em>chilioi</em>, &ldquo;thousand.&rdquo; The fractions borrow mostly Latin counting words: <strong>centi-</strong> from <em>centum</em>, &ldquo;hundred&rdquo; (as in <em>century</em>), and <strong>milli-</strong> from <em>mille</em>, &ldquo;thousand&rdquo; (as in <em>millennium</em>). The very smallest borrow Greek words for smallness: <strong>micro-</strong> from <em>mikros</em>, &ldquo;small,&rdquo; and <strong>nano-</strong> from <em>nanos</em>, &ldquo;dwarf.&rdquo; When you meet an unfamiliar prefix, the root is your first clue to its scale.</div>
+        </div>
+
+        <!-- prefix matching widget -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READ THE PREFIX</div>
+          <div class="widget-question">Pick the value each measurement equals. Watch the power of ten. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; kilo- means &times;1000, so 1&nbsp;kg = 1000&nbsp;g." data-hint="Kilo- multiplies the base unit by 1000.">
+            <div class="widget-row-prompt">1. 1 kilogram (kg) equals how many grams?</div>
+            <div class="widget-options">
+              <button data-choice="0">100 g</button>
+              <button data-choice="1">1000 g</button>
+              <button data-choice="2">0.001 g</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; milli- means one-thousandth, so 1&nbsp;mL = 0.001&nbsp;L (and 1000&nbsp;mL = 1&nbsp;L)." data-hint="Milli- means 1/1000 of the base unit.">
+            <div class="widget-row-prompt">2. 1 milliliter (mL) equals how many liters?</div>
+            <div class="widget-options">
+              <button data-choice="0">1000 L</button>
+              <button data-choice="1">0.01 L</button>
+              <button data-choice="2">0.001 L</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; centi- means one-hundredth, so 100&nbsp;cm make up 1&nbsp;m." data-hint="Centi- means 1/100, so it takes 100 of them to make the base unit.">
+            <div class="widget-row-prompt">3. How many centimeters (cm) are in 1 meter (m)?</div>
+            <div class="widget-options">
+              <button data-choice="0">100 cm</button>
+              <button data-choice="1">10 cm</button>
+              <button data-choice="2">1000 cm</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; nano- is 10&#8315;&#8313;, the scale of atoms and molecules; far smaller than micro- or milli-." data-hint="Which prefix is the smallest &mdash; the one at the bottom of the ladder?">
+            <div class="widget-row-prompt">4. Which prefix describes the scale of individual atoms?</div>
+            <div class="widget-options">
+              <button data-choice="0">kilo-</button>
+              <button data-choice="1">milli-</button>
+              <button data-choice="2">nano-</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 4 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 4 &middot; TEMPERATURE: WHY CHEMISTS USE KELVIN</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">You already know the <strong>Celsius (&deg;C)</strong> scale: water freezes at 0&nbsp;&deg;C and boils at 100&nbsp;&deg;C. It's convenient for everyday life, but it has a flaw for science &mdash; it has negative numbers. What would &ldquo;twice as cold&rdquo; even mean when temperatures can drop below zero? Chemistry needed a scale with a true bottom.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That scale is the <strong>Kelvin (K)</strong> scale, the SI unit for temperature. It starts at <strong>absolute zero</strong> &mdash; the coldest anything can possibly be, the point where particle motion is at its absolute minimum. There are no negative kelvins. The degrees are the exact same size as Celsius degrees; the whole scale is just shifted, so converting is simple addition:</p>
+
+        <!-- conversion formula box -->
+        <div style="background:#0E1C42; border-radius:8px; padding:16px 20px; margin:14px 0; text-align:center;">
+            <div style="font-size:20px; color:#ffffff; line-height:1.6;">K = &deg;C + 273.15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&deg;C = K &minus; 273.15</div>
+            <div style="font-size:14px; color:#55c8e8; margin-top:8px;">Water freezes at 0&nbsp;&deg;C = 273.15&nbsp;K &middot; Water boils at 100&nbsp;&deg;C = 373.15&nbsp;K &middot; Absolute zero = 0&nbsp;K = &minus;273.15&nbsp;&deg;C</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice that kelvin temperatures are written without a degree symbol &mdash; just <strong>298&nbsp;K</strong>, not 298&nbsp;&deg;K. Room temperature, about 25&nbsp;&deg;C, is roughly 298&nbsp;K. You'll need Kelvin the moment you reach the gas laws in Module 5, where using Celsius would give nonsense answers; we introduce it now so it's familiar long before it's required.</p>
+
+        <!-- worked example accordion -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Worked example: convert 37&nbsp;&deg;C (human body temperature) to kelvin</summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Use K = &deg;C + 273.15.<br>K = 37 + 273.15 = <strong>310.15&nbsp;K</strong> (often rounded to 310&nbsp;K).<br><br>Going the other way: a sample at 350&nbsp;K is 350 &minus; 273.15 = <strong>76.85&nbsp;&deg;C</strong> &mdash; hot enough to scald.</div>
+        </details>
+
+        <!-- Current research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &rarr; NOW &rarr; FUTURE &middot; REDEFINING THE UNITS THEMSELVES</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> for over a century the kilogram was defined by a single metal cylinder locked in a vault near Paris &mdash; and the world's entire mass standard depended on that one object not changing. <strong>Now:</strong> in 2019 scientists finished a quiet revolution, redefining the kilogram, the kelvin, the mole, and the ampere in terms of fixed constants of nature (for mass, the Planck constant) instead of physical objects, so any lab with the right equipment can realize the standards from the laws of physics themselves. <strong>Future:</strong> researchers are still pushing measurement to be more precise &mdash; building atomic clocks that would lose less than a second over the age of the universe and asking how finely we will ever be able to measure. Metrology, it turns out, is an open frontier.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week your <strong>Matter Classification Museum</strong> grows up: you'll <em>measure</em> your exhibits &mdash; length, mass, and volume &mdash; and add labels with proper units. The prefixes and units you just learned are the language those labels must speak. A sample labeled &ldquo;mass: 24&rdquo; fails the same way the &ldquo;add 2 of water&rdquo; recipe did; &ldquo;mass: 24&nbsp;g&rdquo; is real chemistry.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 1.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on SI units, prefixes, and the Kelvin scale.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 1.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can measure, we ask the harder question: how good is a measurement, and how honest can a number be?</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A measurement is a number <em>and</em> a unit. SI gives chemists a shared, decimal language &mdash; five base units, a ladder of powers-of-ten prefixes, and the Kelvin scale that starts at absolute zero. Master this vocabulary now; every calculation you do for the rest of the year speaks it.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.04 &middot; Measurements &mdash; Units, Prefixes &amp; the SI System</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

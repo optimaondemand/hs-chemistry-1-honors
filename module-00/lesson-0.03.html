@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 0.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Module 0 &middot; Getting Started</div>
+        <div style="font-size: 12px; color: #666;">Your On-Ramp to the Course</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 0.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Scientific Method &amp; CER Intro</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 0.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Scientific Method &amp; CER Intro</div>
+        <div style="font-size: 16px; color: #666;">Orientation Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You wake up, glance outside, and announce, &ldquo;It rained last night.&rdquo; You weren't awake to see it &mdash; so how do you <em>know</em>?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You just did science without calling it that. You noticed something, gathered evidence, and reasoned your way to a claim. This whole course runs on that exact move &mdash; getting from <strong>what you observe</strong> to <strong>what you can defend</strong>. This lesson gives you the two tools you'll use all year: the <strong>empirical-questioning arc</strong> (the rhythm every lesson follows) and <strong>CER</strong> &mdash; Claim, Evidence, Reasoning &mdash; the format for writing a scientific answer that holds up. Get comfortable with these now, and every lesson and every writing assignment ahead will feel familiar.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe the empirical-questioning arc and the scientific method as a loop that moves from phenomenon, to evidence, to explanation.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the three parts of a CER response &mdash; Claim, Evidence, and Reasoning &mdash; and explain what each one does.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> tell a weak CER from a strong one and start drafting my own.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook (from Lesson 0.02) &mdash; you'll jot the three CER parts in your own words.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30 minutes of focused reading and interaction. No prior chemistry needed &mdash; this is about <em>how</em> to think and write like a scientist.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE RHYTHM OF EVERY LESSON: FROM PHENOMENON TO EXPLANATION</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You step outside in the morning and see wet pavement everywhere. Before you decide <em>why</em> it's wet, what should a careful thinker do first? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the habit this whole course is built on. You start by observing carefully and gathering what's actually there &mdash; the puddles, the wet car, the gray sky &mdash; before jumping to a conclusion. Evidence first, explanation second. That order is the difference between a guess and a finding.">&#128064; Look closely and gather what I actually observe</button>
+            <button data-response="Tempting &mdash; but announcing the answer before looking is how careful thinkers get fooled. A guess that comes before the evidence is just a hunch. The scientific move is to gather observations first, then let them point you toward the explanation.">&#10024; Just declare my best guess right away</button>
+            <button data-response="Understandable instinct &mdash; but you don't need an expert to start. The first step is yours to take: observe carefully and collect what you can see. Evidence comes before explanation, and you already have eyes on the scene.">&#128241; Wait until someone tells me the answer</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Science is less a fixed set of facts than a <em>way of moving</em> from a puzzling thing in the world to an explanation you can defend. Across this course, every lesson follows the same investigative rhythm. It has a name &mdash; the <strong>Empirical-Questioning Arc</strong> &mdash; and it is the single framework this whole course is built on. Learn its seven moves now and you'll recognize them in <em>every</em> chemistry lesson ahead. You won't always see each step labeled, but the lesson is always walking this path:</p>
+
+        <!-- Named framework label -->
+        <div style="background: #0E1C42; border-radius: 8px 8px 0 0; padding: 10px 18px; margin: 14px 0 0 0; text-align:center;">
+            <div style="font-size: 12px; color: #55C8E8; letter-spacing: 0.6px;">&#128302; THE OPTIMA EMPIRICAL-QUESTIONING ARC &middot; THE PATH EVERY CHEMISTRY LESSON FOLLOWS</div>
+        </div>
+
+        <!-- Arc visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px 0; align-items:stretch; justify-content:center; background:#EEF1F8; padding:14px; border-radius:0 0 8px 8px;">
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">START</div><div style="font-size:15px;color:#0E1C42;"><strong>Observe</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">&rarr;</div><div style="font-size:15px;color:#0E1C42;"><strong>Compare</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">&rarr;</div><div style="font-size:15px;color:#0E1C42;"><strong>Identify patterns</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">&rarr;</div><div style="font-size:15px;color:#0E1C42;"><strong>Explain</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">&rarr;</div><div style="font-size:15px;color:#0E1C42;"><strong>Evaluate evidence</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#1B6A94;margin-bottom:4px;">&rarr;</div><div style="font-size:15px;color:#0E1C42;"><strong>Construct arguments</strong></div></div>
+            <div style="flex:1; min-width:120px; background:#0E1C42; border-radius:8px; padding:12px 10px; text-align:center;"><div style="font-size:11px;color:#55C8E8;margin-bottom:4px;">EXTEND</div><div style="font-size:15px;color:#ffffff;"><strong>To current research</strong></div></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Read the arc and you'll notice one thing it never does: it never starts with the answer. It begins with a <strong>phenomenon</strong> &mdash; something you notice &mdash; moves through <strong>evidence</strong>, and only then arrives at an <strong>explanation</strong>. That direction, <em>phenomenon &rarr; evidence &rarr; explanation</em>, is the single most important habit in this course. Front-loading the conclusion (&ldquo;it's salt because the teacher said so&rdquo;) skips the part that makes it science.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Make this arc your <strong>reusable mental model</strong>. Copy its seven moves into your science notebook, and when a lesson or an investigation feels confusing, ask yourself which step you're on &mdash; am I still <em>observing</em>, or have I jumped ahead to <em>explaining</em>? Every module of this course, from measuring matter to modeling the atom, is another trip around this same arc.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">The scientific method, drawn as a loop</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">You've probably seen the &ldquo;scientific method&rdquo; drawn as a numbered list. It's more honest to draw it as a <strong>loop</strong>: you observe and ask a question, propose a tentative explanation (a <strong>hypothesis</strong>), test it with an experiment, analyze what happened, and either build toward a broader <strong>law</strong> or <strong>theory</strong> &mdash; or, just as often, go back and ask a sharper question. Science doesn't end; it circles. We'll develop this much further in Module 1; for now, just hold the shape of it.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>Observe &amp; question</strong> &rarr; <strong>Hypothesize</strong> &rarr; <strong>Experiment</strong> &rarr; <strong>Analyze</strong> &rarr; <strong>Law / Theory</strong> &mdash; and then the loop turns again, because every answer raises a new question.
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; CER: HOW TO WRITE A SCIENTIFIC ANSWER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When you have to <em>write down</em> a scientific answer, this course uses a simple, powerful structure called <strong>CER</strong> &mdash; <strong>Claim, Evidence, Reasoning</strong>. You'll write CER responses all year, so learn it once and reuse it forever. Here is what each part does:</p>
+
+        <!-- Three-part CER definition cards -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#1B6A94; margin-bottom:4px;">C</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Claim</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Your answer to the question &mdash; one clear statement. (&ldquo;Yes, it rained last night.&rdquo;)</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#1B6A94; margin-bottom:4px;">E</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Evidence</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">The specific observations or data that support the claim. Concrete and checkable.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#1B6A94; margin-bottom:4px;">R</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Reasoning</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">The logic that <em>links</em> the evidence to the claim &mdash; why this evidence actually supports this answer.</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked all the way through: &ldquo;Did it rain last night?&rdquo;</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Back to the morning question from the top of the lesson. You weren't awake to watch it happen, so you have to reason from what you can see. Here is the full CER:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong style="color:#1B6A94;">Claim &mdash;</strong> Yes, it rained last night.<br>
+            <strong style="color:#1B6A94;">Evidence &mdash;</strong> There are puddles on the sidewalk, the parked car is wet all over, and the sky is still gray.<br>
+            <strong style="color:#1B6A94;">Reasoning &mdash;</strong> Rain falls from clouds and wets surfaces that are exposed to the open sky. The combined pattern &mdash; wet ground, a wet car, and overcast clouds &mdash; fits &ldquo;it rained&rdquo; better than the alternatives. A lawn sprinkler, for instance, would wet the grass but not the car parked on the street or the whole sidewalk, and it wouldn't explain the gray sky.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice what the <em>reasoning</em> did that the evidence alone could not: it explained <strong>why</strong> the evidence points to rain and ruled out a competing explanation. Evidence without reasoning is just a pile of facts; reasoning is the part that turns those facts into an argument. Good scientific writing always closes that gap explicitly &mdash; it never makes the reader guess how the evidence connects to the claim.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A preview of chemistry CER: &ldquo;Is this cube pure gold?&rdquo;</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The rain example works with everyday observation. Chemistry CER works exactly the same way, just with <em>measured evidence about matter</em> &mdash; the kind you'll gather starting in Module 1. Suppose you're handed a shiny metal cube and asked whether it's pure gold. You measure its mass and volume and calculate its <strong>density</strong> (mass per unit volume &mdash; a property every pure substance has a fixed value for). Here's the CER:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong style="color:#1B6A94;">Claim &mdash;</strong> The cube is <em>not</em> pure gold.<br>
+            <strong style="color:#1B6A94;">Evidence &mdash;</strong> Its measured density is about 10.5 g/cm&sup3;. Pure gold has a density of 19.3 g/cm&sup3;; pure silver is about 10.5 g/cm&sup3;.<br>
+            <strong style="color:#1B6A94;">Reasoning &mdash;</strong> Density is an <em>intrinsic</em> property &mdash; it's the same no matter how big or small the sample is &mdash; so it can be used to identify a material. The cube's density (10.5) doesn't match gold (19.3), so the cube can't be pure gold; it matches silver far better. <strong>Ruling out a competing explanation:</strong> someone might object, &ldquo;Maybe the cube is just a small piece of gold.&rdquo; But size can't be the answer &mdash; density doesn't change with size, so a smaller gold cube would still read 19.3. The evidence points to &ldquo;not gold,&rdquo; not to &ldquo;less gold.&rdquo;
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">That's the whole move you'll make all year: a claim about matter, <em>measured</em> evidence, reasoning from a property to a conclusion &mdash; and honesty about the alternatives. The chemistry gets deeper, but the shape never changes.</p>
+
+        <!-- History / Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; THE OLDEST MOVE IN SCIENCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">CER isn't a school invention &mdash; it's the bones of how scientists have argued for centuries. When a chemist claims a gas was produced in a reaction, no one takes their word for it; they expect the <em>evidence</em> (a measurement, a color change, a captured sample) and the <em>reasoning</em> that ties that evidence to the claim. The scientists you'll meet this year &mdash; people investigating the nature of matter long before the tools were good &mdash; won and lost arguments on exactly this basis: not who spoke loudest, but whose claim the evidence best supported. That is the &ldquo;honesty&rdquo; thread of this course in action: <em>evidence over preference.</em></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WEAK vs. STRONG: WHAT MAKES A CER GOOD</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The format alone doesn't make a CER strong. A weak CER states a claim and then leans on opinion (&ldquo;because I think so&rdquo;); a strong CER backs the claim with <em>specific</em> evidence and spells out the <em>reasoning</em>. Compare these two answers to the same question &mdash; <em>&ldquo;Did it rain last night?&rdquo;</em></p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:260px; background:#FDECEC; border:1px solid #E7B7B2; border-left:5px solid #C0392B; border-radius:8px; padding:14px 18px;">
+                <div style="font-size:11px; color:#C0392B; margin-bottom:8px;">&#10060; WEAK CER</div>
+                <div style="font-size:16px; color:#0E1C42; line-height:1.6;">&ldquo;It rained last night. I just have a feeling it did. It probably rains a lot this time of year, so it makes sense.&rdquo;</div>
+                <div style="font-size:14px; color:#8A1F16; line-height:1.55; margin-top:10px;"><strong>Why it's weak:</strong> the claim rests on a feeling, not observation. There's no specific evidence you could check, and no reasoning linking anything to the claim.</div>
+            </div>
+            <div style="flex:1; min-width:260px; background:#E9F7EF; border:1px solid #BFE6CE; border-left:5px solid #2A9D5C; border-radius:8px; padding:14px 18px;">
+                <div style="font-size:11px; color:#1A6B3D; margin-bottom:8px;">&#9989; STRONG CER</div>
+                <div style="font-size:16px; color:#0E1C42; line-height:1.6;">&ldquo;It rained last night. There are puddles on the sidewalk and the parked car is wet all over. Rain wets surfaces exposed to the open sky, and that pattern fits rain better than a sprinkler, which wouldn't wet the street or the car.&rdquo;</div>
+                <div style="font-size:14px; color:#1A6B3D; line-height:1.55; margin-top:10px;"><strong>Why it's strong:</strong> a clear claim, specific checkable evidence, and reasoning that explains the link <em>and</em> rules out a rival.</div>
+            </div>
+        </div>
+
+        <!-- Self-check widget: label snippets as C / E / R -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CLAIM, EVIDENCE, OR REASONING?</div>
+          <div class="widget-question">Each snippet below is one piece of a CER response about absorbent paper towels. Decide whether it is the <strong>Claim</strong>, the <strong>Evidence</strong>, or the <strong>Reasoning</strong>. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is the Evidence. It's a specific, checkable observation (the measured amounts of water held), not the answer itself or the logic." data-hint="Is this an observation/measurement, the answer to the question, or the logic linking them?">
+            <div class="widget-row-prompt">1. &ldquo;Brand B held 40 mL of water while Brand A held only 25 mL on the same-size sheet.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Claim</button>
+              <button data-choice="1">Evidence</button>
+              <button data-choice="2">Reasoning</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; this is the Reasoning. It explains WHY the evidence supports the claim (more water held per equal sheet means more absorbent) and notes the fair comparison." data-hint="Does this snippet explain WHY the evidence supports the answer? That's reasoning.">
+            <div class="widget-row-prompt">2. &ldquo;Holding more water on an equal-size sheet means the towel absorbs more, and using equal sheets makes it a fair comparison.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Claim</button>
+              <button data-choice="1">Evidence</button>
+              <button data-choice="2">Reasoning</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; this is the Claim. It's the one-sentence answer to the question &lsquo;which brand is more absorbent?&rsquo;" data-hint="Which snippet is the direct answer to the question being asked?">
+            <div class="widget-row-prompt">3. &ldquo;Brand B is the more absorbent paper towel.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Claim</button>
+              <button data-choice="1">Evidence</button>
+              <button data-choice="2">Reasoning</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; Reasoning. &lsquo;Rain wets surfaces exposed to the open sky&hellip;&rsquo; is the general principle that links the wet-car evidence to the &lsquo;it rained&rsquo; claim." data-hint="Is this a general principle that connects an observation to the answer? That's reasoning.">
+            <div class="widget-row-prompt">4. &ldquo;Rain wets surfaces exposed to the open sky, so a wet car parked outside fits rain better than a sprinkler.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Claim</button>
+              <button data-choice="1">Evidence</button>
+              <button data-choice="2">Reasoning</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; DRAFT, THEN VERIFY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">An AI tool can draft a tidy-looking CER in seconds &mdash; and that is exactly the trap. AI writes confident sentences whether or not the evidence is real: it can invent a measurement, misstate a result, or offer reasoning that doesn't actually hold. Treat it like any instrument: useful, but to be checked. If you ever use AI to help <em>structure</em> a response, you remain responsible for verifying every piece of evidence against what actually happened and confirming the reasoning is sound. The evidence is yours to stand behind; the tool is only a second pair of hands, never the source of truth.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A classmate writes only &ldquo;Brand B is more absorbent because it's better.&rdquo; Which CER part is missing or weak?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The <strong>Claim</strong> is fine (&ldquo;Brand B is more absorbent&rdquo;), but the <strong>Evidence</strong> is missing entirely &mdash; no measurements or observations &mdash; and the <strong>Reasoning</strong> is empty (&ldquo;because it's better&rdquo; just restates the claim). A strong version would add the specific amounts of water each brand held and explain why holding more on an equal sheet means more absorbent.</div>
+        </details>
+    </div>
+
+    <!-- Your VR / What's next bridge: green activity callout -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#9999;&#65039; PUT IT INTO PRACTICE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Right after this lesson you'll write your very first CER in the <strong>CER Practice</strong> activity &mdash; using a simple, everyday scenario (no chemistry required) so you can focus entirely on getting the <em>shape</em> right: a clear claim, specific evidence, and reasoning that links them. You'll type it in Microsoft Word and submit through Canvas. A model answer is provided so you can check your own. Master the format here, and the real chemistry CERs later in the course will feel like familiar ground.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 0.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded check on the empirical-questioning arc and the three parts of CER. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>CER Practice</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Write your first Claim&ndash;Evidence&ndash;Reasoning response on an everyday scenario, in Word. Self-check against the model provided &mdash; low-stakes, just for the reps.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 0.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Last stop on the on-ramp: how to find your way around the Canvas course and where your files live in M365.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Science moves from <em>phenomenon to evidence to explanation</em> &mdash; never the other way around &mdash; and the empirical-questioning arc is the rhythm every lesson follows. When you write that thinking down, you use <strong>CER</strong>: a clear <strong>Claim</strong>, specific <strong>Evidence</strong>, and <strong>Reasoning</strong> that explains why the evidence supports the claim. A weak answer leans on opinion; a strong one stands on checkable evidence and explicit logic. You'll use this exact structure in every writing assignment ahead.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Module 0 &middot; Getting Started</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 0.03 &middot; Scientific Method &amp; CER Intro &middot; Pre-Course Onboarding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

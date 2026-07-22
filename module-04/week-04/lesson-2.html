@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.08</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom percent-yield / titration calculator ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:110px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.08</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Reaction Yields &amp; Quantitative Analysis</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.08</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Reaction Yields &amp; Quantitative Analysis</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Stoichiometry tells me the <em>most</em> product a reaction could make. So why does a real reaction almost always give me less &mdash; and how can a single careful measurement reveal something I couldn't weigh directly?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you calculated that 4.0 g of hydrogen <em>should</em> make 35.7 g of water. That &ldquo;should&rdquo; is a promise the math makes &mdash; but the lab rarely keeps it perfectly. Real reactions spill, evaporate, run incompletely, or wander off into side reactions. Today you learn to compare the perfect prediction with the messy reality, through <strong>percent yield</strong>, and then you meet one of chemistry's most elegant measuring techniques: <strong>titration</strong>, in which a carefully measured volume of one solution lets you calculate the unknown concentration of another. This is chemistry as accounting at its most disciplined &mdash; and it is exactly how industry decides whether a reaction is worth running at all.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish theoretical yield from actual yield and calculate percent yield = (actual &divide; theoretical) &times; 100%.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why a real reaction's actual yield usually falls short of the theoretical yield.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe how a titration works and use M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub> to find an unknown concentration in a 1:1 acid&ndash;base reaction.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator &mdash; you'll compute a percent yield and a titration result.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a yield &amp; titration checker).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; PERCENT YIELD: THE PROMISE VS. THE REALITY</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Your stoichiometry says a reaction <em>should</em> produce 35.7 g of water. You run it carefully in the lab and collect 31.0 g. What's your first instinct about that gap of 4.7 g? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the right scientific instinct. Mass isn't destroyed — conservation still holds. The 'missing' water didn't vanish; some was lost as vapor, left clinging to glassware, or never fully formed. Real procedures leak product in small, ordinary ways. That's why we report percent yield honestly.">Some product was lost along the way</button>
+            <button data-response="A fair worry, but it would actually break conservation of mass — atoms can't simply disappear. The water that didn't end up on your balance is still real: it escaped as vapor, stuck to the flask, or the reaction didn't go fully to completion. Nothing was destroyed; it was lost from your collection.">The mass was destroyed in the reaction</button>
+            <button data-response="It can feel that way the first time! But a shortfall like this is completely normal and expected — almost no real reaction hits 100%. The honest move isn't to assume you failed; it's to measure the gap (percent yield) and account for where the product went.">I must have done the experiment wrong</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The amount of product your stoichiometry predicts &mdash; the most you could possibly get if every limiting-reactant particle reacted perfectly &mdash; is the <strong>theoretical yield</strong>. It is a ceiling set by the balanced equation and the limiting reactant. The amount you <em>actually</em> collect when you run the reaction and weigh the product is the <strong>actual yield</strong>. Almost always, the actual yield is smaller. The honest way to report how close you came is the <strong>percent yield</strong>:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; font-size:19px; color:#0e1c42; text-align:center;">percent yield = (actual yield &divide; theoretical yield) &times; 100%</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: the water synthesis, revisited</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Last lesson you found the theoretical yield of water from 4.0 g of hydrogen: <strong>35.7 g H<sub>2</sub>O</strong>. Suppose that when you actually run and collect the reaction, you recover <strong>31.0 g</strong> of water. Then:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; line-height:1.85; font-size:16px; color:#0e1c42;">
+            percent yield = (31.0 g &divide; 35.7 g) &times; 100% = <strong>86.8%</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">An 86.8% yield means you captured almost seven-eighths of what was theoretically possible &mdash; a respectable result for many reactions. The other 13.2% is not a violation of conservation of mass; those atoms are still somewhere. They were simply lost from your collection. Why does this happen so reliably? Tap each card to see a common reason real yields fall short:</p>
+
+        <!-- Flip cards: reasons yields fall short -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Loss during handling</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Product clings to glassware, splashes out, or escapes as vapor or gas before you can weigh it. The atoms exist &mdash; just not on your balance. This is the most common cause of a yield below 100%.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Incomplete reaction</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Not every reaction runs all the way to completion in the time you give it. Some reach a balance point and stop with reactants still unreacted &mdash; an idea you'll study deeply next quarter as <em>equilibrium</em>.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Side reactions</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Reactants can follow more than one path, producing an unwanted by-product instead of your target. Those atoms went somewhere &mdash; just not into the product you wanted.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; TITRATION: MEASURING THE UNSEEN</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is a different quantitative problem, and a famously elegant solution. Suppose you have a bottle of acid &mdash; say hydrochloric acid &mdash; but the label has worn off and you don't know its concentration. You can't see molarity. But you <em>can</em> measure volume on a buret with great precision, and you know how to do stoichiometry. <strong>Titration</strong> turns those two abilities into a measurement of the unknown concentration.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The idea: slowly add a solution of <em>known</em> concentration (the <strong>titrant</strong>, here a standard NaOH solution) to a measured volume of the unknown acid, until exactly enough has been added to react with all of it. That moment &mdash; when the moles of base added exactly match the moles of acid present, in the ratio the balanced equation demands &mdash; is the <strong>equivalence point</strong>. To <em>see</em> an otherwise invisible moment, chemists add a tiny amount of an <strong>indicator</strong>: a dye that changes color right at the endpoint. <strong>Phenolphthalein</strong> is the classic choice &mdash; colorless in acid, it turns a faint pink the instant the solution tips to basic, signaling you to stop.</p>
+
+        <!-- Titration visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 16px; text-align:center; min-width:150px;">
+                <div style="font-size:14px; color:#666;">Known titrant</div>
+                <div style="font-size:18px; color:#0E1C42;"><strong>NaOH</strong></div>
+                <div style="font-size:13px; color:#666;">measured volume from a buret</div>
+            </div>
+            <div style="font-size:26px; color:#C7922C;">&rarr;</div>
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 16px; text-align:center; min-width:150px;">
+                <div style="font-size:14px; color:#666;">Unknown acid +<br>indicator</div>
+                <div style="font-size:18px; color:#0E1C42;"><strong>HCl</strong></div>
+                <div style="font-size:13px; color:#666;">known volume</div>
+            </div>
+            <div style="font-size:26px; color:#C7922C;">&rarr;</div>
+            <div style="background:#FDF3E3; border:1px solid #E7CFa0; border-radius:8px; padding:12px 16px; text-align:center; min-width:150px;">
+                <div style="font-size:14px; color:#8a6d1d;">Endpoint</div>
+                <div style="font-size:16px; color:#0E1C42;"><strong>faint pink</strong></div>
+                <div style="font-size:13px; color:#666;">stop &mdash; equivalence point reached</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">For a reaction where acid and base react one-to-one &mdash; such as HCl + NaOH &rarr; NaCl + H<sub>2</sub>O &mdash; the moles of acid equal the moles of base at the equivalence point. Since moles = molarity &times; volume, this gives a tidy relationship:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">M<sub>a</sub> &times; V<sub>a</sub> = M<sub>b</sub> &times; V<sub>b</sub> &nbsp;&nbsp;<span style="font-size:14px; color:#666;">(for a 1:1 acid&ndash;base reaction only)</span></div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: finding the concentration of an unknown HCl</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">You titrate <strong>25.0 mL of HCl</strong> of unknown concentration. It reaches the phenolphthalein endpoint after you add <strong>30.0 mL of 0.100 M NaOH</strong>. What was the HCl concentration? Work it the long, defensible way first &mdash; through moles &mdash; so the formula never becomes a black box.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; line-height:1.85; font-size:16px; color:#0e1c42;">
+            <strong>Step 1 &mdash; moles of base added.</strong> Convert mL to L: 30.0 mL = 0.0300 L.<br>
+            mol NaOH = 0.0300 L &times; 0.100 mol/L = <strong>0.00300 mol NaOH</strong><br><br>
+            <strong>Step 2 &mdash; mole ratio.</strong> HCl : NaOH is 1 : 1, so mol HCl = <strong>0.00300 mol</strong>.<br><br>
+            <strong>Step 3 &mdash; molarity of the acid.</strong> The acid volume is 25.0 mL = 0.0250 L.<br>
+            M<sub>HCl</sub> = 0.00300 mol &divide; 0.0250 L = <strong>0.120 M</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">So the unlabeled acid was <strong>0.120 M</strong> &mdash; a number you could not read off any instrument directly, recovered from nothing but two volumes and one known concentration. Notice that the shortcut formula gives the same thing: M<sub>a</sub>(0.0250) = (0.100)(0.0300), so M<sub>a</sub> = 0.00300 &divide; 0.0250 = 0.120 M. The formula is just the three steps compressed &mdash; but understand the steps, because the formula only works for the 1:1 case.</p>
+
+        <!-- History-of-science callout (blue/teal helpful-info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128220; A MOMENT IN HISTORY &middot; MEASURING BY VOLUME</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Titration grew out of <strong>volumetric analysis</strong>, developed by chemists across the 1700s and 1800s as trade and industry demanded a fast, reliable way to judge the strength of an acid, a bleach, or an alloy. The name itself comes from the French <em>titre</em> &mdash; a word for the &ldquo;standard&rdquo; or fineness of a material &mdash; because a titration measures an unknown <em>against a known standard</em>. Long before anyone could read concentration off an instrument, careful workers learned that a precisely measured <em>volume</em> could stand in for a mass they could not weigh. The buret and the color-changing indicator turned that insight into one of the most trusted measuring tools in all of chemistry.</div>
+        </div>
+
+        <!-- CUSTOM WIDGET: percent-yield / titration calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; PERCENT-YIELD &amp; TITRATION CHECKER</div>
+          <div class="widget-question">Work each problem <strong>on paper first</strong>, then type your answer and check it. The tool verifies your number with a too-high / too-low hint &mdash; it won't do the steps for you.</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="yt-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="Y1">Y1 &middot; Percent yield: actual 31.0 g, theoretical 35.7 g (answer in %)</option>
+                <option value="Y2">Y2 &middot; Percent yield: actual 8.5 g, theoretical 10.0 g (answer in %)</option>
+                <option value="Y3">Y3 &middot; Titration: 25.0 mL HCl needs 30.0 mL of 0.100 M NaOH (M of HCl)</option>
+                <option value="Y4">Y4 &middot; Titration: 20.0 mL HCl needs 25.0 mL of 0.200 M NaOH (M of HCl)</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="number" step="any" id="yt-ans" placeholder="number only" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="yt-check">Check my answer</button>
+            <button class="widget-reset" id="yt-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="yt-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY YIELD MATTERS: INDUSTRY AND GREEN CHEMISTRY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In a school lab a low yield costs you a few grams. In industry it can cost millions of dollars and tons of waste. Every percentage point of yield, multiplied across a factory running a reaction thousands of times a day, becomes the difference between a profitable, clean process and a wasteful one. This is why the unglamorous arithmetic you just did is, quietly, one of the most consequential skills in applied chemistry.</p>
+
+        <!-- Modern Research callout (Then -> Now -> Future, gold) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128301; THEN &rarr; NOW &rarr; FUTURE &middot; STOICHIOMETRY AT INDUSTRIAL SCALE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6; margin-bottom: 10px;"><strong>Then.</strong> Just over a century ago, <strong>Fritz Haber</strong> worked out how to force nitrogen from the air to combine with hydrogen into ammonia (N<sub>2</sub> + 3&nbsp;H<sub>2</sub> &rarr; 2&nbsp;NH<sub>3</sub>), and <strong>Carl Bosch</strong> scaled it into the giant industrial <strong>Haber&ndash;Bosch</strong> process. Deciding how much hydrogen to feed for a given amount of nitrogen &mdash; and which reactant to run in excess &mdash; is a limiting-reactant and yield problem exactly like the ones in this week's lessons. The fertilizer it produces still feeds much of the world.</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6; margin-bottom: 10px;"><strong>Now.</strong> Chemists today judge a reaction by its <strong>atom economy</strong> &mdash; the fraction of all reactant atoms that end up in the desired product rather than in waste, a measure closely related to percent yield. A field called <strong>green chemistry</strong> redesigns industrial and pharmaceutical syntheses to waste as few atoms as possible, because a drug that takes ten wasteful steps is far costlier and dirtier than one that takes five efficient ones.</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Future.</strong> Haber&ndash;Bosch still consumes a striking share of the world's energy, so researchers are actively hunting for lower-energy, higher-yield ways to fix nitrogen &mdash; including electrochemical and enzyme-inspired routes that might one day make fertilizer with a fraction of the energy. The unglamorous arithmetic you did today is exactly the language every one of those decisions is made in.</div>
+        </div>
+
+        <!-- Single-select widget: yield concepts -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; YIELD &amp; TITRATION REASONING</div>
+          <div class="widget-question">Reason through each one &mdash; these test understanding, not just arithmetic. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right — percent yield is (actual ÷ theoretical) × 100%. The theoretical yield is the ceiling set by stoichiometry; the actual yield is what you collect, and it's normally the smaller of the two." data-hint="Which value is the prediction (the most possible) and which is what you actually collect?">
+            <div class="widget-row-prompt">1. In percent yield, which value is normally the larger?</div>
+            <div class="widget-options">
+              <button data-choice="0">The actual yield</button>
+              <button data-choice="1">They are always equal</button>
+              <button data-choice="2">The theoretical yield</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct — a percent yield above 100% almost always signals impurity (e.g., leftover water or solvent weighed along with the product), not extra atoms appearing. Conservation of mass forbids creating product from nothing." data-hint="Conservation of mass says atoms can't be created. So what would make the product weigh 'too much'?">
+            <div class="widget-row-prompt">2. A student reports a 105% yield. What's the most likely explanation?</div>
+            <div class="widget-options">
+              <button data-choice="0">The product was impure or still wet, so it weighed too much</button>
+              <button data-choice="1">The reaction created extra atoms</button>
+              <button data-choice="2">Theoretical yield is always wrong</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes — the indicator (phenolphthalein) changes color to signal the endpoint, marking the moment enough base has been added to react with all the acid. It does not change the chemistry; it just makes the equivalence point visible." data-hint="What job does the dye do — does it react, or does it signal?">
+            <div class="widget-row-prompt">3. What is the purpose of phenolphthalein in an acid&ndash;base titration?</div>
+            <div class="widget-options">
+              <button data-choice="0">It neutralizes the acid by itself</button>
+              <button data-choice="1">It signals the endpoint with a color change</button>
+              <button data-choice="2">It increases the reaction's yield</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; THE ACCOUNTING MUST BALANCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Percent yield is a small act of scientific honesty. The theoretical yield is the ideal the equation promises; the actual yield is what nature delivered; and a good scientist reports both, then asks <em>where did the rest go?</em> &mdash; because conservation of mass guarantees the missing atoms are somewhere. That habit, of trusting the books to balance and chasing down any discrepancy, is the same discipline Lavoisier used to overturn a centuries-old theory by simply weighing things carefully. The arithmetic of yield is where the virtue of <em>honesty</em> and the discipline of <em>self-government</em> meet the periodic table.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When you record your <strong>Reaction Stoichiometry Walkthrough</strong> (Build 4 of 4) in OptimaXR this week, fold in what you learned here. After you show that O<sub>2</sub> is the limiting reactant and compute the theoretical yield of water, add one sentence of narration about <strong>yield</strong>: state that the number you calculated is the <em>theoretical</em> maximum, and that a real reaction would give a bit less &mdash; a percent yield below 100% &mdash; because product is always lost along the way. That single honest caveat shows the depth of understanding your graded module project is looking for.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on percent yield and titration. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build a spreadsheet that runs the mole bridge across several trials, identifies the limiting reactant, and computes theoretical and percent yield &mdash; the same logic as your module lab report.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Finish &amp; Record Your Module VR Project</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Complete Build 4 of 4 and record the Reaction Stoichiometry Walkthrough. Then submit your module writing assignment (the lab report). A non-VR pathway is provided.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Stoichiometry gives the theoretical yield &mdash; the ceiling &mdash; but real reactions fall short, so chemists report percent yield = (actual &divide; theoretical) &times; 100% and account honestly for where the rest went. Titration turns that same quantitative thinking into a measuring instrument: a known volume of a known solution, run to a color-marked equivalence point, reveals an unknown concentration through M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>. From a school buret to a green-chemistry factory, this is what it means to say chemistry can be measured.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.08 &middot; Reaction Yields &amp; Quantitative Analysis</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom percent-yield / titration checker =====
+  var YT = {
+    Y1: { ans:86.8, tol:0.4, unit:'%',   work:'(31.0 ÷ 35.7) × 100 = 86.8%.' },
+    Y2: { ans:85.0, tol:0.4, unit:'%',   work:'(8.5 ÷ 10.0) × 100 = 85.0%.' },
+    Y3: { ans:0.120, tol:0.003, unit:'M', work:'mol NaOH = 0.0300 L × 0.100 = 0.00300 mol; 1:1 ratio → 0.00300 mol HCl; ÷ 0.0250 L = 0.120 M.' },
+    Y4: { ans:0.250, tol:0.005, unit:'M', work:'mol NaOH = 0.0250 L × 0.200 = 0.00500 mol; 1:1 ratio → 0.00500 mol HCl; ÷ 0.0200 L = 0.250 M.' }
+  };
+  var ytCheck = document.getElementById('yt-check');
+  if (ytCheck) {
+    ytCheck.addEventListener('click', function () {
+      var out = document.getElementById('yt-out');
+      var key = document.getElementById('yt-prob').value;
+      var raw = document.getElementById('yt-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      if (raw === '' || isNaN(parseFloat(raw))) { out.classList.add('warn'); out.textContent = 'Type your numeric answer first.'; return; }
+      var guess = parseFloat(raw);
+      var d = YT[key];
+      if (Math.abs(guess - d.ans) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.ans + ' ' + d.unit + '. ' + d.work;
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.ans ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer (' + guess + ') is ' + hi + '. For yield, divide actual by theoretical then ×100. For titration, find moles of titrant (M×V in liters), apply the 1:1 ratio, then divide by the acid volume in liters. Try again.';
+      }
+    });
+  }
+  var ytReset = document.getElementById('yt-reset');
+  if (ytReset) {
+    ytReset.addEventListener('click', function () {
+      document.getElementById('yt-prob').value = '';
+      document.getElementById('yt-ans').value = '';
+      var out = document.getElementById('yt-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

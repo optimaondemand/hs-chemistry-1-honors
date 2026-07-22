@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.09</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== periodic-trends explorer custom widget ===== */
+    .pt-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:10px 0; }
+    .pt-select { font-family:inherit; font-size:15px; color:#0E1C42; border:1.5px solid #D0D9E8; border-radius:8px; padding:7px 10px; background:#fff; }
+    .pt-q { font-size:16px; color:#0E1C42; margin:10px 0 6px 0; line-height:1.5; }
+    .pt-controls { display:flex; flex-wrap:wrap; gap:8px; }
+    .pt-controls button { font-family:inherit; font-size:14px; border-radius:8px; padding:8px 14px; cursor:pointer; border:1.5px solid #D0D9E8; background:#fff; color:#0E1C42; }
+    .pt-controls button:hover { background:#F4F6FA; border-color:#55C8E8; }
+    .pt-go { background:#0E1C42 !important; color:#fff !important; border-color:#0E1C42 !important; }
+    .pt-feedback { padding:10px 14px; margin-top:10px; font-size:14px; border-radius:4px; line-height:1.5; display:none; }
+    .pt-feedback.correct { background:#D8F0DD; border-left:3px solid #2A9D5C; color:#1A6B3D; display:block; }
+    .pt-feedback.incorrect { background:#FDECEC; border-left:3px solid #C0392B; color:#8A1F16; display:block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.09</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Periodic Variations in Element Properties</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.09</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Periodic Variations in Element Properties</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Why do atoms get bigger as you move <em>down</em> the periodic table, yet become harder to strip an electron from as you move <em>across</em> it?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">The periodic table is not just an alphabet of elements &mdash; it is a chart of smooth, predictable <strong>trends</strong>. Knowing an atom's electron configuration, you can predict its size and how tightly it grips its electrons, simply from its address on the table. Today you'll learn the trends <em>and</em>, more importantly, the two tug-of-war forces &mdash; nuclear pull versus shielding and distance &mdash; that explain <em>why</em> each trend runs the way it does.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain effective nuclear charge and shielding, and use them to reason about atomic properties.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict and explain the trends in atomic radius, ionic radius, and first ionization energy across the table.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> compare two elements and justify which is larger or harder to ionize, citing nuclear charge, shells, or distance.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table &mdash; you'll trace arrows across periods and down groups.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE TUG-OF-WAR: NUCLEAR PULL VS. SHIELDING</div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Lithium and fluorine are in the same row. Lithium has 3 protons; fluorine has 9. Which do you predict is the <em>smaller</em> atom? (No wrong answer &mdash; predict before you read.)</div>
+          <div class="widget-options">
+            <button data-response="A very reasonable guess &mdash; more protons sounds like &lsquo;more atom.&rsquo; But here's the twist you'll learn: fluorine's 9 protons pull its electrons in so hard that fluorine is actually the *smaller* atom. More positive charge means a tighter grip.">&#129002; Lithium</button>
+            <button data-response="Right &mdash; and the reason is the heart of this lesson. Fluorine's extra protons pull on electrons in the *same* shell, so the whole cloud is reeled in tighter. Across a period, atoms shrink even as they gain protons.">&#129001; Fluorine</button>
+            <button data-response="Worth testing! They're not the same size. Within a row, the atom with more protons holds its electrons more tightly and ends up smaller &mdash; here, that's fluorine.">&#129003; Same size</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Data-first inquiry: observe before the rule (M2-18) -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px 18px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128200; OBSERVE THE DATA FIRST &middot; FIND THE PATTERN BEFORE THE RULE</div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-bottom:12px;">Below are real measured values for three atomic properties. <strong>Don't reach for an explanation yet</strong> &mdash; just read the numbers and look for a pattern. What happens to each property as you move <em>across</em> a row? As you move <em>down</em> a column?</div>
+            <div style="display:flex; flex-wrap:wrap; gap:14px;">
+                <div style="flex:1; min-width:260px; overflow-x:auto;">
+                    <div style="font-size:13px; color:#0E1C42; margin-bottom:6px;"><strong>Across period 2</strong> (left &rarr; right)</div>
+                    <table style="width:100%; border-collapse:collapse; font-size:13px; color:#1a2340; min-width:240px;">
+                        <thead><tr style="background:#EEF1F8;">
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Element</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Radius (pm)</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Ionization energy (kJ/mol)</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Electronegativity</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td style="padding:7px 9px; border:1px solid #D0D9E8;">Li</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">145</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">520</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">0.98</td></tr>
+                            <tr style="background:#FAFBFD;"><td style="padding:7px 9px; border:1px solid #D0D9E8;">C</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">70</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">1086</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">2.55</td></tr>
+                            <tr><td style="padding:7px 9px; border:1px solid #D0D9E8;">F</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">50</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">1681</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">3.98</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="flex:1; min-width:260px; overflow-x:auto;">
+                    <div style="font-size:13px; color:#0E1C42; margin-bottom:6px;"><strong>Down group 1</strong> (top &rarr; bottom)</div>
+                    <table style="width:100%; border-collapse:collapse; font-size:13px; color:#1a2340; min-width:240px;">
+                        <thead><tr style="background:#EEF1F8;">
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Element</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Radius (pm)</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Ionization energy (kJ/mol)</th>
+                            <th style="text-align:left; padding:7px 9px; border:1px solid #D0D9E8;">Electronegativity</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td style="padding:7px 9px; border:1px solid #D0D9E8;">Li</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">145</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">520</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">0.98</td></tr>
+                            <tr style="background:#FAFBFD;"><td style="padding:7px 9px; border:1px solid #D0D9E8;">Na</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">180</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">496</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">0.93</td></tr>
+                            <tr><td style="padding:7px 9px; border:1px solid #D0D9E8;">K</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">220</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">419</td><td style="padding:7px 9px; border:1px solid #D0D9E8;">0.82</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="font-size:12px; color:#6b7a99; margin-top:8px;">Radii in picometres (pm); ionization energies in kJ/mol; electronegativity on the Pauling scale. Values are representative measured data.</div>
+            <details style="margin-top:12px; background:#F4F9FC; border:1px solid #C5DCE5; border-radius:6px; padding:10px 16px;">
+                <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#2196D0;">&#9654;</span>&nbsp; <strong>What pattern did you find?</strong> Check after you've studied the numbers.</summary>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid #DCEAF0;"><strong>Across a period (left &rarr; right):</strong> atoms get <em>smaller</em>, harder to ionize (IE rises), and more electronegative. <strong>Down a group (top &rarr; bottom):</strong> atoms get <em>larger</em>, easier to ionize (IE falls), and less electronegative. Notice that radius runs <em>opposite</em> to the other two &mdash; when atoms are small and tightly held, they resist losing an electron and pull hard on shared ones. The rest of this lesson explains <em>why</em> every one of these numbers moves the way it does &mdash; and remarkably, a single idea accounts for all of them.</div>
+            </details>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Every periodic trend comes down to a single tug-of-war on the outer electrons. Pulling them <em>in</em> is the positive charge of the nucleus. Pushing back &mdash; or rather, getting in the way &mdash; are the inner electrons, which sit between the nucleus and the outer electrons and partly cancel the pull. This cancelling is called <strong>shielding</strong> (or screening): inner electrons screen the outer ones from feeling the full nuclear charge.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">What an outer electron actually feels, after the shielding is accounted for, is the <strong>effective nuclear charge</strong> (often written Z<sub>eff</sub>). You can think of it as the net inward pull on the outermost electrons. The larger the effective nuclear charge, the more tightly those electrons are held &mdash; and almost every trend in this lesson follows from how Z<sub>eff</sub> changes as you move around the table.</p>
+
+        <!-- Z_eff visual -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:12px 0;">
+            <div style="font-size:13px; color:#1B6A94; text-align:center; margin-bottom:12px;">THE TUG-OF-WAR ON AN OUTER ELECTRON</div>
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px;">
+                <span style="background:#0E1C42; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Nuclear charge pulls IN</span>
+                <span style="color:#C7922C; font-size:20px;">&minus;</span>
+                <span style="background:#1B6A94; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Inner electrons SHIELD</span>
+                <span style="color:#C7922C; font-size:20px;">=</span>
+                <span style="background:#2A9D5C; color:#fff; border-radius:20px; padding:8px 14px; font-size:14px;">Effective nuclear charge (Z<sub>eff</sub>)</span>
+            </div>
+            <div style="text-align:center; font-size:13px; color:#6b7a99; margin-top:12px; font-style:italic;">Bigger Z<sub>eff</sub> &rarr; outer electrons held more tightly &rarr; smaller atom, harder to ionize.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; ATOMIC SIZE AND IONIC SIZE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now the trends. <strong>Atomic radius</strong> &mdash; how big an atom is &mdash; moves two ways:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li><strong>Down a group, atoms get larger.</strong> Each step down adds a whole new shell of electrons (a bigger <em>n</em>), so the outermost electrons sit farther from the nucleus. The added inner shells also shield more, loosening the grip. Distance wins &mdash; the atom swells.</li>
+            <li><strong>Across a period (left to right), atoms get smaller.</strong> This is the surprising one. Moving right adds a proton each time, but the new electrons go into the <em>same</em> shell. With more protons and roughly the same shielding, the effective nuclear charge climbs, and the whole electron cloud is reeled in tighter. More pull, same distance &mdash; the atom shrinks.</li>
+        </ul>
+
+        <!-- trend arrows visual -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px; margin:12px 0; text-align:center;">
+            <div style="font-size:13px; color:#1B6A94; margin-bottom:10px;">ATOMIC RADIUS &mdash; how it changes on the table</div>
+            <div style="font-size:16px; color:#0E1C42; line-height:1.8;">
+                Across a period &rarr;&nbsp; <strong style="color:#C0392B;">radius decreases</strong> &nbsp;(rising Z<sub>eff</sub> pulls electrons in)<br>
+                Down a group &darr;&nbsp; <strong style="color:#2A9D5C;">radius increases</strong> &nbsp;(more shells, more distance)
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">When atoms gain or lose electrons to form <strong>ions</strong>, their size changes in a way that makes sense once you picture the tug-of-war:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li>A <strong>cation</strong> (positive ion, formed by <em>losing</em> electrons) is <em>smaller</em> than its parent atom. Often an entire outer shell is gone, and the protons that remain pull the fewer electrons in more tightly.</li>
+            <li>An <strong>anion</strong> (negative ion, formed by <em>gaining</em> electrons) is <em>larger</em> than its parent atom. The same number of protons must now hold more electrons, which repel one another and spread out.</li>
+        </ul>
+
+        <!-- Helpful callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WORTH KNOWING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A sodium atom is much larger than a sodium ion (Na<sup>+</sup>) because forming Na<sup>+</sup> strips away the lone 3s electron &mdash; the whole outer shell vanishes. A chloride ion (Cl<sup>&minus;</sup>) is larger than a chlorine atom because the added electron crowds the outer shell. Same nucleus, different electron count, different size.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; IONIZATION ENERGY, ELECTRON AFFINITY &amp; A PREVIEW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <strong>first ionization energy</strong> is the energy it takes to pull the most loosely held electron completely off a neutral atom. It is a direct measure of how tightly an atom grips its outer electron &mdash; so it tracks the tug-of-war exactly:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li><strong>Across a period, ionization energy increases.</strong> The same rising effective nuclear charge that shrinks the atom also holds the electrons more tightly, so it takes more energy to remove one.</li>
+            <li><strong>Down a group, ionization energy decreases.</strong> The outermost electron is farther from the nucleus and better shielded, so it is easier to remove. (This is why the alkali metals at the bottom-left lose an electron so readily.)</li>
+        </ul>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the elegant mirror: ionization energy runs <em>opposite</em> to atomic radius. Small, tightly-held atoms (top-right) are hard to ionize; large, loosely-held atoms (bottom-left) are easy. Both follow from the very same cause.</p>
+
+        <!-- trend arrows visual 2 -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px; margin:12px 0; text-align:center;">
+            <div style="font-size:13px; color:#1B6A94; margin-bottom:10px;">FIRST IONIZATION ENERGY &mdash; the mirror image of size</div>
+            <div style="font-size:16px; color:#0E1C42; line-height:1.8;">
+                Across a period &rarr;&nbsp; <strong style="color:#2A9D5C;">ionization energy increases</strong><br>
+                Down a group &darr;&nbsp; <strong style="color:#C0392B;">ionization energy decreases</strong>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Two more properties, kept brief. <strong>Electron affinity</strong> describes how much an atom &ldquo;wants&rdquo; an extra electron &mdash; how much energy is released when one is added. In a general sense, atoms toward the upper-right of the table (other than the noble gases) attract an added electron most strongly, though this trend has more exceptions than the others, so we'll hold it lightly for now. And <strong>electronegativity</strong> &mdash; an atom's pull on shared electrons within a bond &mdash; we'll introduce only as a preview here: it, too, tends to rise toward the upper-right. You'll study it in full in Module 3 when we get to bonding, where it earns its keep.</p>
+
+        <!-- Scope boundary: this lesson vs Module 3 (M2-19) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128271; SCOPE &middot; WHAT THIS LESSON COVERS &mdash; AND WHAT WAITS FOR MODULE 3</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Here your job is only to <strong>see the periodic patterns and explain them with effective nuclear charge and valence electrons</strong> &mdash; size, ionization energy, and the general drift of electron affinity and electronegativity across the table. What those patterns <em>do</em> &mdash; how electronegativity decides whether a bond is ionic, polar, or nonpolar, and how atoms actually join &mdash; is the work of <strong>Module 3</strong>. Electronegativity is previewed here as a periodic <em>pattern</em>; it becomes a tool for predicting bonds later. Keep the pattern; the payoff is coming.</div>
+        </div>
+
+        <!-- CUSTOM periodic trends explorer -->
+        <div class="optima-widget" id="pt-explorer">
+          <div class="widget-kicker">&#9889; EXPLORE IT &middot; PERIODIC TRENDS EXPLORER</div>
+          <div class="widget-question">Pick two elements and a property, predict which one &ldquo;wins,&rdquo; then check your reasoning. The explorer tells you whether you're right <em>and</em> why.</div>
+
+          <div class="pt-row">
+            <label style="font-size:14px;color:#0E1C42;">Element A:
+              <select class="pt-select" id="pt-a">
+                <option value="Li">Lithium (Li)</option>
+                <option value="Na" selected>Sodium (Na)</option>
+                <option value="K">Potassium (K)</option>
+                <option value="F">Fluorine (F)</option>
+                <option value="Cl">Chlorine (Cl)</option>
+                <option value="Mg">Magnesium (Mg)</option>
+              </select>
+            </label>
+            <label style="font-size:14px;color:#0E1C42;">Element B:
+              <select class="pt-select" id="pt-b">
+                <option value="Li">Lithium (Li)</option>
+                <option value="Na">Sodium (Na)</option>
+                <option value="K">Potassium (K)</option>
+                <option value="F" selected>Fluorine (F)</option>
+                <option value="Cl">Chlorine (Cl)</option>
+                <option value="Mg">Magnesium (Mg)</option>
+              </select>
+            </label>
+            <label style="font-size:14px;color:#0E1C42;">Property:
+              <select class="pt-select" id="pt-prop">
+                <option value="radius" selected>Larger atomic radius</option>
+                <option value="ie">Higher first ionization energy</option>
+              </select>
+            </label>
+          </div>
+          <div class="pt-q" id="pt-q">Which element wins on the chosen property?</div>
+          <div class="pt-controls">
+            <button data-pred="A" class="pt-pred">Element A wins</button>
+            <button data-pred="B" class="pt-pred">Element B wins</button>
+            <button class="pt-go" id="pt-reset" style="margin-left:auto;">Reset</button>
+          </div>
+          <div class="pt-feedback" id="pt-feedback"></div>
+        </div>
+
+        <!-- ow-select: ranking -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; RANK THEM</div>
+          <div class="widget-question">Use the trends. Pick the single best answer; you'll get instant feedback.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; down a group radius increases, so among Li, Na, K (top to bottom of Group 1) potassium is the largest." data-hint="These three are in the same group. Which is farthest down?">
+            <div class="widget-row-prompt">1. Which has the <em>largest</em> atomic radius: Li, Na, or K?</div>
+            <div class="widget-options">
+              <button data-choice="0">Li</button>
+              <button data-choice="1">Na</button>
+              <button data-choice="2">K</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; across a period ionization energy increases, so among Na, Mg, Cl (same period, left to right) chlorine is hardest to ionize." data-hint="Same period. Which is farthest to the right?">
+            <div class="widget-row-prompt">2. Which has the <em>highest</em> first ionization energy: Cl, Mg, or Na?</div>
+            <div class="widget-options">
+              <button data-choice="0">Cl</button>
+              <button data-choice="1">Mg</button>
+              <button data-choice="2">Na</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a cation is smaller than its parent atom because an outer shell is lost and the protons pull the rest in tighter." data-hint="Losing electrons usually removes a whole shell.">
+            <div class="widget-row-prompt">3. Which is <em>smaller</em>: a neutral sodium atom, or a sodium ion (Na<sup>+</sup>)?</div>
+            <div class="widget-options">
+              <button data-choice="0">Na atom</button>
+              <button data-choice="1">Na<sup>+</sup> ion</button>
+              <button data-choice="2">Same size</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why does fluorine have a higher ionization energy than lithium, even though both are in the same period?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Fluorine has 9 protons to lithium's 3, but their outer electrons are in the same shell (<em>n</em> = 2) with similar shielding. So fluorine's effective nuclear charge is much higher &mdash; it grips its outer electrons far more tightly &mdash; and it takes much more energy to remove one. The same higher Z<sub>eff</sub> also makes fluorine the smaller atom. One cause, two trends.</div>
+        </details>
+    </div>
+
+    <!-- Current research callout (NOW) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &middot; TRENDS STILL GUIDE THE SEARCH</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Periodic trends are not a finished story locked in a textbook &mdash; chemists and materials scientists still use them every day to <em>predict</em> how an untested element or combination might behave before making it. When researchers design new battery materials, catalysts, or semiconductors, they lean on size and ionization patterns to narrow an enormous range of possibilities to a promising few. The same map Mendeleev sketched to predict undiscovered elements is still, in a refined form, a tool at the research frontier.</div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">As you finish <strong>Build 3 of 4</strong> of your <strong>Atomic Model Evolution Gallery</strong>, add a sticky note that explains <em>how an atom's configuration is read straight off the periodic table</em> &mdash; the block tells you the subshell, the position tells you the valence count. The trends you learned today are the reasoning behind that note: position predicts behavior. You're showing that the table is a map, not a list.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on Z<sub>eff</sub>, atomic and ionic size, and ionization-energy trends &mdash; with reasoning.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Electron Configurations &amp; the Logic of the Table</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">This week's &ldquo;doing chemistry&rdquo; ties 2.08 and 2.09 together: configurations, valence counts, and trend rankings with reasons.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Atomic Model Evolution Gallery (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add electron structure and configuration labels to your atom. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">One tug-of-war explains it all: nuclear pull versus shielding and distance, summed up as effective nuclear charge. Down a group, distance wins and atoms grow while ionization energy falls. Across a period, rising Z<sub>eff</sub> wins and atoms shrink while ionization energy climbs. Cations shrink, anions swell. The periodic table is a chart of these smooth, explainable trends &mdash; and that predictive power is what makes it the most useful single page in all of chemistry.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.09 &middot; Periodic Variations in Element Properties</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  // ----- shared click handlers (reflect / select / flip / reset) -----
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ----- custom periodic-trends explorer -----
+  // period (row) and group (column) on the main table; period↑ value is the row number.
+  var DATA = {
+    Li: { name:'Lithium (Li)', period:2, group:1 },
+    Na: { name:'Sodium (Na)',  period:3, group:1 },
+    K:  { name:'Potassium (K)',period:4, group:1 },
+    Mg: { name:'Magnesium (Mg)',period:3, group:2 },
+    Cl: { name:'Chlorine (Cl)', period:3, group:17 },
+    F:  { name:'Fluorine (F)',  period:2, group:17 }
+  };
+  var box = document.getElementById('pt-explorer');
+  if (!box) return;
+  var selA = document.getElementById('pt-a');
+  var selB = document.getElementById('pt-b');
+  var selP = document.getElementById('pt-prop');
+  var fb = document.getElementById('pt-feedback');
+
+  // returns the symbol that wins, plus a reasoning string; or null if a clean call needs same group/period
+  function evaluate(aSym, bSym, prop) {
+    var a = DATA[aSym], b = DATA[bSym];
+    if (aSym === bSym) return { winner:null, why:'Pick two different elements to compare.' };
+    var sameGroup = a.group === b.group;
+    var samePeriod = a.period === b.period;
+
+    // Larger atomic radius: down a group bigger; across a period (higher group #) smaller.
+    if (prop === 'radius') {
+      if (sameGroup) {
+        var win = a.period > b.period ? aSym : bSym;
+        return { winner:win, why:'Same group: atoms get larger DOWN the group, because each step adds a shell (greater n) and more shielding, so the outer electrons sit farther out. ' + DATA[win].name + ' is lower, so it is larger.' };
+      }
+      if (samePeriod) {
+        var win2 = a.group < b.group ? aSym : bSym; // smaller group # = farther left = larger
+        return { winner:win2, why:'Same period: atoms get SMALLER left-to-right as effective nuclear charge rises and reels the electron cloud in. The one farther LEFT (' + DATA[win2].name + ') is larger.' };
+      }
+      // mixed: use a simple combined heuristic (lower period and farther left tends larger) — flag the dominant factor
+      var win3 = a.period > b.period ? aSym : (a.period < b.period ? bSym : (a.group < b.group ? aSym : bSym));
+      return { winner:win3, why:'Different group and period: weigh both rules. Adding shells (down) usually outweighs the across-period shrink, so the element lower on the table — ' + DATA[win3].name + ' — is generally larger.' };
+    }
+
+    // Higher first ionization energy: across a period higher; down a group lower.
+    if (prop === 'ie') {
+      if (sameGroup) {
+        var w = a.period < b.period ? aSym : bSym; // higher up = higher IE
+        return { winner:w, why:'Same group: ionization energy DECREASES down the group, because the outer electron is farther out and better shielded. The one HIGHER up (' + DATA[w].name + ') holds its electron tighter, so it has the higher ionization energy.' };
+      }
+      if (samePeriod) {
+        var w2 = a.group > b.group ? aSym : bSym; // farther right = higher IE
+        return { winner:w2, why:'Same period: ionization energy INCREASES left-to-right with rising effective nuclear charge. The one farther RIGHT (' + DATA[w2].name + ') is hardest to ionize.' };
+      }
+      var w3 = a.period < b.period ? aSym : (a.period > b.period ? bSym : (a.group > b.group ? aSym : bSym));
+      return { winner:w3, why:'Different group and period: the element toward the top-right of the table grips its electrons most tightly. Here that points to ' + DATA[w3].name + '.' };
+    }
+    return { winner:null, why:'' };
+  }
+
+  box.addEventListener('click', function (e) {
+    if (e.target.closest('#pt-reset')) {
+      fb.className = 'pt-feedback'; fb.textContent = '';
+      box.querySelectorAll('.pt-pred').forEach(function (b) { b.classList.remove('selected'); });
+      return;
+    }
+    var pred = e.target.closest('.pt-pred');
+    if (pred) {
+      var res = evaluate(selA.value, selB.value, selP.value);
+      if (!res.winner) { fb.className = 'pt-feedback incorrect'; fb.textContent = res.why; return; }
+      var chose = pred.dataset.pred === 'A' ? selA.value : selB.value;
+      var right = chose === res.winner;
+      fb.className = 'pt-feedback ' + (right ? 'correct' : 'incorrect');
+      fb.innerHTML = (right ? '<strong>Correct!</strong> ' : '<strong>Not quite — ' + DATA[res.winner].name + ' wins.</strong> ') + res.why;
+      return;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

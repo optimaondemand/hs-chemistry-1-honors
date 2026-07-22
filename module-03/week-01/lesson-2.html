@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Covalent Bonding</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Covalent Bonding</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If two atoms both <em>want</em> electrons, and neither will give any away, how do they ever join?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Ionic bonding worked because a metal was glad to hand over electrons. But the air you're breathing is made of O<sub>2</sub> and N<sub>2</sub> &mdash; two <em>nonmetals</em> bonded to themselves. Neither oxygen atom is going to surrender electrons to an identical oxygen atom; there's no &ldquo;giver.&rdquo; So nature found another solution: instead of transferring electrons, atoms can <strong>share</strong> them. This lesson is about that second great bond &mdash; how sharing works, why some bonds are stronger than others, and why some shared bonds are lopsided enough to give a molecule a positive and a negative end.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how nonmetal atoms share electron pairs to reach an octet, and distinguish single, double, and triple bonds.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> relate the number of shared pairs to bond length and bond strength.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use electronegativity difference to classify a bond along the nonpolar &ndash; polar &ndash; ionic continuum and mark partial charges.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table (you'll use the electronegativity trend you learned in Module 2).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes &mdash; this lesson includes a build-a-molecule simulation.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; SHARING INSTEAD OF GIVING</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Two hydrogen atoms each have a single electron and each &ldquo;want&rdquo; a full first shell of two. Neither is a metal eager to give its electron away. How might they <em>both</em> end up satisfied? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="That's the key move of this lesson. If the two atoms pool their electrons into a shared pair sitting between them, each atom can &lsquo;count&rsquo; both electrons as its own. Both reach a full shell at once &mdash; without anyone losing an electron. That shared pair is a covalent bond.">&#129309; They pool their electrons and share a pair between them</button>
+            <button data-response="This is the ionic move from last lesson, but it doesn't fit here. For one identical hydrogen atom to rip an electron from another, it would have to be much &lsquo;greedier&rsquo; &mdash; and they're identical. Equal partners don't bully each other. Sharing is the way out.">&#10145;&#65039; One forces the other to give up its electron</button>
+            <button data-response="Reasonable to guess &mdash; but H&#8322; is one of the most stable molecules there is, so something clearly joins them. The trick is that they don't have to give electrons away to bond. They can share. Read on to see how.">&#128274; They can't bond at all without a metal involved</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">When two nonmetal atoms meet, neither one will simply surrender electrons &mdash; both pull on electrons strongly. So they compromise: each atom contributes electrons to a <strong>shared pair</strong> that sits in the space between the two nuclei. Both nuclei are attracted to that same shared pair, and that mutual attraction holds the atoms together. This is a <strong>covalent bond</strong>: a bond formed by sharing one or more pairs of electrons. The beauty of it is that <em>each</em> atom gets to count the shared electrons toward its own octet, so both can reach a full shell at the same time &mdash; no winner, no loser.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Atoms can share more than one pair when they need to. A <strong>single bond</strong> is one shared pair (as in H&ndash;H or Cl&ndash;Cl). A <strong>double bond</strong> is two shared pairs (as in O=O, the oxygen you breathe). A <strong>triple bond</strong> is three shared pairs (as in N&#8801;N, atmospheric nitrogen). More shared pairs means more electron &ldquo;glue&rdquo; pulling the nuclei together &mdash; which has real, measurable consequences for how the bond behaves.</p>
+
+        <!-- bond order visual -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 200px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Single bond</strong> (1 shared pair)</div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">e.g. C&ndash;C, H&ndash;H. <em>Longest</em> and <em>weakest</em> of the three.</div>
+            </div>
+            <div style="flex: 1; min-width: 200px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Double bond</strong> (2 shared pairs)</div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">e.g. C=C, O=O. Shorter and stronger than a single bond.</div>
+            </div>
+            <div style="flex: 1; min-width: 200px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Triple bond</strong> (3 shared pairs)</div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">e.g. C&#8801;C, N&#8801;N. <em>Shortest</em> and <em>strongest</em> of the three.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Here is the trend worth carrying with you. As you go from single to double to triple bond between the same two kinds of atoms, the bond gets <strong>shorter</strong> and <strong>stronger</strong>. More shared pairs pull the nuclei closer (shorter bond) and take more energy to break apart (stronger bond). So for carbon&ndash;carbon bonds, strength runs C&ndash;C &lt; C=C &lt; C&#8801;C, and bond length runs the opposite way. It's a tidy, dependable pattern: <em>more shared pairs &rarr; shorter, stronger bond.</em></p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; WHO PULLS HARDER? ELECTRONEGATIVITY &amp; POLARITY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Sharing is rarely perfectly equal. Atoms differ in how strongly they tug on the shared electrons, and that tug has a name: <strong>electronegativity (EN)</strong>. It's an atom's pull on the electrons in a bond. Recall the trend from Module 2 &mdash; electronegativity generally increases as you move <em>up</em> and to the <em>right</em> on the periodic table, peaking at fluorine (about 4.0), the most electronegative element of all. When two atoms in a bond have different electronegativities, the shared pair drifts toward the more electronegative atom, and the sharing becomes lopsided.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">It's worth being precise about what electronegativity really <em>is</em>, because casual words like &ldquo;greedy&rdquo; can mislead. An atom does not <em>want</em> or <em>try to grab</em> electrons the way a person wants something &mdash; electronegativity is a consequence of physics. The atom's positive nucleus pulls on the shared electrons, and the pull is stronger when the nucleus has more protons and the bonding electrons are close to it and poorly shielded by inner electrons. When a shared pair spends more of its time near the more electronegative atom, the whole molecule settles into a <em>lower-energy</em> arrangement &mdash; and it is that drop in energy, not any desire, that draws the electrons over. In short, electronegativity is a measurable property that comes from nuclear attraction, not a personality trait.</p>
+
+        <!-- History callout (THEN): Pauling scales electronegativity -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The idea that one atom pulls harder than another was old and vague until, in 1932, the American chemist <strong>Linus Pauling</strong> found a way to put <em>numbers</em> to it. Working from the energies of chemical bonds, he built the electronegativity scale you still use today &mdash; the one that assigns fluorine roughly 4.0 and drops toward the metals. That was the crucial move: turning a hand-wavy sense of &ldquo;pulling power&rdquo; into a measurable quantity that could actually predict whether a bond would be nonpolar, polar, or ionic. Pauling's book on the chemical bond became one of the most influential in the history of chemistry, and it is a good reminder that a big step forward is often not a new substance but a new way to <em>measure</em> something everyone had only been able to describe.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The size of the difference, written <strong>&Delta;EN</strong>, tells you what <em>kind</em> of bond you have &mdash; and bonding turns out to be a <em>continuum</em>, not three separate boxes. At one extreme, two identical atoms (&Delta;EN = 0) share perfectly equally: a <strong>pure (nonpolar) covalent</strong> bond. As the difference grows, sharing gets more lopsided &mdash; a <strong>polar covalent</strong> bond. Push the difference large enough and the &ldquo;sharing&rdquo; becomes essentially a full transfer: an <strong>ionic</strong> bond, right back where Lesson 3.01 started. The rough guideposts below are <em>guidelines, not hard walls</em> &mdash; nature shades smoothly from one to the next.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 14px 0;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">&Delta;EN (rough guide)</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Bond type</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">What's happening</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">about 0 &ndash; 0.4</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Nonpolar covalent</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Electrons shared (nearly) equally (e.g., Cl&ndash;Cl, C&ndash;H)</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">about 0.4 &ndash; 1.7</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Polar covalent</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Shared but lopsided &mdash; partial charges form (e.g., H&ndash;Cl)</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">greater than ~1.7&ndash;2.0</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Increasingly ionic</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Pull so unequal it's effectively a transfer (e.g., Na&ndash;Cl)</td></tr>
+        </table>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Take <strong>hydrogen chloride, HCl</strong>. Chlorine is much more electronegative than hydrogen, so the shared pair spends more time near chlorine. Chlorine takes on a slight negative charge &mdash; written <strong>&delta;&minus;</strong> (&ldquo;delta minus&rdquo;) &mdash; and hydrogen is left slightly positive, <strong>&delta;+</strong>. The plus and minus signs aren't full charges (no electron was fully transferred); they mark a <em>partial</em> imbalance. We say the H&ndash;Cl bond is <strong>polar</strong>: it has a positive end and a negative end.</p>
+
+        <!-- HCl polarity visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#0E1C42; border-radius:10px; padding:18px 30px; text-align:center;">
+                <span style="font-size:30px; color:#FDF3E3;">&delta;+ </span>
+                <span style="font-size:30px; color:#ffffff;"><strong>H&mdash;Cl</strong></span>
+                <span style="font-size:30px; color:#55C8E8;"> &delta;&minus;</span>
+                <div style="font-size:13px; color:#9fb4d8; margin-top:6px;">shared pair pulled toward the more electronegative atom (Cl)</div>
+            </div>
+        </div>
+
+        <!-- Compare callout -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128161; WORTH KNOWING &middot; PURE SHARING VS. LOPSIDED SHARING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When the two bonded atoms are <em>identical</em> &mdash; Cl&ndash;Cl, H&ndash;H, O=O &mdash; their electronegativities are equal, &Delta;EN is zero, and the pair is shared perfectly evenly. There's no &delta;+ or &delta;&minus; end: the bond is <strong>nonpolar</strong>. Polarity, then, comes from a <em>mismatch</em> in pulling power. Same idea as a tug-of-war: two equal teams keep the rope centered; a stronger team drags it their way.</div>
+        </div>
+
+        <!-- Misconception check: electronegativity is not a desire -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE &middot; ATOMS DON'T &ldquo;WANT&rdquo; ELECTRONS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">It is tempting to explain a polar bond by saying an atom &ldquo;wants&rdquo; or &ldquo;tries to steal&rdquo; electrons. Watch the difference:
+            <div style="margin:10px 0 4px 0; padding:8px 12px; background:#FFFFFF; border-left:3px solid #C0392B; border-radius:4px;"><strong>&#10007; Not this:</strong> &ldquo;In water, oxygen grabs the shared electrons because it <em>wants</em> a full shell.&rdquo; &mdash; this hands the atom a goal it doesn't have.</div>
+            <div style="margin:4px 0 0 0; padding:8px 12px; background:#FFFFFF; border-left:3px solid #2A9D5C; border-radius:4px;"><strong>&#10003; This:</strong> &ldquo;In water, oxygen's nucleus (8 protons, lightly shielded) pulls the shared electrons more strongly than hydrogen's single proton does, so each O&ndash;H pair sits closer to oxygen &mdash; a lower-energy arrangement. That measurable pull is electronegativity.&rdquo;</div>
+            Same result, but the correct version explains the polarity with <em>physics</em> (nuclear charge and energy), not desire.</div>
+        </div>
+
+        <!-- PhET embed: Build a Molecule -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Build small molecules by joining atoms with shared bonds</div>
+            <iframe src="https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="Build a Molecule simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/build-a-molecule/latest/build-a-molecule_en.html">Build a Molecule</a>.</div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;"><strong>In your notebook, observe:</strong> Build water (H&#8322;O) and carbon dioxide (CO&#8322;). Notice that each atom only accepts a certain number of bonds before its &ldquo;slots&rdquo; are full &mdash; hydrogen takes one, oxygen takes two, carbon takes four. That &ldquo;number of bonds an atom wants&rdquo; is the octet rule at work, and it's exactly what you'll use to draw structures in the next lesson set.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PUT IT TOGETHER &mdash; CLASSIFY THE BOND</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Let's make this a skill you can use on the spot. Given two atoms, you can estimate &Delta;EN from their positions on the table and place the bond on the continuum. The widget below gives you a few bonds to classify. Remember: identical atoms &rarr; nonpolar; a moderate mismatch &rarr; polar covalent; a very large mismatch &rarr; effectively ionic.</p>
+
+        <!-- Single-select widget: classify bonds -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; NONPOLAR, POLAR, OR IONIC?</div>
+          <div class="widget-question">Classify each bond using electronegativity difference. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; two identical chlorine atoms have &Delta;EN = 0, so they share perfectly equally: nonpolar covalent." data-hint="The two atoms are identical. What is their electronegativity difference?">
+            <div class="widget-row-prompt">1. The bond in Cl&#8322; (Cl&ndash;Cl)</div>
+            <div class="widget-options">
+              <button data-choice="0">Nonpolar covalent</button>
+              <button data-choice="1">Polar covalent</button>
+              <button data-choice="2">Ionic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; H and O differ enough (&Delta;EN around 1.4) to share lopsidedly, giving partial charges. The O&ndash;H bond is polar covalent." data-hint="Oxygen pulls noticeably harder than hydrogen, but not enough for a full transfer.">
+            <div class="widget-row-prompt">2. An O&ndash;H bond in water</div>
+            <div class="widget-options">
+              <button data-choice="0">Nonpolar covalent</button>
+              <button data-choice="1">Polar covalent</button>
+              <button data-choice="2">Ionic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; sodium (a metal, low EN) and chlorine (high EN) differ so much (&Delta;EN over 2) that the electron is essentially transferred: an ionic bond." data-hint="A metal and a very electronegative nonmetal &mdash; a huge mismatch.">
+            <div class="widget-row-prompt">3. The bond in NaCl (Na&ndash;Cl)</div>
+            <div class="widget-options">
+              <button data-choice="0">Nonpolar covalent</button>
+              <button data-choice="1">Polar covalent</button>
+              <button data-choice="2">Ionic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; carbon and hydrogen are close in electronegativity (&Delta;EN around 0.4), so a C&ndash;H bond is treated as essentially nonpolar covalent." data-hint="C and H sit near each other on the EN scale &mdash; only a small difference.">
+            <div class="widget-row-prompt">4. A C&ndash;H bond in methane</div>
+            <div class="widget-options">
+              <button data-choice="0">Nonpolar covalent</button>
+              <button data-choice="1">Polar covalent</button>
+              <button data-choice="2">Ionic</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In an H&ndash;F bond, fluorine is far more electronegative than hydrogen. Which atom carries &delta;&minus;, and is the bond polar or nonpolar?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Fluorine carries <strong>&delta;&minus;</strong> (it pulls the shared pair toward itself) and hydrogen carries <strong>&delta;+</strong>. Because the two atoms differ in electronegativity, the sharing is lopsided &mdash; the bond is <strong>polar covalent</strong>. In fact H&ndash;F is one of the more strongly polar covalent bonds, since fluorine is the most electronegative element.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your <strong>Molecule Build &amp; Geometry Showcase</strong> begins this week with an <em>ionic</em> ion pair (from Lesson 3.01) &mdash; but covalent sharing is the idea that powers the rest of the project. In the coming weeks you'll build covalent molecules like water and carbon dioxide with their shared bonding pairs, then give them their real 3D shapes. As you build this week's ion pair, hold both pictures side by side in your mind: an <em>ionic</em> bond is electrons handed over; a <em>covalent</em> bond is electrons shared. Being able to say which is which, and why, is exactly what your final recorded walkthrough will ask of you.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on sharing, bond order, and polarity. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 3.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can tell ionic from covalent, you'll learn the rules for <em>naming</em> compounds and writing their formulas &mdash; this week's skills lesson.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Continue Your Molecule Build &amp; Geometry Showcase</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">This week's build is the ion pair from Lesson 3.01. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Covalent bonding is electrons <em>shared</em>, not given: nonmetal atoms pool electron pairs so both can reach an octet, and more shared pairs make a shorter, stronger bond. Whether the sharing is even or lopsided depends on a mismatch in pulling power &mdash; electronegativity &mdash; which places every bond somewhere on the smooth continuum from nonpolar to polar to ionic. That &delta;+/&delta;&minus; imbalance, small as it looks, is about to explain why water behaves so strangely. Next: the rules for naming all of this.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.02 &middot; Covalent Bonding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom valence-electron / Lewis-structure checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:90px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Lewis Symbols &amp; Structures</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Lewis Symbols &amp; Structures</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If atoms share electrons to form covalent bonds, how do we know <em>which</em> atom connects to which &mdash; and how many electrons go where?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In the last two lessons you saw atoms either <em>transfer</em> electrons (ionic) or <em>share</em> them (covalent). But "they share electrons" is a sentence, not a picture. Today you learn to draw the picture: a simple, powerful bookkeeping system &mdash; invented by G. N. Lewis with nothing but dots and dashes &mdash; that lets you map every shared and unshared electron pair in a molecule. By the end you'll be able to take a chemical formula and build its <strong>Lewis structure</strong> from scratch, using a repeatable six-step procedure. This is one of the most useful skills in all of chemistry: the structure you draw tomorrow predicts the molecule's shape, and its shape decides almost everything else.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write the Lewis symbol for a main-group element using its valence-electron count.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> draw the Lewis structure of a small molecule or ion using the six-step procedure, showing bonding pairs and lone pairs.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> recognize when the octet rule does not apply (duets, electron-deficient atoms, expanded octets, odd-electron molecules).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table &mdash; you'll be reading group numbers to count valence electrons.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a structure-checking tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; LEWIS SYMBOLS: DOTS THAT COUNT</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You already know that an atom's chemistry is decided by its outermost electrons. If you wanted a quick, drawable way to show <em>only those</em> electrons &mdash; the ones that actually do the bonding &mdash; what would you draw around the element's symbol? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's exactly Lewis's idea. He drew only the valence electrons as dots around the symbol &mdash; ignoring the deep inner electrons that never bond. It's a deliberate simplification, and a brilliant one: it shows you precisely what you need and nothing you don't.">&#10687; A dot for each outer (valence) electron, around the symbol</button>
+            <button data-response="Thorough &mdash; but more than you need. Drawing every electron buries the few that matter under dozens that don't. Lewis's insight was to draw ONLY the valence electrons, the handful that actually form bonds. Less really is more here.">&#9899; Every electron the atom has, in shells</button>
+            <button data-response="Creative! But chemists wanted something faster to draw and read at a glance. Lewis's answer was just dots &mdash; one per valence electron &mdash; placed around the element symbol. You'll see why that's enough below.">&#128208; A scale drawing of the orbitals</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">In 1916, the American chemist <strong>Gilbert N. Lewis</strong> proposed a way of drawing atoms that stripped away everything except the part that does chemistry: the <strong>valence electrons</strong>, the outermost electrons an atom uses to bond. His notation is disarmingly simple. Write the element's symbol, then place one dot for each valence electron around it &mdash; on the four sides, pairing up only after each side has one. The result is a <strong>Lewis symbol</strong>. Because the number of valence electrons of a main-group element equals its <em>group number</em> on the periodic table (using the older 1&ndash;8 / A-group labels), you can read the dot count straight off the table.</p>
+
+        <!-- Lewis-symbol visual row -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:30px; color:#0E1C42; margin-bottom:4px;">&middot;Na</div>
+                <div style="font-size:14px; color:#1a2340;">Sodium &mdash; group 1 &middot; <strong>1</strong> dot</div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:30px; color:#0E1C42; margin-bottom:4px;">&middot;C&middot; <span style="font-size:14px;">(+2 above/below)</span></div>
+                <div style="font-size:14px; color:#1a2340;">Carbon &mdash; group 4 &middot; <strong>4</strong> dots</div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:30px; color:#0E1C42; margin-bottom:4px;">:O: <span style="font-size:14px;">(+2 more)</span></div>
+                <div style="font-size:14px; color:#1a2340;">Oxygen &mdash; group 6 &middot; <strong>6</strong> dots</div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:30px; color:#0E1C42; margin-bottom:4px;">:Ne:<span style="font-size:14px;">::</span></div>
+                <div style="font-size:14px; color:#1a2340;">Neon &mdash; group 8 &middot; <strong>8</strong> dots (full octet)</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice what the noble gas neon tells you: a complete outer shell holds <strong>eight</strong> electrons &mdash; four pairs. This is the heart of the <strong>octet rule</strong>: main-group atoms tend to gain, lose, or share electrons until they are surrounded by eight valence electrons, mimicking the stable arrangement of the nearest noble gas. When atoms bond, a shared pair of electrons &mdash; drawn as two dots or, more compactly, as a line &mdash; is a <strong>bonding pair</strong>. A pair of valence electrons that is <em>not</em> shared, sitting on a single atom, is a <strong>lone pair</strong>. Every Lewis structure is just an accounting of where the bonding pairs and lone pairs sit.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In 1916 Lewis sketched his cubical atoms and electron-pair bonds in a single paper &mdash; before anyone knew about quantum mechanics, electron spin, or orbitals. He had no way to <em>see</em> a shared pair of electrons; he reasoned to them from the patterns in how elements combined, much as Dalton reasoned to atoms a century earlier. The remarkable thing is that his dots-and-dashes bookkeeping survived the quantum revolution almost untouched. We now understand <em>why</em> it works far better than Lewis did &mdash; and yet chemists still draw structures his way, every day, because the model is simple, fast, and astonishingly predictive. It is one of the great bargains in science: a hand-drawing that keeps paying off.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE SIX-STEP PROCEDURE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the payoff: a reliable recipe that turns a chemical formula into a structure. Follow these six steps <em>in order</em> and you'll draw the correct Lewis structure for the great majority of small molecules.</p>
+
+        <!-- Six steps visual -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>1 &middot; Count total valence electrons</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Add up the valence electrons of every atom (group numbers). For an <em>anion</em>, ADD one electron per negative charge; for a <em>cation</em>, SUBTRACT one per positive charge.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>2 &middot; Choose the central atom</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">The central atom is usually the <em>least electronegative</em> one (it shares the most). <strong>Hydrogen is never central</strong> &mdash; it forms only one bond.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>3 &middot; Connect with single bonds</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Draw one single bond (one shared pair) from the central atom to each outer atom. Each bond uses 2 electrons.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>4 &middot; Complete the outer atoms' octets</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Add lone pairs to each outer atom until it has 8 electrons (2 for hydrogen). Spend electrons from your total as you go.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>5 &middot; Put leftovers on the central atom</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Any electrons still unspent become lone pairs on the central atom.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>6 &middot; Form multiple bonds if short</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">If the central atom lacks an octet, convert a nearby lone pair into a shared pair &mdash; make a double or triple bond &mdash; until its octet is complete.</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: carbon dioxide, CO<sub>2</sub></h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;"><strong>Step 1 &mdash; count:</strong> carbon (group 4) gives 4, each oxygen (group 6) gives 6, so 4 + 6 + 6 = <strong>16</strong> valence electrons total. <strong>Step 2 &mdash; central atom:</strong> carbon is less electronegative than oxygen, so carbon goes in the middle: O&ndash;C&ndash;O. <strong>Step 3 &mdash; single bonds:</strong> two C&ndash;O single bonds use 4 electrons; 12 remain. <strong>Step 4 &mdash; outer octets:</strong> give each oxygen three lone pairs (6 electrons each) to complete its octet &mdash; that uses all 12 remaining electrons. <strong>Step 5:</strong> nothing left for carbon. <strong>Step 6 &mdash; check carbon:</strong> carbon has only its two single bonds (4 electrons) &mdash; not an octet! Convert one lone pair from <em>each</em> oxygen into a second shared pair, making two double bonds:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:24px; color:#0e1c42; text-align:center; line-height:1.6;">
+            :O::C::O: &nbsp;&nbsp;&rarr;&nbsp;&nbsp; <strong>O=C=O</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now every atom has a full octet: carbon shares four pairs (the two double bonds), and each oxygen has two bonding pairs plus two lone pairs. Count the electrons one last time &mdash; two double bonds (8) plus four oxygen lone pairs (8) is 16, exactly your starting total. <em>Always close the loop by re-counting.</em></p>
+
+        <!-- Worked trio: H2O, NH3, CH4 -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 14px 0 8px 0;">Three more, each starting from <strong>8</strong> valence electrons. Tap a card to see how the eight electrons get arranged:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Water, H<sub>2</sub>O &mdash; 8 electrons</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">O is central (H is never central). Two O&ndash;H single bonds use 4 electrons; H needs only a duet, so it's done. The remaining 4 electrons go on oxygen as <strong>2 lone pairs</strong>. Oxygen: 2 bonding pairs + 2 lone pairs = octet. Bent shape (you'll see why next week).</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Ammonia, NH<sub>3</sub> &mdash; 8 electrons</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">N is central. Three N&ndash;H single bonds use 6 electrons; each H has its duet. The remaining 2 electrons sit on nitrogen as <strong>1 lone pair</strong>. Nitrogen: 3 bonding pairs + 1 lone pair = octet.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Methane, CH<sub>4</sub> &mdash; 8 electrons</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">C is central. Four C&ndash;H single bonds use all 8 electrons; each H has its duet. Carbon: 4 bonding pairs, <strong>no lone pairs</strong> = octet. Everything is used &mdash; a tidy, fully bonded structure.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>How many total valence electrons does the ammonium ion, NH<sub>4</sub><sup>+</sup>, have? (Watch the charge.)</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Nitrogen (group 5) gives 5; four hydrogens give 4&times;1 = 4; total so far 9. But the <strong>+1 charge means the ion is missing one electron</strong>, so subtract 1: <strong>8 valence electrons</strong>. Those 8 form four N&ndash;H single bonds &mdash; nitrogen has four bonding pairs, no lone pairs, a complete octet, and the whole ion carries a +1 charge. The charge rule in Step 1 is easy to forget; this is exactly why it's step one.</div>
+        </details>
+
+        <!-- CUSTOM WIDGET: valence-electron / Lewis-structure checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; VALENCE-ELECTRON COUNTER &amp; STRUCTURE CHECKER</div>
+          <div class="widget-question">Pick a molecule or ion, type your <strong>total valence-electron count</strong> from Step 1, and check it. The tool also tells you how many bonding and lone pairs the correct structure has &mdash; but <em>you</em> draw it. (A counter can verify the electron tally; it cannot draw the structure for you.)</div>
+          <div class="aam-row">
+            <label>Molecule / ion:
+              <select id="lw-species">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="CO2">CO&#8322; (carbon dioxide)</option>
+                <option value="H2O">H&#8322;O (water)</option>
+                <option value="NH3">NH&#8323; (ammonia)</option>
+                <option value="CH4">CH&#8324; (methane)</option>
+                <option value="NH4">NH&#8324;&#8314; (ammonium ion)</option>
+                <option value="N2">N&#8322; (nitrogen)</option>
+                <option value="CO32">CO&#8323;&#178;&#8315; (carbonate ion)</option>
+              </select>
+            </label>
+            <label>Your total valence e&#8315;: <input type="number" step="1" id="lw-count" placeholder="e.g. 16" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="lw-check">Check my count</button>
+            <button class="widget-reset" id="lw-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="lw-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHEN THE OCTET RULE BENDS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The octet rule is a guide, not a law of nature &mdash; and a model that's honest about its limits is more useful than one that pretends to none. Four kinds of molecules break the octet, and a chemist who can spot them avoids drawing impossible structures.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Duets &mdash; hydrogen &amp; helium</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Hydrogen's first shell holds only 2 electrons, so hydrogen is "full" with a <em>duet</em>, not an octet. It forms exactly one bond and never carries a lone pair.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Electron-deficient &mdash; Be, B</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Beryllium is often happy with ~4 electrons and boron with ~6. In <strong>BF<sub>3</sub></strong>, boron has only three bonds (6 electrons) and no lone pair &mdash; a stable structure with an incomplete octet.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Expanded octets &mdash; period 3 and below</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Atoms from the third row down can hold <em>more</em> than 8. <strong>PCl<sub>5</sub></strong> puts 10 electrons around phosphorus; <strong>SF<sub>6</sub></strong> puts 12 around sulfur. Second-row atoms (C, N, O, F) never expand.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Odd-electron molecules</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">A molecule with an odd total of valence electrons <em>can't</em> pair them all. <strong>NO</strong> has 11 valence electrons, so one electron is left unpaired &mdash; the octet simply can't be satisfied everywhere.</div>
+            </div>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A MODEL'S LIMITS ARE PART OF THE MODEL</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Watch what the exceptions teach you. The octet rule is not "wrong" because BF<sub>3</sub> and SF<sub>6</sub> exist &mdash; it is a powerful pattern that holds for most second-row elements and frays predictably elsewhere. A useful scientific model comes with a known map of where it works and where it doesn't. Knowing that boron runs electron-deficient and that sulfur can expand its octet is not an exception to understanding Lewis structures; it <em>is</em> understanding them. You'll see this same theme &mdash; useful models, honestly bounded &mdash; sharpen tomorrow when a single Lewis structure turns out not to be enough.</div>
+        </div>
+
+        <!-- Single-select widget: octet exception classifier -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; OCTET, OR EXCEPTION?</div>
+          <div class="widget-question">For each species, decide why it does or doesn't obey a simple octet. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; sulfur is in period 3, so it can expand its octet. In SF&#8326; sulfur is surrounded by 12 electrons (six S&ndash;F bonds)." data-hint="What period is sulfur in? Third-row atoms can hold more than 8.">
+            <div class="widget-row-prompt">1. SF<sub>6</sub> &mdash; how does sulfur's electron count compare to an octet?</div>
+            <div class="widget-options">
+              <button data-choice="0">Exactly 8 (normal octet)</button>
+              <button data-choice="1">Fewer than 8 (electron-deficient)</button>
+              <button data-choice="2">More than 8 (expanded octet)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; boron typically forms three bonds (6 electrons) with no lone pair, an electron-deficient atom. BF&#8323; is the classic example." data-hint="Boron has only 3 valence electrons. How many bonds can it make, and how many electrons is that?">
+            <div class="widget-row-prompt">2. BF<sub>3</sub> &mdash; what's true of boron's octet?</div>
+            <div class="widget-options">
+              <button data-choice="0">Expanded beyond 8</button>
+              <button data-choice="1">Fewer than 8 (electron-deficient)</button>
+              <button data-choice="2">A complete octet</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; NO has 5 + 6 = 11 valence electrons, an odd number, so the electrons can't all be paired. One stays unpaired." data-hint="Add the valence electrons: N (5) + O (6). Is that odd or even?">
+            <div class="widget-row-prompt">3. NO &mdash; why can't every electron be paired?</div>
+            <div class="widget-options">
+              <button data-choice="0">It has an odd total (11) of valence electrons</button>
+              <button data-choice="1">Nitrogen expands its octet</button>
+              <button data-choice="2">Oxygen is electron-deficient</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; hydrogen's shell holds only 2, so it's complete with a duet and forms a single bond. It's never central and never carries a lone pair." data-hint="How many electrons fit in hydrogen's only shell?">
+            <div class="widget-row-prompt">4. The hydrogen atoms in H<sub>2</sub>O &mdash; what counts as "full" for them?</div>
+            <div class="widget-options">
+              <button data-choice="0">An octet (8)</button>
+              <button data-choice="1">A duet (2)</button>
+              <button data-choice="2">Twelve (expanded)</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week your <strong>Molecule Build &amp; Geometry Showcase</strong> moves from ions to molecules. Last week you built an ionic ion-pair; this week's station is the <strong>Lewis-Structure Build</strong> &mdash; you'll construct three covalent molecules, <strong>water (H<sub>2</sub>O), carbon dioxide (CO<sub>2</sub>), and ammonia (NH<sub>3</sub>)</strong>, showing every bonding pair (single <em>and</em> double bonds) and every lone pair, just as you drew them above. This is <strong>Build 2 of 3</strong>. Build the molecules <em>flat</em> for now and label each atom's valence-electron count &mdash; next week you'll lift them into their real 3D shapes and mark polarity, so leave yourself room to work.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on Lewis symbols, the six steps, and octet exceptions. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 3.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">When a single Lewis structure isn't enough: formal charge picks the best one, and resonance handles the molecules that need more than one drawing.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Lewis-Structure Build (Build 2 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build H<sub>2</sub>O, CO<sub>2</sub>, and NH<sub>3</sub> in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A Lewis structure is honest bookkeeping: count the valence electrons, place them as bonding pairs and lone pairs, and make every atom as close to an octet as it can get. The six-step procedure makes this repeatable; the exceptions &mdash; duets, electron-deficient atoms, expanded octets, odd-electron molecules &mdash; remind you that even a great model has edges. Master this drawing and you hold the key to the next two lessons: <em>the structure you map today predicts the shape, and the shape predicts the chemistry.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.04 &middot; Lewis Symbols &amp; Structures</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom valence-electron / Lewis-structure checker =====
+  var LW = {
+    CO2:  { e:16, name:'CO₂', bonds:'2 double bonds (O=C=O)', lp:'4 lone pairs total (2 on each oxygen)', note:'Carbon needs double bonds to reach its octet.' },
+    H2O:  { e:8,  name:'H₂O', bonds:'2 single O–H bonds', lp:'2 lone pairs on oxygen', note:'Hydrogen takes only a duet, so the leftovers land on oxygen.' },
+    NH3:  { e:8,  name:'NH₃', bonds:'3 single N–H bonds', lp:'1 lone pair on nitrogen', note:'That single lone pair on N matters a lot for the shape.' },
+    CH4:  { e:8,  name:'CH₄', bonds:'4 single C–H bonds', lp:'no lone pairs', note:'Every electron is used in bonding — a tidy, symmetric molecule.' },
+    NH4:  { e:8,  name:'NH₄⁺', bonds:'4 single N–H bonds', lp:'no lone pairs', note:'The +1 charge means you SUBTRACT one electron: 5 + 4 − 1 = 8.' },
+    N2:   { e:10, name:'N₂', bonds:'1 triple bond (N≡N)', lp:'2 lone pairs total (1 on each N)', note:'A triple bond is needed to give both nitrogens an octet.' },
+    CO32: { e:24, name:'CO₃²⁻', bonds:'1 double + 2 single C–O bonds (resonance — more tomorrow)', lp:'8 lone pairs total on the oxygens', note:'The −2 charge means you ADD two electrons: 4 + 18 + 2 = 24.' }
+  };
+  var checkBtn = document.getElementById('lw-check');
+  if (checkBtn) {
+    checkBtn.addEventListener('click', function () {
+      var out = document.getElementById('lw-out');
+      var key = document.getElementById('lw-species').value;
+      var raw = document.getElementById('lw-count').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a molecule or ion from the menu first.'; return; }
+      if (raw === '' || isNaN(parseInt(raw,10))) { out.classList.add('warn'); out.textContent = 'Type your total valence-electron count (a whole number).'; return; }
+      var guess = parseInt(raw,10);
+      var d = LW[key];
+      if (guess === d.e) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.name + ' has ' + d.e + ' valence electrons. The correct structure has ' + d.bonds + ' and ' + d.lp + '. ' + d.note + ' Now draw it yourself and confirm every atom’s octet (or duet).';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.e ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your count (' + guess + ') is ' + hi + ' for ' + d.name + '. Recount: add each atom’s group number, then adjust for any charge (add for negative, subtract for positive). Try again.';
+      }
+    });
+  }
+  var lwReset = document.getElementById('lw-reset');
+  if (lwReset) {
+    lwReset.addEventListener('click', function () {
+      document.getElementById('lw-species').value = '';
+      document.getElementById('lw-count').value = '';
+      var out = document.getElementById('lw-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

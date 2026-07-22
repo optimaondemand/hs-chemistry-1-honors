@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom average-atomic-mass calculator ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row input { width:110px; font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Atomic Structure &amp; Symbolism</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Atomic Structure &amp; Symbolism</div>
+        <div style="font-size: 16px; color: #666;">Lesson &middot; this week's quantitative lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How do we count what's inside an atom &mdash; and why isn't an element's atomic mass on the periodic table a whole number?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You now know the atom has three kinds of parts. Today you learn the bookkeeping that turns that picture into numbers: how to count protons, neutrons, and electrons, how to read the symbol that names an atom exactly, and why elements come in slightly different-weight versions called isotopes. That last idea solves a small mystery you may have already noticed &mdash; that the masses on the periodic table are stubbornly <em>not</em> whole numbers. This is the lesson where chemistry becomes something you <strong>calculate</strong>.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use atomic number and mass number to find the protons, neutrons, and electrons in an atom or ion.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read and write isotope symbols and explain what isotopes are.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the average atomic mass of an element from its isotopes' masses and abundances.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a calculator, and about 40 minutes (this lesson includes a simulation and a calculation tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE THREE PARTICLES, AND HOW TO COUNT THEM</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">The periodic table lists carbon's atomic mass as about 12.01, not a clean 12. What's your best guess for why a whole element would have a decimal mass? (No wrong answer &mdash; you'll find out below.)</div>
+          <div class="widget-options">
+            <button data-response="Close to the real reason. Carbon comes in more than one version (isotopes) with slightly different masses, and the table reports a weighted average across all of them. That average lands at 12.01.">&#9878;&#65039; It's an average of slightly different carbon atoms</button>
+            <button data-response="A common guess, but no &mdash; the table isn't being sloppy. The decimal is real and meaningful: it reflects a mix of isotopes, averaged by how common each one is. You'll calculate exactly this below.">&#128290; It's just a rounding or measurement error</button>
+            <button data-response="Reasonable thought, but the parts themselves come in near-whole-number masses. The decimal appears when you AVERAGE across the different isotopes of the element, weighted by how common each is.">&#9883;&#65039; The particles inside have fractional masses</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">An atom has three kinds of particles, and their properties are worth knowing cold. The <strong>proton</strong> carries a charge of +1 and a mass of about 1 atomic mass unit (amu); it sits in the nucleus. The <strong>neutron</strong> is electrically neutral (charge 0) with a mass also of about 1 amu; it too sits in the nucleus. The <strong>electron</strong> carries a charge of &minus;1 but is tiny &mdash; only about 1/1836 amu &mdash; and it occupies the space outside the nucleus. Because electrons are so light, essentially all of an atom's mass lives in its nucleus.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 14px 0;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Particle</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Charge</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Mass (approx.)</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Location</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Proton</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">+1</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">1 amu</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Nucleus</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Neutron</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">0</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">1 amu</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Nucleus</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Electron</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">&minus;1</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">&asymp; 1/1836 amu</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">Outside the nucleus</td></tr>
+        </table>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two counts organize everything. The <strong>atomic number</strong>, written <em>Z</em>, is the number of protons &mdash; and it is what <em>defines the element</em>. Every carbon atom has 6 protons; change the proton count and you change the element. The <strong>mass number</strong>, written <em>A</em>, is the total number of protons plus neutrons (the heavy particles in the nucleus). So a quick rearrangement gives you the neutron count whenever you need it:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            protons = <em>Z</em> &nbsp;&middot;&nbsp; neutrons = <em>A</em> &minus; <em>Z</em> &nbsp;&middot;&nbsp; in a <strong>neutral</strong> atom, electrons = protons = <em>Z</em>
+        </div>
+
+        <!-- PhET embed: Build an Atom -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Build an atom from protons, neutrons, and electrons</div>
+            <iframe src="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="Build an Atom simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_en.html">Build an Atom</a>.</div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;"><strong>In your notebook, observe:</strong> Add one proton at a time and watch the element name change &mdash; confirm for yourself that the <em>proton count alone</em> decides which element you have built. Then add and remove neutrons without changing the element, and watch the mass number change. Finally, remove an electron and watch the atom become a positive ion. Write down: what changes the element's identity, and what only changes its mass or charge?</p>
+
+        <!-- Nature of Science callout: knowing the invisible (M2-08) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0 0 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW DO WE KNOW? &middot; KNOWING PARTICLES WE CANNOT SEE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">No one has ever <em>seen</em> a proton or an electron &mdash; they are far smaller than any wavelength of visible light, so no microscope can ever show one. How, then, can a table state their charge, mass, and location so confidently? Every entry was <strong>reasoned out from something an instrument could measure</strong>. The electron's negative charge came from how a cathode ray <em>bends</em> in an electric field (Thomson); its tiny mass from <em>balanced</em> oil drops (Millikan); the dense nucleus from particles that <em>bounce</em> off gold foil (Rutherford); and, as you'll see in the next lessons, the arrangement of electrons from the exact <em>colors of light</em> atoms emit (spectroscopy). We know the invisible the way a detective knows an unseen suspect &mdash; by the evidence it cannot help leaving behind.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; ISOTOPES, IONS, AND THE SYMBOL THAT SAYS IT ALL</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is where Dalton's second postulate got refined (remember Lesson 2.01). Atoms of the same element always have the same number of protons &mdash; but they need not have the same number of <em>neutrons</em>. Atoms of one element that differ in neutron count are called <strong>isotopes</strong>. They share identical chemistry (same protons, same electrons) but differ in mass. Carbon, for instance, is almost always <strong>carbon-12</strong> (6 protons, 6 neutrons), but a small fraction of carbon atoms are <strong>carbon-14</strong> (6 protons, 8 neutrons) &mdash; the very isotope that makes radiocarbon dating possible.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists capture all of this in a compact <strong>isotope symbol</strong>: the element's symbol with the mass number <em>A</em> as a superscript and the atomic number <em>Z</em> as a subscript, both written to the left. Names like &ldquo;carbon-12&rdquo; carry the same information in words.</p>
+
+        <!-- isotope symbol visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:14px 0; align-items:center;">
+            <div style="background:#0E1C42; border-radius:10px; padding:18px 26px; text-align:center;">
+                <span style="display:inline-block; vertical-align:middle; text-align:right; margin-right:6px; line-height:1.1;">
+                    <span style="display:block; font-size:18px; color:#55C8E8;">14</span>
+                    <span style="display:block; font-size:18px; color:#FDF3E3;">6</span>
+                </span>
+                <span style="font-size:46px; color:#ffffff; vertical-align:middle;">C</span>
+            </div>
+            <div style="flex:1; min-width:240px; font-size:16px; color:#1a2340; line-height:1.7;">
+                <span style="color:#1B6A94;"><strong>Top (A = 14):</strong></span> mass number &mdash; total protons + neutrons.<br>
+                <span style="color:#8a6d1d;"><strong>Bottom (Z = 6):</strong></span> atomic number &mdash; number of protons (this is carbon).<br>
+                <strong>Neutrons:</strong> A &minus; Z = 14 &minus; 6 = <strong>8</strong>.<br>
+                Read aloud: &ldquo;carbon-14.&rdquo;
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Finally, atoms can gain or lose <em>electrons</em> (never protons &mdash; that would change the element) and become charged. A charged atom is an <strong>ion</strong>. Lose one or more electrons and you have more protons than electrons, giving a positive charge: a <strong>cation</strong>. Gain electrons and you have a negative charge: an <strong>anion</strong>. To count electrons in an ion, start from the proton count and adjust for the charge:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            electrons = protons &minus; (charge) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; e.g., a +2 ion has 2 <em>fewer</em> electrons than protons; a &minus;1 ion has 1 <em>more</em>.
+        </div>
+
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A positive charge means the atom <em>lost</em> electrons, not gained protons. It's easy to think &ldquo;positive&rarr;more positives,&rdquo; but protons never change in ordinary chemistry &mdash; that's reserved for nuclear reactions. A sodium ion, Na<sup>+</sup>, still has 11 protons; it simply has 10 electrons instead of 11. The charge comes from the <em>imbalance</em>, and the imbalance comes from the electrons.</div>
+        </div>
+
+        <!-- THREE WORKED EXAMPLES (M2-07) -->
+        <div style="background:#FFFFFF; border-top:3px solid #C7922C; border:1px solid #D0D9E8; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#c7922c; margin-bottom:6px; letter-spacing:0.4px;">&#128221; WORKED EXAMPLES &middot; READING A NUCLIDE SYMBOL, STEP BY STEP</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">The same two rules do all the work every time: the bottom number (<em>Z</em>) is the protons and names the element; the top number (<em>A</em>) minus <em>Z</em> is the neutrons; electrons equal protons, then adjust for any charge. Follow all three, then try the set below yourself.</div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:12px;">
+                <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 16px;">
+                    <div style="font-size:19px; color:#0E1C42; margin-bottom:8px;"><strong><sup>19</sup><sub>9</sub>F</strong> &nbsp;<span style="font-size:14px; color:#666;">(a neutral atom)</span></div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.7;">
+                        <strong>Protons</strong> = <em>Z</em> = <strong>9</strong> &rarr; 9 protons means the element is fluorine.<br>
+                        <strong>Neutrons</strong> = <em>A</em> &minus; <em>Z</em> = 19 &minus; 9 = <strong>10</strong>.<br>
+                        <strong>Electrons</strong> = protons (neutral) = <strong>9</strong>.
+                    </div>
+                </div>
+                <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 16px;">
+                    <div style="font-size:19px; color:#0E1C42; margin-bottom:8px;"><strong><sup>27</sup><sub>13</sub>Al<sup>3+</sup></strong> &nbsp;<span style="font-size:14px; color:#666;">(a cation)</span></div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.7;">
+                        <strong>Protons</strong> = <em>Z</em> = <strong>13</strong> &rarr; aluminum.<br>
+                        <strong>Neutrons</strong> = 27 &minus; 13 = <strong>14</strong>.<br>
+                        <strong>Electrons</strong>: charge is +3, so it <em>lost</em> 3 electrons &rarr; 13 &minus; 3 = <strong>10</strong>.
+                    </div>
+                </div>
+                <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 16px;">
+                    <div style="font-size:19px; color:#0E1C42; margin-bottom:8px;"><strong><sup>32</sup><sub>16</sub>S<sup>2&minus;</sup></strong> &nbsp;<span style="font-size:14px; color:#666;">(an anion)</span></div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.7;">
+                        <strong>Protons</strong> = <em>Z</em> = <strong>16</strong> &rarr; sulfur.<br>
+                        <strong>Neutrons</strong> = 32 &minus; 16 = <strong>16</strong>.<br>
+                        <strong>Electrons</strong>: charge is &minus;2, so it <em>gained</em> 2 electrons &rarr; 16 + 2 = <strong>18</strong>.
+                    </div>
+                </div>
+            </div>
+            <div style="font-size:13px; color:#6b7a99; line-height:1.5; margin-top:10px;">Worth noticing: both ions above end with a familiar electron count &mdash; Al<sup>3+</sup> with 10, S<sup>2&minus;</sup> with 18 &mdash; the same counts as the nearest noble gases (neon, argon). That is not a coincidence, and it becomes the key to bonding in Module 3.</div>
+        </div>
+
+        <!-- Single-select widget: find p/n/e -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COUNT THE PARTICLES</div>
+          <div class="widget-question">Use <em>Z</em>, <em>A</em>, and the charge to count particles. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; neutral oxygen-16: Z = 8 protons, A &minus; Z = 16 &minus; 8 = 8 neutrons, and 8 electrons (neutral)." data-hint="Neutral atom: electrons = protons = Z. Neutrons = A &minus; Z.">
+            <div class="widget-row-prompt">1. Neutral oxygen-16 (Z = 8, A = 16). How many protons / neutrons / electrons?</div>
+            <div class="widget-options">
+              <button data-choice="0">8 p / 16 n / 8 e</button>
+              <button data-choice="1">8 p / 8 n / 8 e</button>
+              <button data-choice="2">16 p / 8 n / 16 e</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; Na has 11 protons; A &minus; Z = 23 &minus; 11 = 12 neutrons; the +1 charge means 1 fewer electron, so 10 electrons." data-hint="A +1 cation has lost one electron: electrons = protons &minus; 1.">
+            <div class="widget-row-prompt">2. A sodium ion, Na<sup>+</sup> (Z = 11, A = 23). How many protons / neutrons / electrons?</div>
+            <div class="widget-options">
+              <button data-choice="0">11 p / 12 n / 11 e</button>
+              <button data-choice="1">11 p / 11 n / 12 e</button>
+              <button data-choice="2">11 p / 12 n / 10 e</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; Cl has 17 protons; 37 &minus; 17 = 20 neutrons; the &minus;1 charge means 1 extra electron, so 18 electrons." data-hint="A &minus;1 anion has gained one electron: electrons = protons + 1.">
+            <div class="widget-row-prompt">3. A chloride ion, Cl<sup>&minus;</sup> (Z = 17, A = 37). How many protons / neutrons / electrons?</div>
+            <div class="widget-options">
+              <button data-choice="0">17 p / 20 n / 18 e</button>
+              <button data-choice="1">17 p / 37 n / 17 e</button>
+              <button data-choice="2">17 p / 20 n / 16 e</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY ATOMIC MASSES AREN'T WHOLE NUMBERS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">First, the unit. The <strong>atomic mass unit (amu)</strong> is defined by international agreement so that one atom of carbon-12 weighs <em>exactly</em> 12 amu. Every other atomic mass is measured relative to that standard. So a single proton or neutron is about 1 amu, and a carbon-12 atom (6 + 6) is about 12 amu &mdash; a tidy whole number, as you'd hope.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So why does the periodic table say carbon is 12.01, and chlorine is 35.45? Because the number on the table is not the mass of any single atom &mdash; it is the <strong>average atomic mass</strong>: the average mass of the element's atoms as they actually occur in nature, <em>weighted</em> by how common each isotope is. An element that is mostly a light isotope with a trace of a heavier one will average close to the light one; an even mix lands in between. The decimals are not error &mdash; they are a faithful record of nature's isotope mixture.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Chlorine, worked step by step</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chlorine occurs as two isotopes: <strong>chlorine-35</strong> (mass 34.969 amu, 75.77% abundant) and <strong>chlorine-37</strong> (mass 36.966 amu, 24.23% abundant). To average <em>by weight of abundance</em>, multiply each isotope's mass by its abundance (as a decimal) and add:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.9;">
+            (0.7577 &times; 34.969 amu) + (0.2423 &times; 36.966 amu)<br>
+            = 26.50 amu + 8.957 amu<br>
+            = <strong>35.45 amu</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the answer sits much closer to 35 than to 37 &mdash; exactly as it should, because chlorine-35 is about three times as common. The average &ldquo;leans&rdquo; toward whichever isotope is more abundant. That is the whole idea of a weighted average, and it is why no chlorine atom actually weighs 35.45 amu: that number describes the <em>mixture</em>, not any individual atom.</p>
+
+        <!-- CUSTOM WIDGET: average atomic mass calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; AVERAGE ATOMIC MASS CALCULATOR</div>
+          <div class="widget-question">Enter two isotopes' masses and percent abundances, then compute the weighted average. (Try chlorine: 34.969 amu at 75.77% and 36.966 amu at 24.23%.)</div>
+          <div class="aam-row">
+            <label>Isotope 1 &mdash; mass (amu): <input type="number" step="any" id="aam-m1" placeholder="34.969" /></label>
+            <label>abundance (%): <input type="number" step="any" id="aam-a1" placeholder="75.77" /></label>
+          </div>
+          <div class="aam-row">
+            <label>Isotope 2 &mdash; mass (amu): <input type="number" step="any" id="aam-m2" placeholder="36.966" /></label>
+            <label>abundance (%): <input type="number" step="any" id="aam-a2" placeholder="24.23" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="aam-compute">Compute average</button>
+            <button class="widget-reset" id="aam-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="aam-out"></div>
+        </div>
+
+        <!-- AI-as-Instrument / worth-knowing -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; THE TOOL DOES THE ARITHMETIC, YOU DO THE THINKING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The calculator above &mdash; like a spreadsheet, or an AI you might ask &mdash; will happily return a number for <em>any</em> inputs you type, including impossible ones. It cannot tell you whether your abundances should add to 100%, or whether you mixed up mass and abundance. That judgment is yours. A good check: the answer must land <em>between</em> the two isotope masses, leaning toward the more abundant one. If a tool's output fails that sanity check, trust the reasoning over the readout &mdash; and find your error.</div>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>An element has two isotopes, mass 10 and mass 11. Without calculating, will its average be closer to 10 or to 11 if the lighter isotope is 80% abundant?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Closer to <strong>10</strong>. The average always leans toward the more abundant isotope, and the mass-10 isotope makes up 80% of the atoms. (Working it out: 0.80&times;10 + 0.20&times;11 = 8.0 + 2.2 = 10.2 amu &mdash; just above 10, exactly as predicted. This element is boron, whose true average is about 10.81.)</div>
+        </details>
+    </div>
+
+    <!-- Current research callout (NOW/FUTURE) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &amp; NEXT &middot; ISOTOPES AT WORK TODAY</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Isotopes are not just a bookkeeping detail &mdash; they are working tools of modern science. Hospitals use <strong>medical isotopes</strong> to image the body and treat disease; geologists read the steady decay of certain isotopes to date rocks and fossils; and researchers use the same <strong>mass-spectrometer</strong> idea from this lesson to identify substances by their exact masses. Many of these isotopes don't occur naturally at all &mdash; scientists make them in <strong>particle accelerators</strong>, which are also how the newest, heaviest elements on the periodic table are created, one atom at a time. The counting you practiced today is the foundation of an active, fast-moving field.</div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The counting skills from this lesson feed straight into your <strong>Atomic Model Evolution Gallery</strong>. When you label the Rutherford nuclear-atom exhibit, you can now describe what's actually inside that tiny nucleus &mdash; protons and neutrons &mdash; using the symbols and counts you practiced here. In later weeks of this module your gallery will end with a fully built atom; today you're learning the bookkeeping that makes that final exhibit accurate.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on counting particles, isotopes, and average atomic mass.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Atomic Particles &amp; Isotopes</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You'll count protons/neutrons/electrons for atoms and ions, write isotope symbols, and calculate average atomic masses.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build Your Atomic Model Evolution Gallery</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the first three model exhibits in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The proton count (<em>Z</em>) names the element; protons plus neutrons (<em>A</em>) give the mass number; electrons balance the charge, and their imbalance makes ions. Isotopes are same-element atoms with different neutron counts &mdash; and because elements occur as a mixture of isotopes, the periodic table reports a <em>weighted average</em> mass, which is why those masses aren't whole numbers. You can now count and name any atom, and calculate the number nature actually hands you.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.03 &middot; Atomic Structure &amp; Symbolism</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom average-atomic-mass calculator =====
+  function num(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? null : v; }
+  var computeBtn = document.getElementById('aam-compute');
+  if (computeBtn) {
+    computeBtn.addEventListener('click', function () {
+      var out = document.getElementById('aam-out');
+      var m1 = num('aam-m1'), a1 = num('aam-a1'), m2 = num('aam-m2'), a2 = num('aam-a2');
+      out.className = 'aam-result show';
+      if (m1 === null || a1 === null || m2 === null || a2 === null) {
+        out.classList.add('warn');
+        out.textContent = 'Please enter all four values (two masses in amu and two abundances in %).';
+        return;
+      }
+      var sum = a1 + a2;
+      var avg = (a1/100)*m1 + (a2/100)*m2;
+      var lo = Math.min(m1, m2), hi = Math.max(m1, m2);
+      var msg = 'Weighted average = (' + (a1/100).toFixed(4) + ' × ' + m1 + ') + (' + (a2/100).toFixed(4) + ' × ' + m2 + ') = ' + avg.toFixed(2) + ' amu.';
+      if (Math.abs(sum - 100) > 0.5) {
+        out.classList.add('warn');
+        out.textContent = 'Heads up: your abundances add to ' + sum.toFixed(2) + '%, not 100%. Fix them, then recompute. (Computed anyway: ' + avg.toFixed(2) + ' amu.)';
+      } else if (avg < lo || avg > hi) {
+        out.classList.add('warn');
+        out.textContent = 'Something is off: the average (' + avg.toFixed(2) + ') should land between ' + lo + ' and ' + hi + '. Check that you didn’t swap a mass and an abundance.';
+      } else {
+        out.textContent = msg + ' ✓ It lands between the two isotope masses, leaning toward the more abundant one — a good sanity check.';
+      }
+    });
+  }
+  var aamReset = document.getElementById('aam-reset');
+  if (aamReset) {
+    aamReset.addEventListener('click', function () {
+      ['aam-m1','aam-a1','aam-m2','aam-a2'].forEach(function(id){ document.getElementById(id).value=''; });
+      var out = document.getElementById('aam-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

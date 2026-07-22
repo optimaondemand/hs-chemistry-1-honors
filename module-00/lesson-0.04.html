@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 0.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Module 0 &middot; Getting Started</div>
+        <div style="font-size: 12px; color: #666;">Your On-Ramp to the Course</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 0.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Canvas + M365 Orientation</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 0.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Canvas + M365 Orientation</div>
+        <div style="font-size: 16px; color: #666;">Orientation Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A great course is wasted if you can't find your way around it. So before the chemistry begins: where is everything, how do you turn work in, and where do your files live?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">This is the last stop on your on-ramp. You've met your VR campus, your lab-safety habits, and how scientists reason. Now you'll learn the two everyday tools that carry the course: <strong>Canvas</strong>, where every lesson, quiz, and assignment lives, and <strong>Microsoft 365</strong>, where you'll write documents and build spreadsheets. None of this is hard &mdash; it's just worth knowing on day one so you never lose a point to a misplaced file or a missed submit button. Read it once, and you'll move through the whole course smoothly.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> navigate this self-paced Canvas course &mdash; find lessons, quizzes, and assignments &mdash; and submit my work correctly.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain the course grading model, including which two items in each module are reviewed by a teacher.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> create, name, save, and submit a file using the course's M365 / OneDrive workflow and file-naming convention.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Access to your Canvas account and your school Microsoft 365 sign-in (Word, Excel, and OneDrive).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 25&ndash;30 minutes. Have the course open in another tab so you can click along as you read.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; FINDING YOUR WAY AROUND CANVAS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Everything in this course is organized into <strong>Modules</strong> &mdash; the same big units you saw in the course map (Module 0 here, then Module 1, Module 2, and so on). Open the <strong>Modules</strong> page from the course menu and you'll see each module laid out top to bottom in the order you should work through it. The course is <strong>self-paced</strong>: you move through the items in sequence, at your own speed, checking each off as you go.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Inside a module you'll meet three kinds of items, each with its own little icon:</p>
+
+        <!-- Three item-type cards -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:22px; margin-bottom:4px;">&#128196;</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Pages</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Your lessons &mdash; the reading, visuals, and interactive activities, like the one you're in right now.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:22px; margin-bottom:4px;">&#9989;</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Quizzes</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Reading Checks, checkpoints, and exams. Most are auto-graded the moment you submit.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:22px; margin-bottom:4px;">&#128206;</div>
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>Assignments</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Hands-on work, VR activities, and writing &mdash; the things you <em>turn in</em>, usually by uploading a file or recording.</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">How to submit your work</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Submitting is the same simple move almost every time. Open the assignment, read what it asks for, then use the <strong>Submit</strong> button. Depending on the assignment you'll either upload a file (your Word document, your VR video) or type directly into Canvas. After you submit, Canvas confirms it received your work &mdash; <em>always wait for that confirmation</em> so you know it went through. If something looks unsubmitted, you simply haven't finished the upload yet.</p>
+
+        <!-- Helpful info callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; A HABIT WORTH KEEPING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Work through each module <em>in order</em>, top to bottom. The lessons build on one another, and the Reading Check after each lesson is designed to be taken right when the reading is fresh. Self-paced doesn't mean skip-around &mdash; it means <em>you</em> set the speed, while the sequence stays the same.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; HOW GRADING WORKS IN THIS COURSE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">It helps to know up front how your grade comes together, because most of it is in your hands and gives you instant feedback. Most of what you do is <strong>auto-graded or self-check</strong> &mdash; you find out how you did right away. A small, high-value amount is read carefully by a teacher.</p>
+
+        <!-- Grading model cards -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#1B6A94; margin-bottom:4px;">AUTO-GRADED</div>
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:6px;"><strong>Reading Checks &amp; exams</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Scored the instant you submit. Reading Checks are low-stakes &ldquo;easy points&rdquo; for keeping up.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#1B6A94; margin-bottom:4px;">AUTO / SELF-CHECK / COMPLETION</div>
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:6px;"><strong>Weekly hands-on &amp; VR</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Your quantitative work and your smaller VR activities. Many give you a model answer to check yourself against.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#FDF3E3; border:1px solid #E8D2A0; border-top:3px solid #C7922C; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:13px; color:#8a6d1d; margin-bottom:4px;">TEACHER-REVIEWED &mdash; EXACTLY TWO PER MODULE</div>
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:6px;"><strong>Writing assignment + VR project video</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Once per module a teacher reads your one writing piece and watches your cumulative VR project video, grading each against a rubric.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">So the rule to remember is simple: in each content module, <strong>exactly two items are graded by a person</strong> &mdash; the <strong>module writing assignment</strong> and the <strong>cumulative VR project video</strong>. Everything else gives you feedback automatically. (Module 0, this on-ramp, has <em>none</em> of the teacher-graded items &mdash; it's all auto-graded or completion-based, so you can settle in without pressure.)</p>
+
+        <!-- ow-select: where does this get graded? -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHO GRADES THIS?</div>
+          <div class="widget-question">For each item below, decide whether it is <strong>auto / self-check</strong> or whether it's one of the <strong>two teacher-reviewed</strong> items in a module. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; Reading Checks are auto-graded the moment you submit. They're low-stakes &lsquo;easy points,&rsquo; not teacher-reviewed." data-hint="Reading Checks score the instant you hit submit. Is that a person or the system?">
+            <div class="widget-row-prompt">1. A short Reading Check after a lesson</div>
+            <div class="widget-options">
+              <button data-choice="0">Auto / self-check</button>
+              <button data-choice="1">Teacher-reviewed</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; the module writing assignment is one of the two items a teacher reads and grades against a rubric each module." data-hint="Writing can't be auto-graded. This is one of the two per-module teacher pieces.">
+            <div class="widget-row-prompt">2. The module's CER / lab-report writing assignment</div>
+            <div class="widget-options">
+              <button data-choice="0">Auto / self-check</button>
+              <button data-choice="1">Teacher-reviewed</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; the cumulative VR project video is the second teacher-reviewed item each module; a teacher watches it and grades it on a rubric." data-hint="A narrated VR walkthrough video is the other per-module teacher-graded piece.">
+            <div class="widget-row-prompt">3. Your end-of-module cumulative VR project video</div>
+            <div class="widget-options">
+              <button data-choice="0">Auto / self-check</button>
+              <button data-choice="1">Teacher-reviewed</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; weekly quantitative work is auto-graded or self-checked (often with a model answer), not sent to a teacher." data-hint="Your weekly &lsquo;doing chemistry&rsquo; problems give feedback automatically.">
+            <div class="widget-row-prompt">4. A weekly hands-on calculation assignment</div>
+            <div class="widget-options">
+              <button data-choice="0">Auto / self-check</button>
+              <button data-choice="1">Teacher-reviewed</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; YOUR FILES: THE M365 / ONEDRIVE WORKFLOW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When an assignment asks you to produce a document, you'll use <strong>Microsoft 365</strong> &mdash; the same suite of tools you use across your school. Two of them carry almost all the work in this course:</p>
+
+        <!-- Tool cards -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>&#128221; Word (.docx)</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">For writing &mdash; your CER responses, lab reports, and scientific arguments. The module writing assignment lives here.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#0E1C42; margin-bottom:6px;"><strong>&#128202; Excel (.xlsx)</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">For data &mdash; recording measurements, building tables, and graphing relationships in the data-heavy weeks.</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Name every file the same way</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A shared course needs tidy file names so nothing gets lost. Every file you create for this course uses the same pattern:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">FILE-NAMING CONVENTION</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>LastName_FirstName_AssignmentName_CHEM1H</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:8px;">Example: <strong>Garcia_Maria_CERpractice_CHEM1H.docx</strong></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Save your course files in your <strong>OneDrive</strong>, in a folder organized as <strong>Optima &rarr; Science</strong>, so all your chemistry work lives in one place. When it's time to turn something in, you <em>still submit through Canvas</em> &mdash; open the assignment and use the OneDrive tab or file upload to attach your document. Saving to OneDrive keeps your file safe; submitting in Canvas is what actually hands it in. You need to do both.</p>
+
+        <!-- Worth-knowing callout: pinned guide -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128206; KEEP THIS HANDY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A full walkthrough &mdash; signing in to M365, creating your <em>Optima &rarr; Science</em> OneDrive folder, naming files, and attaching them in Canvas &mdash; lives in the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide.&rdquo;</strong> Set this up once now and you won't have to think about it again all year.</div>
+        </div>
+
+        <!-- Self-check flip cards (DIFFERENT widget type from 0.03's reflect/select) -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 14px 0 8px 0;">Tap each card to check your understanding of the file workflow:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:16px;color:#0E1C42;">You finished a CER in Word. What do you name the file?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;"><strong>LastName_FirstName_AssignmentName_CHEM1H</strong> &mdash; e.g., <em>Garcia_Maria_CERpractice_CHEM1H.docx</em>. Same pattern for every course file.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:16px;color:#0E1C42;">Where should you save your course documents?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">In your <strong>OneDrive</strong>, in the <strong>Optima &rarr; Science</strong> folder &mdash; so all your chemistry work stays together and backed up.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:16px;color:#0E1C42;">Saving to OneDrive &mdash; is that the same as turning it in?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">No. Saving keeps your file safe; you still have to <strong>submit it through Canvas</strong> (OneDrive tab or file upload) and wait for the confirmation. Do both.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up bridge: green activity callout -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#127937; YOU'RE ALMOST READY</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">That's the whole toolkit: a VR campus, safe science habits, the way scientists reason, and now Canvas and M365. One short step remains &mdash; the <strong>&ldquo;You're Ready&rdquo; check</strong> &mdash; a quick, low-stakes confirmation that spans everything in Module 0. Pass it, and you're cleared to begin Module 1 and the real work of investigating matter.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 0.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded check on navigating Canvas, the grading model, and the file-naming convention. Easy points.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Set up M365 (one time)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Open the pinned &ldquo;M365 Setup &amp; File Organization Guide&rdquo; and create your <em>Optima &rarr; Science</em> OneDrive folder so you're ready for your first file.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Take the &ldquo;You're Ready&rdquo; Check</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short readiness quiz spanning all of Module 0. Pass it and you're set to begin Module 1.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Work each module top to bottom in Canvas: <strong>Pages</strong> are lessons, <strong>Quizzes</strong> are checks and exams, <strong>Assignments</strong> are what you turn in. Most work is auto-graded or self-check, and <em>exactly two items per module</em> &mdash; the writing assignment and the VR project video &mdash; are read by a teacher. Build files in <strong>Word</strong> or <strong>Excel</strong>, name them <strong>LastName_FirstName_AssignmentName_CHEM1H</strong>, save to your <em>Optima &rarr; Science</em> OneDrive folder, and submit through Canvas. Get this routine down once, and the rest of the course is pure chemistry.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Module 0 &middot; Getting Started</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 0.04 &middot; Canvas + M365 Orientation &middot; Pre-Course Onboarding</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

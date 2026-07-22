@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.08</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== electron-config builder custom widget ===== */
+    .ec-prompt { font-size:16px; color:#0E1C42; margin-bottom:10px; line-height:1.5; }
+    .ec-target { background:#0E1C42; color:#fff; border-radius:6px; padding:4px 12px; font-size:15px; display:inline-block; }
+    .ec-build { background:#fff; border:1px dashed #C5DCE5; border-radius:6px; min-height:34px; padding:8px 12px; font-size:18px; color:#0E1C42; margin:8px 0; letter-spacing:0.3px; }
+    .ec-palette { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+    .ec-palette button { background:#fff; border:1.5px solid #D0D9E8; border-radius:8px; padding:7px 12px; font-size:14px; color:#0E1C42; cursor:pointer; font-family:inherit; }
+    .ec-palette button:hover { background:#F4F6FA; border-color:#55C8E8; }
+    .ec-controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .ec-controls button { border-radius:8px; padding:7px 14px; font-size:13px; cursor:pointer; font-family:inherit; border:1.5px solid #D0D9E8; background:#fff; color:#0E1C42; }
+    .ec-check { background:#0E1C42 !important; color:#fff !important; border-color:#0E1C42 !important; }
+    .ec-feedback { padding:10px 14px; margin-top:10px; font-size:14px; border-radius:4px; line-height:1.5; display:none; }
+    .ec-feedback.correct { background:#D8F0DD; border-left:3px solid #2A9D5C; color:#1A6B3D; display:block; }
+    .ec-feedback.incorrect { background:#FDECEC; border-left:3px solid #C0392B; color:#8A1F16; display:block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.08</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Electronic Structure of Atoms</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.08</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Electronic Structure of Atoms</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">There is a rule book for where every electron in an atom goes &mdash; what is it, and what does it let us predict?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Yesterday you learned that electrons live in orbitals with definite shapes and capacities (2, 6, 10, 14). Today you'll learn how nature <em>fills</em> those orbitals &mdash; in a specific order, following just three rules. The payoff is large: once you can write an atom's <strong>electron configuration</strong>, you can read off its valence electrons, predict how it will bond, and even explain the layout of the entire periodic table. This is the most &ldquo;doing chemistry&rdquo; lesson of the week.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> apply the Aufbau principle, the Pauli exclusion principle, and Hund's rule to fill an atom's orbitals.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write full and noble-gas-shorthand electron configurations and draw orbital (box-and-arrow) diagrams.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> count an atom's valence electrons and connect its configuration to the s, p, d, and f blocks of the periodic table.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table within reach &mdash; you'll write several configurations as you go.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;45 minutes, including time to build configurations in the interactive checker.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THREE RULES FOR FILLING ORBITALS</div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">If you were stacking electrons into the orbitals of an atom, where would you put the first ones? (No wrong answer &mdash; predict before you read.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the right instinct. Nature is &lsquo;lazy&rsquo; in the best way: electrons settle into the lowest-energy orbitals available first. That single idea is the Aufbau principle you're about to meet.">&#11015;&#65039; In the lowest-energy ones first</button>
+            <button data-response="A fair guess &mdash; but it turns out the highest-energy orbitals fill last, not first. Electrons drop to the lowest available energy, the way a ball rolls downhill. You'll see why this builds the whole configuration.">&#11014;&#65039; In the highest-energy ones first</button>
+            <button data-response="Tidy idea! Real atoms don't fill randomly, though &mdash; there's a strict order based on energy. Once you know it, you can write any atom's configuration by hand.">&#127922; Wherever there's room</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Electrons fill an atom's orbitals by following three rules. Learn these three and you can build any configuration:</p>
+        <ul style="font-size: 17px; color: #1a2340; line-height: 1.7; margin: 0 0 10px 0; padding-left: 22px;">
+            <li><strong>The Aufbau principle</strong> (from the German for &ldquo;building up&rdquo;): electrons fill the <em>lowest-energy</em> orbital available before moving to a higher one &mdash; like water settling into the lowest spots first.</li>
+            <li><strong>The Pauli exclusion principle</strong>: an orbital holds at most <strong>two</strong> electrons, and they must have <em>opposite</em> spins. No two electrons in an atom can have the identical set of all four quantum numbers.</li>
+            <li><strong>Hund's rule</strong>: when several orbitals of the <em>same</em> energy are available (the three p orbitals, say), electrons spread out and occupy them <em>singly</em>, with parallel spins, before any orbital is forced to take a second electron. Electrons, like people on a bus, take an empty seat before doubling up.</li>
+        </ul>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">The filling order</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because of how orbital energies overlap, the order is not simply 1, 2, 3 by shell. The standard sequence runs:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:18px; color:#0E1C42; text-align:center; line-height:1.8;">1s &rarr; 2s &rarr; 2p &rarr; 3s &rarr; 3p &rarr; 4s &rarr; 3d &rarr; 4p &rarr; 5s &rarr; 4d &rarr; 5p &hellip;</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice the famous twist: <strong>4s fills before 3d</strong>, because the 4s orbital sits at slightly lower energy than 3d. That single quirk is why the periodic table has that block of transition metals tucked in the middle &mdash; we'll return to it in Part 3.</p>
+
+        <!-- Aufbau energy ladder + 4s-before-3d annotation (M2-17) -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px 18px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px; letter-spacing:0.4px;">THE AUFBAU LADDER &mdash; ELECTRONS FILL FROM THE BOTTOM UP (LOWEST ENERGY FIRST)</div>
+            <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                <!-- ladder column: high energy at top -->
+                <div style="display:flex; align-items:stretch; gap:8px; min-width:230px;">
+                    <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; font-size:11px; color:#6b7a99;"><span>&#9650; higher<br>energy</span><span>lower<br>energy</span></div>
+                    <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 40px 6px 14px; font-size:15px; color:#0E1C42;">4p</div>
+                        <div style="background:#FDF3E3; border:1.5px solid #C7922C; border-radius:5px; padding:6px 30px 6px 14px; font-size:15px; color:#0E1C42;"><strong>3d</strong> <span style="font-size:12px; color:#8a6d1d;">&mdash; fills 2nd</span></div>
+                        <div style="background:#FDF3E3; border:1.5px solid #C7922C; border-radius:5px; padding:6px 30px 6px 14px; font-size:15px; color:#0E1C42;"><strong>4s</strong> <span style="font-size:12px; color:#8a6d1d;">&mdash; fills 1st</span></div>
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 50px 6px 14px; font-size:15px; color:#0E1C42;">3p</div>
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 60px 6px 14px; font-size:15px; color:#0E1C42;">3s</div>
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 70px 6px 14px; font-size:15px; color:#0E1C42;">2p</div>
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 80px 6px 14px; font-size:15px; color:#0E1C42;">2s</div>
+                        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:5px; padding:6px 90px 6px 14px; font-size:15px; color:#0E1C42;">1s</div>
+                    </div>
+                </div>
+                <!-- annotation -->
+                <div style="flex:1; min-width:240px; background:#FDF3E3; border-left:4px solid #C7922C; border-radius:6px; padding:12px 16px;">
+                    <div style="font-size:11px; color:#8a6d1d; margin-bottom:6px;">&#128269; WHY 4s FILLS BEFORE 3d</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.6;">Look at the two gold rungs. The <strong>4s</strong> rung sits just <em>below</em> <strong>3d</strong> &mdash; 4s is slightly <em>lower</em> in energy, even though its shell number (4) is higher than 3d's (3). Because electrons always take the lowest available rung first, 4s fills <em>before</em> 3d. That is why iron (Z = 26) is written [Ar]&nbsp;4s<sup>2</sup>&nbsp;3d<sup>6</sup>, and why the d-block &mdash; the transition metals &mdash; is tucked into the middle of the periodic table one shell &ldquo;behind.&rdquo; The ladder isn't a tidy 1, 2, 3 by shell precisely because of overlaps like this one.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helpful callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW &middot; READING A CONFIGURATION</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A configuration is read in three parts. In <strong>2p<sup>4</sup></strong>: the <strong>2</strong> is the shell (<em>n</em>), the <strong>p</strong> is the subshell (the shape), and the <strong>superscript 4</strong> is how many electrons sit in that subshell. Add up all the superscripts and you should get the atom's total number of electrons &mdash; a quick way to check your work.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; WRITING CONFIGURATIONS &mdash; WORKED EXAMPLES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Let's build a few. Use the filling order, respect the capacities (s holds 2, p holds 6, d holds 10), and stop when you've placed all the atom's electrons (its atomic number tells you how many).</p>
+
+        <div style="background:#FFFFFF; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Oxygen (Z = 8)</strong> &mdash; 8 electrons.</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>4</sup> &nbsp;&mdash;&nbsp; fill 1s (2), then 2s (2), then 2p with the remaining 4. Check: 2 + 2 + 4 = 8. &#10003;</div>
+        </div>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Sodium (Z = 11)</strong> &mdash; 11 electrons.</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>1</sup> &nbsp;&mdash;&nbsp; the 10th electron fills 2p; the 11th starts the 3s. Check: 2 + 2 + 6 + 1 = 11. &#10003;</div>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Chlorine (Z = 17)</strong> &mdash; 17 electrons.</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup> 3p<sup>5</sup> &nbsp;&mdash;&nbsp; Check: 2 + 2 + 6 + 2 + 5 = 17. &#10003;</div>
+        </div>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Iron (Z = 26)</strong> &mdash; 26 electrons (watch the 4s-before-3d order).</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup> 3p<sup>6</sup> 4s<sup>2</sup> 3d<sup>6</sup> &nbsp;&mdash;&nbsp; fill 4s (2) <em>before</em> starting 3d, then place the last 6 in 3d. Check: 2 + 2 + 6 + 2 + 6 + 2 + 6 = 26. &#10003;</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Noble-gas shorthand</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Full configurations get long fast. The shortcut is to replace the inner electrons with the symbol of the previous <strong>noble gas</strong> in square brackets, then write only what comes after. For sodium, the part 1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> is exactly neon's configuration, so:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:12px 18px; margin:8px 0; font-size:17px; color:#0E1C42;">Na = 1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>1</sup> &nbsp;=&nbsp; <strong>[Ne] 3s<sup>1</sup></strong> &nbsp;&nbsp;|&nbsp;&nbsp; Cl = <strong>[Ne] 3s<sup>2</sup> 3p<sup>5</sup></strong> &nbsp;&nbsp;|&nbsp;&nbsp; Fe = <strong>[Ar] 4s<sup>2</sup> 3d<sup>6</sup></strong></div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Orbital (box-and-arrow) diagrams</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A configuration tells you <em>how many</em> electrons are in each subshell; an <strong>orbital diagram</strong> shows you <em>how they're arranged</em>, with each orbital a box and each electron an arrow (&uarr; or &darr;) for its spin. Watch Hund's rule in oxygen's 2p<sup>4</sup>: the first three electrons go into the three p orbitals singly (&uarr; &uarr; &uarr;), and only the fourth pairs up.</p>
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:10px 0; text-align:center;">
+            <div style="font-size:13px; color:#1B6A94; margin-bottom:10px;">OXYGEN'S 2p SUBSHELL (2p<sup>4</sup>) &mdash; Hund's rule in action</div>
+            <div style="display:inline-flex; gap:14px; font-size:22px; color:#0E1C42;">
+                <span style="border:2px solid #0E1C42; border-radius:5px; padding:4px 10px;">&uarr;&darr;</span>
+                <span style="border:2px solid #0E1C42; border-radius:5px; padding:4px 10px;">&uarr;</span>
+                <span style="border:2px solid #0E1C42; border-radius:5px; padding:4px 10px;">&uarr;</span>
+            </div>
+            <div style="font-size:13px; color:#666; margin-top:10px; font-style:italic;">One orbital is paired (&uarr;&darr;); the other two hold a single electron each. Spread out first, then pair.</div>
+        </div>
+
+        <!-- CUSTOM electron-config builder/checker -->
+        <div class="optima-widget" id="ec-builder">
+          <div class="widget-kicker">&#9889; BUILD IT &middot; ELECTRON CONFIGURATION CHECKER</div>
+          <div class="ec-prompt">Build the full electron configuration for the element shown. Tap subshell tiles to add them in order; the superscript counts up each time you tap (capacities: s = 2, p = 6, d = 10). Use <strong>Backspace</strong> to undo and <strong>Check</strong> when your superscripts add up to the right number of electrons.</div>
+          <div style="margin-bottom:8px;">Target: <span class="ec-target" id="ec-target">Sodium (Na), Z = 11</span> &nbsp; <button class="ec-controls" id="ec-next" style="border-radius:8px; padding:6px 12px; font-size:13px; cursor:pointer; font-family:inherit; border:1.5px solid #D0D9E8; background:#fff; color:#0E1C42;">Try a different element &#8635;</button></div>
+          <div class="ec-build" id="ec-build"><span style="color:#999;">your configuration appears here&hellip;</span></div>
+          <div class="ec-palette">
+            <button data-sub="1s">1s</button>
+            <button data-sub="2s">2s</button>
+            <button data-sub="2p">2p</button>
+            <button data-sub="3s">3s</button>
+            <button data-sub="3p">3p</button>
+            <button data-sub="4s">4s</button>
+            <button data-sub="3d">3d</button>
+            <button data-sub="4p">4p</button>
+          </div>
+          <div class="ec-controls">
+            <button id="ec-back">&#9003; Backspace</button>
+            <button id="ec-clear">Clear</button>
+            <button class="ec-check" id="ec-check">Check</button>
+          </div>
+          <div class="ec-feedback" id="ec-feedback"></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; VALENCE ELECTRONS &amp; THE SHAPE OF THE TABLE</div>
+
+        <!-- Concept box: what a configuration MEANS (M2-16) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 0 0 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THE BIG IDEA &middot; WHAT A CONFIGURATION REALLY IS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">An electron configuration is not a string to memorize &mdash; it is a <strong>map of where an atom's electrons live</strong>, organized by energy level (the shell, <em>n</em>) and sublevel (s, p, d, f). Read that map and it hands you two powerful things. First, it shows the atom's <strong>valence electrons</strong> &mdash; the outermost electrons that do all the chemistry and decide how the atom bonds. Second, it pins the atom's <strong>exact address on the periodic table</strong>: the last sublevel being filled tells you the block, the highest shell tells you the row, and the valence count tells you the group. Configuration, valence, and periodic position are three views of the <em>same</em> fact &mdash; and that is what the rest of this lesson makes concrete.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The electrons in the outermost shell &mdash; the highest <em>n</em> &mdash; are called the <strong>valence electrons</strong>, and they are the ones that do chemistry. They are what an atom uses to bond. For sodium ([Ne] 3s<sup>1</sup>) there is 1 valence electron; for chlorine ([Ne] 3s<sup>2</sup> 3p<sup>5</sup>) there are 7 (the 3s and 3p electrons, since <em>n</em> = 3 is the outer shell). Counting valence electrons from a configuration is a skill you will lean on constantly in Module 3.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the beautiful part. The periodic table is not arranged by accident &mdash; it is a <strong>map of electron configurations</strong>. Each region, or <em>block</em>, corresponds to the subshell being filled:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:12px 0;">
+            <div style="flex:1; min-width:140px; background:#EEF1F8; border-radius:8px; padding:12px; text-align:center;"><div style="font-size:17px;color:#0E1C42;"><strong>s-block</strong></div><div style="font-size:13px;color:#1a2340;">Groups 1&ndash;2 (filling an s subshell)</div></div>
+            <div style="flex:1; min-width:140px; background:#EEF1F8; border-radius:8px; padding:12px; text-align:center;"><div style="font-size:17px;color:#0E1C42;"><strong>p-block</strong></div><div style="font-size:13px;color:#1a2340;">Groups 13&ndash;18 (filling a p subshell)</div></div>
+            <div style="flex:1; min-width:140px; background:#EEF1F8; border-radius:8px; padding:12px; text-align:center;"><div style="font-size:17px;color:#0E1C42;"><strong>d-block</strong></div><div style="font-size:13px;color:#1a2340;">Transition metals (filling a d subshell)</div></div>
+            <div style="flex:1; min-width:140px; background:#EEF1F8; border-radius:8px; padding:12px; text-align:center;"><div style="font-size:17px;color:#0E1C42;"><strong>f-block</strong></div><div style="font-size:13px;color:#1a2340;">The two rows below (filling an f subshell)</div></div>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">An element's position tells you its configuration, and its configuration tells you its position. The table you've used since grade school is, secretly, a picture of where electrons live.</p>
+
+        <!-- ow-select: identify element / valence count -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READ THE CONFIGURATION</div>
+          <div class="widget-question">Use what you've practiced. Pick the single best answer for each; you'll get instant feedback.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; 2 + 2 + 6 + 2 = 12 electrons, which is magnesium (Z = 12)." data-hint="Add the superscripts to get the total number of electrons, then find that atomic number.">
+            <div class="widget-row-prompt">1. Which element has the configuration 1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup>?</div>
+            <div class="widget-options">
+              <button data-choice="0">Neon (Z = 10)</button>
+              <button data-choice="1">Magnesium (Z = 12)</button>
+              <button data-choice="2">Sulfur (Z = 16)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; the outer shell is n = 3, holding 3s&sup2; and 3p&sup3;, so 2 + 3 = 5 valence electrons." data-hint="Count only the electrons in the highest-n shell (here, the n = 3 electrons).">
+            <div class="widget-row-prompt">2. How many valence electrons does phosphorus have? ([Ne] 3s<sup>2</sup> 3p<sup>3</sup>)</div>
+            <div class="widget-options">
+              <button data-choice="0">3</button>
+              <button data-choice="1">2</button>
+              <button data-choice="2">5</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; potassium's last electron enters the 4s subshell, so it sits in the s-block." data-hint="Which subshell is being filled last? That names the block.">
+            <div class="widget-row-prompt">3. Potassium is [Ar] 4s<sup>1</sup>. Which block of the periodic table is it in?</div>
+            <div class="widget-options">
+              <button data-choice="0">s-block</button>
+              <button data-choice="1">p-block</button>
+              <button data-choice="2">d-block</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Write the full and noble-gas-shorthand configuration for calcium (Z = 20).</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Full: <strong>1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup> 3p<sup>6</sup> 4s<sup>2</sup></strong> (check: 2 + 2 + 6 + 2 + 6 + 2 = 20 &#10003;). The 19th and 20th electrons fill 4s, which comes before 3d. Shorthand: <strong>[Ar] 4s<sup>2</sup></strong>, since 1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>6</sup> 3s<sup>2</sup> 3p<sup>6</sup> is exactly argon. Calcium has 2 valence electrons and sits in the s-block.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson gives you the labels for your <strong>Atomic Model Evolution Gallery</strong> (Build 3 of 4). When you add electron structure to your atom this week, you'll write its full <em>electron configuration</em> on a label and mark which electrons are <em>valence</em> electrons. Pick the element your atom represents, work out its configuration here first, and bring it into the headset. The interactive checker above is your rehearsal.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the filling rules, writing configurations, and valence electrons.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Electron Configurations &amp; the Logic of the Table</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Write configurations, draw an orbital diagram, count valence electrons, and reason through periodic trends.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Periodic trends &mdash; why atoms change size and grip on their electrons across the table.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Three rules &mdash; fill lowest energy first (Aufbau), two per orbital with opposite spins (Pauli), spread out before pairing (Hund) &mdash; let you write the electron configuration of any atom. From it you can read the valence electrons that drive bonding, and you can see that the periodic table itself is a map of where electrons go. Next, we use these configurations to explain why atoms differ in size and in how tightly they hold their electrons.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.08 &middot; Electronic Structure of Atoms</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  // ----- shared click handlers (reflect / select / flip / reset) -----
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ----- custom electron-configuration builder -----
+  var CAP = { '1s':2, '2s':2, '2p':6, '3s':2, '3p':6, '4s':2, '3d':10, '4p':6 };
+  var ORDER = ['1s','2s','2p','3s','3p','4s','3d','4p'];
+  var ELEMENTS = [
+    { name:'Sodium (Na), Z = 11', z:11 },
+    { name:'Oxygen (O), Z = 8', z:8 },
+    { name:'Chlorine (Cl), Z = 17', z:17 },
+    { name:'Calcium (Ca), Z = 20', z:20 },
+    { name:'Iron (Fe), Z = 26', z:26 }
+  ];
+  var builder = document.getElementById('ec-builder');
+  if (!builder) return;
+  var build = document.getElementById('ec-build');
+  var feedback = document.getElementById('ec-feedback');
+  var targetEl = document.getElementById('ec-target');
+  var stack = [];        // array of {sub, count}
+  var current = ELEMENTS[0];
+
+  function correctConfig(z) {
+    var left = z, parts = [];
+    for (var i = 0; i < ORDER.length && left > 0; i++) {
+      var sub = ORDER[i];
+      var n = Math.min(CAP[sub], left);
+      parts.push({ sub: sub, count: n });
+      left -= n;
+    }
+    return parts;
+  }
+  function fmt(parts) {
+    if (!parts.length) return '<span style="color:#999;">your configuration appears here&hellip;</span>';
+    return parts.map(function (p) {
+      var s = p.sub.slice(0,1), l = p.sub.slice(1);
+      return s + l + '<sup>' + p.count + '</sup>';
+    }).join(' ');
+  }
+  function render() { build.innerHTML = fmt(stack); }
+  function clearFb() { feedback.className = 'ec-feedback'; feedback.textContent = ''; }
+
+  builder.addEventListener('click', function (e) {
+    var pal = e.target.closest('.ec-palette button');
+    if (pal) {
+      var sub = pal.dataset.sub;
+      var last = stack[stack.length - 1];
+      if (last && last.sub === sub) {
+        if (last.count < CAP[sub]) last.count++;
+      } else {
+        stack.push({ sub: sub, count: 1 });
+      }
+      clearFb(); render(); return;
+    }
+    if (e.target.closest('#ec-back')) {
+      var l = stack[stack.length - 1];
+      if (l) { l.count--; if (l.count <= 0) stack.pop(); }
+      clearFb(); render(); return;
+    }
+    if (e.target.closest('#ec-clear')) { stack = []; clearFb(); render(); return; }
+    if (e.target.closest('#ec-next')) {
+      var idx = ELEMENTS.indexOf(current);
+      current = ELEMENTS[(idx + 1) % ELEMENTS.length];
+      targetEl.textContent = current.name;
+      stack = []; clearFb(); render(); return;
+    }
+    if (e.target.closest('#ec-check')) {
+      var want = correctConfig(current.z);
+      var ok = want.length === stack.length && want.every(function (p, i) {
+        return stack[i] && stack[i].sub === p.sub && stack[i].count === p.count;
+      });
+      if (ok) {
+        feedback.className = 'ec-feedback correct';
+        feedback.innerHTML = 'Correct! That is the configuration for ' + current.name + '. The superscripts sum to ' + current.z + '.';
+      } else {
+        var total = stack.reduce(function (a, p) { return a + p.count; }, 0);
+        feedback.className = 'ec-feedback incorrect';
+        if (total !== current.z) {
+          feedback.innerHTML = 'Not yet — your superscripts add up to ' + total + ', but this atom has ' + current.z + ' electrons. Keep filling in order (remember 4s before 3d).';
+        } else {
+          feedback.innerHTML = 'Close — you have the right number of electrons, but check the order or where you stopped each subshell. The correct answer is: ' + fmt(want) + '.';
+        }
+      }
+      return;
+    }
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>

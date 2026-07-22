@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Molecular Structure &amp; Polarity</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Molecular Structure &amp; Polarity</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A Lewis structure tells you which atoms are bonded &mdash; but flat on the page it hides something the molecule cares about a great deal. Why does the <em>shape</em> of a molecule decide so much about how it behaves?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For the last two weeks you've drawn molecules flat &mdash; bonding pairs here, lone pairs there. But molecules are not flat. They are three-dimensional objects with definite angles, and that shape is not decoration: it decides whether water clings to itself, whether carbon dioxide slips through the air without sticking, and whether a drug molecule fits the receptor it is meant to switch on. Today you'll learn a single, beautifully simple rule &mdash; <strong>electrons push each other apart</strong> &mdash; that predicts the shape of almost any small molecule, and then you'll use that shape to decide whether the molecule is <strong>polar</strong> or <strong>nonpolar</strong>.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use VSEPR to predict the electron geometry, molecular shape, and approximate bond angles of a molecule from the number of electron domains around its central atom.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how lone pairs compress bond angles and change the molecular shape from the electron geometry.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> decide whether a molecule is polar or nonpolar by combining bond dipoles with the molecule's symmetry.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook &mdash; you'll predict a shape, record the five domain geometries, and note three polar/nonpolar judgments.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes, including an interactive molecule-shape simulation.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; ONE RULE: ELECTRONS PUSH APART</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Imagine you tie four identical balloons together at their knots. Before you read on &mdash; how do you expect the four balloons to arrange themselves in space? (No wrong answer; just commit to a picture.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the right instinct. Four balloons tied at one point push apart and spread into three dimensions &mdash; pointing toward the corners of a tetrahedron. That is precisely how four electron domains arrange themselves around an atom, and why methane is tetrahedral.">&#127880; They spread out into 3D, pointing to the corners of a pyramid-like shape</button>
+            <button data-response="A reasonable guess, but the balloons won't stay flat &mdash; staying in a plane would force two of them closer together than they need to be. To get as far apart as possible, four objects pop out into three dimensions. Hold that idea; it's the whole secret of molecular shape.">&#11036; They lie flat in a cross, 90&deg; apart in one plane</button>
+            <button data-response="Tempting, but tying them at one knot forces them to share a point &mdash; they can't just go anywhere. They settle into the one arrangement that keeps every balloon as far from every other as possible. For four, that's a 3D tetrahedral spread.">&#127922; They point in random directions</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The balloons are a near-perfect model of what happens around an atom. Groups of electrons all carry negative charge, so they repel one another. They will arrange themselves around the central atom in whatever pattern keeps them <em>as far apart as possible</em>. That single idea &mdash; electron pairs spreading out to minimize repulsion &mdash; is the whole of <strong>VSEPR</strong> theory, which stands for <strong>V</strong>alence <strong>S</strong>hell <strong>E</strong>lectron <strong>P</strong>air <strong>R</strong>epulsion. It is one of the most successful &ldquo;simple rules&rdquo; in all of chemistry: from one principle you can predict the three-dimensional shape of thousands of molecules.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To use it, count the <strong>electron domains</strong> around the central atom. A domain is any group of electrons that wants its own space: a single bond, a double bond, or a triple bond each count as <em>one</em> domain (the extra pairs ride along), and every <strong>lone pair</strong> counts as one domain too. The number of domains sets the <strong>electron geometry</strong> &mdash; the arrangement of <em>all</em> the domains. But here is the subtlety that trips people up: <strong>lone pairs are invisible in the shape we name.</strong> The <strong>molecular shape</strong> describes only where the <em>atoms</em> are, not where the lone pairs sit. So a molecule can have a tetrahedral arrangement of domains and yet be called &ldquo;bent,&rdquo; because two of those domains are lone pairs we don't see in the outline of atoms.</p>
+
+        <!-- History callout (THEN): Gillespie & Nyholm and VSEPR -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The balloon rule has a history. An early version &mdash; that electron pairs arrange themselves to stay apart &mdash; was suggested in 1940, but the theory took its modern shape in 1957 when two chemists, <strong>Ronald Gillespie</strong> and <strong>Ronald Nyholm</strong>, sharpened it into the predictive tool we now call <strong>VSEPR</strong>. What made their version stick was not elegance for its own sake but that it <em>matched the measured bond angles</em> of real molecules, again and again. It is a striking case of how far a single, simple idea &mdash; like charges repel &mdash; can be pushed once someone states it clearly and checks it against the evidence.</div>
+        </div>
+
+        <!-- Nature-of-Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A MODEL THAT EARNS ITS KEEP</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">VSEPR is a <em>model</em> &mdash; a deliberately simple picture, not the final truth about electrons. It treats electron groups like balloons and ignores a great deal of the quantum detail. And yet it predicts measured bond angles astonishingly well, which is exactly what earns a model its place in science: it is judged by how well it accounts for the evidence. You'll also meet its edges &mdash; VSEPR predicts <em>approximate</em> angles, and lone pairs bend them in ways the simplest version only roughly captures. That's not a failure. A good model tells you both what to expect and where to look more carefully.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE FIVE FAMILIES OF SHAPE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Almost every small molecule you'll meet falls into one of a handful of domain counts. Read the table by counting domains first to get the <em>electron geometry</em>, then subtracting the lone pairs to get the <em>molecular shape</em> and its angle.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 14px 0; font-size:15px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Domains</th>
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Electron geometry</th>
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Bonds / lone pairs</th>
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Molecular shape</th>
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Angle</th>
+                <th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Example</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">2</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Linear</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">2 bond / 0 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Linear</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">180&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">CO<sub>2</sub></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">3</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Trigonal planar</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">3 bond / 0 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Trigonal planar</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">120&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">BF<sub>3</sub></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">3</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Trigonal planar</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">2 bond / 1 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Bent</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">~120&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">SO<sub>2</sub></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Tetrahedral</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">4 bond / 0 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Tetrahedral</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">109.5&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">CH<sub>4</sub></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Tetrahedral</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">3 bond / 1 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Trigonal pyramidal</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">~107&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">NH<sub>3</sub></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Tetrahedral</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">2 bond / 2 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Bent</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">~104.5&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">H<sub>2</sub>O</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">5</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Trigonal bipyramidal</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">5 bond / 0 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Trigonal bipyramidal</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">90&deg; &amp; 120&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">PCl<sub>5</sub></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">6</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">Octahedral</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">6 bond / 0 lp</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Octahedral</strong></td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">90&deg;</td><td style="padding:7px 10px; border:1px solid #D0D9E8; color:#1a2340;">SF<sub>6</sub></td></tr>
+        </table>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Why lone pairs squeeze the angles</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Look down the four-domain rows. Methane (CH<sub>4</sub>), with four bonds and no lone pairs, sits at the &ldquo;textbook&rdquo; tetrahedral angle of <strong>109.5&deg;</strong>. Ammonia (NH<sub>3</sub>) has three bonds and one lone pair, and its H&ndash;N&ndash;H angles shrink to about <strong>107&deg;</strong>. Water (H<sub>2</sub>O) has two bonds and two lone pairs, and its angle shrinks further to about <strong>104.5&deg;</strong>. The pattern is no accident. A lone pair is held by only one atom, so it spreads out and pushes <em>harder</em> than a bonding pair, which is pinned between two nuclei. Each lone pair you add presses the bonding pairs closer together, compressing the angle step by step: 109.5 &rarr; 107 &rarr; 104.5. The lone pairs are invisible in the named shape, but you can <em>measure their fingerprints</em> in the squeezed angles.</p>
+
+        <!-- Flip cards: shape gallery -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to reveal the molecular shape and what makes it that way:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">CO<sub>2</sub> &mdash; carbon dioxide</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Central C has <strong>2 domains</strong> (two C=O double bonds, no lone pairs). Electron geometry and molecular shape are both <strong>linear, 180&deg;</strong>. O=C=O in a straight line.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">NH<sub>3</sub> &mdash; ammonia</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Central N has <strong>4 domains</strong> (3 N&ndash;H bonds + 1 lone pair). Electron geometry tetrahedral, but molecular shape is <strong>trigonal pyramidal, ~107&deg;</strong> &mdash; the lone pair pushes the three H atoms down into a tripod.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">H<sub>2</sub>O &mdash; water</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Central O has <strong>4 domains</strong> (2 O&ndash;H bonds + 2 lone pairs). Electron geometry tetrahedral, molecular shape <strong>bent, ~104.5&deg;</strong> &mdash; two lone pairs press the angle down hardest of all.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- PhET embed: Molecule Shapes -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Build molecules and watch the domains spread apart</div>
+            <iframe src="https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="Molecule Shapes simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_en.html">Molecule Shapes</a>.</div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;"><strong>In your notebook, observe:</strong> Start in &ldquo;Model&rdquo; mode and add bonds one at a time, watching the predicted angle change as the domains rearrange. Then add a <em>lone pair</em> and turn on &ldquo;Show bond angles&rdquo; &mdash; watch the angle shrink below the ideal value. Confirm for yourself: two bonds &rarr; 180&deg;, three bonds &rarr; 120&deg;, four bonds &rarr; 109.5&deg;, and that every lone pair you add squeezes the remaining angle a little more.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; SHAPE DECIDES POLARITY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Back in Lesson 3.02 you met <strong>polar bonds</strong>: when two bonded atoms differ in electronegativity, the shared electrons are pulled toward the more electronegative atom, giving it a partial negative charge (&delta;&minus;) and leaving the other partially positive (&delta;+). We picture that pull as a <strong>bond dipole</strong> &mdash; a little arrow pointing <em>toward</em> the more electronegative atom. Now we ask the question that needs the shape: does the whole molecule end up with a positive end and a negative end? If it does, it is <strong>polar</strong>. If not, it is <strong>nonpolar</strong>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the part that surprises people: <strong>a molecule can have polar bonds and still be nonpolar overall.</strong> Bond dipoles are arrows, and arrows can cancel. If the molecule is symmetric &mdash; identical outer atoms arranged so their dipoles point in balancing directions &mdash; the dipoles add up to zero and there is no net pull. Carbon dioxide is the classic case: each C=O bond is polar, but the molecule is <em>linear</em>, so the two dipoles point in exactly opposite directions and cancel. CO<sub>2</sub> is nonpolar. The same thing happens in methane (CH<sub>4</sub>) and carbon tetrachloride (CCl<sub>4</sub>): the four bond dipoles point to the corners of a symmetric tetrahedron and cancel, so both are nonpolar despite having polar bonds.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Break the symmetry and the cancellation fails. Water is <em>bent</em>, so its two O&ndash;H dipoles don't oppose each other &mdash; they add to give a net dipole pointing toward the oxygen. Water is polar, and that single fact explains much of why it dissolves so many things and clings to itself. Ammonia is <em>trigonal pyramidal</em>, not flat, so its three N&ndash;H dipoles don't cancel either &mdash; it is polar too. The presence of a lone pair on the central atom is often the symmetry-breaker. A useful rule of thumb: <em>identical outer atoms + a symmetric shape + no lone pairs on the central atom &rarr; usually nonpolar.</em> Anything that breaks that symmetry tends to make the molecule polar.</p>
+
+        <!-- Comparison panel -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #2A9D5C; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#1A6B3D; margin-bottom:6px;"><strong>Nonpolar (dipoles cancel)</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;"><strong>CO<sub>2</sub></strong> &mdash; linear, two opposite C=O dipoles cancel.<br><strong>CH<sub>4</sub>, CCl<sub>4</sub></strong> &mdash; symmetric tetrahedron, four dipoles cancel.<br><em>Polar bonds, but symmetric shape &rarr; no net dipole.</em></div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #C0392B; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#8A1F16; margin-bottom:6px;"><strong>Polar (dipoles don't cancel)</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;"><strong>H<sub>2</sub>O</strong> &mdash; bent, two O&ndash;H dipoles add toward O.<br><strong>NH<sub>3</sub></strong> &mdash; pyramidal, three N&ndash;H dipoles add.<br><em>Asymmetry (often a lone pair) &rarr; net dipole.</em></div>
+            </div>
+        </div>
+
+        <!-- Current-research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #E0A93E; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#10024; NOW &middot; WHERE THIS IS HEADING: SHAPE IS EVERYTHING IN DRUG DESIGN</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The idea that <em>shape governs behavior</em> is not a classroom convenience &mdash; it is the central principle of how modern medicines work. A drug molecule acts by fitting into a protein receptor much as a key fits a lock; if the three-dimensional shape and the placement of its polar groups are right, it binds and does its job, and if not, it doesn't. Scientists today are exploring how to design molecules with exactly the right geometry and polarity to fit a chosen target, and the same principle drives nanotechnology and new materials, where the way atoms are arranged in space determines what the material can do. The flat Lewis structure you started with two weeks ago has, by this lesson, become a 3D object &mdash; and that third dimension is where the chemistry of life and medicine actually happens.</div>
+        </div>
+
+        <!-- Single-select widget: classify shape and polarity -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; SHAPE &amp; POLARITY</div>
+          <div class="widget-question">For each molecule, use the domain count and symmetry to pick the right answer. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; carbon has 4 bonding domains and no lone pairs, so CH&#8324; is tetrahedral at 109.5&deg;." data-hint="Count domains on carbon: four C&ndash;H bonds, zero lone pairs.">
+            <div class="widget-row-prompt">1. What is the molecular shape of methane, CH<sub>4</sub>?</div>
+            <div class="widget-options">
+              <button data-choice="0">Bent</button>
+              <button data-choice="1">Trigonal pyramidal</button>
+              <button data-choice="2">Tetrahedral</button>
+              <button data-choice="3">Linear</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; oxygen has 2 bonds + 2 lone pairs (4 domains), giving a bent shape near 104.5&deg;." data-hint="Oxygen has two O&ndash;H bonds and two lone pairs &mdash; four domains, but two are lone pairs.">
+            <div class="widget-row-prompt">2. What is the molecular shape of water, H<sub>2</sub>O?</div>
+            <div class="widget-options">
+              <button data-choice="0">Bent (~104.5&deg;)</button>
+              <button data-choice="1">Linear</button>
+              <button data-choice="2">Tetrahedral</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; CO&#8322; has polar C=O bonds, but it is linear, so the two opposite dipoles cancel: nonpolar." data-hint="The bonds are polar. Now ask: is the molecule symmetric enough for the dipoles to cancel?">
+            <div class="widget-row-prompt">3. Carbon dioxide, CO<sub>2</sub>, is best described as:</div>
+            <div class="widget-options">
+              <button data-choice="0">Polar &mdash; it has polar bonds</button>
+              <button data-choice="1">Nonpolar &mdash; the bond dipoles cancel by symmetry</button>
+              <button data-choice="2">Nonpolar &mdash; its bonds are nonpolar</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; NH&#8323; is trigonal pyramidal (a lone pair breaks the symmetry), so the dipoles don't cancel: polar." data-hint="Ammonia is pyramidal, not flat. Does an asymmetric shape let the dipoles cancel?">
+            <div class="widget-row-prompt">4. Ammonia, NH<sub>3</sub>, is best described as:</div>
+            <div class="widget-options">
+              <button data-choice="0">Nonpolar &mdash; identical N&ndash;H bonds</button>
+              <button data-choice="1">Nonpolar &mdash; it is symmetric</button>
+              <button data-choice="2">Polar &mdash; the pyramidal shape leaves a net dipole</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument / worth-knowing -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; THE TOOL DRAWS THE SHAPE, YOU CHECK THE LOGIC</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Modeling software &mdash; and the AI structure-prediction tools chemists increasingly use &mdash; will happily render a 3D shape for any molecule you give it. But a rendering is a claim, not a proof. The verification is still yours: count the electron domains, account for the lone pairs, and check that the predicted angles and the polar/nonpolar verdict actually follow from the Lewis structure you can defend. If a tool shows a &ldquo;flat&rdquo; water molecule or calls CO<sub>2</sub> polar, trust your reasoning over the readout &mdash; and find the error. AI is a fast instrument here; it is not the judge.</div>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Carbon tetrachloride, CCl<sub>4</sub>, has four polar C&ndash;Cl bonds. Is the molecule polar or nonpolar &mdash; and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Nonpolar.</strong> Carbon has four bonding domains and no lone pairs, so CCl<sub>4</sub> is a symmetric tetrahedron. Each C&ndash;Cl bond is polar, but the four identical dipoles point to the corners of the tetrahedron and cancel exactly, leaving no net dipole. This is the same logic as methane &mdash; polar bonds, symmetric shape, nonpolar molecule. (Replace one Cl with an H and the symmetry breaks, and CHCl<sub>3</sub> becomes polar.)</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the <strong>final build</strong> of your <strong>Molecule Build &amp; Geometry Showcase</strong> &mdash; <strong>Build 3 of 3</strong>. Two weeks ago you transferred electrons to make an ionic pair; last week you drew the flat Lewis structures of water, carbon dioxide, and ammonia. This week, in the <strong>VSEPR Shape Lab</strong>, you'll lift those flat drawings into their true 3D shapes &mdash; bent water, linear CO<sub>2</sub>, pyramidal ammonia &mdash; add <strong>polarity arrows</strong> showing each net dipole, and bring in one <strong>carbon example</strong> (methane or ethanol). Then you'll record the in-VR walkthrough that is your module project deliverable. Everything in this lesson &mdash; domains, angles, dipoles &mdash; is exactly what you'll narrate on camera.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on domains, shapes, angles, and polarity. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 3.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">One atom &mdash; carbon &mdash; builds nearly all of living chemistry. You'll see how four bonds and a few functional groups create endless variety.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: VSEPR Shape Lab (Build 3 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Give your molecules their 3D shapes and polarity arrows, then record your showcase walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">One rule &mdash; <em>electron domains push as far apart as they can</em> &mdash; predicts the three-dimensional shape of almost any small molecule, with lone pairs squeezing the angles in a measurable way. And shape, in turn, decides polarity: polar bonds cancel in a symmetric molecule and add up in an asymmetric one. A flat Lewis structure was never the whole story. The molecule lives in three dimensions, and that is where it decides how to behave &mdash; in your glass of water, in the air you breathe, and in the medicines designed to fit your cells.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.06 &middot; Molecular Structure &amp; Polarity</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

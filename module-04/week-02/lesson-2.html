@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Other Units for Solution Concentration</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Other Units for Solution Concentration</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If molarity is so useful, why does a bottle of rubbing alcohol say &ldquo;70%&rdquo; and a water-quality report list contaminants in &ldquo;parts per million&rdquo; instead?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Molarity is the chemist's workhorse because reactions count moles. But molarity isn't always the most natural way to say &ldquo;how much.&rdquo; A pharmacist mixing a cream, an engineer monitoring a reservoir for a trace pollutant, and a manufacturer bottling alcohol each reach for a <em>different</em> unit &mdash; one that fits what they measure and what they care about. This lesson rounds out your concentration toolkit with three more units: <strong>mass percent</strong>, <strong>parts per million and per billion</strong>, and <strong>volume percent</strong>. The deeper skill isn't memorizing formulas &mdash; it's learning to pick the right unit for the job.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the mass percent of a solute from the mass of solute and the mass of solution.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> express the concentration of a trace solute in parts per million (ppm) or parts per billion (ppb), and interpret what those numbers mean for water quality.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> compute volume percent and choose the most appropriate concentration unit for a given situation.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator &mdash; you'll work a few percent and ppm calculations.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; MASS PERCENT</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A label reads &ldquo;5% saline solution.&rdquo; Before reading on, predict: when a label gives a plain percentage like this, what two amounts do you think are being compared &mdash; and why might that be easier to put on a bottle than molarity? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Strong instinct. Mass percent compares the mass of solute to the mass of the whole solution. It's label-friendly because anyone with a scale can check it — no molar mass, no moles, no volumetric flask needed. That convenience is exactly why consumer products favor it.">&#9878;&#65039; The mass of solute compared to the mass of the whole solution</button>
+            <button data-response="Close, and a fair guess — solute-to-solvent ratios do exist. But the standard convention compares solute to the TOTAL solution (solute + solvent), so the percentages add up cleanly to 100%. Keep your core idea: it's a simple mass ratio, easy to measure with a scale.">&#129516; The mass of solute compared to the mass of water only</button>
+            <button data-response="An interesting thought, but percentages on a label aren't about moles at all — that's molarity's job. Mass percent compares masses, which anyone can weigh without knowing any chemistry. That's the whole appeal for everyday products.">&#128290; The moles of solute compared to the moles of solvent</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The simplest way to state a concentration needs no moles at all &mdash; just a scale. <strong>Mass percent</strong> is the mass of solute as a percentage of the total mass of the solution:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">
+            mass percent = <span style="display:inline-block; text-align:center; vertical-align:middle; margin:0 6px;"><span style="display:block; border-bottom:2px solid #0e1c42; padding:0 8px;">mass of solute</span><span style="display:block; padding:0 8px;">mass of solution</span></span> &times; 100%
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Watch the denominator: it's the mass of the whole <em>solution</em>, which is solute <em>plus</em> solvent &mdash; the same &ldquo;don't forget the solute takes up space&rdquo; lesson you met with molarity, now in mass form.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: a salt solution</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Dissolve <strong>5.0 g of NaCl</strong> in <strong>95 g of water</strong>. The mass of the <em>solution</em> is 5.0 g + 95 g = 100 g. So:</p>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            mass percent = (5.0 g &divide; 100 g) &times; 100% = <strong>5.0%</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A 5.0% solution &mdash; exactly what a label would read. Because it needs only a balance and no knowledge of what the substance even is, mass percent is the workhorse of consumer products, food labels, and medicine: hydrogen peroxide is sold as &ldquo;3%,&rdquo; saline as &ldquo;0.9%,&rdquo; and so on.</p>
+
+        <!-- History-of-science vignette (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; THEN &middot; A UNIT FOR EVERY TRADE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Long before anyone spoke of moles, merchants, apothecaries, and metal assayers already needed to state &ldquo;how much&rdquo; in numbers a buyer could trust. The practical demands of commerce and medicine &mdash; certifying the strength of a spirit, the purity of a metal, the dose in a remedy &mdash; pushed people toward simple, checkable ratios that anyone with a balance could verify. Expressing one component as a <em>percentage of the whole</em> was the natural answer, and it stuck: it needs no theory of atoms, only a scale. That is why, long afterward, mass percent and volume percent still label the bottles on your shelf. The unit survived because it solved a real problem &mdash; making concentration a number ordinary people could check for themselves.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PARTS PER MILLION AND PER BILLION &mdash; THE TRACE AMOUNTS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now picture a different problem. A water utility must confirm that a contaminant sits below a safety limit &mdash; but the amount is so tiny that writing it as a percent would give an absurd number like 0.00025%. For these <strong>trace</strong> concentrations, chemists scale up the comparison. <strong>Parts per million (ppm)</strong> multiplies the solute-to-solution mass ratio by one million instead of one hundred; <strong>parts per billion (ppb)</strong> multiplies by one billion:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; text-align:center; line-height:2;">
+            ppm = (mass of solute &divide; mass of solution) &times; 10<sup>6</sup><br>
+            ppb = (mass of solute &divide; mass of solution) &times; 10<sup>9</sup>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">There's a handy shortcut for dilute <em>water</em> solutions. Because one liter of water has a mass very close to one kilogram (a million milligrams), <strong>1 ppm is about 1 milligram of solute per liter of water</strong> (1 mg/L). That little equivalence turns a lot of water-quality math into something you can do in your head.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: fluoride in drinking water</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A sample contains <strong>0.0025 g of fluoride</strong> dissolved in <strong>1.0 kg of water</strong>. Express this in ppm. Match the units &mdash; 1.0 kg of water is 1000 g, and 0.0025 g of fluoride is 2.5 mg:</p>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            ppm = (0.0025 g &divide; 1000 g) &times; 10<sup>6</sup> = <strong>2.5 ppm</strong><br>
+            <span style="font-size:15px; color:#666;">check with the shortcut: 2.5 mg in 1 L (&asymp; 1 kg) of water = 2.5 mg/L &asymp; 2.5 ppm &#10003;</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is no abstract example. Drinking-water rules are written in exactly these units: fluoride is added to many water supplies at roughly the level above, and legal limits for contaminants like lead are set in <em>ppb</em> &mdash; because at those concentrations, the difference between 5 ppb and 50 ppb is the difference between safe and unsafe. The unit you choose has to match the smallness of what you're measuring.</p>
+
+        <!-- Current research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128200; NOW &middot; WHERE THIS IS HEADING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Trace analysis is a frontier of modern chemistry. Researchers today are pushing detection limits ever lower &mdash; from parts per billion down toward parts per trillion &mdash; to track substances such as so-called &ldquo;forever chemicals&rdquo; and microplastics that affect drinking water and ecosystems. Scientists are currently exploring more sensitive instruments and faster sensors so that contaminants can be caught at concentrations once thought impossible to measure. The arithmetic you just did &mdash; a mass ratio scaled up &mdash; is the same idea those frontier measurements rest on; only the instruments have grown sharper.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; VOLUME PERCENT &amp; CHOOSING THE RIGHT UNIT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When both the solute and the solvent are <em>liquids</em>, it's often easiest to measure them by volume rather than mass. <strong>Volume percent (% v/v)</strong> is the volume of solute as a percentage of the total solution volume. Rubbing alcohol labeled <strong>70% v/v</strong> means 70 mL of isopropyl alcohol in every 100 mL of solution &mdash; the rest is water. You'll see the same convention on beverages and disinfectants, because pouring a liquid is simpler than weighing it.</p>
+
+        <!-- Three concentration units: flip cards -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to compare the three units and when each fits best:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Mass percent &mdash; (mass solute / mass solution) &times; 100%</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Best when you can weigh things and don't need moles &mdash; food, medicine, consumer products. Example: 3% hydrogen peroxide. Needs only a balance.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">ppm / ppb &mdash; ratio &times; 10&#8310; or 10&#8313;</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Best for <em>trace</em> amounts too small for a sensible percent &mdash; pollutants, drinking-water limits, fluoride. Shortcut: 1 ppm &asymp; 1 mg/L in water.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Volume percent &mdash; (vol solute / vol solution) &times; 100%</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Best for liquid-in-liquid mixtures you'd rather pour than weigh &mdash; rubbing alcohol (70% v/v), beverages, disinfectants.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A pool report lists chlorine at 3 ppm. Roughly how many milligrams of chlorine are in 1 liter of the pool water?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Use the water shortcut: 1 ppm &asymp; 1 mg/L, so <strong>3 ppm &asymp; 3 mg/L</strong> &mdash; about 3 milligrams of chlorine in every liter. Notice how natural ppm is here: writing the same thing as a mass percent would be 0.0003%, an awkward string of zeros. The unit is chosen to fit the size of the quantity.</div>
+        </details>
+
+        <!-- Confidence scale (ow-scale) -->
+        <div class="optima-widget ow-scale">
+          <div class="widget-kicker">&#9889; MATCH THE UNIT &middot; WHICH FITS BEST?</div>
+          <div class="widget-question">For each situation, pick the concentration unit a chemist would most naturally reach for. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; a few micrograms of a pollutant in a reservoir is a trace amount; ppm or ppb keeps the number sensible (a percent would be a string of zeros)." data-hint="How small is the amount? Trace pollutants call for a scaled-up ratio.">
+            <div class="widget-row-prompt">1. A trace pollutant in a drinking-water reservoir.</div>
+            <div class="widget-options">
+              <button data-choice="0">Molarity</button>
+              <button data-choice="1">Volume percent</button>
+              <button data-choice="2">ppm / ppb</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; rubbing alcohol is a liquid mixed into a liquid, so volume percent (% v/v) is the natural, pour-it-out unit." data-hint="Both components are liquids you would measure by pouring.">
+            <div class="widget-row-prompt">2. Isopropyl alcohol mixed with water for a disinfectant.</div>
+            <div class="widget-options">
+              <button data-choice="0">Volume percent</button>
+              <button data-choice="1">ppb</button>
+              <button data-choice="2">Molarity</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; a reaction counts particles, so the chemist wants moles per liter: molarity is the unit that speaks the language of stoichiometry." data-hint="Which unit gives you moles, the thing a reaction actually counts?">
+            <div class="widget-row-prompt">3. A solution you'll use as a reactant and need to count moles of.</div>
+            <div class="widget-options">
+              <button data-choice="0">Mass percent</button>
+              <button data-choice="1">Molarity</button>
+              <button data-choice="2">Volume percent</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A NUMBER NEEDS ITS UNIT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Here is a quiet lesson in scientific honesty: &ldquo;the fluoride level is 2.5&rdquo; means nothing until you say <em>2.5 what</em>. The same physical solution is &ldquo;0.00025%&rdquo; <em>and</em> &ldquo;2.5 ppm&rdquo; &mdash; same reality, different unit. Good measurement isn't only getting the digits right; it's reporting them in a unit that's honest about scale and lets another scientist reproduce your result. A chemist who quotes a contaminant in plain percent isn't wrong, exactly &mdash; just unhelpful. Choosing the right unit is part of telling the truth about what you measured.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR build &mdash; <strong>Build 2 of 4</strong> of your <strong>Reaction Stoichiometry Walkthrough</strong> &mdash; is your <strong>mole / solution station</strong>. As you set up the molarity beaker (mol/L) and lay out the counted reactant molecules for 2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O, keep this lesson in mind: the beaker uses <em>molarity</em> because your reaction counts moles &mdash; but you now know it could just as well be labeled in mass percent or ppm if the task called for it. Add a small sticky note to your station naming one alternative unit and why molarity is the right choice <em>here</em>. That single note is the kind of judgment your final recorded walkthrough is meant to show off.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on mass percent, ppm/ppb, and volume percent. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &amp; Checkpoint</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Work the molarity &amp; dilution problem set, then take the first module checkpoint covering Lessons 4.01&ndash;4.04.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 4.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">With amounts now fully under control, you'll turn to the heart of chemical change: writing and balancing the equations that account for every atom.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Concentration can be reported many ways, each fitted to a purpose: <strong>molarity</strong> when a reaction counts moles, <strong>mass percent</strong> when a balance is all you have, <strong>ppm / ppb</strong> when the amount is vanishingly small, and <strong>volume percent</strong> when you'd rather pour than weigh. Every one of them is the same underlying idea &mdash; solute relative to solution &mdash; expressed at the right scale. Measuring well means choosing the unit that's honest about what you measured, and reporting the number with the unit that makes it reproducible.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.04 &middot; Other Units for Solution Concentration</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

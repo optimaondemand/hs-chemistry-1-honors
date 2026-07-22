@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* energy-level diagram */
+    .lvl { background:#0E1C42; color:#fff; border-radius:6px; padding:8px 14px; font-size:14px; margin:0 auto; text-align:center; }
+    .lvl-wrap { background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:16px; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">The Bohr Model</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">The Bohr Model</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Why does hydrogen glow in only a few <em>exact</em> colors instead of a smooth rainbow?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson left us with a puzzle: an energized element emits not a full rainbow but a handful of precise, separate lines &mdash; and each element's set of lines is unique. The lines are evidence, and evidence demands explanation. Today you meet the model that cracked it: <strong>Niels Bohr's picture of the atom</strong>, in which electrons can occupy only certain fixed energy levels. It is one of the great moments in the long story of how we came to know the atom &mdash; and, true to that story, it is a model that works beautifully&hellip; right up to its edge.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe the Bohr model: electrons occupy fixed, quantized energy levels labeled n = 1, 2, 3&hellip;</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how an electron absorbs or emits a photon when it changes levels, and why that produces exact spectral lines.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state what the Bohr model succeeded at and where it fails, and why that pushes us toward a better model.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and about 35&ndash;45 minutes, including time to explore the embedded simulation.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE PUZZLE OF HYDROGEN'S LINES</div>
+
+        <!-- predict first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Hydrogen has just one electron, yet an energized hydrogen tube glows with only a few exact colors &mdash; never a full rainbow. What do you predict is true about that one electron's energy? (No wrong answer &mdash; you'll test it in the simulation.)</div>
+          <div class="widget-options">
+            <button data-response="A natural guess from everyday life &mdash; but if the electron could have any energy at all, hydrogen would glow with every color (a continuous rainbow). The fact that only a few colors appear tells us the energies are restricted, not free.">It can have any energy it wants</button>
+            <button data-response="Exactly the insight Bohr had. If the electron can sit only at certain fixed energies, then only certain energy jumps are possible &mdash; and only certain colors can come out. The sharp lines are the giveaway.">It can only have certain fixed energies</button>
+            <button data-response="Reasonable to wonder &mdash; but the electron isn't destroyed; it stays. What's restricted is its energy. Watch the simulation: the electron moves between fixed levels, and each move releases one exact color.">The electron disappears and reappears</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Recall the evidence from Lesson 2.05: when hydrogen gas is energized, it emits a line spectrum &mdash; a small number of sharp, exact colors. If hydrogen's single electron could carry <em>any</em> amount of energy, the atom should be able to release light of any color, producing a smooth rainbow. It does not. The lines are discrete and reproducible. Something about the electron's energy must be <strong>restricted</strong>.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In 1913, the Danish physicist <strong>Niels Bohr</strong> proposed a bold answer. Picture the electron not as free to orbit at any distance, but as confined to certain allowed <strong>energy levels</strong> &mdash; like rungs on a ladder &mdash; labeled by a whole number n = 1, 2, 3, and so on. The electron can sit on a rung, but never <em>between</em> rungs. Its energy is <strong>quantized</strong>: only specific values are allowed.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; JUMPS BETWEEN LEVELS MAKE THE LINES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the engine of the whole picture. When an electron absorbs a photon of <em>exactly</em> the right energy, it jumps <strong>up</strong> to a higher level. When it falls back <strong>down</strong> to a lower level, it releases a photon whose energy equals the <em>gap</em> between the two levels. Because the levels are fixed, the gaps are fixed &mdash; so only certain photon energies, and therefore only certain colors, can ever come out. That is why hydrogen's spectrum is a few exact lines and not a continuous band.</p>
+
+        <!-- energy level diagram -->
+        <div class="lvl-wrap" style="margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px;">HYDROGEN ENERGY LEVELS &mdash; RUNGS GET CLOSER TOGETHER AS n RISES</div>
+            <div style="display:flex; flex-direction:column; gap:18px; align-items:stretch;">
+                <div class="lvl" style="width:96%;">n = 4 &nbsp;&middot;&nbsp; &minus;1.36 &times; 10<sup>&minus;19</sup> J</div>
+                <div class="lvl" style="width:80%;">n = 3 &nbsp;&middot;&nbsp; &minus;2.42 &times; 10<sup>&minus;19</sup> J</div>
+                <div class="lvl" style="width:55%;">n = 2 &nbsp;&middot;&nbsp; &minus;5.45 &times; 10<sup>&minus;19</sup> J</div>
+                <div class="lvl" style="width:30%; background:#2A9D5C;">n = 1 &nbsp;&middot;&nbsp; &minus;2.18 &times; 10<sup>&minus;18</sup> J (ground state)</div>
+            </div>
+            <div style="display:flex; justify-content:center; gap:18px; margin-top:14px; font-size:13px;">
+                <span style="color:#1A6B3D;">&uarr; absorb a photon = jump UP</span>
+                <span style="color:#8A1F16;">&darr; emit a photon = drop DOWN</span>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Notice in the diagram that the rungs <strong>crowd closer together as n increases</strong>. The lowest level, n = 1, is the <em>ground state</em> &mdash; the electron's most stable, lowest-energy home. The energies are negative because the electron is bound to the nucleus; it would take energy to pull it free. For hydrogen, the energy of each level follows a clean formula:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px; margin:14px 0; text-align:center;">
+            <div style="font-size:24px; color:#fff;">E<sub>n</sub> = &minus;2.18 &times; 10<sup>&minus;18</sup> J &divide; n<sup>2</sup></div>
+            <div style="font-size:14px; color:#55c8e8; margin-top:8px;">the allowed energy of hydrogen's electron at level n</div>
+        </div>
+        <p style="font-size: 16px; color: #666; line-height: 1.6; margin: 0 0 10px 0; font-style: italic;">You don't need to drill this formula &mdash; just read what it says: each level has one exact energy, set by the whole number n, and the levels squeeze together as n grows.</p>
+
+        <!-- PhET embed -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Shine light at a hydrogen atom and watch the electron jump levels</div>
+            <iframe src="https://phet.colorado.edu/sims/html/models-of-the-hydrogen-atom/latest/models-of-the-hydrogen-atom_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="Models of the Hydrogen Atom simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/models-of-the-hydrogen-atom/latest/models-of-the-hydrogen-atom_en.html">Models of the Hydrogen Atom</a>.</div>
+        </div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 6px 0;"><strong>In your notebook, observe:</strong> Switch to the <em>Bohr</em> model. Fire photons at the atom and watch the electron jump to higher levels, then fall back and emit light. Which jumps produce which colors? Does the electron ever rest <em>between</em> levels? Write down what you actually see &mdash; that observation is the evidence behind the model.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; A TRIUMPH &mdash; AND ITS EDGE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Bohr's model was a stunning success. Using only the idea of quantized levels, it predicted the exact wavelengths of hydrogen's spectral lines &mdash; the very lines that had been measured but never explained. For the first time, a picture of the atom matched the evidence precisely. It is hard to overstate how convincing that was.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">And yet the model has a hard edge. It works for hydrogen and other one-electron systems, but it <strong>fails for atoms with more than one electron</strong>: its predictions for helium, lithium, and beyond simply do not match what we measure. A model that explains one case beautifully but breaks on the next is telling you something honest &mdash; that it has captured part of the truth, not all of it. That tension is exactly what drove physicists to build the next, deeper model of the atom, which you'll meet in the next lesson.</p>
+
+        <!-- ===== THE EVIDENCE CHAIN (M2-03) ===== -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128279; THE EVIDENCE CHAIN &middot; WHY THE MODEL HAD TO CHANGE</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">Same three-step shape as always: an <strong>old explanation</strong>, the <strong>troubling evidence</strong> it could not account for, and the <strong>revised model</strong>. Trace it &mdash; then name the evidence yourself.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:stretch;">
+                <div style="flex:1; min-width:180px; background:#EEF1F8; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#6b7a99; margin-bottom:4px;">1 &middot; OLD EXPLANATION</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Rutherford's nuclear atom</strong> &mdash; electrons somewhere outside a tiny nucleus, arrangement unspecified. Nothing in it said which colors an atom should emit.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#8a6d1d; margin-bottom:4px;">2 &middot; TROUBLING EVIDENCE</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Line spectra.</strong> Excite an element and it glows in only a few exact colors &mdash; sharp bright lines, not a full rainbow. Hydrogen's lines even followed a tidy numerical pattern no one could explain.</div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+                <div style="flex:1; min-width:180px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:11px; color:#1A6B3D; margin-bottom:4px;">3 &middot; REVISED MODEL</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Bohr's model</strong> &mdash; electrons occupy only certain fixed energy levels; light is emitted only when an electron jumps <em>between</em> levels, so only certain colors can appear.</div>
+                </div>
+            </div>
+            <details style="margin-top:12px; background:#F4F9FC; border:1px solid #C5DCE5; border-radius:6px; padding:10px 16px;">
+                <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#2196D0;">&#9654;</span>&nbsp; <strong>Name the evidence:</strong> what observation could a plain nuclear atom not explain, but Bohr's energy levels could?</summary>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; padding-top:10px; border-top:1px solid #DCEAF0;">The <strong>discrete line spectrum</strong> &mdash; atoms emitting only certain exact colors. Fixed energy levels allow only certain jumps, so only certain photon energies (colors) are possible. Bohr's quantized levels reproduced hydrogen's measured lines exactly, which the featureless nuclear atom never could.</div>
+            </details>
+        </div>
+
+        <!-- MODEL LIMITATIONS · Bohr -->
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-left:5px solid #6b5b95; border-radius:8px; padding:16px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#4b3f6b; margin-bottom:10px; letter-spacing:0.4px;">&#9878;&#65039; MODEL LIMITATIONS &middot; THE BOHR MODEL</div>
+            <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div style="flex:1; min-width:190px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#1A6B3D; margin-bottom:4px;">&#10003; WHAT IT EXPLAINS</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Why hydrogen (and other one-electron systems) emit only certain exact colors: the electron&rsquo;s energy is quantized, so only certain level-to-level jumps &mdash; and photon energies &mdash; are possible.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDECEC; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8A1F16; margin-bottom:4px;">&#10007; WHAT IT CANNOT EXPLAIN</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">The spectra of atoms with more than one electron (helium, lithium, and beyond); finer spectral detail; and <em>why</em> the levels are quantized at all. The tidy circular &ldquo;orbit&rdquo; is a useful picture, not the real atom.</div>
+                </div>
+                <div style="flex:1; min-width:190px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                    <div style="font-size:12px; color:#8a6d1d; margin-bottom:4px;">&#128300; EVIDENCE THAT FORCED REVISION</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.5;">Multi-electron spectra that Bohr&rsquo;s formula could not match, plus evidence that electrons behave as <em>waves</em> &mdash; pointing to the quantum-mechanical model (next lesson).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THEN history callout (blue/teal) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For decades, hydrogen's bright lines had been measured with great precision, and their spacing even followed a tidy numerical pattern &mdash; but <em>why</em> remained a mystery. In 1913, building on the nuclear atom that had just emerged from the gold-foil experiment, <strong>Niels Bohr</strong> proposed that the electron could occupy only certain allowed energies. The idea seemed almost reckless, yet it reproduced hydrogen's measured lines exactly. It was a turning point: the strange notion of quantized energy had earned its place because it matched the evidence.</div>
+        </div>
+
+        <!-- NoS note (gold) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; HOW SCIENCE WORKS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The Bohr model is a perfect example of how scientific knowledge grows. A model is judged by whether it explains the evidence &mdash; and Bohr's did, for hydrogen. But when it failed for multi-electron atoms, scientists did not cling to it; they treated the failure as a clue and built something better. <strong>Models are tools, not final truths.</strong> A good one tells you where it works <em>and</em> where it breaks, and the breaking point is where the next discovery begins. You'll watch this happen again and again this year.</div>
+        </div>
+
+        <!-- single-select: absorb/emit, up/down -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; ABSORB OR EMIT? UP OR DOWN?</div>
+          <div class="widget-question">Use the Bohr picture for each situation. You get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; to climb to a higher level, an electron must absorb a photon and gain energy." data-hint="Going to a higher level means gaining energy. Where does that energy come from?">
+            <div class="widget-row-prompt">1. An electron moves from n = 1 up to n = 3. It must&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Absorb a photon</button>
+              <button data-choice="1">Emit a photon</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; dropping to a lower level releases energy as an emitted photon. That photon is one of the spectral lines." data-hint="Falling to a lower level means losing energy. Where does that energy go?">
+            <div class="widget-row-prompt">2. An electron falls from n = 3 down to n = 2. It will&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Absorb a photon</button>
+              <button data-choice="1">Emit a photon</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; the emitted photon's energy equals the gap between the two levels, so only certain energies (and colors) are possible." data-hint="Why are only a few exact colors produced, not a smooth rainbow?">
+            <div class="widget-row-prompt">3. The color of an emitted line is set by&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">The size of the whole atom</button>
+              <button data-choice="1">The energy gap between the two levels</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>If the Bohr model explained hydrogen so well, why did scientists need a new model at all?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Because explaining hydrogen is not enough &mdash; a good model must work for <em>all</em> atoms. The Bohr model's predictions matched hydrogen (and other one-electron systems) but failed for atoms with two or more electrons, where the measured spectra didn't fit. That failure wasn't a small detail to ignore; it was evidence that the model was incomplete. Honest science follows the evidence to a better model, which is exactly what came next.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson is the heart of your VR build this week. In the <strong>Atomic Model Evolution Gallery</strong> you'll construct the Bohr-model exhibit &mdash; a nucleus ringed by labeled energy levels &mdash; and add a sticky note explaining how electron jumps make spectral lines. The energy-level diagram above is your blueprint; bring it into the headset in your mind.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on energy levels, absorbing and emitting photons, and the model's limits.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Atomic Mass &amp; the Energy of Light</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Calculate average atomic masses and work c = &lambda;&nu; and E = h&nu; problems &mdash; this week's &ldquo;doing chemistry.&rdquo;</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Atomic Model Evolution Gallery (Build 2 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add the Bohr exhibit and build a full atom. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Bohr explained hydrogen's exact spectral lines with one daring idea: the electron can occupy only certain quantized energy levels. Absorbing a photon lifts it up; emitting one drops it down; and because the gaps are fixed, only certain colors appear. The model triumphed for hydrogen and failed for everything heavier &mdash; and that honest failure is what opens the door to the modern quantum picture of the atom, next.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.06 &middot; The Bohr Model</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

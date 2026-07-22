@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom empirical-formula / n checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Empirical &amp; Molecular Formulas</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Determining Empirical &amp; Molecular Formulas</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When a chemist isolates a brand-new compound, no label tells them its formula. So how do they figure out <em>which</em> atoms, and how many of each, are inside?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Yesterday you went from a formula to a mass. Today you reverse the arrow. A lab can measure what <em>percent</em> of a compound's mass comes from each element &mdash; and from those percentages you can reconstruct its formula. This is real detective work: it is how the formula of a new molecule is first established, and the same logic stands behind every formula in your textbook. You'll learn to read percent composition out of a known formula, then run it the other way: from percentages, to the simplest whole-number ratio (the <strong>empirical formula</strong>), to the true molecule (the <strong>molecular formula</strong>).</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the percent composition by mass of each element from a compound's formula.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> determine an empirical formula from percent-composition data using the assume-100-gram method.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> find a molecular formula from an empirical formula and a known molar mass.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table, and a calculator. You'll lean on the molar-mass skill from Lesson 4.01.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a formula-checking tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; PERCENT COMPOSITION: HOW MUCH IS EACH ELEMENT?</div>
+
+        <!-- Reflective predict-first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">In water, H<sub>2</sub>O, there are two light hydrogen atoms and one much heavier oxygen atom. If you broke a sample of water down and weighed the hydrogen and the oxygen separately, which would account for more of the total <em>mass</em>? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Right &mdash; and this is the key distinction. There are twice as many hydrogen atoms, but each weighs only about 1, while the single oxygen weighs 16. By mass, oxygen dominates: about 89% of water's mass is oxygen, only about 11% is hydrogen. Count is not the same as mass.">&#9899; Oxygen &mdash; it's far heavier per atom</button>
+            <button data-response="A natural guess, since there are two hydrogens to one oxygen &mdash; but that's counting atoms, not weighing them. Each hydrogen weighs only ~1 amu while the lone oxygen weighs ~16, so oxygen wins by mass: ~89% to ~11%. Watch the difference between &lsquo;how many&rsquo; and &lsquo;how heavy.&rsquo;">&#128167; Hydrogen &mdash; there are two of them</button>
+            <button data-response="Reasonable to wonder &mdash; but they're not equal. Two hydrogens (~2 amu total) against one oxygen (~16 amu) is not a tie. Oxygen carries about 89% of water's mass. Percent composition is always about mass, not atom count.">&#9878;&#65039; About equal &mdash; the numbers balance</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A compound's <strong>percent composition</strong> is the percentage of its total mass contributed by each element. To find it from a formula, you take the total mass of one element in the formula, divide by the formula mass, and multiply by 100%. The recipe is short:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:18px; color:#0e1c42; text-align:center;">
+            % element = (mass of that element in the formula &divide; formula mass) &times; 100%
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: water, H<sub>2</sub>O</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">From Lesson 4.01, the formula mass of water is 18.02. The hydrogen in it weighs 2 &times; 1.008 = 2.016; the oxygen weighs 16.00. So:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            % H = (2.016 &divide; 18.02) &times; 100% = <strong>11.19% hydrogen</strong><br>
+            % O = (16.00 &divide; 18.02) &times; 100% = <strong>88.81% oxygen</strong><br>
+            <span style="font-size:14px; color:#555;">(Check: 11.19% + 88.81% = 100% &mdash; the percentages always sum to 100.)</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Just as you predicted: oxygen carries the lion's share of water's mass, even though hydrogen wins on atom count. That gap between <em>how many</em> and <em>how heavy</em> is exactly why percent composition is reported by mass &mdash; mass is what a lab can actually weigh.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; FROM PERCENTAGES TO AN EMPIRICAL FORMULA</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now run the arrow backward. A lab hands you percentages and asks for the formula. The trick is the <strong>empirical formula</strong> &mdash; the <em>simplest whole-number ratio</em> of atoms in the compound. (The molecular formula may be a multiple of it; we get there in Part 3.) The method has four moves, and the first is a clever shortcut:</p>
+
+        <!-- four-step visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>1 &middot; Assume a 100-gram sample</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">In 100 g, each percent <em>becomes grams</em> directly: 40.0% C means 40.0 g of carbon. No data is lost &mdash; ratios don't depend on sample size.</div>
+            </div>
+            <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>2 &middot; Grams &rarr; moles</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Divide each element's grams by its atomic mass. Now you have moles of each atom &mdash; an atom count in the chemist's unit.</div>
+            </div>
+            <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>3 &middot; Divide by the smallest</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Divide every mole value by the smallest of them. This turns the ratio into one that starts at 1.</div>
+            </div>
+            <div style="flex:1; min-width:230px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>4 &middot; Round to whole numbers</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">These become the subscripts. (If a value lands near 1.5 or 2.5, multiply <em>all</em> of them up to clear the fraction.)</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: 40.0% C, 6.7% H, 53.3% O</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A lab reports a compound is 40.0% carbon, 6.7% hydrogen, and 53.3% oxygen by mass. Find its empirical formula.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.9;">
+            <strong>Step 1 &mdash; assume 100 g:</strong> 40.0 g C, 6.7 g H, 53.3 g O.<br>
+            <strong>Step 2 &mdash; grams &rarr; moles:</strong><br>
+            &nbsp;&nbsp;C: 40.0 &divide; 12.01 = 3.33 mol &nbsp;&middot;&nbsp; H: 6.7 &divide; 1.008 = 6.65 mol &nbsp;&middot;&nbsp; O: 53.3 &divide; 16.00 = 3.33 mol<br>
+            <strong>Step 3 &mdash; divide by the smallest (3.33):</strong><br>
+            &nbsp;&nbsp;C: 3.33 &divide; 3.33 = 1 &nbsp;&middot;&nbsp; H: 6.65 &divide; 3.33 &asymp; 2 &nbsp;&middot;&nbsp; O: 3.33 &divide; 3.33 = 1<br>
+            <strong>Step 4 &mdash; subscripts:</strong> C<sub>1</sub>H<sub>2</sub>O<sub>1</sub> &rarr; <strong>empirical formula CH<sub>2</sub>O</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The compound's atoms are in a 1:2:1 ratio of carbon to hydrogen to oxygen &mdash; CH<sub>2</sub>O. That is the <em>simplest</em> ratio, but it might not be the whole molecule. Notice how the mole did the heavy lifting again: percentages told us mass, mass gave us moles, and moles &mdash; an atom count &mdash; gave us the ratio. The mole is the hinge of every step.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; THE LAWS THAT MADE FORMULAS POSSIBLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Why should a compound have a <em>fixed</em> formula at all? Around 1800 the French chemist <strong>Joseph Proust</strong> established the <strong>law of definite proportions</strong>: a given compound always contains the same elements in the same proportion by mass, no matter how it was made &mdash; water is always about 11% hydrogen and 89% oxygen. Soon after, the English chemist <strong>John Dalton</strong> noticed the <strong>law of multiple proportions</strong>: when two elements form more than one compound, the masses combine in small whole-number ratios. Together these two laws were the evidence that matter is built from discrete atoms combining in fixed counts &mdash; and they are exactly what makes an empirical formula a meaningful, repeatable answer rather than an accident of one sample.</div>
+        </div>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #F3F0FA; border-left: 5px solid #5B4B9E; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #4a3d85; margin-bottom: 8px;">&#128269; NATURE OF SCIENCE &middot; WHAT COUNTS AS EVIDENCE?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Before Proust and Dalton, it was not obvious that a compound <em>must</em> have a fixed formula at all. What changed scientists' minds was <strong>evidence</strong>: sample after sample of the same compound, however it was prepared, gave the same proportions by mass. Notice the two kinds of claim at work. Proust's definite proportions and Dalton's multiple proportions are <strong>laws</strong> &mdash; they describe a regularity measured again and again. Dalton's <strong>atomic theory</strong> is what <em>explains</em> that regularity: matter comes in discrete atoms that combine in whole-number counts. A law says <em>what</em> happens reliably; a theory says <em>why</em>. Ask yourself: because an empirical formula rests on measured mass, how could two different labs check each other's answer &mdash; and why does that reproducibility make the formula trustworthy?</div>
+        </div>
+
+        <!-- ow-select: empirical/percent reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READING THE METHOD</div>
+          <div class="widget-question">Each question checks one move in the empirical-formula method. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; assuming 100 g lets every percent become grams directly (40.0% &rarr; 40.0 g). Ratios don't depend on sample size, so this loses nothing and saves a step." data-hint="What is convenient about a 100 g sample when your data is in percentages?">
+            <div class="widget-row-prompt">1. Why do we assume a 100-gram sample?</div>
+            <div class="widget-options">
+              <button data-choice="0">Because compounds always weigh 100 g</button>
+              <button data-choice="1">So each percent becomes that many grams directly</button>
+              <button data-choice="2">To make the molar mass come out to 100</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; you divide grams by atomic mass to get moles, because the empirical formula is a ratio of ATOMS, and moles count atoms." data-hint="An empirical formula is a ratio of atoms. What unit counts atoms?">
+            <div class="widget-row-prompt">2. After finding the grams of each element, what do you do next?</div>
+            <div class="widget-options">
+              <button data-choice="0">Add the grams together</button>
+              <button data-choice="1">Multiply each by 100</button>
+              <button data-choice="2">Divide each by its atomic mass to get moles</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; dividing every mole value by the smallest one rescales the ratio so it starts at 1, making the whole-number subscripts easy to read off." data-hint="Why divide all the mole values by the smallest of them?">
+            <div class="widget-row-prompt">3. You have 3.33 mol C, 6.65 mol H, 3.33 mol O. What's the smart next step?</div>
+            <div class="widget-options">
+              <button data-choice="0">Divide each by 3.33 (the smallest)</button>
+              <button data-choice="1">Divide each by 6.65 (the largest)</button>
+              <button data-choice="2">Add them and divide by 3</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; FROM EMPIRICAL TO MOLECULAR FORMULA</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">An empirical formula gives the ratio, but not the size. Two very different molecules can share the empirical formula CH<sub>2</sub>O: formaldehyde (the molecule is literally CH<sub>2</sub>O) and glucose, the sugar your body runs on. Glucose has the <em>same</em> 1:2:1 ratio &mdash; but six times as many of each atom. To tell them apart you need one more measurement: the compound's actual <strong>molar mass</strong>. Then a single division finishes the job:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:18px; color:#0e1c42; text-align:center;">
+            n = molar mass &divide; empirical-formula mass &nbsp;&nbsp;&rarr;&nbsp;&nbsp; molecular formula = (empirical formula) &times; n
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: CH<sub>2</sub>O with molar mass 180</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.9;">
+            <strong>Empirical-formula mass of CH<sub>2</sub>O:</strong> 12.01 + 2(1.008) + 16.00 = <strong>30.03</strong><br>
+            <strong>Given molar mass:</strong> 180 g/mol<br>
+            <strong>Find n:</strong> n = 180 &divide; 30.03 &asymp; <strong>6</strong><br>
+            <strong>Multiply the subscripts by 6:</strong> C<sub>(1&times;6)</sub>H<sub>(2&times;6)</sub>O<sub>(1&times;6)</sub> = <strong>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> &mdash; glucose</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The same percentages that gave CH<sub>2</sub>O, paired with a molar mass of 180, reveal the true molecule: glucose, C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>. The empirical formula was honest but incomplete; the molar mass supplied the missing scale. This is the difference between &ldquo;what's the ratio?&rdquo; and &ldquo;what's the molecule?&rdquo;</p>
+
+        <!-- flip cards: empirical vs molecular -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 14px 0 8px 0;">Tap each card to test the empirical/molecular distinction:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Is CH<sub>2</sub>O the same as C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Same <strong>empirical</strong> formula (ratio 1:2:1), different <strong>molecular</strong> formula. CH<sub>2</sub>O is formaldehyde; C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> is glucose, with n = 6 times as many atoms. The ratio is identical; the molecules are not.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">What does n tell you?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">n is how many empirical units make up one molecule: n = molar mass &divide; empirical mass. If n = 1, the empirical and molecular formulas are the same (as for water and CO<sub>2</sub>). If n = 6, multiply every subscript by 6.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Why isn't the empirical formula enough?</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Percent composition fixes the <em>ratio</em> but not the <em>size</em> &mdash; many molecules share a ratio. Only an independent molar-mass measurement reveals the true number of atoms. That's the one extra fact the lab must supply.</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- CUSTOM WIDGET: molecular-formula n checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; FIND <em>n</em> (EMPIRICAL &rarr; MOLECULAR)</div>
+          <div class="widget-question">Pick an empirical formula and its measured molar mass, type the <strong>whole-number multiplier n</strong> you compute (n = molar mass &divide; empirical-formula mass), and check it. The tool confirms n and names the molecule &mdash; but <em>you</em> do the division.</div>
+          <div class="aam-row">
+            <label>Case:
+              <select id="ef-case">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">CH&#8322;O (emp. mass 30.03), molar mass 180 g/mol</option>
+                <option value="B">CH&#8322;O (emp. mass 30.03), molar mass 60 g/mol</option>
+                <option value="C">CH (emp. mass 13.02), molar mass 78 g/mol</option>
+                <option value="D">NO&#8322; (emp. mass 46.01), molar mass 92 g/mol</option>
+              </select>
+            </label>
+            <label>Your n: <input type="number" step="1" id="ef-n" placeholder="e.g. 6" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="ef-check">Check my n</button>
+            <button class="widget-reset" id="ef-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="ef-out"></div>
+        </div>
+
+        <!-- NOW / AI note -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#128300; NOW &middot; FROM A SLOW BURN TO A FAST INSTRUMENT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For a century, finding percent composition meant carefully burning a sample and weighing the products by hand &mdash; the same painstaking weighing that Proust and Dalton relied on. Today an instrument called a <strong>mass spectrometer</strong> can read a compound's molar mass in moments, and software (increasingly AI-assisted) proposes candidate formulas automatically. The chemistry hasn't changed &mdash; ratios from mass, scale from molar mass &mdash; only the speed has. And the discipline is the same as ever: when a tool proposes a formula, a chemist still verifies it against the measured composition. The instrument is fast; the human checks that the answer adds up.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your one VR task this week is the single <strong>Build 1 of 4</strong> activity from Lesson 4.01 &mdash; spawning and labeling H<sub>2</sub>, O<sub>2</sub>, and H<sub>2</sub>O with their molar masses, and showing that one molecule on your table stands for one mole of real molecules. Today's lesson sharpens what those labels <em>mean</em>: the formula on each model isn't arbitrary &mdash; it is the whole-number ratio of atoms a chemist could recover from percent composition, exactly as you did with CH<sub>2</sub>O. When you label water as H<sub>2</sub>O in VR, you're recording the same empirical detective work in a model you can walk around.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on percent composition, empirical formulas, and the empirical-to-molecular step. Easy points.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &mdash; Mole &amp; Formula-Mass Conversions</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A problem set putting Lessons 4.01&ndash;4.02 to work: molar-mass calculations and mass&harr;mole&harr;particle conversions, with a self-check answer key.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 4.03 next week</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">From counting particles to measuring them in solution: molarity, the concentration unit at the heart of so much lab chemistry.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Percent composition is the mass fraction of each element; run it backward through the mole and you recover the <em>empirical formula</em>, the simplest whole-number ratio of atoms. One more fact &mdash; the measured molar mass &mdash; scales that ratio up to the true <em>molecular formula</em>. This is how the formula of a real compound is established from measurements alone, resting on Proust's and Dalton's laws that compounds combine in fixed, whole-number proportions. <em>Once you can name the molecule, you're ready to write the reactions it takes part in.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.02 &middot; Determining Empirical &amp; Molecular Formulas</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom empirical-to-molecular n checker =====
+  var EF = {
+    A: { n:6, name:'C₆H₁₂O₆ (glucose)', work:'180 ÷ 30.03 ≈ 6, so multiply CH₂O by 6 → C₆H₁₂O₆.' },
+    B: { n:2, name:'C₂H₄O₂ (acetic acid)', work:'60 ÷ 30.03 ≈ 2, so multiply CH₂O by 2 → C₂H₄O₂.' },
+    C: { n:6, name:'C₆H₆ (benzene)', work:'78 ÷ 13.02 ≈ 6, so multiply CH by 6 → C₆H₆.' },
+    D: { n:2, name:'N₂O₄ (dinitrogen tetroxide)', work:'92 ÷ 46.01 ≈ 2, so multiply NO₂ by 2 → N₂O₄.' }
+  };
+  var efBtn = document.getElementById('ef-check');
+  if (efBtn) {
+    efBtn.addEventListener('click', function () {
+      var out = document.getElementById('ef-out');
+      var key = document.getElementById('ef-case').value;
+      var raw = document.getElementById('ef-n').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a case from the menu first.'; return; }
+      if (raw === '' || isNaN(parseInt(raw,10))) { out.classList.add('warn'); out.textContent = 'Type your whole-number multiplier n.'; return; }
+      var guess = parseInt(raw,10);
+      var d = EF[key];
+      if (guess === d.n) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — n = ' + d.n + '. ' + d.work + ' The molecule is ' + d.name + '. Always round n to the nearest whole number — n counts empirical units, so it must be a whole number.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.n ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your n (' + guess + ') is ' + hi + '. Recompute n = molar mass ÷ empirical-formula mass, then round to the nearest whole number. Try again.';
+      }
+    });
+  }
+  var efReset = document.getElementById('ef-reset');
+  if (efReset) {
+    efReset.addEventListener('click', function () {
+      document.getElementById('ef-case').value = '';
+      document.getElementById('ef-n').value = '';
+      var out = document.getElementById('ef-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

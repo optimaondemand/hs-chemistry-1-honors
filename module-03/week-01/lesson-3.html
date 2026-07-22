@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 3.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom nomenclature trainer ===== */
+    .nom-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .nom-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .nom-prompt { font-size:16px; color:#0E1C42; flex:1; min-width:200px; }
+    .nom-prompt .nom-formula { font-size:19px; color:#0E1C42; }
+    .nom-row input { width:200px; font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .nom-row input:focus { outline:none; border-color:#55C8E8; }
+    .nom-fb { width:100%; padding:8px 12px; margin-top:4px; font-size:14px; border-radius:4px; line-height:1.5; display:none; }
+    .nom-fb.show { display:block; }
+    .nom-fb.correct { background:#D8F0DD; border-left:3px solid #2A9D5C; color:#1A6B3D; }
+    .nom-fb.incorrect { background:#FDECEC; border-left:3px solid #C0392B; color:#8A1F16; }
+    .nom-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .nom-btn:hover { background:#13265a; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 3</div>
+        <div style="font-size: 12px; color: #666;">Chemical Bonds &amp; Molecular Geometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 3.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Chemical Nomenclature</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Why does matter change?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 3.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Chemical Nomenclature</div>
+        <div style="font-size: 16px; color: #666;">Lesson &middot; this week's skills lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">There are tens of millions of known compounds. How can chemists name every single one without ever inventing a new word?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A compound's formula and name carry real information &mdash; and chemists agreed long ago on a <em>system</em> so that &ldquo;sodium chloride&rdquo; means exactly NaCl to a scientist in any country. The system isn't memorization for its own sake; it's a language. Once you know whether a compound is ionic or molecular &mdash; which you can now tell from Lessons 3.01 and 3.02 &mdash; a small set of rules lets you translate a formula into a name, or a name into a formula, every time. This is the lesson where chemistry becomes something you can <strong>read and write</strong>.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> name and write formulas for binary ionic compounds, including transition metals that need a Roman numeral.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use common polyatomic ions and Greek prefixes to name ionic and molecular compounds.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write a correct formula from a compound's name by balancing charges to a net of zero.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table, and about 40 minutes (this lesson includes a naming-practice tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; NAMING IONIC COMPOUNDS</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You already know NaCl is &ldquo;sodium chloride.&rdquo; Why do you think the chlorine part changed to &ldquo;chlor<em>ide</em>&rdquo; instead of staying &ldquo;chlorine&rdquo;? (No wrong answer &mdash; just commit to a guess.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct. The &lsquo;-ide&rsquo; ending is a signal: it tells a reader &lsquo;this is the negative ion of that element in a compound.&rsquo; The name is doing work &mdash; it encodes that chlorine became the chloride anion. Naming is a language, not a list.">&#128172; The ending signals that it's now a negative ion in a compound</button>
+            <button data-response="It does sound nicer &mdash; but the real reason is functional, not stylistic. The &lsquo;-ide&rsquo; ending is a rule that flags the negative ion, so any chemist reading &lsquo;chloride&rsquo; knows exactly what role chlorine is playing. You'll use this rule constantly.">&#127925; Just to make it sound smoother to say</button>
+            <button data-response="Reasonable guess, but it's not random at all. Every binary ionic name follows the same rule: the nonmetal's name is shortened and given an &lsquo;-ide&rsquo; ending. That predictability is exactly what makes the system useful.">&#127922; It's an arbitrary change with no rule behind it</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Start with the simplest case: a <strong>binary ionic compound</strong> &mdash; a metal joined to a single nonmetal. The rule is short: name the <strong>metal first, unchanged</strong>, then the <strong>nonmetal with its ending changed to &ldquo;-ide.&rdquo;</strong> So NaCl is <em>sodium chloride</em>, MgO is <em>magnesium oxide</em>, CaCl<sub>2</sub> is <em>calcium chloride</em>, and Al<sub>2</sub>O<sub>3</sub> is <em>aluminum oxide</em>. Notice that the subscripts (the 2 in CaCl<sub>2</sub>) do <em>not</em> appear in the name. For these simple ionic compounds the charges fix the ratio automatically, so the name doesn't need to repeat it.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">But there's a wrinkle. Many <strong>transition metals</strong> can form more than one charge &mdash; iron can be Fe<sup>2+</sup> or Fe<sup>3+</sup>, copper can be Cu<sup>+</sup> or Cu<sup>2+</sup>. For those, &ldquo;iron chloride&rdquo; would be ambiguous: which iron? So we add a <strong>Roman numeral</strong> in parentheses to state the metal's charge directly. This is called the <strong>Stock system</strong>. FeCl<sub>3</sub> is <em>iron(III) chloride</em>; FeCl<sub>2</sub> is <em>iron(II) chloride</em>; Cu<sub>2</sub>O is <em>copper(I) oxide</em>; CuO is <em>copper(II) oxide</em>. The Roman numeral is the <em>charge on the metal</em>, not the subscript &mdash; a distinction worth nailing down now.</p>
+
+        <!-- worked: figure the charge -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.8;">
+            <strong>How to find the Roman numeral:</strong> In FeCl<sub>3</sub>, each Cl is &minus;1, so three Cl give &minus;3. The single Fe must balance that, so Fe is <strong>+3</strong> &rarr; iron<strong>(III)</strong> chloride. The numeral is forced by the charges.
+        </div>
+
+        <!-- History/NoS callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; WHY A SHARED LANGUAGE MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Before the modern naming system, the same substance might be called by a dozen folk names &mdash; &ldquo;oil of vitriol,&rdquo; &ldquo;blue copperas,&rdquo; &ldquo;Epsom salt.&rdquo; Useful in a kitchen; useless for science, where a reader on the other side of the world must know <em>exactly</em> what you made. International chemistry bodies built nomenclature so a formula and its systematic name mean one thing, everywhere. Learning the rules is learning to write in the shared language of the discipline &mdash; the same reason mathematicians agree on notation. Precision in naming is a quiet form of honesty: it lets others check your work.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; POLYATOMIC IONS &amp; MOLECULAR COMPOUNDS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Not every ion is a single atom. A <strong>polyatomic ion</strong> is a group of atoms bonded together that carries an overall charge and travels as a unit. These show up everywhere, so a handful are worth memorizing cold. When a polyatomic ion appears in a compound, you use its name as-is &mdash; you do <em>not</em> change it to &ldquo;-ide.&rdquo; So Ca(NO<sub>3</sub>)<sub>2</sub> is <em>calcium nitrate</em> and (NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub> is <em>ammonium sulfate</em>.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 14px 0;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Ion</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Formula</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Ion</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Formula</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">ammonium</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">NH<sub>4</sub><sup>+</sup></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">sulfate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">SO<sub>4</sub><sup>2&minus;</sup></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">hydroxide</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">OH<sup>&minus;</sup></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">carbonate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">CO<sub>3</sub><sup>2&minus;</sup></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">nitrate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">NO<sub>3</sub><sup>&minus;</sup></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">phosphate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">PO<sub>4</sub><sup>3&minus;</sup></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">acetate</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>&minus;</sup></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">hydrogen carbonate (bicarbonate)</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">HCO<sub>3</sub><sup>&minus;</sup></td></tr>
+        </table>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now the other family. <strong>Molecular (covalent) compounds</strong> &mdash; two <em>nonmetals</em> &mdash; play by a different rule, because two nonmetals can combine in several ratios (carbon and oxygen give both CO and CO<sub>2</sub>). So here we use <strong>Greek prefixes</strong> to state exactly how many of each atom are present. The prefixes are: <em>mono</em>-1, <em>di</em>-2, <em>tri</em>-3, <em>tetra</em>-4, <em>penta</em>-5, <em>hexa</em>-6, and on up. One rule of etiquette: drop &ldquo;mono-&rdquo; on the <em>first</em> element.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 14px 0;">
+            <tr style="background:#0E1C42;"><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Formula</th><th style="padding:8px 10px; color:#fff; text-align:left; border:1px solid #334;">Name</th></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">CO</td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">carbon monoxide <em>(&ldquo;mono&rdquo; dropped on carbon, kept on oxide)</em></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">CO<sub>2</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">carbon dioxide</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">N<sub>2</sub>O<sub>4</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">dinitrogen tetroxide</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">P<sub>4</sub>O<sub>10</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">tetraphosphorus decoxide</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">SF<sub>6</sub></td><td style="padding:8px 10px; border:1px solid #D0D9E8; color:#1a2340;">sulfur hexafluoride</td></tr>
+        </table>
+
+        <!-- COMMON MISTAKE callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE &middot; PREFIXES ARE FOR MOLECULAR COMPOUNDS ONLY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Don't put Greek prefixes on ionic compounds. CaCl<sub>2</sub> is <em>calcium chloride</em>, never &ldquo;calcium dichloride&rdquo; &mdash; the charges already fix the ratio, so no prefix is needed. And don't put a Roman numeral on a molecular compound. The quick test: <strong>metal + nonmetal &rarr; ionic</strong> (use &ldquo;-ide,&rdquo; add a Roman numeral only if the metal has variable charge); <strong>nonmetal + nonmetal &rarr; molecular</strong> (use Greek prefixes). Decide ionic vs. molecular <em>first</em>, then apply the matching rule.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">A brief word on <strong>acids</strong>, which you'll meet properly later in the year. For now, two patterns: a <em>binary acid</em> (H plus one nonmetal) takes &ldquo;hydro-&hellip;-ic acid&rdquo; &mdash; HCl is <em>hydrochloric acid</em>. An <em>oxyacid</em> (H plus a polyatomic ion containing oxygen) is named from the ion: an &ldquo;-ate&rdquo; ion becomes &ldquo;-ic acid&rdquo; (sulfate &rarr; H<sub>2</sub>SO<sub>4</sub>, <em>sulfuric acid</em>) and an &ldquo;-ite&rdquo; ion becomes &ldquo;-ous acid&rdquo; (nitrite &rarr; HNO<sub>2</sub>, <em>nitrous acid</em>).</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WRITING FORMULAS FROM NAMES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Going the other direction &mdash; from a name to a formula &mdash; rests on one principle: <strong>a compound is electrically neutral, so the charges must add to zero.</strong> Write the cation and anion with their charges, then choose the smallest whole-number subscripts that make the total positive charge equal the total negative charge. When you need more than one of a polyatomic ion, wrap it in <strong>parentheses</strong> before adding the subscript.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Aluminum sulfate, worked step by step</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.9;">
+            Aluminum is Al<sup>3+</sup>; sulfate is SO<sub>4</sub><sup>2&minus;</sup>.<br>
+            To balance +3 against &minus;2, find the least common multiple of 3 and 2, which is 6.<br>
+            Need <strong>2</strong> Al (2 &times; +3 = +6) and <strong>3</strong> sulfate (3 &times; &minus;2 = &minus;6) &rarr; net zero.<br>
+            Formula: <strong>Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub></strong> &nbsp;<em>(parentheses around SO<sub>4</sub> because there are three of them).</em>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A handy shortcut you may notice: the charge on one ion often becomes the subscript on the other (the &ldquo;criss-cross&rdquo;). It works because it guarantees the charges balance &mdash; but always reduce to the smallest whole-number ratio afterward, and check that the total charge really is zero. The shortcut is a convenience; the <em>reasoning</em> &mdash; charges sum to zero &mdash; is the thing to trust.</p>
+
+        <!-- CUSTOM WIDGET: nomenclature trainer -->
+        <div class="nom-widget" id="nom-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; NOMENCLATURE TRAINER</div>
+          <div class="widget-question">Type the missing name or formula in each box, then press <strong>Check answers</strong>. Spacing and capitalization are ignored; for formulas, type subscripts as plain numbers (e.g., <code>CaCl2</code>).</div>
+
+          <div class="nom-row" data-answer="magnesium oxide" data-fb="MgO = magnesium oxide. Metal + nonmetal &rarr; ionic; oxygen becomes &lsquo;oxide.&rsquo;">
+            <div class="nom-prompt">1. Name this compound: <span class="nom-formula">MgO</span></div>
+            <input type="text" placeholder="name…" aria-label="answer 1" />
+            <div class="nom-fb"></div>
+          </div>
+
+          <div class="nom-row" data-answer="iron(iii) chloride|iron (iii) chloride|iron iii chloride" data-fb="FeCl3 = iron(III) chloride. Three Cl give &minus;3, so the single Fe must be +3 &rarr; the Roman numeral (III).">
+            <div class="nom-prompt">2. Name this compound: <span class="nom-formula">FeCl<sub>3</sub></span></div>
+            <input type="text" placeholder="name…" aria-label="answer 2" />
+            <div class="nom-fb"></div>
+          </div>
+
+          <div class="nom-row" data-answer="dinitrogen tetroxide|dinitrogen tetraoxide" data-fb="N2O4 = dinitrogen tetroxide. Two nonmetals &rarr; molecular, so use Greek prefixes (di- and tetr(a)-).">
+            <div class="nom-prompt">3. Name this compound: <span class="nom-formula">N<sub>2</sub>O<sub>4</sub></span></div>
+            <input type="text" placeholder="name…" aria-label="answer 3" />
+            <div class="nom-fb"></div>
+          </div>
+
+          <div class="nom-row" data-answer="cano32|ca(no3)2" data-fb="Calcium nitrate = Ca(NO3)2. Ca is +2, nitrate (NO3) is &minus;1, so you need two nitrate ions &mdash; in parentheses.">
+            <div class="nom-prompt">4. Write the formula: <strong>calcium nitrate</strong></div>
+            <input type="text" placeholder="formula…" aria-label="answer 4" />
+            <div class="nom-fb"></div>
+          </div>
+
+          <div class="nom-row" data-answer="al2so43|al2(so4)3" data-fb="Aluminum sulfate = Al2(SO4)3. Al is +3, sulfate (SO4) is &minus;2; balance +6 with &minus;6 using 2 Al and 3 sulfate.">
+            <div class="nom-prompt">5. Write the formula: <strong>aluminum sulfate</strong></div>
+            <input type="text" placeholder="formula…" aria-label="answer 5" />
+            <div class="nom-fb"></div>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="nom-btn" id="nom-check">Check answers</button>
+            <button class="widget-reset" id="nom-reset">Reset</button>
+          </div>
+        </div>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; THE TOOL CHECKS THE SPELLING, YOU CHECK THE CHEMISTRY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A naming tool like the one above &mdash; or an AI you might ask to &ldquo;name this formula&rdquo; &mdash; matches patterns. It can tell you whether your text matches a stored answer, but it can't tell you whether you reasoned correctly: that FeCl<sub>3</sub> needs a (III) because three chlorides force iron to +3, or that a polyatomic ion keeps its own name. Always run the human check &mdash; <em>do the charges add to zero? Is this ionic or molecular?</em> &mdash; against the rules, not just the tool's verdict. The reasoning is yours; the tool only confirms the spelling.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The naming skills here make your <strong>Molecule Build &amp; Geometry Showcase</strong> precise. When you build this week's ion pair in OptimaXR &mdash; the NaCl pair plus one more, such as MgO &mdash; you'll label each one with its correct systematic name and the ion charges. Naming the build correctly (&ldquo;sodium chloride, Na<sup>+</sup> and Cl<sup>&minus;</sup>&rdquo;) is part of what makes the exhibit read as real chemistry, and it's the habit you'll carry into the covalent molecules you build next week.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 3.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on naming and formula-writing. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Ionic Formulas &amp; Naming</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You'll write formulas from given ions (including polyatomic and transition-metal cases) and name a set of ionic and molecular compounds.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Continue Your Molecule Build &amp; Geometry Showcase</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build and correctly name this week's ion pair in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Nomenclature is a language, and its grammar is simple once you decide <em>ionic or molecular</em>. Ionic: name the metal, change the nonmetal to &ldquo;-ide,&rdquo; add a Roman numeral only when the metal's charge can vary, and keep polyatomic ions' own names. Molecular: use Greek prefixes to count atoms. To go from name to formula, balance the charges to zero and use parentheses for repeated polyatomic ions. Master this and you can read &mdash; and write &mdash; the formula of almost any compound you'll meet this year.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 3.03 &middot; Chemical Nomenclature</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.nom-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom nomenclature trainer =====
+  function normalize(s){ return (s || '').toLowerCase().replace(/\s+/g, '').replace(/[–—]/g, '-'); }
+  var checkBtn = document.getElementById('nom-check');
+  if (checkBtn) {
+    checkBtn.addEventListener('click', function () {
+      var rows = document.querySelectorAll('#nom-widget .nom-row');
+      rows.forEach(function (row) {
+        var input = row.querySelector('input');
+        var fb = row.querySelector('.nom-fb');
+        var accepted = (row.dataset.answer || '').split('|').map(normalize);
+        var typed = normalize(input.value);
+        fb.className = 'nom-fb show';
+        if (typed === '') {
+          fb.classList.add('incorrect');
+          fb.textContent = 'Type an answer first, then check.';
+        } else if (accepted.indexOf(typed) !== -1) {
+          fb.classList.add('correct');
+          fb.textContent = '✓ Correct. ' + (row.dataset.fb || '');
+        } else {
+          fb.classList.add('incorrect');
+          fb.textContent = '✗ Not yet. ' + (row.dataset.fb || '') + ' Try again, then re-check.';
+        }
+      });
+    });
+  }
+  var nomReset = document.getElementById('nom-reset');
+  if (nomReset) {
+    nomReset.addEventListener('click', function () {
+      document.querySelectorAll('#nom-widget .nom-row').forEach(function (row) {
+        row.querySelector('input').value = '';
+        var fb = row.querySelector('.nom-fb'); fb.className = 'nom-fb'; fb.textContent = '';
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

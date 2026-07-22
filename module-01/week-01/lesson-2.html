@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 1.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* particle-box visual */
+    .pbox { background:#0E1C42; border-radius:8px; padding:10px; position:relative; height:120px; overflow:hidden; }
+    .pdot { width:14px; height:14px; border-radius:50%; background:#55C8E8; position:absolute; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 1</div>
+        <div style="font-size: 12px; color: #666;">Intro to Chemistry: The Science of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Phases &amp; Classification of Matter</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Phases &amp; Classification of Matter</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">If you kept cutting a drop of water in half, again and again, would you ever reach something that is no longer water?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">That question troubled thinkers for over two thousand years &mdash; and the answer turns out to be <em>yes</em>. Today you'll meet the states matter comes in, a law that says matter is never truly created or destroyed, and a system for sorting <em>any</em> sample of the universe into a small number of categories. You'll also meet the atom: the place where the cutting finally stops.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe the particle arrangement in solids, liquids, and gases, and distinguish mass from weight.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> apply the law of conservation of matter to a change in matter.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a sample as an element, compound, homogeneous mixture, or heterogeneous mixture.</div>
+        </div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and about 35&ndash;45 minutes, including time to play with the embedded simulation.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE STATES OF MATTER</div>
+
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A sealed balloon of air is squeezed smaller. What do you predict happens to the air particles inside? (No wrong answer &mdash; you'll test this in the simulation below.)</div>
+          <div class="widget-options">
+            <button data-response="A reasonable prediction. Watch the gas in the simulation: the particles don't shrink &mdash; they're pushed closer together and collide with the walls more often. That's why squeezing raises the pressure.">&#128261; They get pushed closer together</button>
+            <button data-response="Let's test it. In the simulation you'll see the particles keep their size; what changes is how much space is between them. Good science means checking a guess against what you actually observe.">&#129001; Each particle shrinks</button>
+            <button data-response="Great instinct to question the setup. The particles themselves don't change &mdash; squeezing just reduces the room between them. Notice how the gas fills whatever space it's given.">&#129300; Nothing changes &mdash; air is air</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;"><strong>Matter</strong> is anything that takes up space and has mass, and on Earth we usually meet it in three familiar states. But rather than take the three states on trust, let&rsquo;s do what a chemist does: <em>observe the particles first, then name what we see.</em></p>
+
+        <!-- Investigation: the empirical-questioning arc around the sim -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:10px;">&#128300; INVESTIGATE BEFORE YOU NAME &middot; A SCIENTIST&rsquo;S SEQUENCE</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6; margin-bottom:10px;">You already made a prediction above (<strong>Question &amp; Predict</strong>). Now use the simulation to <strong>Observe</strong> and <strong>Investigate</strong>, then you&rsquo;ll <strong>Analyze</strong>, <strong>Defend</strong>, and <strong>Extend</strong>. Work the sequence in order &mdash; do not skip ahead to the labels.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px;">
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">1 · Observe</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">2 · Question</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">3 · Predict</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">4 · Investigate</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">5 · Analyze</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">6 · Defend</span>
+                <span style="background:#EEF1F8; color:#0E1C42; border-radius:14px; padding:5px 11px; font-size:12px;">7 · Extend</span>
+            </div>
+        </div>
+
+        <!-- PhET embed -->
+        <div style="border:1px solid #C5DCE5; border-radius:8px; overflow:hidden; margin:18px 0;">
+            <div style="background:#1B6A94; color:#fff; padding:8px 14px; font-size:13px;">&#129514; INTERACTIVE SIMULATION &middot; Heat, cool, and squeeze matter &mdash; watch the particles</div>
+            <iframe src="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_en.html" width="100%" height="500" allowfullscreen style="border:0; display:block;" title="States of Matter: Basics simulation"></iframe>
+            <div style="background:#F4F6FA; padding:8px 14px; font-size:13px; color:#666;">If the simulation does not load on your network, open it directly: <a href="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_en.html">States of Matter: Basics</a>.</div>
+        </div>
+
+        <div style="background:#EEF1F8; border-left:5px solid #0E1C42; border-radius:6px; padding:14px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#0e1c42; margin-bottom:8px;">&#9998; OBSERVE &amp; INVESTIGATE &middot; RECORD THIS <em>BEFORE</em> READING THE NAMES BELOW</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">In your notebook, without using the words &ldquo;solid,&rdquo; &ldquo;liquid,&rdquo; or &ldquo;gas&rdquo; yet: (1) Add heat slowly and describe how the <em>spacing</em> and <em>speed</em> of the particles change. (2) In each of the three arrangements you produce, are the particles locked in a pattern, sliding past one another, or flying apart to fill the box? (3) Now squeeze the most spread-out arrangement with the lid &mdash; do the particles get <em>smaller</em>, or just <em>closer</em>? Write only what you actually see.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;"><strong>Now put names to what you saw.</strong> The arrangement where particles are locked in place, holding a definite shape and volume, is a <strong>solid</strong>. The one where particles stay close but slide past one another &mdash; keeping their volume but flowing to the container&rsquo;s shape &mdash; is a <strong>liquid</strong>. The one where particles fly apart to fill all available space, with no fixed shape or volume, is a <strong>gas</strong>. Your squeeze test should have shown the gas particles moving <em>closer</em>, not shrinking &mdash; the amount of matter never changed. (A fourth state, <strong>plasma</strong> &mdash; a hot, electrically charged gas &mdash; makes up the interiors of stars, lightning, and some screens, but solids, liquids, and gases are what you&rsquo;ll handle most.)</p>
+
+        <!-- particle states CSS visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px;">
+                <div class="pbox">
+                    <span class="pdot" style="left:14px;top:14px;"></span><span class="pdot" style="left:34px;top:14px;"></span><span class="pdot" style="left:54px;top:14px;"></span><span class="pdot" style="left:74px;top:14px;"></span>
+                    <span class="pdot" style="left:14px;top:34px;"></span><span class="pdot" style="left:34px;top:34px;"></span><span class="pdot" style="left:54px;top:34px;"></span><span class="pdot" style="left:74px;top:34px;"></span>
+                    <span class="pdot" style="left:14px;top:54px;"></span><span class="pdot" style="left:34px;top:54px;"></span><span class="pdot" style="left:54px;top:54px;"></span><span class="pdot" style="left:74px;top:54px;"></span>
+                </div>
+                <div style="text-align:center; font-size:15px; color:#0E1C42; margin-top:6px;"><strong>Solid</strong><br><span style="font-size:13px;color:#666;">packed, ordered, vibrating in place</span></div>
+            </div>
+            <div style="flex:1; min-width:200px;">
+                <div class="pbox">
+                    <span class="pdot" style="left:18px;top:60px;"></span><span class="pdot" style="left:40px;top:70px;"></span><span class="pdot" style="left:64px;top:58px;"></span><span class="pdot" style="left:88px;top:72px;"></span>
+                    <span class="pdot" style="left:26px;top:82px;"></span><span class="pdot" style="left:52px;top:88px;"></span><span class="pdot" style="left:78px;top:84px;"></span><span class="pdot" style="left:100px;top:64px;"></span>
+                    <span class="pdot" style="left:14px;top:96px;"></span><span class="pdot" style="left:42px;top:98px;"></span><span class="pdot" style="left:70px;top:100px;"></span><span class="pdot" style="left:96px;top:92px;"></span>
+                </div>
+                <div style="text-align:center; font-size:15px; color:#0E1C42; margin-top:6px;"><strong>Liquid</strong><br><span style="font-size:13px;color:#666;">close together but free to slide past</span></div>
+            </div>
+            <div style="flex:1; min-width:200px;">
+                <div class="pbox">
+                    <span class="pdot" style="left:14px;top:18px;"></span><span class="pdot" style="left:90px;top:12px;"></span><span class="pdot" style="left:50px;top:40px;"></span>
+                    <span class="pdot" style="left:120px;top:54px;"></span><span class="pdot" style="left:30px;top:78px;"></span><span class="pdot" style="left:100px;top:92px;"></span>
+                    <span class="pdot" style="left:160px;top:30px;"></span><span class="pdot" style="left:70px;top:96px;"></span>
+                </div>
+                <div style="text-align:center; font-size:15px; color:#0E1C42; margin-top:6px;"><strong>Gas</strong><br><span style="font-size:13px;color:#666;">far apart, fast, filling the space</span></div>
+            </div>
+        </div>
+
+        <div style="background:#E9F7EF; border-left:5px solid #2A9D5C; border-radius:6px; padding:14px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1A6B3D; margin-bottom:8px;">&#129504; ANALYZE &rarr; DEFEND &rarr; EXTEND</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;"><strong>Analyze:</strong> Which single variable &mdash; particle spacing and motion &mdash; explains all three states at once? <strong>Defend:</strong> Compare your notebook observations to the prediction you committed to at the top. If the squeeze test surprised you, say exactly what evidence changed your mind. <strong>Extend:</strong> Steam, liquid water, and ice are all the same substance. Using only your particle observations, explain why adding energy moves a substance &ldquo;up&rdquo; from solid to gas &mdash; a question you&rsquo;ll return to when we reach heating curves later in the course.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MASS, WEIGHT, AND A LAW THAT HOLDS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <strong>mass</strong> of an object measures the amount of matter in it. <strong>Weight</strong> is something different &mdash; it is the force of gravity pulling on that mass. The distinction is easy to feel with a thought experiment: an astronaut who travels to the Moon has the exact same <em>mass</em> there as on Earth, but only about one-sixth the <em>weight</em>, because the Moon's gravity is about one-sixth of Earth's. Her amount of matter never changed; the pull on it did.</p>
+
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A balance compares an unknown mass against known masses, so it reads the same on the Moon as on Earth. A spring scale measures force, so it reads <em>weight</em> &mdash; and would give a smaller number on the Moon. When chemists say &ldquo;mass,&rdquo; they mean the amount of matter, full stop.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">One of the most important discoveries in the whole history of chemistry is the <strong>law of conservation of matter</strong>: <em>in any ordinary change &mdash; melting, dissolving, burning, reacting &mdash; the total quantity of matter does not change.</em> Matter is rearranged, never destroyed. When sugar ferments into the alcohol and carbon dioxide in beer, the total mass before equals the total mass after. When a car battery discharges, the lead, lead oxide, and acid turn into lead sulfate and water with no loss of matter at all &mdash; it is just bookkeeping at the atomic level.</p>
+
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &amp; NOW &middot; HOW WE LEARNED THIS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For a long time, burning <em>looked</em> like matter being destroyed &mdash; a log becomes a little ash. Careful weighing eventually showed the missing mass had escaped as invisible gases; nothing was actually lost. That insight, won by measuring instead of assuming, is why every chemical equation you balance this year must have the same number of atoms on both sides. The law isn't a rule we impose &mdash; it's what the evidence demands.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; SORTING ALL OF MATTER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Any sample of matter in the universe can be sorted with a single set of questions. First: is the composition <em>fixed</em> everywhere, or can it vary? That splits matter into <strong>pure substances</strong> (fixed composition &mdash; every sample is identical, like table sugar, which is always 42.1% carbon, 6.5% hydrogen, and 51.4% oxygen by mass) and <strong>mixtures</strong> (composition can vary, and the parts can be separated by physical means).</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Pure substances split again. An <strong>element</strong> cannot be broken into anything simpler by chemical means &mdash; iron, oxygen, gold, copper. A <strong>compound</strong> is two or more elements chemically joined, and it <em>can</em> be broken down: heating mercury(II) oxide releases liquid mercury and oxygen gas. Mixtures split too: a <strong>homogeneous mixture</strong> (also called a <em>solution</em>) looks uniform throughout &mdash; air, salt water, a sports drink &mdash; while a <strong>heterogeneous mixture</strong> has visibly different regions &mdash; oil-and-vinegar dressing, granite, a chocolate-chip cookie.</p>
+
+        <!-- classification flowchart -->
+        <div style="background:#FFFFFF; border:1px dashed #C5DCE5; border-radius:8px; padding:16px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:12px;">THE CLASSIFICATION-OF-MATTER FLOWCHART</div>
+            <div style="text-align:center; margin-bottom:8px;"><span style="background:#0E1C42; color:#fff; border-radius:6px; padding:8px 18px; font-size:15px;">MATTER</span></div>
+            <div style="text-align:center; color:#C7922C; font-size:13px; margin-bottom:8px;">Is the composition fixed everywhere?</div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+                <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:12px;">
+                    <div style="text-align:center; font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Pure Substance</strong><br><span style="font-size:12px;color:#666;">fixed composition</span></div>
+                    <div style="text-align:center; color:#C7922C; font-size:12px; margin-bottom:8px;">Deciding evidence: can a <em>chemical</em> change break it down?</div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="flex:1; background:#fff; border:1px solid #D0D9E8; border-radius:6px; padding:8px; font-size:13px; color:#1a2340;"><strong>Element</strong><br>one kind of atom (Fe, O&#8322;, Au)</div>
+                        <div style="flex:1; background:#fff; border:1px solid #D0D9E8; border-radius:6px; padding:8px; font-size:13px; color:#1a2340;"><strong>Compound</strong><br>elements bonded (H&#8322;O, NaCl)</div>
+                    </div>
+                </div>
+                <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:12px;">
+                    <div style="text-align:center; font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Mixture</strong><br><span style="font-size:12px;color:#666;">composition can vary</span></div>
+                    <div style="text-align:center; color:#C7922C; font-size:12px; margin-bottom:8px;">Deciding evidence: does it look uniform to the eye (even under magnification)?</div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="flex:1; background:#fff; border:1px solid #D0D9E8; border-radius:6px; padding:8px; font-size:13px; color:#1a2340;"><strong>Homogeneous</strong><br>uniform throughout (salt water, air)</div>
+                        <div style="flex:1; background:#fff; border:1px solid #D0D9E8; border-radius:6px; padding:8px; font-size:13px; color:#1a2340;"><strong>Heterogeneous</strong><br>visibly varied (granite, dressing)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background:#EEF1F8; border-left:5px solid #0E1C42; border-radius:6px; padding:14px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#0e1c42; margin-bottom:8px;">&#9998; READ THE FLOWCHART AS EVIDENCE, NOT A MENU</div>
+            <div style="font-size:16px; color:#1a2340; line-height:1.6;">The forks are questions, and each answer is a piece of evidence. When you classify a sample, don&rsquo;t just land on a box &mdash; state the observation that sent you down each branch. For example: &ldquo;Brass is a <em>mixture</em> because its copper-to-zinc ratio can vary (first fork), and <em>homogeneous</em> because it looks uniform even up close (second fork).&rdquo; In the practice below and in every classification you defend this year, name the deciding evidence at each fork.</div>
+        </div>
+
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; COMMON MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">&ldquo;Pure&rdquo; in chemistry does not mean &ldquo;healthy&rdquo; or &ldquo;clean&rdquo; &mdash; it means <em>one kind of substance, fixed composition</em>. Pure water and pure table salt are both pure substances; so is pure carbon monoxide, which is deadly. And a clear, colorless solution like salt water is still a <em>mixture</em>, even though it looks like a single thing.</div>
+        </div>
+
+        <!-- classify widget -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CLASSIFY THE SAMPLE</div>
+          <div class="widget-question">Sort each sample. Pick the single best category and get instant feedback.</div>
+
+          <div class="widget-row" data-correct="3" data-fb="Correct &mdash; you can see distinct chips, nuts, and dough, so the composition varies from spot to spot: heterogeneous mixture." data-hint="Can you see different regions with your eyes? Then it isn't uniform.">
+            <div class="widget-row-prompt">1. A chocolate-chip cookie</div>
+            <div class="widget-options">
+              <button data-choice="0">Element</button>
+              <button data-choice="1">Compound</button>
+              <button data-choice="2">Homogeneous mixture</button>
+              <button data-choice="3">Heterogeneous mixture</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; copper is made of just one kind of atom and can't be broken down chemically: it's an element." data-hint="Could this be broken into simpler substances by a chemical change? If not, it's an element.">
+            <div class="widget-row-prompt">2. A pure copper wire</div>
+            <div class="widget-options">
+              <button data-choice="0">Element</button>
+              <button data-choice="1">Compound</button>
+              <button data-choice="2">Homogeneous mixture</button>
+              <button data-choice="3">Heterogeneous mixture</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; salt water looks the same throughout and its parts can be separated physically (by evaporating the water): homogeneous mixture." data-hint="It's uniform and the parts can be separated without a chemical change &mdash; that's a clue toward 'mixture, uniform'.">
+            <div class="widget-row-prompt">3. Salt fully dissolved in water</div>
+            <div class="widget-options">
+              <button data-choice="0">Element</button>
+              <button data-choice="1">Compound</button>
+              <button data-choice="2">Homogeneous mixture</button>
+              <button data-choice="3">Heterogeneous mixture</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; water is two elements (hydrogen and oxygen) chemically bonded in a fixed ratio, and it can be broken down: it's a compound." data-hint="It has a fixed formula but is made of more than one element bonded together.">
+            <div class="widget-row-prompt">4. Pure water, H&#8322;O</div>
+            <div class="widget-options">
+              <button data-choice="0">Element</button>
+              <button data-choice="1">Compound</button>
+              <button data-choice="2">Homogeneous mixture</button>
+              <button data-choice="3">Heterogeneous mixture</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 4 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 4 &middot; WHERE THE CUTTING STOPS: ATOMS &amp; MOLECULES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Return to the opening question. Keep halving a piece of gold and eventually you reach a single <strong>atom</strong> &mdash; the smallest particle of an element that still <em>is</em> that element. Divide it further and it is no longer gold. The word comes from the Greek <em>atomos</em>, &ldquo;uncuttable.&rdquo; The idea is ancient (the Greek thinkers Leucippus and Democritus proposed it in the fifth century BCE), but it stayed a philosophical guess until the early 1800s, when the British teacher <strong>John Dalton</strong> backed it with careful measurements. We'll trace that whole story in Module 2.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Atoms are almost unimaginably small. It would take roughly 7,000 carbon atoms lined up to span the width of a single strand of spider silk. Often atoms join into <strong>molecules</strong> &mdash; two or more atoms held together by chemical bonds. Some elements travel as molecules of identical atoms (oxygen as O&#8322;); compounds are molecules of different atoms (water as H&#8322;O, with two hydrogen atoms bonded to one oxygen).</p>
+
+        <!-- AI-as-Instrument callout (Q1 thread: microscope/STM -> AI imaging) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; SEEING THE UNSEEABLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For most of history, atoms could only be <em>imagined</em>. Then instruments like the scanning tunneling microscope let scientists map individual atoms on a surface &mdash; each bump in the image is one atom. Today, AI tools help clean up and interpret images like these, spotting patterns faster than a person could. That's powerful &mdash; but an AI-enhanced image is still a model that must be checked against the raw measurements. AI can <em>help you see</em>; it <em>cannot</em> decide for you what is really there. That judgment stays yours.</div>
+        </div>
+
+        <!-- flip cards: vocabulary -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to check the term:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Atom</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The smallest particle of an element that keeps that element's identity. Divide it further and it is no longer that element.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:18px;color:#0E1C42;">Molecule</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">Two or more atoms held together by chemical bonds &mdash; e.g., O&#8322; (same element) or H&#8322;O (different elements).</div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Misconception box: three distinctions, example + non-example each -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 10px;">&#9888;&#65039; THREE DISTINCTIONS PEOPLE MIX UP</div>
+            <div style="background:#fff; border:1px solid #F3C9C4; border-radius:6px; padding:12px 14px; margin-bottom:10px;">
+                <div style="font-size:15px; color:#0E1C42; margin-bottom:4px;"><strong>Compound vs. homogeneous mixture</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><span style="color:#1A6B3D;">&#10003; Compound:</span> pure water, H&#8322;O &mdash; hydrogen and oxygen <em>chemically bonded</em> in a fixed 2:1 ratio, separable only by a chemical change. <span style="color:#8A1F16;">&#10007; Not a compound:</span> salt water &mdash; it looks just as uniform, but the salt and water are only <em>physically</em> mingled in a ratio you can change, and boiling separates them with no chemical change. Looking uniform is not the same as being one substance.</div>
+            </div>
+            <div style="background:#fff; border:1px solid #F3C9C4; border-radius:6px; padding:12px 14px; margin-bottom:10px;">
+                <div style="font-size:15px; color:#0E1C42; margin-bottom:4px;"><strong>Element vs. atom</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><span style="color:#1A6B3D;">&#10003; Correct:</span> a gold bar is the <em>element</em> gold (a kind of matter, made of one kind of atom); a single gold <em>atom</em> is one individual particle of it. <span style="color:#8A1F16;">&#10007; Mistake:</span> calling a whole gold nugget &ldquo;an atom.&rdquo; The element is the <em>kind</em>; the atom is the smallest single <em>particle</em> of that kind.</div>
+            </div>
+            <div style="background:#fff; border:1px solid #F3C9C4; border-radius:6px; padding:12px 14px;">
+                <div style="font-size:15px; color:#0E1C42; margin-bottom:4px;"><strong>Physical mixture vs. chemical bonding</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><span style="color:#1A6B3D;">&#10003; Chemical bonding:</span> heat iron and sulfur together and they react into iron sulfide &mdash; a new substance with new properties, no longer magnetic. <span style="color:#8A1F16;">&#10007; Just a physical mixture:</span> merely <em>stirring</em> iron filings and sulfur powder &mdash; still iron and still sulfur, and a magnet pulls the iron right back out. Mixing is not bonding.</div>
+            </div>
+        </div>
+
+        <!-- Then / Now / Future -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &rarr; NOW &rarr; FUTURE &middot; LEARNING TO SORT MATTER</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> early chemists and alchemists could only sort substances by how they looked and behaved &mdash; melting, dissolving, burning &mdash; slowly separating true elements from compounds and mixtures by patient trial. <strong>Now:</strong> materials scientists do the reverse &mdash; they <em>design</em> new compounds and alloys on purpose, arranging elements to get a property they want, from lightweight aircraft alloys to the compounds inside phone batteries. <strong>Future:</strong> a major open goal is to predict a brand-new material&rsquo;s properties from its composition <em>before</em> ever making it &mdash; sorting the possibilities by computer so the right substance can be built the first time.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson is the backbone of your <strong>Matter Classification Museum</strong>. In OptimaXR you'll spawn objects to represent real samples and sort them into four exhibit zones &mdash; element, compound, homogeneous mixture, heterogeneous mixture &mdash; labeling each with the reasoning you just practiced. The flowchart above is your map; bring it into the headset in your mind.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 1.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on states, conservation of matter, and classification.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 1.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Properties and changes &mdash; the tools you'll use to tell substances apart and to spot when matter truly changes.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Matter comes in states, it is never created or destroyed in ordinary changes, and every sample can be sorted by two questions: fixed composition or not, and one component or more. At the bottom of it all sit atoms &mdash; where, at last, the cutting stops.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.02 &middot; Phases &amp; Classification of Matter</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

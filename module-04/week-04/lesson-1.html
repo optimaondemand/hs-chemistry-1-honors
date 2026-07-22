@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 4.07</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom mole-bridge / limiting-reactant calculator ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:110px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2&ndash;Q3 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Chemical Reactions &amp; Stoichiometry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 4.07</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Reaction Stoichiometry &amp; Limiting Reactant</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 4.07</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Reaction Stoichiometry &amp; Limiting Reactant</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A balanced equation tells you the <em>ratio</em> in which substances react &mdash; so if I start with a certain mass of one ingredient, exactly how much product can I get?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You have spent this module learning to count what you cannot see: the mole, the formula, the balanced equation. Now those pieces snap together into the single most powerful calculation in all of chemistry. A balanced equation is a <em>recipe</em>, and like any recipe it is written in proportions: so many parts of this for so many parts of that. Today you learn to walk from a measured mass of one substance, across the &ldquo;bridge&rdquo; of the mole, to the mass of another &mdash; and to answer the question every cook and every chemical engineer must ask: <strong>when you run out of one ingredient, the feast is over, no matter how much of the rest you have left.</strong> That ingredient is the <em>limiting reactant</em>, and finding it is the heart of doing real chemistry.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read a mole ratio directly from a balanced chemical equation and use it to relate amounts of two substances.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> carry out a full stoichiometry calculation along the path grams A &rarr; moles A &rarr; moles B &rarr; grams B.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the limiting reactant in a reaction and determine how much product forms and how much excess reactant remains.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table, and a calculator &mdash; you'll work each example by hand before checking it.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a calculation checker).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE MOLE RATIO: A RECIPE WRITTEN IN PARTICLES</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A balanced equation reads <strong>2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O</strong>. If you have exactly 10 molecules of H<sub>2</sub> and all the O<sub>2</sub> you could want, how many molecules of water do you predict you can make? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the reasoning this lesson is built on. The coefficients say 2 H₂ make 2 H₂O — a 1-to-1 ratio between hydrogen and water. So 10 molecules of H₂ make 10 molecules of H₂O. You just used a mole ratio without being told its name.">10 molecules of water</button>
+            <button data-response="A natural guess — you doubled because the coefficient on H₂ is 2. But look again: the ratio of H₂ to H₂O is 2 to 2, which is just 1 to 1. Each H₂ becomes one H₂O, so 10 H₂ give 10 H₂O. The coefficients are a ratio, not a multiplier you apply blindly.">20 molecules of water</button>
+            <button data-response="Reasonable instinct — there are 2 hydrogen atoms in each H₂ — but we're counting molecules of product, not atoms. The equation pairs 2 H₂ with 2 H₂O, a 1-to-1 molecule ratio, so 10 H₂ give 10 H₂O. Watching whether you're counting atoms or molecules is half the battle.">5 molecules of water</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">In the last two lessons you learned to balance an equation so that atoms are conserved. The coefficients you found do more than balance the books &mdash; they are the <strong>recipe</strong> for the reaction. Consider the synthesis of water, the reaction you have been building in VR all module:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:22px; color:#0e1c42; text-align:center;">2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read this out loud the way a chemist does: <em>two molecules</em> of hydrogen react with <em>one molecule</em> of oxygen to make <em>two molecules</em> of water. But here is the beautiful part. Because a mole is just a fixed, enormous count of particles, the very same sentence is true if you replace &ldquo;molecules&rdquo; with &ldquo;moles&rdquo;: <em>two moles</em> of H<sub>2</sub> react with <em>one mole</em> of O<sub>2</sub> to make <em>two moles</em> of H<sub>2</sub>O. The coefficients are a ratio that holds at any scale &mdash; for a handful of molecules or for a tanker truck full. That ratio between any two substances in the equation is the <strong>mole ratio</strong>, and you read it straight off the coefficients.</p>
+
+        <!-- Mole-ratio visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:15px; color:#666; margin-bottom:4px;">H<sub>2</sub> to O<sub>2</sub></div>
+                <div style="font-size:24px; color:#0E1C42;"><strong>2 : 1</strong></div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:15px; color:#666; margin-bottom:4px;">H<sub>2</sub> to H<sub>2</sub>O</div>
+                <div style="font-size:24px; color:#0E1C42;"><strong>2 : 2 = 1 : 1</strong></div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px; text-align:center;">
+                <div style="font-size:15px; color:#666; margin-bottom:4px;">O<sub>2</sub> to H<sub>2</sub>O</div>
+                <div style="font-size:24px; color:#0E1C42;"><strong>1 : 2</strong></div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">A mole ratio is used as a <strong>conversion factor</strong>, exactly like the dimensional-analysis ratios you met in Module 1. If you know you have 3 moles of H<sub>2</sub> and you want moles of water, multiply by the ratio that cancels hydrogen and leaves water: 3 mol H<sub>2</sub> &times; (2 mol H<sub>2</sub>O &divide; 2 mol H<sub>2</sub>) = 3 mol H<sub>2</sub>O. The unit you don't want goes on the bottom; the unit you do want goes on top. That single move &mdash; mole ratio as a conversion factor &mdash; is the link in the chain we build next.</p>
+
+        <!-- History-of-science callout (blue/teal helpful-info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128220; A MOMENT IN HISTORY &middot; WHERE THE WORD COMES FROM</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The very word <strong>stoichiometry</strong> was coined in 1792 by the German chemist <strong>Jeremias Benjamin Richter</strong>, from the Greek <em>stoicheion</em> (&ldquo;element&rdquo;) and <em>metron</em> (&ldquo;measure&rdquo;) &mdash; literally, <em>the measuring of elements</em>. Richter was among the first to notice that substances combine in fixed, whole-number proportions by mass. That regularity is exactly the mole ratio you are now reading straight off the coefficients &mdash; and remarkably, chemists measured the ratio decades <em>before</em> anyone knew the mass of a single atom. The pattern came first; the explanation followed.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE MOLE BRIDGE: GRAMS A &rarr; GRAMS B</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the difficulty the mole ratio alone cannot solve: in the real world you do not measure moles, you measure <strong>mass</strong> on a balance. The mole ratio only relates <em>moles</em> to <em>moles</em>. So to get from a mass of one substance to a mass of another, you must cross over into &ldquo;mole country,&rdquo; do the ratio there, and cross back. Chemists call this crossing the <strong>mole bridge</strong>, and it always has the same three steps:</p>
+
+        <!-- Mole bridge visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:12px 16px; text-align:center; min-width:110px;"><div style="font-size:16px; color:#0E1C42;"><strong>grams A</strong></div></div>
+            <div style="text-align:center; min-width:120px;"><div style="font-size:13px; color:#1B6A94;">&divide; molar mass A</div><div style="font-size:26px; color:#C7922C;">&rarr;</div></div>
+            <div style="background:#E8F6FB; border:1px solid #C5DCE5; border-radius:8px; padding:12px 16px; text-align:center; min-width:110px;"><div style="font-size:16px; color:#0E1C42;"><strong>moles A</strong></div></div>
+            <div style="text-align:center; min-width:120px;"><div style="font-size:13px; color:#1B6A94;">&times; mole ratio</div><div style="font-size:26px; color:#C7922C;">&rarr;</div></div>
+            <div style="background:#E8F6FB; border:1px solid #C5DCE5; border-radius:8px; padding:12px 16px; text-align:center; min-width:110px;"><div style="font-size:16px; color:#0E1C42;"><strong>moles B</strong></div></div>
+            <div style="text-align:center; min-width:120px;"><div style="font-size:13px; color:#1B6A94;">&times; molar mass B</div><div style="font-size:26px; color:#C7922C;">&rarr;</div></div>
+            <div style="background:#0E1C42; border-radius:8px; padding:12px 16px; text-align:center; min-width:110px;"><div style="font-size:16px; color:#ffffff;"><strong>grams B</strong></div></div>
+        </div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 14px 0; text-align:center; font-style:italic;">The two end steps use molar mass (a fact about each substance). Only the middle step uses the balanced equation.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked across the bridge: how much water from 4.0 g of hydrogen?</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Suppose you burn <strong>4.0 g of H<sub>2</sub></strong> in excess oxygen &mdash; meaning there is more than enough O<sub>2</sub>, so hydrogen is the ingredient that will run out. How many grams of water can form? Walk the bridge one plank at a time, using the equation 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; line-height:1.85; font-size:16px; color:#0e1c42;">
+            <strong>Step 1 &mdash; grams A to moles A.</strong> The molar mass of H<sub>2</sub> is 2.016 g/mol.<br>
+            4.0 g H<sub>2</sub> &divide; 2.016 g/mol = <strong>1.98 mol H<sub>2</sub></strong><br><br>
+            <strong>Step 2 &mdash; moles A to moles B (the mole ratio).</strong> From the equation, H<sub>2</sub> to H<sub>2</sub>O is 2 : 2, that is <strong>1 : 1</strong>.<br>
+            1.98 mol H<sub>2</sub> &times; (2 mol H<sub>2</sub>O &divide; 2 mol H<sub>2</sub>) = <strong>1.98 mol H<sub>2</sub>O</strong><br><br>
+            <strong>Step 3 &mdash; moles B to grams B.</strong> The molar mass of H<sub>2</sub>O is 18.02 g/mol.<br>
+            1.98 mol H<sub>2</sub>O &times; 18.02 g/mol = <strong>35.7 g H<sub>2</sub>O</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">So 4.0 g of hydrogen, burned completely, yields <strong>35.7 g of water</strong> &mdash; nearly nine times its own mass, because each light hydrogen molecule picks up a heavy oxygen atom on its way to becoming water. Notice the discipline of it: every plank of the bridge is a single, defensible multiplication or division, and the units guide your hand at each step. This is the <em>self-government</em> of quantitative chemistry &mdash; you account for every atom, and the arithmetic has nowhere to hide.</p>
+
+        <!-- CUSTOM WIDGET: mole-bridge / limiting-reactant calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; MOLE-BRIDGE &amp; LIMITING-REACTANT CHECKER</div>
+          <div class="widget-question">Work each problem <strong>on paper first</strong>, then type your answer and check it. The tool verifies your number and gives a too-high / too-low hint &mdash; it will <em>not</em> do the steps for you. (A checker confirms arithmetic; only you can decide which ratio to use.)</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="mb-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="P1">P1 &middot; Grams of H&#8322;O from 4.0 g H&#8322; (excess O&#8322;)</option>
+                <option value="P2">P2 &middot; Moles of H&#8322;O from 3.0 mol H&#8322; (excess O&#8322;)</option>
+                <option value="P3">P3 &middot; Grams of O&#8322; needed to react with 4.0 g H&#8322;</option>
+                <option value="P4">P4 &middot; Limiting reactant amount: mol H&#8322;O from 4 mol H&#8322; + 1 mol O&#8322;</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="number" step="any" id="mb-ans" placeholder="number only" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="mb-check">Check my answer</button>
+            <button class="widget-reset" id="mb-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="mb-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE LIMITING REACTANT: WHEN AN INGREDIENT RUNS OUT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Until now we have quietly assumed one reactant was in &ldquo;excess.&rdquo; But what happens when you simply mix two reactants in amounts that <em>don't</em> match the recipe? Think of building s'mores: with 4 graham crackers, 4 marshmallows, but only 1 chocolate square, you can build exactly 1 s'more &mdash; and then you stop, no matter how many crackers and marshmallows are left staring at you. The chocolate <em>limited</em> the outcome. In chemistry the ingredient that runs out first is the <strong>limiting reactant</strong>: it determines how much product can form. Whatever is left over is the <strong>excess reactant</strong>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The reliable way to find the limiting reactant is to ask a simple question of each reactant: <em>if this one reacted completely, how much product would it make?</em> Whichever reactant makes the <strong>smaller</strong> amount of product is the limiting reactant &mdash; because once it is gone, the reaction halts there.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: 4 mol H<sub>2</sub> mixed with 1 mol O<sub>2</sub></h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Using 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, suppose we have <strong>4 mol H<sub>2</sub></strong> and <strong>1 mol O<sub>2</sub></strong>. Ask each reactant how much water it could make:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>If all 4 mol H<sub>2</sub> reacted&hellip;</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">H<sub>2</sub> : H<sub>2</sub>O is 2 : 2 (= 1 : 1), so 4 mol H<sub>2</sub> &rarr; <strong>4 mol H<sub>2</sub>O</strong>.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#FDF3E3; border:1px solid #E7CFa0; border-top:3px solid #C7922C; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>If all 1 mol O<sub>2</sub> reacted&hellip;</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">O<sub>2</sub> : H<sub>2</sub>O is 1 : 2, so 1 mol O<sub>2</sub> &rarr; only <strong>2 mol H<sub>2</sub>O</strong>.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Oxygen makes the smaller amount of product (2 mol versus 4 mol), so <strong>O<sub>2</sub> is the limiting reactant</strong> &mdash; only 2 mol of water can form. Now account for the leftovers: making 2 mol of water requires the matching amount of hydrogen, which (1 : 1) is 2 mol H<sub>2</sub>. You started with 4 mol H<sub>2</sub>, so <strong>2 mol H<sub>2</sub> are left over</strong> as excess. The reaction stopped not because hydrogen was scarce, but because the oxygen ran out first. Counter-intuitively, having <em>more</em> hydrogen did not make more water &mdash; the oxygen set the ceiling.</p>
+
+        <!-- AI-as-Instrument callout (red) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI AS YOUR INSTRUMENT &middot; THE TOOL PROPOSES, YOUR ARITHMETIC CONFIRMS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Type &ldquo;how much water from 4 grams of hydrogen?&rdquo; into an AI assistant and it will likely give you a number &mdash; maybe even the right one. AI is genuinely good at arithmetic, the way a calculator is. But it can also <em>quietly use the wrong mole ratio</em> or misread an unbalanced equation, and it will state a wrong answer with the same confidence as a right one. Treat AI here exactly as Lavoisier treated his nose: a useful instrument you never trust blindly. Before you accept any AI stoichiometry answer, do the one thing the machine cannot do for you &mdash; <strong>check that the equation is balanced and that the mole ratio it used matches the coefficients.</strong> The claim is yours to own; verify it against the balanced equation, your primary evidence.</div>
+        </div>
+
+        <!-- Single-select widget: limiting reactant -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH REACTANT LIMITS THE REACTION?</div>
+          <div class="widget-question">For each mixture, decide which reactant runs out first. The trick is always the same: ask each reactant how much product it could make, and the <em>smaller</em> answer wins. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right — using 2 H₂ + O₂ → 2 H₂O: 6 mol H₂ could make 6 mol H₂O, but 2 mol O₂ could make only 4 mol H₂O. Oxygen makes less, so O₂ limits and 2 mol H₂ are left over." data-hint="Ask each reactant how much water it could make. H₂:H₂O is 1:1; O₂:H₂O is 1:2.">
+            <div class="widget-row-prompt">1. 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, mixing <strong>6 mol H<sub>2</sub> + 2 mol O<sub>2</sub></strong></div>
+            <div class="widget-options">
+              <button data-choice="0">H<sub>2</sub> is limiting</button>
+              <button data-choice="1">O<sub>2</sub> is limiting</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct — H₂ to H₂O is 1:1, so 3 mol H₂ make only 3 mol H₂O; 3 mol O₂ could make 6 mol H₂O. Hydrogen makes less, so H₂ is limiting and O₂ is in excess." data-hint="With 1:1 for H₂ and 1:2 for O₂, which reactant produces fewer moles of water?">
+            <div class="widget-row-prompt">2. 2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O, mixing <strong>3 mol H<sub>2</sub> + 3 mol O<sub>2</sub></strong></div>
+            <div class="widget-options">
+              <button data-choice="0">H<sub>2</sub> is limiting</button>
+              <button data-choice="1">O<sub>2</sub> is limiting</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes — N₂ + 3 H₂ → 2 NH₃ needs hydrogen and nitrogen in a 3:1 ratio. With 1 mol N₂ and 2 mol H₂, the nitrogen would want 3 mol H₂ to fully react, but only 2 mol H₂ is present — so hydrogen runs out first." data-hint="The ratio is 3 H₂ for every 1 N₂. Is there enough H₂ to pair with all the N₂?">
+            <div class="widget-row-prompt">3. N<sub>2</sub> + 3&nbsp;H<sub>2</sub> &rarr; 2&nbsp;NH<sub>3</sub>, mixing <strong>1 mol N<sub>2</sub> + 2 mol H<sub>2</sub></strong></div>
+            <div class="widget-options">
+              <button data-choice="0">N<sub>2</sub> is limiting</button>
+              <button data-choice="1">H<sub>2</sub> is limiting</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science callout (blue/teal) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A RATIO YOU CAN'T SEE, BUT CAN MEASURE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">You have never seen a mole ratio. No one has watched two H<sub>2</sub> molecules pair with one O<sub>2</sub>. So why are chemists so confident these ratios are real? The answer is <strong>measurement and reproducibility</strong>: weigh the reactants and products of the same reaction again and again, and the masses always settle into the same fixed proportions &mdash; the very regularity Richter and Dalton first noticed. The ratio is trusted because the <em>evidence repeats</em>, not because anyone can see the atoms. Notice, too, that everything you calculated today is a <em>prediction</em> &mdash; an ideal ceiling set by the equation. What a real reaction actually delivers on the bench is the next question, and the gap between the perfect equation and the messy laboratory is exactly what Lesson 4.08 measures.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the final week of your <strong>Reaction Stoichiometry Walkthrough</strong> in OptimaXR &mdash; <strong>Build 4 of 4</strong>. In your <em>Reaction Stoichiometry Lab</em> Session, you'll set up the exact limiting-reactant scenario from Part 3: <strong>4 H<sub>2</sub> + 1 O<sub>2</sub></strong>. Show that O<sub>2</sub> is the limiting reactant, that only 2 H<sub>2</sub>O can form, and that 2 H<sub>2</sub> are left over &mdash; then compute the theoretical yield of water. This week you also <strong>record</strong> the walkthrough that becomes your graded module project. Save your final snapshot as <code style="background:#fff;border:1px solid #C9E5D3;border-radius:4px;padding:1px 5px;">Reaction_Final_YourName</code>. Keep this lesson's question in front of you on camera: <em>which reactant ran out, and how do I know?</em></div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 4.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on mole ratios, the mole bridge, and limiting reactant. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 4.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A theoretical yield is the <em>most</em> you could get. How much do you actually get &mdash; and how do chemists use a measured reaction to find an unknown concentration? Percent yield and titration are next.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Reaction Stoichiometry Walkthrough (Build 4 of 4 &mdash; and record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the limiting-reactant scenario, then record your narrated walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A balanced equation is a recipe written in moles, and its coefficients give you the mole ratios that link any two substances. To go from a measured mass of one to a measured mass of another, cross the mole bridge: grams A &rarr; moles A &rarr; (mole ratio) &rarr; moles B &rarr; grams B. And when reactants are not supplied in the recipe's exact proportions, one of them runs out first &mdash; the limiting reactant &mdash; and it, not the abundant excess, sets the ceiling on how much product can form. Next we ask how close the <em>real</em> world gets to that ceiling.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 2&ndash;3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 4.07 &middot; Reaction Stoichiometry &amp; Limiting Reactant</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom mole-bridge / limiting-reactant checker =====
+  var MB = {
+    P1: { ans:35.7, tol:0.3, unit:'g H₂O', work:'4.0 g H₂ ÷ 2.016 = 1.98 mol H₂; ×(2/2 ratio) = 1.98 mol H₂O; ×18.02 = 35.7 g.' },
+    P2: { ans:3.0,  tol:0.05, unit:'mol H₂O', work:'H₂:H₂O is 2:2 = 1:1, so 3.0 mol H₂ → 3.0 mol H₂O.' },
+    P3: { ans:31.7, tol:0.5, unit:'g O₂', work:'1.98 mol H₂ ×(1 mol O₂ / 2 mol H₂) = 0.99 mol O₂; ×32.00 = 31.7 g O₂.' },
+    P4: { ans:2.0,  tol:0.05, unit:'mol H₂O', work:'O₂ is limiting: 1 mol O₂ ×(2 mol H₂O / 1 mol O₂) = 2 mol H₂O (the 4 mol H₂ could make 4, but oxygen runs out first).' }
+  };
+  var mbCheck = document.getElementById('mb-check');
+  if (mbCheck) {
+    mbCheck.addEventListener('click', function () {
+      var out = document.getElementById('mb-out');
+      var key = document.getElementById('mb-prob').value;
+      var raw = document.getElementById('mb-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      if (raw === '' || isNaN(parseFloat(raw))) { out.classList.add('warn'); out.textContent = 'Type your numeric answer first.'; return; }
+      var guess = parseFloat(raw);
+      var d = MB[key];
+      if (Math.abs(guess - d.ans) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.ans + ' ' + d.unit + '. ' + d.work + ' Well accounted for.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.ans ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer (' + guess + ') is ' + hi + '. Re-walk the bridge: convert to moles, apply the correct mole ratio from the coefficients, then convert back. Try again.';
+      }
+    });
+  }
+  var mbReset = document.getElementById('mb-reset');
+  if (mbReset) {
+    mbReset.addEventListener('click', function () {
+      document.getElementById('mb-prob').value = '';
+      document.getElementById('mb-ans').value = '';
+      var out = document.getElementById('mb-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

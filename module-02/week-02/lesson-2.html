@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* EM spectrum bar */
+    .em-bar { display:flex; border-radius:8px; overflow:hidden; border:1px solid #C5DCE5; }
+    .em-seg { flex:1; padding:10px 4px; text-align:center; font-size:12px; color:#fff; line-height:1.3; }
+    /* wave/photon calculator */
+    .wp-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:12px; }
+    .wp-row label { font-size:15px; color:#0E1C42; }
+    .wp-row input { width:130px; font-size:16px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .wp-check { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; margin-right:8px; }
+    .wp-check:hover { background:#16285a; }
+    .wp-out { background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 14px; margin-top:10px; font-size:15px; color:#1a2340; line-height:1.6; display:none; }
+    .wp-out.show { display:block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Electromagnetic Energy</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Electromagnetic Energy</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How can light &mdash; which never touches the inside of an atom &mdash; reveal what an atom is made of, and even how it is built?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You cannot hold an atom up to your eye. Yet astronomers can name the elements in a star millions of light-years away, and forensic scientists can identify a metal from a single spark of light. The secret is that <strong>matter and light are deeply connected</strong>: when atoms are energized, the light they emit comes in an exact pattern that belongs to that element and no other. Today you'll learn what light <em>is</em>, how to measure its energy, and why every element signs its name in light.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe light as an electromagnetic wave and relate its wavelength, frequency, and energy.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use c = &lambda;&nu; and E = h&nu; to calculate a wave's frequency and a photon's energy.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how a line (emission) spectrum acts as an element's unique fingerprint.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator &mdash; this lesson has worked math you'll repeat.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;45 minutes, including time to use the calculator widget.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; LIGHT IS A WAVE</div>
+
+        <!-- Driving question + brief spectroscopy history (M2-11) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 0 0 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; WHERE THIS QUESTION CAME FROM</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">You have probably seen a flame flash bright yellow when salt falls into it, or watched fireworks bloom in specific reds and greens. In the mid-1800s, <strong>Robert Bunsen and Gustav Kirchhoff</strong> turned that everyday observation into a tool: each element, when heated, glows with its <em>own exact set of colors</em>, and that pattern identifies the element with certainty. This was the birth of <strong>spectroscopy</strong> &mdash; and it carried a startling implication: the light an atom gives off must somehow be shaped by the atom's own internal structure. If that is true, then reading light carefully could let us see <em>inside</em> an atom we can never touch. To cash in that promise, we first have to understand what light <em>is</em> and how to measure its energy &mdash; the work of this lesson &mdash; before we decode what it reveals about atomic structure in Lesson 2.06.</div>
+        </div>
+
+        <!-- predict first -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Radio waves, visible light, and X-rays are all the same kind of thing &mdash; electromagnetic waves &mdash; just with different wavelengths. Which do you predict carries the <em>most energy</em> per &ldquo;packet&rdquo;? (No wrong answer &mdash; you'll test it below.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct &mdash; radio waves are everywhere and feel powerful as broadcasts, but each individual packet is very low energy because radio has the longest wavelength and lowest frequency. Energy per packet rises as wavelength shrinks.">Radio waves &mdash; they travel so far</button>
+            <button data-response="A fair guess &mdash; visible light is the part we see, but it sits in the middle of the energy range. Look for the part with the shortest wavelength and highest frequency.">Visible light &mdash; it's the brightest</button>
+            <button data-response="Exactly &mdash; X-rays have a very short wavelength and very high frequency, so each packet carries far more energy than radio or visible light. That's why X-rays can pass through soft tissue and why they must be used carefully.">X-rays &mdash; short wavelength, high energy</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Visible light, the warmth from a heater, the signal to your phone, and a medical X-ray are all the same thing: <strong>electromagnetic radiation</strong>, energy that travels through space as a wave. Two numbers describe any such wave. Its <strong>wavelength</strong> (the Greek letter lambda, &lambda;) is the distance between one crest and the next, measured in meters. Its <strong>frequency</strong> (the Greek letter nu, &nu;) is how many crests pass a point each second, measured in hertz (Hz), or &ldquo;per second.&rdquo;</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In a vacuum, all electromagnetic waves travel at the same enormous speed &mdash; the speed of light, <strong>c = 3.00 &times; 10<sup>8</sup> m/s</strong>. Because the speed is fixed, wavelength and frequency are locked together by one simple relationship:</p>
+
+        <!-- equation card -->
+        <div style="background:#0E1C42; border-radius:8px; padding:18px; margin:14px 0; text-align:center;">
+            <div style="font-size:26px; color:#fff;">c = &lambda; &times; &nu;</div>
+            <div style="font-size:14px; color:#55c8e8; margin-top:8px;">speed of light = wavelength &times; frequency</div>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because their product is fixed, wavelength and frequency are a seesaw: when one goes up, the other must come down. A <strong>longer wavelength means a lower frequency</strong>, and a longer wavelength also means <strong>lower energy</strong>. That single fact organizes the entire range of light.</p>
+
+        <!-- EM spectrum CSS bar -->
+        <div style="margin:18px 0;">
+            <div style="font-size:11px; color:#1B6A94; text-align:center; margin-bottom:8px;">THE ELECTROMAGNETIC SPECTRUM &mdash; LEFT = LONGER &lambda;, LOWER ENERGY &nbsp;&rarr;&nbsp; RIGHT = SHORTER &lambda;, HIGHER ENERGY</div>
+            <div class="em-bar">
+                <div class="em-seg" style="background:#6b3fa0;">Radio</div>
+                <div class="em-seg" style="background:#3a6ea5;">Microwave</div>
+                <div class="em-seg" style="background:#c0392b;">Infrared</div>
+                <div class="em-seg" style="background:linear-gradient(90deg,#e74c3c,#f1c40f,#2ecc71,#3498db,#9b59b6);">Visible</div>
+                <div class="em-seg" style="background:#8e44ad;">Ultraviolet</div>
+                <div class="em-seg" style="background:#2c3e50;">X-ray</div>
+                <div class="em-seg" style="background:#111827;">Gamma</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; color:#6b7a99; margin-top:6px;"><span>&larr; longer wavelength, lower frequency, lower energy</span><span>higher energy &rarr;</span></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; LIGHT COMES IN PACKETS: THE PHOTON</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a long time scientists pictured light purely as a smooth, continuous wave. But careful experiments around 1900 forced a stranger idea. Light's energy is not delivered in a continuous stream &mdash; it arrives in tiny, indivisible bundles called <strong>photons</strong>. We say the energy is <strong>quantized</strong>: it comes only in whole packets, never in fractions of a packet. The energy of a single photon depends only on its frequency, through a second equation:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px; margin:14px 0; text-align:center;">
+            <div style="font-size:26px; color:#fff;">E = h &times; &nu;</div>
+            <div style="font-size:14px; color:#55c8e8; margin-top:8px;">photon energy = Planck's constant &times; frequency &nbsp;&middot;&nbsp; h = 6.626 &times; 10<sup>&minus;34</sup> J&middot;s</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Higher frequency means a higher-energy photon &mdash; which is exactly why ultraviolet light can damage skin while the lower-frequency radio waves passing through you constantly do no harm. Let's work one clean example all the way through.</p>
+
+        <!-- worked example -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:15px; color:#0E1C42; margin-bottom:8px;"><strong>Worked example.</strong> A red laser pointer emits light with a wavelength of 650 nm (650 &times; 10<sup>&minus;9</sup> m = 6.50 &times; 10<sup>&minus;7</sup> m). Find its frequency, then the energy of one photon.</div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.7;">
+            <strong>Step 1 &mdash; frequency.</strong> Rearrange c = &lambda;&nu; to &nu; = c &divide; &lambda;:<br>
+            &nu; = (3.00 &times; 10<sup>8</sup> m/s) &divide; (6.50 &times; 10<sup>&minus;7</sup> m) = <strong>4.62 &times; 10<sup>14</sup> Hz</strong>.<br><br>
+            <strong>Step 2 &mdash; photon energy.</strong> Use E = h&nu;:<br>
+            E = (6.626 &times; 10<sup>&minus;34</sup> J&middot;s)(4.62 &times; 10<sup>14</sup> Hz) = <strong>3.06 &times; 10<sup>&minus;19</sup> J</strong>.
+            </div>
+        </div>
+
+        <!-- Factor-label / unit-reasoning scaffold (M2-12) -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#129518; TRACK THE UNITS &middot; WHY THE ANSWER COMES OUT RIGHT</div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">This is the factor-label habit from Module 1: carry the units through the calculation and cancel them. The <em>surviving</em> unit tells you whether your setup makes sense &mdash; before you ever trust the number.</div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px;">
+                <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:6px; padding:12px 16px;">
+                    <div style="font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Frequency:</strong> &nu; = c &divide; &lambda;</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.7;">
+                        &nu; = <span style="white-space:nowrap;">(3.00&times;10<sup>8</sup> <strong>m</strong>/s)</span> &divide; <span style="white-space:nowrap;">(6.50&times;10<sup>&minus;7</sup> <strong>m</strong>)</span><br>
+                        The <strong>m</strong> on top and bottom cancel:<br>
+                        <span style="color:#1B6A94;">(m/s) &divide; (m) = 1/s = <strong>Hz</strong></span><br>
+                        &rarr; frequency must come out in <strong>Hz</strong>. &#10003;
+                    </div>
+                </div>
+                <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:6px; padding:12px 16px;">
+                    <div style="font-size:15px; color:#0E1C42; margin-bottom:6px;"><strong>Photon energy:</strong> E = h &times; &nu;</div>
+                    <div style="font-size:15px; color:#1a2340; line-height:1.7;">
+                        E = <span style="white-space:nowrap;">(6.626&times;10<sup>&minus;34</sup> J&middot;<strong>s</strong>)</span> &times; <span style="white-space:nowrap;">(4.62&times;10<sup>14</sup> /<strong>s</strong>)</span><br>
+                        The <strong>s</strong> and <strong>1/s</strong> cancel:<br>
+                        <span style="color:#1B6A94;">(J&middot;s)(1/s) = <strong>J</strong></span><br>
+                        &rarr; energy must come out in <strong>joules</strong>. &#10003;
+                    </div>
+                </div>
+            </div>
+            <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-top:12px;"><strong>Do this every time.</strong> Before plugging in numbers, confirm your wavelength is in <em>meters</em> (convert nm &rarr; m first: 1 nm = 10<sup>&minus;9</sup> m), then cancel units and <em>state the leftover unit</em> in your answer. If &nu; doesn't land in 1/s, or E in J, your setup is wrong &mdash; fix it before trusting the readout.</div>
+        </div>
+
+        <!-- custom wave/photon calculator -->
+        <div class="optima-widget" id="wp-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WAVE &amp; PHOTON CALCULATOR</div>
+          <div class="widget-question">Enter a wavelength in <strong>meters</strong> and the calculator will find the frequency (c = &lambda;&nu;) and the energy of one photon (E = h&nu;). Try 6.50e-7 for the red laser above, or 4.50e-7 for blue light.</div>
+          <div class="wp-row">
+            <label for="wp-lambda">Wavelength &lambda; (m):</label>
+            <input type="text" id="wp-lambda" placeholder="e.g. 6.50e-7" />
+            <button class="wp-check" id="wp-check">Calculate</button>
+            <button class="widget-reset" id="wp-reset">Reset</button>
+          </div>
+          <div class="wp-out" id="wp-out"></div>
+        </div>
+
+        <!-- self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Green light (&lambda; = 5.00 &times; 10<sup>&minus;7</sup> m) vs. red light &mdash; which photon has more energy, and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Green light has the <strong>shorter</strong> wavelength (5.00 &times; 10<sup>&minus;7</sup> m vs. red's 6.50 &times; 10<sup>&minus;7</sup> m). Shorter wavelength means higher frequency (&nu; = c&divide;&lambda; gives 6.00 &times; 10<sup>14</sup> Hz for green), and higher frequency means higher photon energy (E = h&nu; gives about 3.98 &times; 10<sup>&minus;19</sup> J). So the green photon carries more energy than the red one. The seesaw between &lambda; and energy always points this way.</div>
+        </details>
+
+        <!-- AI-as-Instrument callout (RED) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; AI AS A SCIENTIFIC INSTRUMENT &middot; SPECTROSCOPY &rarr; PATTERN RECOGNITION</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Reading a spectrum used to mean comparing measured lines against printed charts by hand. Today, AI tools can match a measured spectrum against enormous libraries of reference spectra in seconds and <em>suggest</em> which elements are present &mdash; a genuine extension of the spectrometer. But the suggestion is only a hypothesis. A careful scientist still checks the AI's match against <strong>known reference spectra</strong> and the actual measurement before trusting it, because a confident-sounding wrong match is still wrong. AI is the instrument here, not the oracle: it helps you see the pattern, but the verification stays yours.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; EVERY ELEMENT SIGNS ITS NAME IN LIGHT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Heat a solid until it glows and it produces a <strong>continuous spectrum</strong> &mdash; an unbroken rainbow of every color, like sunlight through a prism. But pass an electric current through a tube of a single gaseous element and something remarkable happens: the gas glows with only a few sharp, separate colors. Spread that light through a prism and you see not a rainbow but a handful of bright, narrow lines against darkness &mdash; a <strong>line spectrum</strong>, also called an <em>emission spectrum</em>.</p>
+
+        <!-- continuous vs line spectrum visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px;">
+                <div style="height:34px; border-radius:6px; background:linear-gradient(90deg,#e74c3c,#f39c12,#f1c40f,#2ecc71,#3498db,#9b59b6); border:1px solid #C5DCE5;"></div>
+                <div style="text-align:center; font-size:14px; color:#0E1C42; margin-top:6px;"><strong>Continuous spectrum</strong><br><span style="font-size:12px;color:#666;">every color &mdash; a glowing hot solid</span></div>
+            </div>
+            <div style="flex:1; min-width:240px;">
+                <div style="height:34px; border-radius:6px; background:#111827; border:1px solid #C5DCE5; position:relative;">
+                    <span style="position:absolute; top:0; bottom:0; left:18%; width:4px; background:#9b59b6;"></span>
+                    <span style="position:absolute; top:0; bottom:0; left:42%; width:4px; background:#3498db;"></span>
+                    <span style="position:absolute; top:0; bottom:0; left:60%; width:4px; background:#2ecc71;"></span>
+                    <span style="position:absolute; top:0; bottom:0; left:82%; width:4px; background:#e74c3c;"></span>
+                </div>
+                <div style="text-align:center; font-size:14px; color:#0E1C42; margin-top:6px;"><strong>Line (emission) spectrum</strong><br><span style="font-size:12px;color:#666;">only a few exact colors &mdash; one energized element</span></div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Here is the astonishing part: <strong>each element produces its own unique set of lines</strong> &mdash; the same lines, at the same wavelengths, every time. Hydrogen's pattern is hydrogen's alone; sodium's is sodium's. The pattern is as distinctive as a fingerprint. So if you collect light from an unknown source, spread it out, and match its lines against known patterns, you can name the elements that produced it &mdash; even if the source is a star you will never visit. Why each element has its <em>own</em> exact set of lines is the great puzzle of the next lesson.</p>
+
+        <!-- THEN history callout (blue/teal) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the mid-1800s, scientists realized that the bright lines from a glowing gas could be used to identify elements &mdash; the birth of <strong>spectroscopy</strong>. The method was so powerful that it revealed elements never before seen. Most famously, an unfamiliar set of lines was found in light from the Sun before that element had ever been identified on Earth; it was named <strong>helium</strong>, after the Greek word for the Sun. A chemical fingerprint, read across the void of space, announced a new element. That is the reach of reading light carefully.</div>
+        </div>
+
+        <!-- single-select: spectrum reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READING LIGHT</div>
+          <div class="widget-question">Apply what you just read. You get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a few sharp, separate lines is a line (emission) spectrum, which comes from a single energized element." data-hint="A handful of separate bright lines (not a full rainbow) points to one answer.">
+            <div class="widget-row-prompt">1. A glowing tube of one gas shows just four bright, separate colored lines. This is a&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Continuous spectrum</button>
+              <button data-choice="1">Line (emission) spectrum</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; longer wavelength means lower frequency and therefore lower photon energy. Microwaves carry less energy per photon than visible light." data-hint="Use the seesaw: longer wavelength means lower frequency and lower energy.">
+            <div class="widget-row-prompt">2. A microwave photon (long &lambda;) compared to a visible-light photon (shorter &lambda;) has&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">Lower energy</button>
+              <button data-choice="1">Higher energy</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; because each element's line pattern is unique, matching the lines from a star to known patterns tells you which elements are present." data-hint="What makes a line spectrum useful for identifying an element?">
+            <div class="widget-row-prompt">3. How can astronomers know what a distant star is made of?</div>
+            <div class="widget-options">
+              <button data-choice="0">By measuring the star's temperature alone</button>
+              <button data-choice="1">By matching the star's spectral lines to known element patterns</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Current research callout (NOW/FUTURE) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &amp; NEXT &middot; READING THE LIGHT OF DISTANT WORLDS</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The idea that each element leaves a unique fingerprint in light is one of the most powerful tools in modern science. <strong>Astronomers</strong> use <strong>spectroscopy</strong> to determine what distant stars are made of &mdash; without ever leaving Earth &mdash; by matching the lines in a star's light to elements measured in the lab. The same method now probes the atmospheres of <strong>exoplanets</strong> orbiting other stars, searching for gases like water vapor, carbon dioxide, and oxygen. Every one of those measurements rests on the c = &lambda;&nu; and E = h&nu; relationships you worked with today. Whole questions remain open &mdash; which is exactly why space telescopes keep gathering spectra.</div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In your <strong>Atomic Model Evolution Gallery</strong> this week you'll add the Bohr-model exhibit &mdash; the very model that finally explained why elements give off exact, separate colors. The line spectra you just met are the evidence the Bohr model was built to explain. Keep the idea close: light is the messenger that lets us read the inside of an atom.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on waves, photon energy, and line spectra.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">The Bohr model &mdash; why hydrogen glows in only a few exact colors instead of a smooth rainbow.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Light is electromagnetic energy that travels as a wave at a fixed speed, so wavelength and frequency trade off through c = &lambda;&nu;, and a photon's energy rises with frequency through E = h&nu;. Energized elements emit not a full rainbow but a few exact lines &mdash; a fingerprint unique to each element. That fingerprint lets us read the composition of matter we can never touch. The next question is <em>why</em> the lines are exact &mdash; and that answer reshapes the atom.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.05 &middot; Electromagnetic Energy</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      var out = w.querySelector('.wp-out'); if (out) { out.classList.remove('show'); out.innerHTML = ''; }
+      w.querySelectorAll('input').forEach(function (i) { i.value = ''; });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // Wave & Photon calculator: lambda (m) -> nu = c/lambda, E = h*nu
+  var wpCheck = document.getElementById('wp-check');
+  if (wpCheck) {
+    wpCheck.addEventListener('click', function () {
+      var out = document.getElementById('wp-out');
+      var lam = parseFloat(document.getElementById('wp-lambda').value);
+      if (!(lam > 0)) {
+        out.innerHTML = 'Please enter a positive wavelength in meters, e.g. <strong>6.50e-7</strong> for 650 nm.';
+        out.classList.add('show');
+        return;
+      }
+      var c = 3.00e8, h = 6.626e-34;
+      var nu = c / lam;
+      var E = h * nu;
+      out.innerHTML = 'For &lambda; = ' + lam.toExponential(3) + ' m:<br>' +
+        '&bull; Frequency &nu; = c &divide; &lambda; = (3.00 &times; 10<sup>8</sup>) &divide; (' + lam.toExponential(3) + ') = <strong>' + nu.toExponential(3) + ' Hz</strong><br>' +
+        '&bull; Photon energy E = h&nu; = (6.626 &times; 10<sup>&minus;34</sup>)(' + nu.toExponential(3) + ') = <strong>' + E.toExponential(3) + ' J</strong>';
+      out.classList.add('show');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

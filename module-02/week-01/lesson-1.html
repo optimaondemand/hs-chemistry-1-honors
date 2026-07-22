@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 2.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS (byte-consistent with the skill palette) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 2</div>
+        <div style="font-size: 12px; color: #666;">Atomic Structure &amp; the Periodic Table</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Early Ideas in Atomic Theory</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">What is matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Early Ideas in Atomic Theory</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How could anyone ever conclude that matter is built from invisible particles &mdash; thousands of years before a single one of them could be seen?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">At the end of Module 1 you followed the cutting of matter down to the atom &mdash; the place where the dividing stops. But here is the strange part: people argued for that idea, and argued <em>against</em> it, for more than two thousand years before anyone had an instrument that could detect an atom. This lesson is about how a hunch became a science: the ancient guess, the long silence, and the careful weighing in the early 1800s that finally turned &ldquo;atoms&rdquo; from philosophy into <strong>chemistry backed by measurement</strong>.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> contrast the ancient Greek ideas of atomism and continuous matter, and explain why one view dominated for so long.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the postulates of Dalton's atomic theory and the empirical laws that support them.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify which parts of Dalton's theory were later refined as evidence improved.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook &mdash; you will record a prediction, the three laws, and a short ratio calculation.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== MODULE ROAD-MAP: HOW THE ATOM CHANGED ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">&#128506;&#65039; A MAP OF THIS MODULE &middot; HOW THE ATOM CHANGED</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 16px 0;">This module is one long story: the picture of the atom is drawn, challenged by new evidence, and redrawn &mdash; over and over. Here is the whole journey on one map. You start at the far left; by the end of Module 2 you will have travelled all the way to the right. Come back to this map whenever you want to see <em>where you are</em> and <em>what forced the last change</em>.</p>
+
+        <!-- Road-map band -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch;">
+
+            <div style="flex: 1; min-width: 150px; background: #EEF1F8; border: 1px solid #C5D0E5; border-radius: 8px; padding: 12px 14px; position: relative;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">1</span><span style="font-size: 15px; color: #0E1C42;"><strong>The Question</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.01</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Is matter continuous, or made of uncuttable particles? <em>Democritus vs. Aristotle</em> &mdash; argued, not tested.</div>
+                <div style="font-size: 11px; color: #1A6B3D; background: #E9F7EF; border-radius: 4px; padding: 2px 6px; display: inline-block; margin-top: 8px;">&#9654; you start here</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">2</span><span style="font-size: 15px; color: #0E1C42;"><strong>Dalton</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.01</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Solid, indivisible sphere. <em>Evidence:</em> whole-number mass ratios in compounds.</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</span><span style="font-size: 15px; color: #0E1C42;"><strong>Thomson</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.02</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">&ldquo;Plum-pudding&rdquo; atom with electrons inside. <em>Evidence:</em> cathode rays &mdash; the atom has parts.</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</span><span style="font-size: 15px; color: #0E1C42;"><strong>Rutherford</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.02</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Tiny, dense, positive nucleus. <em>Evidence:</em> gold-foil scattering &mdash; some particles bounced back.</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</span><span style="font-size: 15px; color: #0E1C42;"><strong>Bohr</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.06</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Electrons on fixed energy levels. <em>Evidence:</em> atoms emit only certain colors (line spectra).</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">6</span><span style="font-size: 15px; color: #0E1C42;"><strong>Quantum model</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.07</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Electrons as probability clouds (orbitals). <em>Evidence:</em> Bohr fails for bigger atoms; matter behaves like waves.</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">7</span><span style="font-size: 15px; color: #0E1C42;"><strong>Configurations</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lesson 2.08</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Map each atom's electrons by energy level &mdash; and read off its outermost (valence) electrons.</div>
+            </div>
+
+            <div style="flex: 1; min-width: 150px; background: #F4F6FA; border: 1px solid #D0D9E8; border-radius: 8px; padding: 12px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="min-width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg,#55C8E8,#0E1C42); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;">8</span><span style="font-size: 15px; color: #0E1C42;"><strong>Periodic law</strong></span></div>
+                <div style="font-size: 12px; color: #6b7a99; margin-bottom: 4px;">Lessons 2.09&ndash;2.10</div>
+                <div style="font-size: 13px; color: #1a2340; line-height: 1.5;">Electron arrangement explains the repeating patterns &mdash; and the whole periodic table.</div>
+            </div>
+
+        </div>
+
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 12px 18px; margin-top: 16px;">
+            <div style="font-size: 15px; color: #0E1C42; line-height: 1.6;"><strong>The through-line:</strong> at every arrow, it was <em>new evidence</em> &mdash; not a better argument or a more famous scientist &mdash; that forced the atom's picture to change. Watch for the evidence at each step, because naming it is exactly what your VR gallery and your module essay are graded on.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; TWO ANCIENT ANSWERS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">Everything in this lesson turns on one deceptively simple question: <strong>is matter continuous &mdash; smooth all the way down &mdash; or is it made of separate, uncuttable particles?</strong> Two ancient thinkers gave opposite answers, and for two thousand years no one could prove either one right. Before you read their arguments, commit to a stance of your own.</p>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Imagine you lived 2,500 years ago, long before microscopes. Someone claims matter is made of tiny particles too small to see. With no way to look, how would you decide whether to believe them? (No wrong answer &mdash; just commit to a stance.)</div>
+          <div class="widget-options">
+            <button data-response="A scientist's instinct. You can't see the particles, but you might find indirect evidence &mdash; patterns in how substances combine that only make sense if matter comes in fixed pieces. That is exactly the path chemistry eventually took.">&#129518; Look for indirect evidence &mdash; clues the idea would leave behind</button>
+            <button data-response="Reasonable, and this is roughly what happened for two thousand years. Without evidence either way, people tended to follow whichever authority argued most persuasively. The trouble: the most persuasive argument is not always the correct one.">&#128172; Trust whichever thinker argues most convincingly</button>
+            <button data-response="Honest &mdash; and fair. &lsquo;We can't know yet&rsquo; is a respectable scientific answer. The story of this lesson is how careful measurement slowly turned an unanswerable question into an answerable one.">&#129300; Decide it simply can't be known</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Around the fifth century BCE, Greek thinkers split into two camps over a deceptively simple question: <em>if you keep dividing a piece of matter, does the dividing ever stop?</em> One camp, led by <strong>Democritus</strong> (building on his teacher Leucippus), said yes. Eventually you reach a particle that cannot be cut any further. He called it <em>atomos</em> &mdash; Greek for &ldquo;uncuttable.&rdquo; In this view, all matter is made of these tiny, indestructible particles moving through empty space, and the differences between substances come from differences in their atoms.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The other camp, whose most influential voice was <strong>Aristotle</strong>, rejected the idea of empty space and held that matter is <em>continuous</em> &mdash; that you could, in principle, keep dividing forever and never hit an uncuttable limit. To Aristotle, the world was built not from particles but from continuous substances blending the four classical elements (earth, air, fire, and water). Crucially, neither side could test their claim. There was no experiment to settle it &mdash; only argument.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">And argument has a winner that has nothing to do with truth: the more famous and influential thinker. Aristotle's enormous authority carried the day, and the idea of continuous matter dominated Western thought for roughly <strong>two thousand years</strong>. Democritus's atoms were not disproven &mdash; they were simply set aside. That is worth sitting with: a fundamentally correct idea can wait two millennia for the evidence that vindicates it.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Democritus reportedly reasoned his way to atoms with nothing but thought: picture cutting a piece of cheese again and again, he suggested &mdash; surely you cannot cut <em>forever</em>, so there must be a smallest piece. It was a brilliant argument and, as it turns out, broadly right. But a clever argument is not evidence. For two thousand years the atom remained a philosopher's idea, not a chemist's finding, precisely because no one could yet measure anything that would tell the two camps apart. The lesson chemistry eventually learned: ideas earn their place by surviving contact with evidence.</div>
+        </div>
+
+        <!-- What evidence would decide? (M2-04) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; THE EMPIRICAL QUESTION &middot; WHAT EVIDENCE WOULD DECIDE?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Argument alone could never settle whether matter is continuous or particulate &mdash; both camps were equally clever, and cleverness is not evidence. What was missing was a <em>measurement</em>: something that would come out one way if matter is smooth and a different way if it comes in discrete, countable pieces. Hold onto that as you read on: <strong>what could you measure that atoms would explain but continuous matter could not?</strong> In the next part, the careful weighing of how elements combine delivers exactly that kind of evidence &mdash; and it is what finally breaks the two-thousand-year tie.</div>
+        </div>
+
+        <!-- In your notebook · take a position (M2-05) -->
+        <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 14px 18px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#9997;&#65039; IN YOUR NOTEBOOK &middot; TAKE A POSITION</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">In one paragraph (4&ndash;6 sentences), answer: <em>Living 2,500 years ago, with no microscope and no way to measure precisely, which view &mdash; continuous matter or atoms &mdash; would have seemed more reasonable to you, and why?</em> Support your choice with at least one specific idea from this lesson. There is no single &ldquo;right&rdquo; answer &mdash; the point is to reason from what ancient people could actually observe and from the limits of that observation. Write your paragraph first, then open the model response to compare your reasoning.</div>
+            <details style="margin-top:12px; background:#FDF9F0; border:1px solid #EAD9B8; border-radius:6px; padding:10px 16px;">
+                <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#C7922C;">&#9654;</span>&nbsp; Compare your reasoning with one strong response</summary>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6; margin-top:10px; padding-top:10px; border-top:1px solid #EAD9B8;">Without instruments, Aristotle&rsquo;s continuous-matter view would probably have seemed more reasonable to me. Everything I could actually see &mdash; water, air, a lump of clay &mdash; looks smooth and seems endlessly divisible; nothing in ordinary experience reveals a &ldquo;smallest piece.&rdquo; Democritus&rsquo;s atoms asked me to believe in particles far too small to detect and in empty space between them, neither of which anyone could observe. His argument (you cannot cut forever) was clever, but it was still only reasoning, not evidence. Only much later, when chemists could <em>weigh</em> how elements combine in fixed whole-number ratios, did real evidence finally tip the balance toward atoms &mdash; which is exactly why a correct idea had to wait two thousand years. <em>(A well-reasoned defense of the atom view can also earn full marks, as long as it argues from evidence and the limits of ancient observation.)</em></div>
+            </details>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; DALTON PUTS NUMBERS TO THE IDEA</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The deadlock finally broke in the early 1800s, and it broke because of <em>weighing</em>. By then chemists had spent decades carefully measuring the masses of substances before and after reactions, and stubborn numerical patterns had emerged from that work. An English schoolteacher named <strong>John Dalton</strong> looked at those patterns and realized they made beautiful sense if &mdash; and only if &mdash; matter really was made of tiny, indivisible particles. He revived Democritus's old word, <em>atom</em>, and gave the idea something the Greeks never could: a foundation in measurement. Around 1803&ndash;1808 he laid out a set of postulates we now call <strong>Dalton's atomic theory</strong>.</p>
+
+        <!-- Dalton postulates visual -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>1 &middot; Matter is made of atoms</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">All matter is composed of extremely small, indivisible particles called atoms.</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>2 &middot; Atoms of an element are alike</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">All atoms of a given element are identical in mass and properties; atoms of different elements differ.</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>3 &middot; Atoms combine in whole-number ratios</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">Atoms join in simple whole-number ratios to form compounds (such as 1 to 1, or 2 to 1).</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>4 &middot; Reactions rearrange atoms</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">In a chemical reaction atoms are rearranged &mdash; never created, destroyed, or changed into atoms of another element.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">What made this more than another clever guess is that each postulate <em>explained</em> a law that chemists had already established by measurement. Three laws in particular were the evidence Dalton's atoms had to account for.</p>
+
+        <!-- Flip cards: the three laws -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 8px 0;">Tap each card to see the law and the atom-picture behind it:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Law of Conservation of Matter</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The total mass of matter does not change in a reaction (you met this in Module 1). <em>Atom-picture:</em> if atoms are only rearranged, never created or destroyed, mass must be conserved &mdash; postulate 4.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Law of Definite Proportions</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">A given compound always contains the same elements in the same proportion by mass (Proust). <em>Atom-picture:</em> if a compound is always the same whole-number combination of atoms, its mass ratio is fixed &mdash; postulate 3.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Law of Multiple Proportions</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">When two elements form more than one compound, the masses of one that combine with a fixed mass of the other are in small whole-number ratios (Dalton). <em>Atom-picture:</em> you can attach 1 oxygen atom or 2, but never 1.6 &mdash; postulate 3 again.</div>
+              </div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Multiple proportions, worked once</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The law of multiple proportions is the most striking of the three, because it almost forces you to believe in atoms. Carbon and oxygen form two different compounds. In <strong>carbon monoxide</strong>, every 12&nbsp;g of carbon is joined to about 16&nbsp;g of oxygen. In <strong>carbon dioxide</strong>, that same 12&nbsp;g of carbon is joined to about 32&nbsp;g of oxygen. Compare the two masses of oxygen that combine with the <em>same</em> fixed mass of carbon:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            32&nbsp;g oxygen (in CO<sub>2</sub>) &divide; 16&nbsp;g oxygen (in CO) = <strong>2 to 1</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Not 1.9, not 2.3 &mdash; a clean <strong>2 to 1</strong>. The second compound holds exactly twice as much oxygen per carbon as the first. If matter were continuous, there would be no reason for the ratio to be a tidy whole number; it could land anywhere. But if oxygen comes in indivisible atoms, then carbon dioxide simply has <em>two</em> oxygen atoms where carbon monoxide has <em>one</em> &mdash; and a ratio of exactly 2 to 1 is precisely what you would expect. The whole numbers are the fingerprints of atoms.</p>
+
+        <!-- Commit-then-reveal self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Two oxides of nitrogen: 14&nbsp;g of nitrogen combines with 16&nbsp;g of oxygen in one, and with 32&nbsp;g of oxygen in the other. What whole-number ratio do you expect, and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">32&nbsp;g &divide; 16&nbsp;g = <strong>2 to 1</strong>. For the same fixed mass of nitrogen, the second compound holds twice as much oxygen &mdash; consistent with one compound having twice as many oxygen atoms per nitrogen atom as the other. The clean whole number is the signature of matter coming in discrete, countable pieces.</div>
+        </details>
+    </div>
+
+    <!-- ===== THE EVIDENCE CHAIN (M2-03) ===== -->
+    <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin-bottom:20px;">
+        <div style="font-size:11px; color:#1B6A94; margin-bottom:6px; letter-spacing:0.4px;">&#128279; THE EVIDENCE CHAIN &middot; WHY THE OLD IDEA HAD TO GIVE WAY</div>
+        <div style="font-size:14px; color:#1a2340; line-height:1.55; margin-bottom:12px;">Every model change in this module follows the same three-step shape: an <strong>old explanation</strong>, a piece of <strong>troubling evidence</strong> it cannot account for, and a <strong>revised model</strong> that can. Trace it here &mdash; then name the evidence yourself.</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:stretch;">
+            <div style="flex:1; min-width:180px; background:#EEF1F8; border-radius:6px; padding:10px 14px;">
+                <div style="font-size:11px; color:#6b7a99; margin-bottom:4px;">1 &middot; OLD EXPLANATION</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Matter is continuous</strong> (Aristotle). Keep dividing forever; there is no smallest piece. Backed by argument and authority, never by a test.</div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+            <div style="flex:1; min-width:180px; background:#FDF3E3; border-radius:6px; padding:10px 14px;">
+                <div style="font-size:11px; color:#8a6d1d; margin-bottom:4px;">2 &middot; TROUBLING EVIDENCE</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Whole-number mass ratios.</strong> The same 12&nbsp;g of carbon binds 16&nbsp;g of oxygen in one compound and exactly 32&nbsp;g in another &mdash; a clean 2&nbsp;to&nbsp;1. Tidy ratios have no reason to exist in continuous matter.</div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; color:#2196D0; font-size:22px; min-width:18px;">&rarr;</div>
+            <div style="flex:1; min-width:180px; background:#E9F7EF; border-radius:6px; padding:10px 14px;">
+                <div style="font-size:11px; color:#1A6B3D; margin-bottom:4px;">3 &middot; REVISED MODEL</div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Dalton's atoms.</strong> Matter is built from indivisible particles that combine in simple whole-number ratios &mdash; the model that finally explained the numbers.</div>
+            </div>
+        </div>
+        <details style="margin-top:12px; background:#F4F9FC; border:1px solid #C5DCE5; border-radius:6px; padding:10px 16px;">
+            <summary style="font-size:15px; color:#0E1C42; cursor:pointer; list-style:none;"><span style="color:#2196D0;">&#9654;</span>&nbsp; <strong>Name the evidence:</strong> which observation can <em>atoms</em> explain that <em>continuous matter</em> cannot?</summary>
+            <div style="font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; padding-top:10px; border-top:1px solid #DCEAF0;">The <strong>clean whole-number mass ratios</strong> &mdash; the exact 2-to-1 oxygen ratio between carbon dioxide and carbon monoxide, and the fixed proportions of every compound. Continuous matter gives no reason for ratios to land on tidy whole numbers; countable atoms combining 1-to-1 or 2-to-1 explain them exactly. The numbers are the fingerprints of atoms.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHERE DALTON WAS LATER CORRECTED</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Dalton's theory was a triumph &mdash; it remains one of the foundations of chemistry &mdash; but it was not the last word, and that is the point. As better instruments arrived over the next century, two of his postulates needed adjusting. First, atoms turned out <em>not</em> to be truly indivisible: they contain still-smaller pieces (you'll meet them in Lesson 2.02), and they can even be split. Second, atoms of the same element are <em>not</em> always identical in mass. Most elements come in slightly different versions called <strong>isotopes</strong>, which share the same chemistry but differ in mass (Lesson 2.03 makes this precise). The core ideas held; the details were refined.</p>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; MODELS EVOLVE AS EVIDENCE IMPROVES</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice what just happened: a powerful, evidence-backed theory was later <em>refined</em> &mdash; not because it was foolish, but because new evidence reached past where the old evidence could see. This is the single most important habit of mind in all of science, and it is the <strong>template you'll use all year</strong>. A scientific model is the best current account of the evidence we have; when the evidence improves, the honest scientist improves the model. You will watch this happen again and again in this module as the picture of the atom itself is overturned and rebuilt. Revising a model in light of new evidence is not science failing &mdash; it is science working exactly as it should.</div>
+        </div>
+
+        <!-- Single-select widget: classify the postulates -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; KEPT OR REFINED?</div>
+          <div class="widget-question">For each statement from Dalton's theory, decide whether it <strong>still holds</strong> today or was <strong>later refined</strong> by new evidence. You get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; atoms turned out to contain smaller particles (and can be split), so &lsquo;indivisible&rsquo; was refined." data-hint="Think about what later experiments found inside the atom.">
+            <div class="widget-row-prompt">1. &ldquo;Atoms are indivisible &mdash; they cannot be broken into anything smaller.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Still holds</button>
+              <button data-choice="1">Later refined</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; atoms are still rearranged, never created or destroyed, in an ordinary chemical reaction. This is conservation of matter." data-hint="Does mass still balance across a chemical reaction? Recall Module 1.">
+            <div class="widget-row-prompt">2. &ldquo;In a chemical reaction, atoms are rearranged, not created or destroyed.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Still holds</button>
+              <button data-choice="1">Later refined</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; because of isotopes, atoms of one element can differ in mass, so this was refined." data-hint="Do all atoms of, say, carbon weigh exactly the same? Think about isotopes.">
+            <div class="widget-row-prompt">3. &ldquo;All atoms of a given element are identical in mass.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Still holds</button>
+              <button data-choice="1">Later refined</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; atoms still combine in simple whole-number ratios, which is exactly what the law of multiple proportions showed." data-hint="Was the 2-to-1 oxygen ratio a clean whole number? That postulate survived.">
+            <div class="widget-row-prompt">4. &ldquo;Atoms combine in simple whole-number ratios to form compounds.&rdquo;</div>
+            <div class="widget-options">
+              <button data-choice="0">Still holds</button>
+              <button data-choice="1">Later refined</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your <strong>Atomic Model Evolution Gallery</strong> in OptimaXR &mdash; the project you'll add to every week of this module and narrate on camera at the end. Lesson 2.01 gives you the gallery's first exhibit: <strong>Dalton's solid, indivisible sphere</strong>, the model that turned atoms from philosophy into measured science. As you build, you're not just placing a ball &mdash; you're marking the moment the evidence (those whole-number mass ratios) demanded atoms. Keep the &ldquo;what evidence changed the model?&rdquo; question close; it's exactly what your gallery (and your final recorded explanation) is graded on.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 2.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz to confirm you caught the big ideas. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 2.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">If atoms are real, what are they made <em>of</em>? You'll watch experiments crack open the &ldquo;indivisible&rdquo; atom.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Atomic Model Evolution Gallery</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Enter OptimaXR and build the first exhibit stations. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The atom waited two thousand years to be taken seriously, and it earned its place not through clever argument but through careful weighing &mdash; the whole-number ratios that only atoms could explain. Dalton's theory was right where it mattered and refined where the evidence later reached further. Hold onto that pattern: <em>models evolve as evidence improves.</em> Next, we go looking for what is hiding <em>inside</em> Dalton's &ldquo;indivisible&rdquo; sphere.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.01 &middot; Early Ideas in Atomic Theory</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>
