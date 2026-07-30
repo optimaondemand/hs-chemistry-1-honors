@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom checker (battery classifier) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Batteries &amp; Fuel Cells</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Batteries &amp; Fuel Cells</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Your phone dies, you plug it in, and a few hours later it is full again &mdash; ready to drain and refill hundreds of times. Yet when the AA battery in a flashlight runs flat, charging it does nothing; you throw it away. Both are &ldquo;batteries.&rdquo; Why can one be brought back to life and the other cannot?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In the last two lessons you learned that a <strong>galvanic cell</strong> turns a spontaneous redox reaction into a flow of electrons &mdash; usable electricity. A <strong>battery</strong> is simply one or more of those cells packaged to power something portable. But not all batteries are alike: some are single-use, some recharge thousands of times, and a special kind &mdash; the <strong>fuel cell</strong> &mdash; never &ldquo;runs down&rdquo; at all as long as you keep feeding it. This lesson sorts these devices by the one question that explains the phone-versus-AA puzzle: <em>can the redox reaction inside be reversed?</em> Understanding that single idea tells you why some cells are disposable, why others recharge, and why the technology in your pocket is at the center of the world's energy future.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe a battery as one or more galvanic cells, and distinguish a primary (single-use) cell from a secondary (rechargeable) cell by whether its redox reaction can be reversed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> give a real example of a primary cell (alkaline) and of secondary cells (lead-acid, lithium-ion) and name the electrodes involved.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how a fuel cell differs from an ordinary battery, using the hydrogen&ndash;oxygen fuel cell (2H<sub>2</sub> + O<sub>2</sub> &rarr; 2H<sub>2</sub>O) as the model.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes on galvanic cells from earlier this module &mdash; anode (oxidation), cathode (reduction), salt bridge, and E&deg;<sub>cell</sub>. We build directly on them today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; A BATTERY IS A PACKAGED GALVANIC CELL</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A phone battery recharges hundreds of times; a flashlight AA, once dead, stays dead no matter how long you leave it on a charger. Both are galvanic cells inside. What do you think is <em>different</em> about the chemistry that lets one come back and not the other? (No wrong answer &mdash; just commit a guess.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the idea this lesson turns on. In a rechargeable (secondary) cell the redox reaction can be RUN BACKWARD by pushing current in from a charger, rebuilding the original reactants. In a single-use (primary) cell the products can't easily be turned back into reactants, so once they're used up the cell is finished. Reversibility is the whole story.">Whether the reaction inside can be run in reverse</button>
+            <button data-response="It's a reasonable thought, but size and voltage aren't what decides it &mdash; there are tiny rechargeable cells and large disposable ones. The real difference is whether the redox reaction can be REVERSED by an outside current. Rechargeable (secondary) cells can be driven backward to rebuild their reactants; single-use (primary) cells cannot.">The phone battery is just bigger and stronger</button>
+            <button data-response="The charger does supply energy, but that's true for the AA too &mdash; you can put a dead AA on a charger and nothing useful happens. What matters is whether the cell's redox reaction can be REVERSED. In a secondary (rechargeable) cell the charging current rebuilds the reactants; in a primary cell the reaction is a one-way trip.">The charger adds new chemicals to the phone</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">You already know the core machine. A <strong>galvanic cell</strong> pairs an oxidation (at the anode) with a reduction (at the cathode) so that electrons are forced through an external wire &mdash; and a flow of electrons through a wire is electric current. A <strong>battery</strong> is nothing more exotic than this: <em>one or more galvanic cells packaged together to deliver portable electrical energy.</em> The familiar 9-volt block, the coin cell in a watch, the pack in an electric car &mdash; all are galvanic cells in a convenient case, sometimes stacked in series so their voltages add.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">As a battery runs, the reactants at its electrodes are slowly consumed. When they are gone, the spontaneous reaction stops and the battery is &ldquo;dead.&rdquo; What happens next &mdash; whether you can revive it &mdash; is the question that splits all batteries into two families.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>A battery is a galvanic cell you can carry</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">what divides batteries is whether the reaction inside can be reversed</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PRIMARY VS. SECONDARY CELLS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>primary cell</strong> is single-use: its redox reaction <em>cannot be easily reversed</em>, so once the reactants are spent the cell is discarded. The everyday example is the <strong>alkaline battery</strong> in flashlights and remotes. Inside, <strong>zinc</strong> is the anode (it is oxidized), <strong>manganese dioxide (MnO<sub>2</sub>)</strong> is the cathode (it is reduced), and a basic <strong>potassium hydroxide (KOH)</strong> paste is the electrolyte; each cell delivers about <strong>1.5 V</strong>. Try to recharge it and almost nothing useful happens &mdash; the products won't turn cleanly back into reactants &mdash; so an alkaline cell is a one-way device.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>secondary cell</strong> is rechargeable: its reaction <em>can</em> be reversed by pushing current through it from an outside source, rebuilding the original reactants so the cell can discharge again. Two examples matter most:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; The <strong>lead-acid car battery</strong> &mdash; a lead (Pb) anode, a lead dioxide (PbO<sub>2</sub>) cathode, and sulfuric acid (H<sub>2</sub>SO<sub>4</sub>) electrolyte. Each cell gives about <strong>2 V</strong>; six are wired in series for the familiar <strong>12 V</strong> battery. The car's alternator recharges it as you drive.<br>
+            &bull; The <strong>lithium-ion battery</strong> &mdash; the workhorse of modern electronics. Lithium ions (Li<sup>+</sup>) shuttle back and forth between the two electrodes as it charges and discharges. Its high <strong>energy density</strong> (a lot of stored energy per unit mass) is why it powers phones, laptops, and electric vehicles.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So the phone-versus-AA puzzle resolves: the phone holds a lithium-ion <em>secondary</em> cell whose reaction reverses on the charger, while the flashlight AA is an alkaline <em>primary</em> cell whose reaction does not. Same underlying galvanic machine &mdash; different answer to &ldquo;can it run backward?&rdquo;</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY &mdash; THE BATTERY LINEAGE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The first true battery came from the Italian physicist <strong>Alessandro Volta</strong>, who around 1800 stacked discs of two different metals separated by brine-soaked cloth &mdash; the &ldquo;voltaic pile.&rdquo; It was the first device to deliver a <em>steady</em> electric current, and the unit of electric potential, the <em>volt</em>, still carries his name. But Volta's pile was a <em>primary</em> cell &mdash; once spent, it was finished. The next leap came in <strong>1859</strong>, when the French physicist <strong>Gaston Plant&eacute;</strong> built the <strong>lead-acid cell</strong>: the first practical <em>rechargeable</em> (secondary) battery, whose reaction could be run backward with an outside current. It is essentially the same chemistry still starting cars today. More than a century later, the <strong>rechargeable lithium-ion cell</strong> reached consumers in the early 1990s, shuttling Li<sup>+</sup> ions between electrodes to pack far more energy into far less weight &mdash; the cell now in nearly every phone, laptop, and electric car. Volta &rarr; Plant&eacute; &rarr; lithium-ion is one long line of the same question you're studying: <em>can the reaction inside be reversed?</em></div>
+        </div>
+
+        <!-- ow-flip: primary or secondary -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; PRIMARY OR SECONDARY?</div>
+          <div class="widget-question">Predict whether each cell is a primary (single-use) or secondary (rechargeable) cell, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128268; Alkaline AA in a flashlight &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Primary (single-use).</strong> Zinc anode, MnO<sub>2</sub> cathode, KOH electrolyte, ~1.5 V. Its reaction can't be cleanly reversed, so you throw it away when it's flat.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128663; The 12 V battery under a car hood &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Secondary (rechargeable).</strong> A lead-acid battery: Pb anode, PbO<sub>2</sub> cathode, H<sub>2</sub>SO<sub>4</sub> electrolyte; six 2 V cells in series. The alternator recharges it as you drive.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128241; The cell inside a smartphone &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Secondary (rechargeable).</strong> A lithium-ion battery: Li<sup>+</sup> ions shuttle between electrodes, high energy density, recharged hundreds of times on the wall charger.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9201;&#65039; A single-use coin cell in a greeting card &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Primary (single-use).</strong> Like the alkaline AA, its reaction isn't meant to be reversed &mdash; once the chemistry is spent, the cell is discarded.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; FUEL CELLS &mdash; A CELL YOU KEEP FEEDING</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Both primary and secondary cells carry their reactants <em>sealed inside</em>, so they eventually run low. A <strong>fuel cell</strong> escapes that limit: it is a galvanic cell supplied with a <em>continuous flow</em> of reactants from outside, so it does not &ldquo;run down&rdquo; as long as fuel keeps arriving. It is less like a tank and more like a stove burner &mdash; it produces energy steadily while you feed it.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The classic example is the <strong>hydrogen&ndash;oxygen fuel cell</strong>. Hydrogen gas is fed to one electrode and oxygen (from air) to the other; the overall reaction is simply:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE HYDROGEN&ndash;OXYGEN FUEL CELL</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">it produces electricity with water as the only product</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0 10px 0;">The chemistry is striking: the cell delivers electric current and its only waste product is <strong>water</strong>. Because of that clean output and steady supply, hydrogen&ndash;oxygen fuel cells have powered some buses and cars, and famously supplied electricity (and drinking water) aboard spacecraft. A fuel cell is still a galvanic cell &mdash; oxidation at the anode, reduction at the cathode &mdash; but its &ldquo;battery life&rdquo; is set by how long you keep the fuel flowing, not by what was sealed inside at the factory.</p>
+
+        <!-- Custom .aam-widget: battery classifier -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; BATTERY CLASSIFIER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick a real cell and the tool reports which family it belongs to &mdash; primary, secondary, or fuel cell &mdash; with a one-line note. Predict your own answer first, then check.</div>
+          <div class="aam-row">
+            <label for="bc-sel">Cell:&nbsp;</label>
+            <select id="bc-sel">
+              <option value="">&mdash; choose a cell &mdash;</option>
+              <option value="alk">Alkaline battery (Zn / MnO&#8322;)</option>
+              <option value="pb">Lead-acid car battery (Pb / PbO&#8322;)</option>
+              <option value="li">Lithium-ion battery (phones, EVs)</option>
+              <option value="fc">Hydrogen&ndash;oxygen fuel cell</option>
+            </select>
+            <button class="aam-btn" id="bc-go">Classify</button>
+          </div>
+          <div class="aam-result" id="bc-out"></div>
+          <button class="widget-reset" id="bc-reset">Reset</button>
+        </div>
+
+        <!-- Current-research callout (gold highlight) NOW -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; NOW &middot; WHY THIS QUESTION STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Battery chemistry has quietly become one of the most important problems of our century. Scientists are currently exploring how to raise <strong>energy density</strong> (more stored energy for less weight), extend lifetime, charge faster, and improve safety &mdash; while sourcing the needed materials responsibly, since mining lithium and other metals has real environmental and human costs. These are the cells that electric vehicles and large-scale grid storage depend on, so progress here shapes how the world powers itself. This is exactly the quarter's question of <em>responsibility</em>: the chemistry in your pocket carries consequences far beyond it.</div>
+        </div>
+
+        <!-- Nature of Science + Responsibility: societal decision-making prompt -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#129513; HOW SCIENTISTS DECIDE &middot; WEIGHING A REAL CHOICE</div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.6;">Choosing <em>which</em> cell to build into a device &mdash; a disposable alkaline cell, a rechargeable lithium-ion pack, or a hydrogen fuel cell &mdash; is not a matter of preference or of which one &ldquo;sounds best.&rdquo; Engineers and policymakers weigh it as a <strong>cost&ndash;benefit decision backed by evidence</strong>: How much does it cost to make and run? What materials does it need, and can they be sourced responsibly? What is the environmental impact over the cell's whole life, from mining to disposal? And do those costs justify the benefit for <em>this</em> job? A grid battery, a smartphone, and a city bus can each land on a different answer &mdash; and the honest answer follows the evidence, not the marketing. That is the nature of science at work in the public square, and the heart of this quarter's theme of <em>responsibility</em>.</div>
+        </div>
+
+        <!-- commit-then-reveal: societal decision self-check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A designer says &ldquo;lithium-ion is the best battery, so every product should use it.&rdquo; Name two pieces of evidence a scientist would weigh before agreeing &mdash; and explain why &ldquo;best&rdquo; depends on the job.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">A careful answer weighs <strong>evidence, not preference</strong>. Two examples: (1) <strong>cost and materials</strong> &mdash; lithium-ion needs lithium and other metals whose mining carries environmental and human costs, so for a cheap single-use item (a greeting card, a smoke-detector backup) a low-cost primary cell may be the responsible choice; (2) <strong>the demands of the job</strong> &mdash; a device that must recharge daily and stay light (a phone, an EV) genuinely benefits from lithium-ion's high energy density and reversibility, while a stationary backup might value low cost or safety more than weight. &ldquo;Best&rdquo; is never absolute: it is the cell whose benefits justify its costs <em>for that particular use</em>, judged on the evidence.</div>
+        </details>
+
+        <!-- ow-select: batteries true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT BATTERIES &amp; FUEL CELLS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A primary cell (like an alkaline AA) is single-use: its reaction can't be cleanly reversed, so charging it does not revive it. Only secondary cells recharge." data-hint="Think about the flashlight AA &mdash; does putting it on a charger bring it back?">
+            <div class="widget-row-prompt">1. A primary cell, such as an alkaline battery, can be recharged like a phone battery.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; a secondary cell is rechargeable because its redox reaction can be reversed by pushing current in from an outside source, rebuilding the original reactants. Lead-acid and lithium-ion cells are secondary." data-hint="What does &lsquo;rechargeable&rsquo; require the reaction to be able to do?">
+            <div class="widget-row-prompt">2. A secondary cell can be recharged because its redox reaction can be reversed by an outside current.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; a fuel cell is fed a continuous flow of reactants, so it keeps producing electricity as long as fuel arrives, rather than running down like a sealed battery." data-hint="Where do a fuel cell's reactants come from &mdash; sealed inside, or fed in continuously?">
+            <div class="widget-row-prompt">3. A fuel cell does not &ldquo;run down&rdquo; as long as it is supplied with a continuous flow of fuel.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The hydrogen&ndash;oxygen fuel cell's overall reaction is 2H&#8322; + O&#8322; &rarr; 2H&#8322;O, so its only product is water, not carbon dioxide." data-hint="What is on the product side of 2H&#8322; + O&#8322; &rarr; ?">
+            <div class="widget-row-prompt">4. The only product of a hydrogen&ndash;oxygen fuel cell is carbon dioxide.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A car's 12 V lead-acid battery is built from individual cells that each produce about 2 V. How are the cells arranged, and how many are there?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Six cells wired in series.</strong> When galvanic cells are connected in series, their voltages add. Six lead-acid cells at about 2 V each give 6 &times; 2 V = <strong>12 V</strong>. This is the same trick used in many battery packs: stack cells in series to reach the voltage a device needs. A lead-acid battery is a <em>secondary</em> cell, so the car's alternator can run that 2 V chemistry backward to recharge it as you drive.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week is <strong>Build 3 of 4</strong> of your cumulative OptimaXR project, the <strong>Electrochemical Cell &amp; Rate Build</strong>. Returning to the same persistent bench where your galvanic cell (Week 1) and cell-potential panel (Week 2) are still waiting, you'll add a <strong>Real Cells &amp; Electrolysis Panel</strong>: at least one <strong>battery</strong> labeled primary vs. secondary (an alkaline cell and a lithium-ion cell), an <strong>H<sub>2</sub>&ndash;O<sub>2</sub> fuel cell</strong> with reactants flowing in and water out, a small corrosion / sacrificial-anode demo, and an electrolytic cell &mdash; plus a sticky note contrasting <em>galvanic</em> (spontaneous, makes electricity) with <em>electrolytic</em> (driven, uses electricity). The primary/secondary/fuel-cell sorting you practiced above is exactly what you'll label, made big enough to walk through on camera.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on batteries, primary vs. secondary cells, and fuel cells. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 8.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">If a useful galvanic cell makes electricity on purpose, what about the galvanic process that happens by accident &mdash; the slow, unwanted oxidation we call corrosion? Next you'll see why iron rusts and how to stop it.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Real Cells &amp; Electrolysis Panel (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add real-world cells to your Electrochemical Cell &amp; Rate Build. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A <strong>battery</strong> is one or more galvanic cells packaged to deliver portable electricity, and the question that sorts them is whether the reaction inside can be reversed. <strong>Primary cells</strong> (like the alkaline AA &mdash; zinc anode, MnO<sub>2</sub> cathode) are single-use; <strong>secondary cells</strong> (the lead-acid car battery, the lithium-ion cell in your phone) recharge because an outside current runs their reaction backward. A <strong>fuel cell</strong> sidesteps the limit entirely: fed a continuous flow of reactants, the hydrogen&ndash;oxygen cell (2H<sub>2</sub> + O<sub>2</sub> &rarr; 2H<sub>2</sub>O) makes electricity with water as its only product. Hold onto the through-line: <em>every one of these is the galvanic cell you already know, doing a job &mdash; and in the next lesson you'll meet the same chemistry doing a job nobody wants, when metals corrode.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.05 &middot; Batteries &amp; Fuel Cells</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== battery classifier (.aam-widget) ===== */
+  var bcGo = document.getElementById('bc-go');
+  if (bcGo) {
+    var bcMsg = {
+      alk: ['warn', '<strong>Primary cell (single-use).</strong> The alkaline battery has a zinc anode, an MnO<sub>2</sub> cathode, and a KOH electrolyte (~1.5 V). Its reaction can\'t be cleanly reversed, so it is discarded when flat &mdash; not rechargeable.'],
+      pb:  ['good', '<strong>Secondary cell (rechargeable).</strong> The lead-acid battery has a Pb anode, a PbO<sub>2</sub> cathode, and H<sub>2</sub>SO<sub>4</sub> electrolyte; six 2 V cells in series make 12 V. The alternator recharges it by running the reaction backward.'],
+      li:  ['good', '<strong>Secondary cell (rechargeable).</strong> The lithium-ion battery moves Li<sup>+</sup> ions between electrodes and has high energy density. It recharges hundreds of times &mdash; the cell in phones, laptops, and EVs.'],
+      fc:  ['good', '<strong>Fuel cell.</strong> Not a sealed battery at all: a galvanic cell fed a continuous flow of reactants. The H<sub>2</sub>&ndash;O<sub>2</sub> fuel cell runs 2H<sub>2</sub> + O<sub>2</sub> &rarr; 2H<sub>2</sub>O, making electricity with water as the only product, for as long as fuel keeps flowing.']
+    };
+    bcGo.addEventListener('click', function () {
+      var sel = document.getElementById('bc-sel').value;
+      var out = document.getElementById('bc-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a cell first.'; return; }
+      var m = bcMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('bc-reset').addEventListener('click', function () {
+      document.getElementById('bc-sel').value = '';
+      var out = document.getElementById('bc-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

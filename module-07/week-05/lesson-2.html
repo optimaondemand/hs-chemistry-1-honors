@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.11</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.11; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.11</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Buffers &amp; Polyprotic Acids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.11</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Buffers &amp; Polyprotic Acids</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When you sprint up a flight of stairs, your muscles dump acid into your bloodstream by the second. Add that much acid to a glass of pure water and the pH would crash. Yet your blood pH barely moves &mdash; it holds near 7.4. What in your blood is quietly absorbing the shock?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Pure water is defenseless: a single drop of strong acid sends its pH plummeting. But many real solutions &mdash; your blood, ocean water, the inside of a living cell &mdash; resist pH change remarkably well. The trick is a special partnership called a <strong>buffer</strong>: a weak acid kept side-by-side with its conjugate base, so the mixture can swallow added acid <em>or</em> added base without lurching. This lesson shows how a buffer works, how the Henderson&ndash;Hasselbalch equation predicts its pH, and how acids that carry more than one proton (<strong>polyprotic acids</strong>) give them up one careful step at a time. The same chemistry runs through your veins and through the world's oceans.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe what a buffer is &mdash; a weak acid and its conjugate base together &mdash; and explain how it resists pH change when acid or base is added.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the Henderson&ndash;Hasselbalch equation, pH = pK<sub>a</sub> + log([A<sup>&minus;</sup>]/[HA]), and recognize that when [A<sup>&minus;</sup>] = [HA], pH = pK<sub>a</sub>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain that a polyprotic acid donates its protons in successive steps with decreasing ease (K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub>).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator with a log function.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes on weak acids, K<sub>a</sub> and pK<sub>a</sub> (7.09), conjugate pairs (7.07), and pH (7.08).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 25&ndash;30 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT A BUFFER IS AND WHY IT WORKS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">During hard exercise your muscles release acid into your blood, yet your blood pH barely moves from 7.4. What do you think keeps it so steady? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's exactly it. Your blood contains a pair of partners &mdash; carbonic acid (H&#8322;CO&#8323;) and bicarbonate (HCO&#8323;&#8315;) &mdash; sitting side by side. The bicarbonate mops up extra acid; the carbonic acid releases protons if base is added. That weak-acid / conjugate-base pair is a BUFFER, the whole subject of today's lesson.">&#129656; Something in the blood neutralizes the extra acid as fast as it appears</button>
+            <button data-response="Your kidneys and lungs do help over minutes to hours, but the SECOND-by-second steadiness comes from a chemical pair already dissolved in your blood &mdash; carbonic acid and bicarbonate &mdash; that absorbs acid instantly. That weak-acid / conjugate-base pair is a buffer, and it's today's topic.">&#129729; The body just makes more blood to dilute the acid</button>
+            <button data-response="It feels like the acid should win, but it doesn't &mdash; because your blood already holds a built-in shock absorber: a carbonic-acid / bicarbonate pair that swallows added acid on contact. That pairing is called a buffer, and understanding it is exactly what this lesson is about.">&#128293; The acid is too weak to change anything</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>buffer</strong> is a solution that resists changes in pH when a small amount of acid or base is added. It is built from a <strong>weak acid together with its conjugate base</strong> (for example acetic acid, HC<sub>2</sub>H<sub>3</sub>O<sub>2</sub>, mixed with acetate, C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>&minus;</sup>) &mdash; or, equivalently, a weak base together with its conjugate acid. The two partners share the work. The conjugate base stands ready to absorb any added acid, and the weak acid stands ready to neutralize any added base. Because a reservoir of each is present at the same time, the solution has a defense against attacks from both directions.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Picture the acetic-acid / acetate buffer absorbing a splash of strong acid. The flood of H<sub>3</sub>O<sup>+</sup> would normally crash the pH &mdash; but here the acetate ions intercept it, converting the strong acid into more weak acetic acid (which barely ionizes), so the free H<sub>3</sub>O<sup>+</sup> hardly rises. If instead a splash of strong base arrives, the acetic acid donates protons to neutralize the added OH<sup>&minus;</sup>. Either way, the buffer trades a dangerous strong acid or base for a tame weak one, and the pH holds nearly steady. The defense lasts only until one partner is used up &mdash; that limit is the buffer's <em>capacity</em> &mdash; but within it, the solution is remarkably stable.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:23px; color:#ffffff;"><strong>A buffer = a weak acid + its conjugate base, working together</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">one partner soaks up added acid, the other soaks up added base &mdash; so the pH barely moves</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Could a mixture of HCl (a strong acid) and NaCl make a good buffer?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. A buffer needs a <em>weak</em> acid and its conjugate base. HCl is a <em>strong</em> acid, so it ionizes completely &mdash; there is no reservoir of intact HCl waiting to neutralize added base, and Cl<sup>&minus;</sup> is too weak a conjugate to absorb added acid. Buffers are built from weak acid/base pairs precisely because a weak acid keeps a standing reserve of un-ionized molecules and its conjugate is reactive enough to help.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PREDICTING A BUFFER'S pH</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A buffer's pH depends on two things: the <em>strength</em> of its weak acid (captured by its pK<sub>a</sub>) and the <em>ratio</em> of conjugate base to weak acid present. One tidy equation ties them together &mdash; the <strong>Henderson&ndash;Hasselbalch equation</strong>:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:20px; color:#0e1c42; line-height:1.7; text-align:center;">
+            pH = pK<sub>a</sub> + log( [A<sup>&minus;</sup>] / [HA] )
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here HA is the weak acid and A<sup>&minus;</sup> is its conjugate base. The most useful single fact falls right out of it: <strong>when the amounts of conjugate base and weak acid are equal, [A<sup>&minus;</sup>] = [HA], the ratio is 1, and log(1) = 0 &mdash; so pH = pK<sub>a</sub>.</strong> A chemist who wants a buffer to hold a particular pH simply chooses a weak acid whose pK<sub>a</sub> is near that target and mixes it roughly half-and-half with its conjugate base.</p>
+
+        <!-- Buffer-history vignette (blue/teal helpful info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW &middot; A BUFFER EQUATION BORN IN THE BLOODSTREAM</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The equation on this page did not begin in a chemistry lab &mdash; it began with a question about the human body. In the early 1900s the American physiologist <strong>Lawrence Henderson</strong> was studying how blood manages to hold such a steady pH despite the acid our cells constantly produce. Working from the carbonic-acid / bicarbonate equilibrium, he wrote down the relationship between a buffer's pH and the ratio of its two partners. A few years later the Danish chemist <strong>Karl Hasselbalch</strong> rewrote Henderson's expression using the then-new logarithmic <em>pH</em> scale, giving us the compact form &mdash; pH = pK<sub>a</sub> + log([A<sup>&minus;</sup>]/[HA]) &mdash; that still carries both their names. It is a small reminder that much of acid-base chemistry was worked out by people trying to understand living things: the same math a pharmacist uses to design a stable medicine was first assembled to explain why blood does not turn to acid when you run.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked example</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Acetic acid has K<sub>a</sub> &asymp; 1.8 &times; 10<sup>&minus;5</sup>, so pK<sub>a</sub> = &minus;log(1.8 &times; 10<sup>&minus;5</sup>) &asymp; <strong>4.74</strong>.<br><br>
+            <strong>Mix it half-and-half</strong> with acetate so [A<sup>&minus;</sup>] = [HA]:<br>
+            pH = 4.74 + log(1) = 4.74 + 0 = <strong>4.74</strong> &mdash; the buffer holds at its pK<sub>a</sub>.<br><br>
+            <strong>Now use ten times as much acetate as acetic acid</strong> ([A<sup>&minus;</sup>]/[HA] = 10):<br>
+            pH = 4.74 + log(10) = 4.74 + 1 = <strong>5.74</strong> &mdash; more conjugate base nudges the pH up by one unit.
+        </div>
+
+        <!-- ow-flip: Henderson-Hasselbalch intuition -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; READ THE RATIO</div>
+          <div class="widget-question">Predict what each change does to a buffer's pH, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9878;&#65039; <strong>[A<sup>&minus;</sup>] = [HA]</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH = pK<sub>a</sub>.</strong> The ratio is 1, log(1) = 0, so the buffer sits right at the weak acid's pK<sub>a</sub>.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#11014;&#65039; <strong>more A<sup>&minus;</sup> than HA</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH &gt; pK<sub>a</sub>.</strong> The ratio exceeds 1, log is positive, so extra conjugate base pushes the pH up (more basic).</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#11015;&#65039; <strong>more HA than A<sup>&minus;</sup></strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH &lt; pK<sub>a</sub>.</strong> The ratio is below 1, log is negative, so extra weak acid pulls the pH down (more acidic).</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129516; <strong>choose pK<sub>a</sub> &asymp; target pH</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Best buffer.</strong> A buffer works best near its pK<sub>a</sub>, so pick a weak acid whose pK<sub>a</sub> is close to the pH you need to hold.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; POLYPROTIC ACIDS &mdash; PROTONS IN STEPS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Most acids you've met donate a single proton. But some carry two or three ionizable hydrogens; these are <strong>polyprotic acids</strong>, and they don't release all their protons at once. They give them up in <strong>successive steps</strong>, and each step is harder than the last &mdash; so the ionization constants fall in order: <strong>K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub></strong>. The reason is intuitive: pulling a positive proton off a neutral molecule is easier than pulling the next proton off an ion that is already negatively charged, and harder still off a doubly negative ion. The negative charge holds the remaining protons more tightly.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.9;">
+            <strong>Phosphoric acid (H<sub>3</sub>PO<sub>4</sub>), triprotic &mdash; three steps:</strong><br>
+            Step 1: H<sub>3</sub>PO<sub>4</sub> &#8652; H<sup>+</sup> + H<sub>2</sub>PO<sub>4</sub><sup>&minus;</sup> &nbsp;(K<sub>a1</sub>, easiest)<br>
+            Step 2: H<sub>2</sub>PO<sub>4</sub><sup>&minus;</sup> &#8652; H<sup>+</sup> + HPO<sub>4</sub><sup>2&minus;</sup> &nbsp;(K<sub>a2</sub>, harder)<br>
+            Step 3: HPO<sub>4</sub><sup>2&minus;</sup> &#8652; H<sup>+</sup> + PO<sub>4</sub><sup>3&minus;</sup> &nbsp;(K<sub>a3</sub>, hardest)<br>
+            <span style="font-size:15px; color:#555;">Each successive proton is pulled from an increasingly negative ion, so K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub>.</span>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Three polyprotic acids worth knowing: <strong>sulfuric acid (H<sub>2</sub>SO<sub>4</sub>)</strong> and <strong>carbonic acid (H<sub>2</sub>CO<sub>3</sub>)</strong> are <em>diprotic</em> (two protons), and <strong>phosphoric acid (H<sub>3</sub>PO<sub>4</sub>)</strong> is <em>triprotic</em> (three). Notice that the intermediate species &mdash; H<sub>2</sub>PO<sub>4</sub><sup>&minus;</sup>, HCO<sub>3</sub><sup>&minus;</sup>, and the like &mdash; are conjugate partners that can act as either an acid or a base. That is exactly why polyprotic systems make such natural buffers: each step provides a ready weak-acid / conjugate-base pair.</p>
+
+        <!-- Current-research callout (gold highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9728;&#65039; NOW &middot; BUFFERS AT WORK IN THE WORLD</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Your blood</strong> is buffered by the carbonic-acid / bicarbonate pair, <strong>H<sub>2</sub>CO<sub>3</sub> / HCO<sub>3</sub><sup>&minus;</sup></strong>, which holds it near <strong>pH 7.4</strong> &mdash; the same kind of weak-acid / conjugate-base partnership you studied today, drawn from diprotic carbonic acid. The very same chemistry governs the <strong>ocean</strong>. Scientists are currently studying <strong>ocean acidification</strong>: as the atmosphere's carbon dioxide rises, more CO<sub>2</sub> dissolves into seawater and forms carbonic acid, slowly <em>lowering the ocean's pH</em>. The ocean's carbonate / bicarbonate buffer system softens the blow, but it can be overwhelmed &mdash; and as more carbonate is consumed buffering the added acid, less is left for corals and shellfish to build their calcium-carbonate shells and skeletons. Researchers are working to measure how fast this is happening and what it means for marine life. It is a striking reminder that a buffer is powerful but not unlimited: the same equilibrium that protects your blood and the sea can be pushed past its capacity.</div>
+        </div>
+
+        <!-- ow-select: buffers & polyprotic true/false / MC -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; BUFFERS &amp; POLYPROTIC ACIDS</div>
+          <div class="widget-question">Answer each. You'll get instant feedback on every item.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A buffer is built from a WEAK acid and its conjugate base (or a weak base and its conjugate acid). A strong acid ionizes completely and keeps no reservoir to neutralize added base." data-hint="Buffers need a weak acid/base pair, not a strong one. So the statement is&hellip;?">
+            <div class="widget-row-prompt">1. A good buffer is made from a strong acid and a strong base.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; when [A&#8315;] = [HA] the ratio is 1 and log(1) = 0, so pH = pK&#8336;. That's the signature result of the Henderson&ndash;Hasselbalch equation." data-hint="Henderson&ndash;Hasselbalch: pH = pKa + log([A&#8315;]/[HA]). If the two are equal, the log term is&hellip;?">
+            <div class="widget-row-prompt">2. In a buffer where [A<sup>&minus;</sup>] = [HA], the pH equals&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">7.00 always</button>
+              <button data-choice="1">14 &minus; pK<sub>a</sub></button>
+              <button data-choice="2">pK<sub>a</sub></button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; a polyprotic acid releases its protons in successive steps, each harder than the last, so K&#8336;&#8321; &gt; K&#8336;&#8322; &gt; K&#8336;&#8323;. The growing negative charge holds the remaining protons more tightly." data-hint="Each proton comes off an increasingly negative ion. So the constants get smaller or larger after step 1?">
+            <div class="widget-row-prompt">3. For a polyprotic acid, the ionization constants follow which order?</div>
+            <div class="widget-options">
+              <button data-choice="0">K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub></button>
+              <button data-choice="1">K<sub>a1</sub> &lt; K<sub>a2</sub> &lt; K<sub>a3</sub></button>
+              <button data-choice="2">all equal</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; the blood buffer is the carbonic-acid / bicarbonate pair (H&#8322;CO&#8323; / HCO&#8323;&#8315;), which holds blood near pH 7.4. The same pair buffers the ocean." data-hint="Which weak-acid / conjugate-base pair (from diprotic carbonic acid) holds blood near pH 7.4?">
+            <div class="widget-row-prompt">4. The main buffer that holds human blood near pH 7.4 is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">HCl / Cl<sup>&minus;</sup></button>
+              <button data-choice="1">H<sub>2</sub>CO<sub>3</sub> / HCO<sub>3</sub><sup>&minus;</sup></button>
+              <button data-choice="2">NaOH / Na<sup>+</sup></button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- worked HH commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A buffer uses a weak acid with pK<sub>a</sub> = 4.74 and contains equal amounts of the acid and its conjugate base. What is its pH?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8"><strong>pH = 4.74.</strong> With [A<sup>&minus;</sup>] = [HA], the ratio is 1 and log(1) = 0, so pH = pK<sub>a</sub> + 0 = pK<sub>a</sub> = 4.74. Whenever a buffer is mixed half-and-half, its pH simply equals the pK<sub>a</sub> of its weak acid &mdash; no calculator needed.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week is <strong>Build 5 of 5: the Titration Station</strong> &mdash; the final increment of your <strong>Equilibrium &amp; Acid-Base Station</strong> &mdash; and you'll record the project walkthrough video. As you narrate, you can point to today's idea: the steepest, steadiest stretches of a titration curve are <em>buffer regions</em>, where a weak acid and its conjugate base hold the pH nearly flat even as titrant is added. Buffering is not just blood and oceans &mdash; it shapes the very curve you'll build in VR.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.11</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on what a buffer is, the Henderson&ndash;Hasselbalch result, the blood buffer, and polyprotic K<sub>a</sub> order. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.12</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You'll put acids and bases to a quantitative test: the <em>titration</em>, where a known solution finds an unknown's concentration, and the titration curve reveals the equivalence point.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 5 of 5 &mdash; Titration Station (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish your Equilibrium &amp; Acid-Base Station and record the module-project walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A buffer is a weak acid paired with its conjugate base; one partner absorbs added acid, the other absorbs added base, so the pH barely moves. The Henderson&ndash;Hasselbalch equation, pH = pK<sub>a</sub> + log([A<sup>&minus;</sup>]/[HA]), predicts the pH &mdash; and when the two are equal, pH = pK<sub>a</sub>. Polyprotic acids release protons in steps with K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub>, supplying natural buffer pairs. Hold onto this: <em>the carbonic-acid / bicarbonate buffer holds your blood at 7.4 and softens ocean acidification &mdash; the same equilibrium chemistry, at two very different scales, both powerful and both limited.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.11 &middot; Buffers &amp; Polyprotic Acids</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

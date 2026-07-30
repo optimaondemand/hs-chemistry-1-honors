@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 6.07</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom colligative numeric checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 12px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 6.07</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Colligative Properties &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 6.07</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Colligative Properties &amp; Colloids</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Every winter, road crews spread salt across icy streets and the ice melts &mdash; even when the air stays well below freezing. The salt isn't warming anything. So how can dissolving a solid make ice melt at a temperature where pure water would stay frozen solid?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You have measured how much dissolves. Now you'll measure how the act of dissolving <em>changes the solvent itself</em>. Add solute to water and you don't just fill the water with particles &mdash; you lower its freezing point and raise its boiling point. Remarkably, the size of those shifts depends only on <strong>how many</strong> particles are dissolved, not on what they are. These are the <strong>colligative properties</strong>, and they are computable: this lesson gives you the two equations that turn road salt and antifreeze into arithmetic. Then we close the unit by sorting mixtures into true solutions, <strong>colloids</strong>, and suspensions &mdash; and meet a beam of light that can tell them apart.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why dissolved particles lower a solvent's freezing point and raise its boiling point, and why the effect depends on the number of particles.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> compute freezing-point depression (&Delta;T<sub>f</sub>) and boiling-point elevation (&Delta;T<sub>b</sub>) using &Delta;T = i &middot; K &middot; m and the van 't Hoff factor i.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish solutions, colloids, and suspensions, and use the Tyndall effect to tell a colloid from a true solution.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction (this lesson includes a colligative-property calculator you check your own work against).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; PROPERTIES THAT COUNT PARTICLES</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Cities spread salt on icy roads in the dead of winter, and the ice melts even when the thermometer reads well below 0 &deg;C. The salt gives off no heat. So why does the ice melt? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right. Dissolving salt lowers water's freezing point below 0 &deg;C, so at a temperature where pure water would freeze, the salty water stays liquid &mdash; and ice in contact with it melts. No heat is added; the dissolved particles simply move the freezing point down.">&#10052;&#65039; The salt lowers the freezing point of the water</button>
+            <button data-response="It seems that way, but salt doesn't release warmth as it dissolves the way a hand-warmer does. What actually happens is that the dissolved salt particles LOWER water's freezing point below 0 &deg;C, so the ice melts at a temperature where pure water would stay frozen.">&#128293; The salt releases heat that warms the ice</button>
+            <button data-response="The salt does roughen and interact with the ice, but the real reason is chemical, not mechanical: dissolved salt particles lower water's freezing point below 0 &deg;C, so ice melts at a temperature where pure water would remain solid.">&#129521; The salt physically scrapes the ice apart</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Some properties of a solution depend on <em>what</em> the solute is. Others depend only on <em>how many</em> solute particles are dissolved &mdash; not on their chemical identity. These number-counting properties are the <strong>colligative properties</strong> (from a Latin root meaning &ldquo;bound together&rdquo;). There are four: <strong>vapor-pressure lowering, boiling-point elevation, freezing-point depression,</strong> and <strong>osmotic pressure.</strong> A particle of sugar and a particle of salt shift the freezing point by the same amount &mdash; the solution only &ldquo;feels&rdquo; the count.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why does dissolving lower the freezing point? Freezing means the solvent molecules locking into an orderly solid lattice. Dissolved particles get in the way of that ordering, so the solution must be cooled <em>below</em> the normal freezing point before the solvent can organize into a solid. Boiling-point elevation has a parallel cause: dissolved particles lower the solvent's vapor pressure, so the solution must be heated <em>higher</em> before its vapor pressure can match the surrounding air and boil.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because the count is what matters, we must ask how many particles each dissolved unit produces. That number is the <strong>van 't Hoff factor, i</strong>:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:12px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; A <strong>nonelectrolyte</strong> like sugar (sucrose) or glucose dissolves as whole molecules &mdash; one particle each: <strong>i = 1</strong>.<br>
+            &bull; <strong>NaCl</strong> dissociates into Na&#8314; + Cl&#8315; &mdash; two particles: <strong>i = 2</strong>.<br>
+            &bull; <strong>CaCl&#8322;</strong> dissociates into Ca&#178;&#8314; + 2 Cl&#8315; &mdash; three particles: <strong>i = 3</strong>.
+        </div>
+
+        <!-- History-of-science vignette: Raoult & van 't Hoff (M6-03) -->
+        <div style="background: linear-gradient(135deg,#E8F6FB 0%,#F4F9FC 100%); border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 22px; margin:16px 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:8px;">&#128218; HOW WE FOUND OUT &middot; MEASURING AN INVISIBLE COUNT</div>
+            <div style="font-size:17px; color:#0E1C42; line-height:1.65;">How could anyone count particles far too small to see? In the 1880s the French chemist <strong>Fran&ccedil;ois-Marie Raoult</strong> found a way without a microscope: he measured that dissolving a solute lowers a solvent's vapor pressure by an amount set by <em>how much</em> is dissolved &mdash; and that this vapor-pressure lowering is what raises the boiling point and lowers the freezing point. The Dutch chemist <strong>Jacobus van 't Hoff</strong> then chased down a stubborn discrepancy: dissolved salts shifted these properties <em>more</em> than their formula amount predicted. The deciding evidence was the size of the effect itself &mdash; a salt behaved like several particles, not one, because it splits into ions in solution. That correction is the factor <strong>i</strong> you use today, and van 't Hoff's work on solutions earned the very first Nobel Prize in Chemistry.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>You dissolve one mole of sugar in one beaker and one mole of CaCl&#8322; in an identical beaker. Which solution will have its freezing point lowered more, and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The <strong>CaCl&#8322;</strong> solution. Colligative properties count <em>particles</em>, not formula units. One mole of sugar gives one mole of particles (i = 1), but one mole of CaCl&#8322; breaks into one mole of Ca&#178;&#8314; and two moles of Cl&#8315; &mdash; three moles of particles (i = 3). Three times the particle count means about three times the freezing-point depression.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; PUTTING NUMBERS ON IT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The colligative shifts are computable. Both use the <strong>molality</strong> of the solution &mdash; m = moles of solute per kilogram of solvent &mdash; together with a constant for the solvent and the van 't Hoff factor i.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:8px;">THE TWO COLLIGATIVE EQUATIONS (FOR WATER)</div>
+            <div style="font-size:22px; color:#ffffff; line-height:1.7;"><strong>&Delta;T<sub>f</sub> = i &middot; K<sub>f</sub> &middot; m</strong> &nbsp;&nbsp;&middot;&nbsp;&nbsp; <strong>&Delta;T<sub>b</sub> = i &middot; K<sub>b</sub> &middot; m</strong></div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); margin-top:10px;">K<sub>f</sub>(water) = 1.86 &deg;C/m &nbsp;&middot;&nbsp; K<sub>b</sub>(water) = 0.512 &deg;C/m</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.7); margin-top:6px;">new freezing point = 0 &deg;C &minus; &Delta;T<sub>f</sub> &nbsp;&middot;&nbsp; new boiling point = 100 &deg;C + &Delta;T<sub>b</sub></div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: road salt, 1.00 m NaCl</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            NaCl gives <strong>i = 2</strong>. With K<sub>f</sub> = 1.86 &deg;C/m and m = 1.00 m:<br>
+            &Delta;T<sub>f</sub> = i &middot; K<sub>f</sub> &middot; m = 2 &times; 1.86 &times; 1.00 = <strong>3.72 &deg;C</strong><br>
+            New freezing point = 0 &deg;C &minus; 3.72 &deg;C = <strong>&minus;3.72 &deg;C</strong><br><br>
+            So a 1.00 m salt solution stays liquid down to about &minus;3.72 &deg;C &mdash; which is exactly why it melts ice on a road that is colder than 0 &deg;C. Use <strong>CaCl&#8322;</strong> (i = 3) instead and the depression is half again larger, which is why it works in even harsher cold.
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked the other direction: boiling, 0.50 m sugar</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            Sugar is a nonelectrolyte, so <strong>i = 1</strong>. With K<sub>b</sub> = 0.512 &deg;C/m and m = 0.50 m:<br>
+            &Delta;T<sub>b</sub> = i &middot; K<sub>b</sub> &middot; m = 1 &times; 0.512 &times; 0.50 = <strong>0.256 &deg;C</strong><br>
+            New boiling point = 100 &deg;C + 0.256 &deg;C = <strong>100.256 &deg;C</strong> &mdash; salted or sugared water really does boil a touch higher.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The same chemistry runs your car's coolant: antifreeze dissolved in the radiator water <em>both</em> lowers the freezing point (so the coolant won't freeze and crack the engine in winter) and raises the boiling point (so it won't boil over in summer). Watch your units &mdash; molality in mol/kg, the right i for the solute &mdash; and the arithmetic is honest and exact. That careful accounting is the <em>self-government</em> the quantitative side of chemistry always rewards.</p>
+
+        <!-- Then -> Now -> Future (M6-04): solubility & colligative -> RO / antifreeze / drug delivery -->
+        <div style="background:#FDF3E3; border-left:5px solid #C7922C; border-top:3px solid #C7922C; border-radius:6px; padding:16px 22px; margin:16px 0;">
+            <div style="font-size:11px; color:#C7922C; margin-bottom:10px;">&#128161; THEN &rarr; NOW &rarr; FUTURE &middot; WHEN COUNTING PARTICLES PAYS OFF</div>
+            <div style="font-size:17px; color:#0E1C42; line-height:1.65;">
+                <strong>Then.</strong> In the 1880s Raoult and van 't Hoff turned the effect of dissolved particles into exact equations &mdash; the same &Delta;T = i &middot; K &middot; m arithmetic you just used &mdash; and tied it to <em>osmotic pressure</em>, the push of solvent across a membrane.<br>
+                <strong>Now.</strong> That accounting runs real technology: <strong>antifreeze</strong> keeps engine coolant from freezing in winter and boiling over in summer; <strong>reverse-osmosis desalination</strong> forces seawater against its own osmotic pressure through salt-blocking membranes to make fresh water; and <strong>osmotic drug-delivery</strong> capsules use the same pressure to release medicine at a slow, steady, controlled rate inside the body.<br>
+                <strong>Future.</strong> The open problems are still being worked: membranes that resist clogging and pull salt from water using far less energy, and delivery systems that release a drug exactly where and when the body needs it. The particle-counting you did today is the entry point to questions no one has fully answered.
+            </div>
+        </div>
+
+        <!-- CUSTOM WIDGET: colligative calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COLLIGATIVE CALCULATOR &middot; CHECK YOUR OWN ANSWER</div>
+          <div class="widget-question">Pick a problem, work it out <strong>yourself</strong> with &Delta;T = i &middot; K &middot; m and the right van 't Hoff factor, type your answer, and check it. The tool tells you whether you're too high or too low and reminds you of the setup &mdash; but <em>you</em> choose i and arrange the equation. (A checker can confirm a number; it can't pick the right i for you.)</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="cc-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">A. &Delta;T<sub>f</sub> of 1.00 m NaCl in water (i = 2)?</option>
+                <option value="B">B. Freezing point of 1.00 m NaCl solution (&deg;C)?</option>
+                <option value="C">C. &Delta;T<sub>b</sub> of 0.50 m sugar in water (i = 1)?</option>
+                <option value="D">D. &Delta;T<sub>f</sub> of 0.50 m CaCl&#8322; in water (i = 3)?</option>
+                <option value="E">E. &Delta;T<sub>f</sub> of 1.00 m glucose in water (i = 1)?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="cc-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="cc-check">Check my answer</button>
+            <button class="widget-reset" id="cc-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="cc-out"></div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI tool for a freezing-point depression and it will hand you a number instantly &mdash; which is exactly why you treat it like any instrument: useful, but to be verified. The place these problems go wrong is almost always the <strong>van 't Hoff factor i</strong>: a tool (or a careless setup) may treat NaCl as i = 1 instead of 2, or forget that CaCl&#8322; gives 3 particles. Decide i yourself by counting the ions the solute releases, set up &Delta;T = i &middot; K &middot; m, and use the tool only to <em>confirm</em> your number. Your particle count is the evidence; the tool is a second opinion, not the judge.</div>
+        </div>
+
+        <!-- Nature of Science prompt: colligative ideality is a model with limits (M6-05) -->
+        <div style="background:#FFFFFF; border:1px solid #D0D9E8; border-left:5px solid #0E1C42; border-radius:8px; padding:16px 22px; margin:16px 0;">
+            <div style="font-size:11px; color:#0E1C42; margin-bottom:8px;">&#129504; NATURE OF SCIENCE &middot; WHERE THE IDEAL EQUATION BENDS</div>
+            <div style="font-size:17px; color:#1a2340; line-height:1.65;">&Delta;T = i &middot; K &middot; m is a <em>law</em> that describes a regularity, and the tidy whole-number van 't Hoff factors (i = 2 for NaCl, 3 for CaCl&#8322;) come from an idealized <em>model</em> in which every ion drifts about completely on its own. Measure carefully, though, and NaCl's real i comes out a little <em>below</em> 2, and the gap grows as the solution gets more concentrated &mdash; because oppositely charged ions occasionally pair up and briefly act as a single particle. So "colligative ideality" is a model that works beautifully in dilute solution and breaks down in strong solution. <strong>In your notebook:</strong> if a measured freezing-point depression came out smaller than i &middot; K &middot; m predicted, would you decide the law is wrong, or that the model's assumption of independent ions had failed &mdash; and how would you tell the difference?</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; SOLUTIONS, COLLOIDS, AND A BEAM OF LIGHT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Not every cloudy mixture is a solution. Mixtures fall into three families, sorted by the size of the dispersed particles:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:12px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; <strong>True solution</strong> &mdash; particles are individual ions or molecules, far smaller than a wavelength of light. The mixture is clear and never settles (salt water, sugar water).<br>
+            &bull; <strong>Colloid</strong> &mdash; particles are larger (roughly <strong>1 to 1000 nanometers</strong>) but still too small to settle out. Examples: fog, milk, gelatin, whipped cream, paint.<br>
+            &bull; <strong>Suspension</strong> &mdash; particles are larger still and <em>do</em> settle out if left undisturbed (muddy water, sand stirred into water).
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A colloid's particles are just big enough to do something a true solution cannot: <strong>scatter light</strong>. Shine a flashlight beam through a true solution and you see nothing &mdash; the beam passes invisibly. Shine the same beam through a colloid and the beam lights up as a visible path, because the colloidal particles bounce the light sideways into your eye. This is the <strong>Tyndall effect</strong>, and it is a quick test to tell a colloid from a true solution. You've seen it whenever sunbeams streak through fog or dust, or a headlight beam glows in mist.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:8px;">THE TYNDALL TEST</div>
+            <div style="font-size:19px; color:#ffffff; line-height:1.7;">Beam <strong>invisible</strong> &rarr; true solution &nbsp;&middot;&nbsp; Beam <strong>visible (scattered)</strong> &rarr; colloid</div>
+        </div>
+
+        <!-- ow-select: colligative / colloids true-false & classify -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COLLIGATIVE FACTS &amp; CLASSIFYING MIXTURES</div>
+          <div class="widget-question">Decide whether each statement is true or false, or pick the best classification. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="True &mdash; colligative properties depend only on the NUMBER of dissolved particles, not their chemical identity. That's why salt and sugar at the same particle count shift the freezing point equally." data-hint="What does 'colligative' depend on &mdash; the kind of particle, or the count?">
+            <div class="widget-row-prompt">1. Colligative properties depend on the number of dissolved particles, not on what the solute is.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="False &mdash; dissolving solute LOWERS the freezing point (and raises the boiling point). Salt on roads melts ice precisely because the freezing point drops below 0 &deg;C." data-hint="Does road salt make water freeze more easily or less easily?">
+            <div class="widget-row-prompt">2. Dissolving a solute in water raises its freezing point above 0 &deg;C.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; milk is a colloid: its particles are large enough to scatter light (it's opaque and shows the Tyndall effect) but small enough that they don't settle out." data-hint="Milk is cloudy, doesn't settle, and scatters light. Which family is that?">
+            <div class="widget-row-prompt">3. A mixture that is cloudy, never settles, and makes a flashlight beam visible as it passes through is best classified as a:</div>
+            <div class="widget-options">
+              <button data-choice="0">True solution</button>
+              <button data-choice="1">Suspension</button>
+              <button data-choice="2">Colloid</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; the Tyndall effect (a visible scattered beam) reveals a colloid. A true solution lets the beam pass invisibly, so a visible beam means it is NOT a true solution." data-hint="Does a true solution scatter light, or does it let the beam pass invisibly?">
+            <div class="widget-row-prompt">4. If a light beam shines through a liquid and you can clearly see its path, the liquid is most likely a true solution.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you finish your <strong>Intermolecular Forces &amp; States Model</strong> in OptimaXR &mdash; <strong>Build 3 of 3</strong>. The property-explanation annotations you add this week now have a colligative member: a note on how dissolved salt <em>lowers</em> water's freezing point, the very idea you computed above with &Delta;T<sub>f</sub> = i &middot; K<sub>f</sub> &middot; m. With this build done, your model is complete and you're ready to record the walkthrough that is your module project. A full non-VR pathway is provided.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 6.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on colligative properties, the van 't Hoff factor, and colloids/the Tyndall effect. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Colligative-Property Calculations (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build an Excel table that computes &Delta;T<sub>f</sub> and &Delta;T<sub>b</sub> across different molalities and van 't Hoff factors, and graph &Delta;T<sub>f</sub> versus molality. This is your week's &ldquo;doing chemistry.&rdquo;</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Finish Your IMF &amp; States Model (Build 3 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add property-explanation annotations &mdash; including how dissolved salt lowers water's freezing point &mdash; completing the model for the recorded walkthrough. A non-VR pathway is provided.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Dissolved particles change a solvent's freezing and boiling points by amounts that depend only on the <em>count</em> of particles &mdash; the colligative properties. With &Delta;T = i &middot; K &middot; m and the van 't Hoff factor i, road salt and antifreeze become arithmetic you can do exactly. And by particle size, mixtures sort into true solutions, colloids, and suspensions, with the Tyndall effect's scattered beam marking out the colloids. Hold onto this: <em>even the way a solution freezes, boils, and scatters light can be counted, measured, and predicted.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 6.07 &middot; Colligative Properties &amp; Colloids</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom colligative calculator =====
+  var CC = {
+    A: { val:3.72, tol:0.05, unit:'°C', factor:'ΔTf = i·Kf·m = 2 × 1.86 × 1.00 = 3.72 °C. NaCl gives i = 2.' },
+    B: { val:-3.72, tol:0.05, unit:'°C', factor:'New freezing point = 0 − ΔTf = 0 − 3.72 = −3.72 °C (with ΔTf = 2 × 1.86 × 1.00).' },
+    C: { val:0.256, tol:0.01, unit:'°C', factor:'ΔTb = i·Kb·m = 1 × 0.512 × 0.50 = 0.256 °C. Sugar is a nonelectrolyte, i = 1.' },
+    D: { val:2.79, tol:0.05, unit:'°C', factor:'ΔTf = i·Kf·m = 3 × 1.86 × 0.50 = 2.79 °C. CaCl₂ gives i = 3.' },
+    E: { val:1.86, tol:0.05, unit:'°C', factor:'ΔTf = i·Kf·m = 1 × 1.86 × 1.00 = 1.86 °C. Glucose is a nonelectrolyte, i = 1.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x').replace('−','-').replace('–','-');
+    s = s.replace(/(°c|°|c|degc|deg|m)$/,'');
+    var m = s.match(/^(-?[0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var ccBtn = document.getElementById('cc-check');
+  if (ccBtn) {
+    ccBtn.addEventListener('click', function () {
+      var out = document.getElementById('cc-out');
+      var key = document.getElementById('cc-prob').value;
+      var raw = document.getElementById('cc-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number (for example 3.72 or −3.72).'; return; }
+      var d = CC[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Now check your units: molality in mol/kg and the right i are what make the answer come out right.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.factor + ' Re-check your van ’t Hoff factor i and whether a freezing point should be negative.';
+      }
+    });
+  }
+  var ccReset = document.getElementById('cc-reset');
+  if (ccReset) {
+    ccReset.addEventListener('click', function () {
+      document.getElementById('cc-prob').value = '';
+      document.getElementById('cc-ans').value = '';
+      var out = document.getElementById('cc-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

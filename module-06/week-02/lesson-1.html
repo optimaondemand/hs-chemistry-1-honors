@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 6.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 12px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 6.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">The Solid State &amp; Crystal Lattices</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 6.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">The Solid State &amp; Crystal Lattices</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A grain of table salt and a chip of diamond are both hard, clear, orderly solids &mdash; yet one dissolves in water and crumbles under a hammer, while the other shrugs off both. What inside a solid decides how it behaves?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For three lessons you have watched <strong>intermolecular forces</strong> set the behavior of liquids &mdash; their surface tension, their boiling points, the shapes of their phase diagrams. Now we cool matter all the way down to its most ordered state: the <strong>solid</strong>. In a solid the particles are locked in place, but <em>how</em> they are held &mdash; by ionic attraction, by weak intermolecular forces, by an unbroken web of covalent bonds, or by a shared sea of electrons &mdash; turns out to predict almost everything you can observe about it: whether it melts at a few degrees or a few thousand, whether it conducts electricity, whether it shatters or bends. This lesson sorts crystalline solids into four families by what holds them together, then looks at the repeating pattern &mdash; the <strong>crystal lattice</strong> &mdash; that gives a crystal its shape.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a solid as ionic, molecular, covalent-network, or metallic from the bonding that holds it together.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict a solid's properties &mdash; melting point, hardness, and electrical conductivity &mdash; from its type.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe a crystal lattice and unit cell, and contrast crystalline solids with amorphous ones.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes on ionic, covalent, and metallic bonding from Module 3, and on intermolecular forces from Lessons 6.01&ndash;6.03 &mdash; you'll lean on both.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; FOUR FAMILIES OF SOLIDS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Strike a salt crystal with a hammer and it shatters into smaller crystals. Strike a copper coin with the same hammer and it just dents and flattens. Both are solids made of orderly particles &mdash; so why does one break apart and the other bend? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the intuition this lesson builds on. In a copper metal, the atoms float in a shared 'sea' of electrons, so layers can slide past one another and the metal just bends or flattens. In salt, the atoms are charged ions locked in a rigid grid; shove a layer and you suddenly line up like charges next to like charges, which repel violently and split the crystal. Same orderliness, opposite response &mdash; because what holds the particles together is completely different.">&#9889; The two solids are held together by different kinds of forces</button>
+            <button data-response="A reasonable guess &mdash; salt does feel more delicate. But pure hardness isn't the real story: many ionic crystals are quite hard, yet still shatter, while soft metals dent without breaking. The deeper difference is HOW the particles are held: copper's atoms share a mobile sea of electrons and can slide, while salt's charged ions sit in a rigid grid that splits when layers shift. This lesson makes that difference the organizing idea.">&#129704; The salt is simply softer than the metal</button>
+            <button data-response="It can feel that way, but salt crystals are not poorly built &mdash; their ions are locked in a strikingly regular grid. The catch is exactly that rigidity: when a hammer shoves one layer of ions over, like charges line up against like charges and repel, splitting the crystal. Copper's atoms, sharing a sea of electrons, just slide and re-settle. The arrangement isn't worse &mdash; it's a different kind of bonding.">&#127777;&#65039; The salt crystal was put together badly</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A crystalline solid is matter at its most orderly: its particles &mdash; atoms, ions, or molecules &mdash; sit in a regular, repeating pattern that extends in every direction. But not all solids are held together the same way, and that single fact &mdash; <em>what kind of particle sits at each point, and what force pins it there</em> &mdash; sorts solids into <strong>four families</strong>. Once you know which family a solid belongs to, you can predict how it will behave before you ever touch it.</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:560px; margin:14px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Solid type</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">What sits at each point &amp; what holds it</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Typical properties</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Examples</th>
+            </tr>
+            <tr style="background:#FFFFFF;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Ionic</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Positive and negative <strong>ions</strong> in a lattice, held by strong ionic attraction</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">High melting point; hard but <strong>brittle</strong>; conduct only when <strong>molten or dissolved</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">NaCl (table salt)</td>
+            </tr>
+            <tr style="background:#F4F6FA;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Molecular</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Discrete <strong>molecules</strong> held by intermolecular forces (LDF, dipole&ndash;dipole, H-bonding)</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Low</strong> melting point; soft; do not conduct</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Ice, dry ice (CO<sub>2</sub>), sugar</td>
+            </tr>
+            <tr style="background:#FFFFFF;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Covalent network</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Atoms</strong> bonded in one continuous covalent web throughout the whole crystal</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Very high</strong> melting point; very hard; usually nonconducting</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Diamond, quartz (SiO<sub>2</sub>), silicon carbide</td>
+            </tr>
+            <tr style="background:#F4F6FA;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Metallic</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Cations</strong> in a shared &ldquo;sea&rdquo; of delocalized electrons</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Variable melting point; <strong>malleable/ductile</strong>; conduct heat and electricity</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Copper, iron</td>
+            </tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read the table as a chain of cause and effect. The <strong>strength</strong> of the force holding particles in place sets the <strong>melting point</strong>: weak intermolecular forces in a molecular solid let it melt near room temperature (ice at 0&nbsp;&deg;C, dry ice subliming below room temperature), while the unbroken covalent web of diamond must have actual chemical bonds broken to melt &mdash; which takes thousands of degrees. The <strong>type of particle</strong> sets the <strong>electrical behavior</strong>: charges can carry a current only if they are free to move, so an ionic solid stays an insulator until it melts or dissolves and its ions break loose, while a metal conducts at once because its electron sea is already mobile.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>The one question to ask:</strong> what is held, and how strongly? &nbsp;Ions held by charge &rarr; hard, brittle, high-melting, conduct only when free. &nbsp;Molecules held by IMFs &rarr; soft, low-melting, insulating. &nbsp;Atoms in a covalent web &rarr; extremely hard and high-melting. &nbsp;Metal atoms sharing electrons &rarr; bendable and conducting.
+        </div>
+
+        <!-- ow-select: classify substance -> solid type -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WHICH FAMILY?</div>
+          <div class="widget-question">For each substance, choose the solid type its bonding places it in. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-hint="It is a single element whose atoms each bond to four neighbors in one unbroken three-dimensional web &mdash; and it is the hardest natural material.">
+            <div class="widget-row-prompt">1. Diamond &mdash; pure carbon, extraordinarily hard, melts only at very high temperature, does not conduct.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Not quite &mdash; an ionic solid is made of charged ions, but diamond is a single element (carbon) with no ions at all.">Ionic</button>
+              <button data-choice="1" data-fb="Not molecular &mdash; molecular solids are soft and low-melting because only weak IMFs hold the molecules. Diamond is the opposite: extremely hard and very high-melting.">Molecular</button>
+              <button data-choice="2" data-fb="Correct &mdash; diamond is a covalent network: every carbon is bonded to four others in one continuous web, so melting it means breaking actual covalent bonds. That is why it is so hard and so high-melting.">Covalent network</button>
+              <button data-choice="3" data-fb="Not metallic &mdash; there is no electron sea here, and diamond does not conduct. Its carbons are locked in fixed covalent bonds.">Metallic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-hint="Its name tells you it is built from a positive and a negative ion, and it conducts only once melted or dissolved.">
+            <div class="widget-row-prompt">2. Sodium chloride (NaCl) &mdash; high-melting, hard but brittle, conducts electricity only when molten or dissolved.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Correct &mdash; NaCl is ionic: Na&#8314; and Cl&#8315; ions in a lattice. The strong charge attraction gives a high melting point; the rigid grid of charges makes it brittle; and it conducts only when the ions are freed by melting or dissolving.">Ionic</button>
+              <button data-choice="1" data-fb="Not molecular &mdash; molecular solids are soft and low-melting and never conduct. NaCl is high-melting and conducts once its ions are freed, which points to charged particles, not neutral molecules.">Molecular</button>
+              <button data-choice="2" data-fb="Not a covalent network &mdash; those are single continuous webs of bonded atoms (like diamond) and do not dissolve into conducting ions. NaCl separates into Na&#8314; and Cl&#8315; ions.">Covalent network</button>
+              <button data-choice="3" data-fb="Not metallic &mdash; metals conduct as solids because of their electron sea. NaCl does NOT conduct as a solid; it must melt or dissolve first.">Metallic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="3" data-hint="It can be hammered into sheets and drawn into wire, and it conducts electricity straight out of the solid.">
+            <div class="widget-row-prompt">3. Copper &mdash; shiny, can be drawn into wire, conducts heat and electricity as a solid.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Not ionic &mdash; ionic solids are brittle and conduct only when freed. Copper bends into wire and conducts as a solid, which is the signature of a metal.">Ionic</button>
+              <button data-choice="1" data-fb="Not molecular &mdash; molecular solids are soft, low-melting insulators. Copper conducts well and is a metal.">Molecular</button>
+              <button data-choice="2" data-fb="Not a covalent network &mdash; those are hard and usually nonconducting. Copper conducts and is malleable.">Covalent network</button>
+              <button data-choice="3" data-fb="Correct &mdash; copper is metallic: copper cations sit in a shared sea of delocalized electrons. The mobile electrons carry current, and layers of cations can slide past one another, so the metal bends and draws into wire instead of shattering.">Metallic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-hint="It is built from discrete molecules and melts at a low temperature without conducting &mdash; the same kind of solid as ice.">
+            <div class="widget-row-prompt">4. Dry ice (solid CO<sub>2</sub>) &mdash; sublimes below room temperature, soft, does not conduct.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Not ionic &mdash; CO&#8322; is a neutral molecule, not a pair of ions, and ionic solids are high-melting.">Ionic</button>
+              <button data-choice="1" data-fb="Correct &mdash; solid CO&#8322; is a molecular solid: discrete CO&#8322; molecules held only by weak London dispersion forces. Those weak forces are easily overcome, so it sublimes at a low temperature and never conducts.">Molecular</button>
+              <button data-choice="2" data-fb="Not a covalent network &mdash; though CO&#8322; has covalent bonds INSIDE each molecule, the molecules are separate, held to each other only by weak IMFs. Covalent-network solids are one continuous web and are very high-melting.">Covalent network</button>
+              <button data-choice="3" data-fb="Not metallic &mdash; there is no electron sea and no conduction. Dry ice is a soft, low-temperature molecular solid.">Metallic</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE CRYSTAL LATTICE: ORDER YOU CAN COUNT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">What makes a crystal a crystal is not just that its particles are packed together, but that they are packed in a <strong>pattern that repeats</strong>. Picture floor tiles: one tile, copied and laid edge to edge, covers the whole floor. A crystal works the same way in three dimensions. The smallest repeating unit &mdash; the &ldquo;tile&rdquo; that, stacked in every direction, builds the entire crystal &mdash; is called the <strong>unit cell</strong>, and the full, extended pattern of points is the <strong>crystal lattice</strong>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For many common solids the unit cell is a cube, and there are three cubic patterns worth naming, differing only in where the particles sit:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:14px 0;">
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Simple cubic</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">A particle at each of the eight corners of the cube &mdash; the most basic repeating box.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Body-centered cubic (bcc)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Corners plus one particle in the very center of the cube.</div>
+            </div>
+            <div style="flex:1; min-width:200px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Face-centered cubic (fcc)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Corners plus one particle in the center of each of the six faces.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A useful number that comes out of the pattern is the <strong>coordination number</strong> &mdash; how many nearest neighbors touch a given particle. It is a way of <em>counting</em> the order: a more tightly packed lattice gives each particle more neighbors. This is the quantitative habit Q3 keeps returning to &mdash; even something as abstract as a crystal's arrangement can be reduced to numbers you can compare.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because the repeating pattern is so exact, a crystalline solid has <strong>long-range order</strong>, and that order shows up in a sharp, definite <strong>melting point</strong>: heat it, and the whole lattice gives way at essentially one temperature. Not every solid is built this way. An <strong>amorphous</strong> solid &mdash; ordinary glass, or many plastics &mdash; has its particles frozen in a jumble, with no repeating long-range pattern. Lacking a single regular structure, an amorphous solid does not have one sharp melting point; instead it <strong>softens over a range</strong> of temperatures as it is heated. A windowpane and a salt crystal are both &ldquo;solid,&rdquo; but only one is a crystal.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>Crystalline vs amorphous:</strong> a <em>crystalline</em> solid has a repeating long-range pattern (a lattice built of unit cells) and a <em>sharp</em> melting point; an <em>amorphous</em> solid (glass, many plastics) has no long-range order and <em>softens over a range</em> instead of melting at one temperature.
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A clear quartz crystal has a single sharp melting point, while a clear pane of window glass just softens gradually as it is heated &mdash; even though both are mostly silicon and oxygen. What does that difference tell you about their structures?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Quartz is <strong>crystalline</strong>: its atoms sit in a repeating, long-range lattice, so the whole structure gives way at one definite temperature &mdash; a sharp melting point. Window glass is <strong>amorphous</strong>: the same kinds of atoms are frozen in a disordered jumble with no long-range pattern, so there is no single temperature at which everything releases at once &mdash; it softens over a range instead. The sharp-versus-gradual behavior is a direct read-out of order versus disorder inside the solid.</div>
+        </details>
+
+        <!-- Nature of Science: models & their limits -->
+        <div style="background:#EEF1F8; border-left:5px solid #6A4C93; border-radius:6px; padding:14px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#5B3E86; margin-bottom:8px;">&#128300; NATURE OF SCIENCE &middot; A MODEL, NOT THE WHOLE TRUTH</div>
+            <div style="font-size:17px; color:#0E1C42; line-height:1.6;">Sorting every solid into four tidy families &mdash; and picturing a crystal as a single unit cell copied endlessly &mdash; is a <em>model</em>: a deliberately simplified picture that earns its keep by letting you predict melting point, hardness, and conductivity before you ever touch a sample. But a model is not the thing itself. The categories blur at the edges (graphite is a covalent solid, yet it is soft, slippery, and conducts), and no real crystal is flawless &mdash; every one carries defects the perfect-lattice picture leaves out. That is how scientific models work: they are judged by how well they predict and explain, and knowing <em>where</em> a model breaks down matters as much as knowing where it holds. <strong>In your notebook:</strong> name one property this four-family model lets you predict well, and one situation where you would expect it to fall short.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; ONE ELEMENT, TWO SOLIDS: DIAMOND AND GRAPHITE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The clearest proof that <em>arrangement</em> sets properties comes from a single element doing two completely different things. <strong>Diamond</strong> and <strong>graphite</strong> are both made of nothing but carbon atoms &mdash; yet one is the hardest natural material known and an electrical insulator, while the other is soft, slippery, and conducts electricity. The only difference is how the carbon atoms are bonded together. Forms of the same element with different structures are called <strong>allotropes</strong>.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:6px;"><strong>Diamond</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;">Each carbon bonds to four neighbors in a rigid, three-dimensional covalent network. There are no weak points and no free electrons, so diamond is the hardest natural material and does not conduct.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:6px;"><strong>Graphite</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.6;">The carbon atoms form flat sheets that stack loosely on top of one another. The sheets slide easily (that is why graphite is slippery and writes on paper), and loose electrons within the sheets let graphite conduct &mdash; the conductive exception among covalent solids.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Same atoms, same element &mdash; but rearrange the bonding from a rigid 3-D web into stacked sheets, and hardness becomes slipperiness and an insulator becomes a conductor. There is no better illustration of this whole lesson's claim: in a solid, the <em>structure</em> is the property. If you can name how the particles are held and how they are arranged, you can predict what the solid will do.</p>
+
+        <!-- ow-flip: name the solid type -> properties -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; FLIP CARDS &middot; NAME THE TYPE, THEN CHECK THE PROPERTIES</div>
+          <div class="widget-question">Read each solid type. Predict its three giveaway properties (melting point, hardness/feel, conductivity), then tap the card to reveal them.</div>
+          <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+              <div class="ow-flip-front"><div style="font-size:16px; color:#0E1C42;"><strong>Ionic solid</strong></div><div style="font-size:13px; color:#666; margin-top:6px;">(e.g., NaCl) &mdash; tap to reveal</div></div>
+              <div class="ow-flip-back"><div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>High</strong> melting point; hard but <strong>brittle</strong> (shatters); conducts <strong>only when molten or dissolved</strong>, because only then are its ions free to move.</div></div>
+            </div>
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+              <div class="ow-flip-front"><div style="font-size:16px; color:#0E1C42;"><strong>Metallic solid</strong></div><div style="font-size:13px; color:#666; margin-top:6px;">(e.g., copper) &mdash; tap to reveal</div></div>
+              <div class="ow-flip-back"><div style="font-size:15px; color:#1a2340; line-height:1.55;">Variable melting point; <strong>malleable and ductile</strong> (bends, draws into wire); conducts heat and electricity <strong>as a solid</strong>, thanks to its sea of delocalized electrons.</div></div>
+            </div>
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+              <div class="ow-flip-front"><div style="font-size:16px; color:#0E1C42;"><strong>Molecular solid</strong></div><div style="font-size:13px; color:#666; margin-top:6px;">(e.g., ice, dry ice) &mdash; tap to reveal</div></div>
+              <div class="ow-flip-back"><div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Low</strong> melting point; <strong>soft</strong>; does <strong>not</strong> conduct &mdash; because only weak intermolecular forces hold the separate molecules in place.</div></div>
+            </div>
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+              <div class="ow-flip-front"><div style="font-size:16px; color:#0E1C42;"><strong>Covalent-network solid</strong></div><div style="font-size:13px; color:#666; margin-top:6px;">(e.g., diamond, quartz) &mdash; tap to reveal</div></div>
+              <div class="ow-flip-back"><div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Very high</strong> melting point; <strong>very hard</strong>; usually does not conduct (graphite is the slippery, conducting exception) &mdash; because the whole crystal is one continuous web of covalent bonds.</div></div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- History vignette callout: Bragg / von Laue -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; SEEING THE INVISIBLE LATTICE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For most of history the orderly inside of a crystal could only be guessed at from its outer shape &mdash; no one could see how the atoms were actually arranged. The deciding evidence arrived in <strong>1912</strong>, when <strong>Max von Laue</strong> reasoned that if a crystal truly were a regular repeating lattice, a beam of X-rays sent through it should scatter into a pattern of sharp, orderly spots &mdash; and the experiment produced exactly that pattern, proof that the lattice was real. <strong>William Henry Bragg and his son William Lawrence Bragg</strong> then turned those spots into a method: from the angles and spacing of the scattered beams they worked backward to the actual positions of the atoms, and solved the structure of ordinary table salt itself. For the first time the arrangement inside a solid could be <em>measured</em> rather than imagined &mdash; the invisible lattice read directly from the evidence it left in the scattered rays.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you continue your module-long project in OptimaXR &mdash; the <strong>Intermolecular Forces &amp; States Model</strong>, which you add to every week and narrate on camera at the end. This is <strong>Build 2 of 3</strong>. Beside the molecular IMF models you built last week, you'll construct a <strong>crystal lattice</strong> &mdash; a small repeating grid of alternating positive and negative ions, like the one inside a grain of salt &mdash; and label it as an ionic solid with its giveaway properties (high-melting, brittle, conducts only when free). Then you'll add a <strong>dissolution station</strong> (the focus of the next lesson) showing water pulling ions off the lattice. The big idea to put on a sticky note: <em>in a solid, the structure IS the property &mdash; how the particles are held and arranged decides how the solid behaves.</em></div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 6.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the four solid types, their properties, and crystalline vs amorphous structure. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 6.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you know how an ionic solid is built, what happens when you drop it into water? You'll see how a solid dissolves at the molecular level and learn why some solutions conduct electricity and others don't.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Intermolecular Forces &amp; States Model (Build 2 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a crystal-lattice build and a dissolution station beside your IMF models in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Crystalline solids come in four families &mdash; ionic, molecular, covalent-network, and metallic &mdash; and which family a solid belongs to predicts its melting point, hardness, and electrical behavior. The pattern repeats through a unit cell to build the full crystal lattice, giving a crystal its sharp melting point, while amorphous solids like glass lack that long-range order and merely soften. Diamond and graphite, both pure carbon, prove the point: rearrange the bonding and you change everything observable. Hold onto this: <em>in a solid, the structure is the property &mdash; name how the particles are held and arranged, and you can predict what the solid will do.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 6.04 &middot; The Solid State &amp; Crystal Lattices</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

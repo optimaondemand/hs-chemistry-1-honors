@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 6.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 6.01; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 12px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 6.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Intermolecular Forces</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 6.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Intermolecular Forces</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Water boils at 100&nbsp;&deg;C, but methane &mdash; a molecule of almost the same size &mdash; boils at &minus;161&nbsp;&deg;C. Both are held together by ordinary covalent bonds, so why does one need so much more heat to break free into a gas?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For two quarters you have studied the forces <em>inside</em> molecules &mdash; the ionic and covalent bonds that hold atoms together. Those bonds explain a molecule's identity. But they do not, by themselves, explain whether a substance is a gas, a liquid, or a solid at room temperature; why some liquids are syrupy and others runny; or why water beads on a waxed car. Those everyday, measurable physical properties come from a second, much weaker set of attractions &mdash; the forces <strong>between</strong> molecules, called <strong>intermolecular forces</strong>. This lesson sorts them into three kinds, ranks their strengths, and uses them to predict the single most diagnostic property of all: the boiling point. By the end you'll be able to look at a molecule and reason out how strongly it clings to its neighbors.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the intermolecular forces present in a substance &mdash; London dispersion, dipole-dipole, and hydrogen bonding &mdash; from its structure and polarity.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> rank the relative strength of intermolecular forces and connect stronger forces to higher melting and boiling points.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why hydrogen bonding requires a hydrogen atom bonded to nitrogen, oxygen, or fluorine.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 3 notes on molecular polarity (polar vs. nonpolar) and the &ndash;OH functional group &mdash; we lean on both today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; FORCES BETWEEN MOLECULES, NOT WITHIN THEM</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Splash water onto a freshly waxed car and it pulls into tight round beads; splash the same water onto a clean glass window and it spreads into a flat sheet. Same water both times &mdash; so what must be different about how strongly the water is pulled? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct. The water's pull toward itself doesn't change, but how strongly it is pulled toward the SURFACE does. Wax is nonpolar and barely attracts water, so the water clings to itself and beads up. Glass is full of &ndash;OH groups that attract water strongly, so the water spreads to touch as much of it as possible. These competing attractions between molecules are exactly what this lesson is about.">&#128167; The surface attracts the water differently in each case</button>
+            <button data-response="Not quite &mdash; the water is the same in both cases, so its own properties didn't change. What changed is the SURFACE: wax is nonpolar and hardly attracts water (so it beads), while glass attracts water strongly (so it spreads). The attractions BETWEEN molecules are the whole story here.">&#129516; The water itself changes chemically on wax</button>
+            <button data-response="It feels temperature-related, but you can do this with room-temperature water on both surfaces and still see beading on wax and spreading on glass. The real difference is how strongly each surface attracts the water molecules &mdash; an intermolecular-force difference, which is today's topic.">&#127777;&#65039; The water must be at a different temperature</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">It helps to be careful with two words that look almost identical. The bonds you studied in Module 3 &mdash; ionic and covalent &mdash; are <strong>intra</strong>molecular forces: they act <em>within</em> a molecule, holding its atoms together and giving it its chemical identity. The attractions we meet today are <strong>inter</strong>molecular forces (IMFs): they act <em>between</em> separate molecules. The prefixes carry the whole distinction &mdash; <em>intra</em> means "inside," <em>inter</em> means "between."</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Intermolecular forces are far weaker than the bonds inside a molecule &mdash; often less than a tenth as strong. Yet they are the forces that decide a substance's <strong>physical properties</strong>: whether it is a solid, liquid, or gas at room temperature; how high its melting and boiling points are; how thick it is to pour; whether its surface beads or spreads. To melt or boil a substance you do not break its chemical bonds &mdash; you only have to pull its molecules apart from one another, overcoming the IMFs that hold them close. The stronger those forces, the more energy it takes, and the higher the melting and boiling points climb.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Stronger intermolecular forces &rarr; higher melting and boiling points</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">it takes more energy to pull molecules apart when they cling more tightly</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>When liquid water boils into steam, are the O&ndash;H bonds inside each water molecule breaking?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. Boiling pulls whole water molecules <em>away from one another</em> &mdash; it overcomes the intermolecular forces between molecules. The strong covalent O&ndash;H bonds <em>inside</em> each molecule stay intact; the steam is still made of H<sub>2</sub>O molecules. That is the heart of the intra- vs. inter- distinction: melting and boiling are about forces <em>between</em> molecules, not the bonds within them.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE THREE KINDS OF INTERMOLECULAR FORCE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There are three intermolecular forces to know, from weakest to strongest. The trick to telling them apart is to ask two questions about a molecule: <em>Does it have a permanent positive-and-negative side</em> (is it polar)? and <em>Does it have a hydrogen atom bonded to nitrogen, oxygen, or fluorine</em>?</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">1. London dispersion forces &mdash; present in everything</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Even a molecule with no permanent charge separation has electrons in constant motion. At any instant those electrons can pile up slightly on one side, creating a fleeting <strong>instantaneous dipole</strong>. That momentary lopsidedness tugs on a neighbor's electron cloud and <em>induces</em> a matching dipole, and the two briefly attract. These flickering attractions are <strong>London dispersion forces</strong>, and because every substance has electrons, <strong>every substance has them</strong> &mdash; they are the <em>only</em> intermolecular force acting in nonpolar substances such as the noble gases, N<sub>2</sub>, O<sub>2</sub>, methane (CH<sub>4</sub>), and the hydrocarbons. They grow stronger as a molecule has <strong>more electrons</strong> (larger molar mass) and more surface area, because a bigger, softer electron cloud is easier to distort.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">2. Dipole-dipole forces &mdash; between polar molecules</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>polar</strong> molecule has a permanent dipole &mdash; a slightly positive end and a slightly negative end &mdash; because of an uneven sharing of electrons (you predicted these from shape and electronegativity back in Module 3). When many polar molecules crowd together, the positive end of one is attracted to the negative end of the next. These <strong>dipole-dipole forces</strong> are present in polar substances such as hydrogen chloride (HCl) and acetone, and for molecules of similar size they are stronger than dispersion forces alone.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">3. Hydrogen bonding &mdash; the strong special case</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When a hydrogen atom is bonded to one of the three small, highly electronegative atoms &mdash; <strong>nitrogen, oxygen, or fluorine</strong> &mdash; that hydrogen is left very exposed and strongly positive, and it is powerfully attracted to a lone pair on the N, O, or F of a <em>neighboring</em> molecule. This especially strong dipole-dipole attraction is called <strong>hydrogen bonding</strong>. Why only N, O, and F? They are small and pull electrons hard, so the bonded hydrogen is stripped unusually bare; a hydrogen bonded to a larger, less greedy atom (like carbon) simply isn't exposed enough. Hydrogen bonding is why water, hydrogen fluoride (HF), and ammonia (NH<sub>3</sub>) boil at surprisingly high temperatures compared with heavier molecules that can't hydrogen-bond.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>The strength ladder</strong> (for molecules of comparable size):<br>
+            ionic &amp; covalent BONDS &nbsp;&raquo;&raquo;&nbsp; hydrogen bonding &nbsp;&gt;&nbsp; dipole-dipole &nbsp;&gt;&nbsp; London dispersion.<br>
+            <span style="font-size:15px; color:#555;">One caution: dispersion forces add up. In a very large molecule, many dispersion contacts can outweigh a single dipole &mdash; size can override type.</span>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In <strong>1873</strong>, the Dutch physicist <strong>Johannes Diderik van der Waals</strong> proposed in his doctoral thesis that real gases stray from ideal behavior for two reasons: their molecules take up actual space, and &mdash; the radical part &mdash; they <em>attract one another</em>. This was the first quantitative account of an attractive force between separate molecules, at a time when many doubted such forces existed at all. (You met the consequence last module, when real gases deviated from the ideal gas law.) His work earned the <strong>1910 Nobel Prize in Physics</strong>, and to this day the family of weak attractions between molecules is collectively called the <em>van der Waals forces</em> in his honor.</div>
+        </div>
+
+        <!-- ow-flip: name the force -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; NAME THE DOMINANT FORCE</div>
+          <div class="widget-question">Predict the strongest intermolecular force at work in each substance, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127858; <strong>CH<sub>4</sub></strong> (methane) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>London dispersion only.</strong> Methane is nonpolar, so dispersion is its sole IMF &mdash; and a weak one, which is why methane is a gas down to &minus;161&nbsp;&deg;C.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; <strong>HCl</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Dipole-dipole</strong> (plus dispersion). HCl is polar but its H is bonded to chlorine, not N/O/F, so it does <em>not</em> hydrogen-bond.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128167; <strong>H<sub>2</sub>O</strong> (water) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Hydrogen bonding.</strong> H bonded to O &rarr; strong hydrogen bonds, which is why water is a liquid at room temperature and boils all the way up at 100&nbsp;&deg;C.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9883;&#65039; <strong>Ne</strong> (neon) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>London dispersion only.</strong> A lone noble-gas atom has no dipole, so only fleeting dispersion forces act &mdash; very weak, so neon is a gas except at extreme cold.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; READING BOILING POINTS FROM THE FORCES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the payoff. Because boiling means pulling molecules apart, the <strong>boiling point is a direct readout of intermolecular-force strength</strong>: the stronger the forces, the more heat is needed, the higher the boiling point. This lets you <em>predict</em> and rank boiling points without memorizing them &mdash; you reason from structure.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked comparison</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Rank these three by boiling point, lowest to highest: methane (CH<sub>4</sub>), methanol (CH<sub>3</sub>OH), and sodium chloride (NaCl).<br><br>
+            <strong>Reason it out:</strong><br>
+            &bull; <strong>CH<sub>4</sub></strong> is nonpolar &mdash; only weak London dispersion. <em>Lowest.</em> (boils at &minus;161&nbsp;&deg;C)<br>
+            &bull; <strong>CH<sub>3</sub>OH</strong> has an &ndash;OH group, so it <em>hydrogen-bonds</em> &mdash; much stronger. <em>Middle.</em> (boils at 65&nbsp;&deg;C)<br>
+            &bull; <strong>NaCl</strong> is held by full ionic <em>bonds</em>, not mere IMFs &mdash; far stronger than any intermolecular force. <em>Highest.</em> (boils at 1413&nbsp;&deg;C)<br><br>
+            <strong>Order: CH<sub>4</sub> &lt; CH<sub>3</sub>OH &lt; NaCl.</strong> The huge jumps between them mirror the strength ladder exactly.
+        </div>
+
+        <!-- Functional-group reinforcement callout (gold highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128279; CONNECT IT &middot; FUNCTIONAL GROUPS SET PHYSICAL PROPERTIES</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Remember the <strong>&ndash;OH (hydroxyl)</strong> group from organic chemistry in Module 3? Now you can see what it <em>does</em>. Ethanol (CH<sub>3</sub>CH<sub>2</sub>OH) and ethane (CH<sub>3</sub>CH<sub>3</sub>) have almost the same molar mass, yet ethanol boils at about <strong>78&nbsp;&deg;C</strong> while ethane boils at about <strong>&minus;89&nbsp;&deg;C</strong> &mdash; a difference of more than 160 degrees. The only structural change is ethanol's &ndash;OH, which lets it hydrogen-bond. An organic functional group, in other words, sets a substance's physical properties through the intermolecular forces it enables.</div>
+        </div>
+
+        <!-- Nature-of-Science prompt: measured regularity vs the model, and its limits -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#128300; NATURE OF SCIENCE &middot; A RULE vs THE MODEL BEHIND IT</div>
+          <div class="widget-question">You just used the rule &ldquo;stronger intermolecular forces &rarr; higher boiling point&rdquo; to rank substances. Is that rule a <em>measured pattern</em>, or the <em>molecular explanation</em> behind it &mdash; and can you picture a case where the tidy ranking might mislead you? (No wrong answer &mdash; commit, then read the responses.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the distinction to hold onto. Boiling points are hard measured facts, gathered over and over &mdash; that is the empirical regularity. The picture of dispersion, dipole-dipole, and hydrogen bonding is the MODEL we use to explain the regularity. And the simple ranking is a model with limits: because dispersion forces add up, a large nonpolar molecule with many dispersion contacts can boil higher than a small polar one, so 'type of force' alone can mislead when size is very different. A good model is powerful and still has a range where it holds.">&#128202; A measured pattern; the forces are the model explaining it &mdash; and size can override type</button>
+            <button data-response="Careful &mdash; it is a reliable model, not an exceptionless law of nature. The measured boiling points are real, but the rule that ranks them can bend: dispersion forces accumulate, so a big nonpolar molecule can out-boil a small polar one. Distinguishing a measured regularity from the model that explains it (and knowing where the model's range ends) is the Nature-of-Science thread this module.">&#128274; An unbreakable law of nature with no exceptions</button>
+            <button data-response="Not quite &mdash; boiling points are among the most carefully measured properties in chemistry, so there is a great deal of hard data behind the rule. What the forces supply is the EXPLANATION for that data. The regularity is measured; the molecular forces are the model. Both are real knowledge, and the model has limits worth watching for.">&#127912; Only a molecular story, with no measured facts behind it</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- ow-select: IMF true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT INTERMOLECULAR FORCES</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. London dispersion forces arise from the motion of electrons, and every substance has electrons, so EVERY substance has dispersion forces &mdash; including nonpolar ones, where they are the only IMF." data-hint="Which force is present in literally every substance, polar or not?">
+            <div class="widget-row-prompt">1. London dispersion forces are found only in polar molecules.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; hydrogen bonding needs a hydrogen atom bonded to nitrogen, oxygen, or fluorine. Those small, strongly electron-pulling atoms leave the H exposed enough to bond to a neighbor's lone pair." data-hint="Hydrogen bonding only happens when H is attached to which three specific atoms?">
+            <div class="widget-row-prompt">2. Hydrogen bonding occurs only when a hydrogen atom is bonded to N, O, or F.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; stronger intermolecular forces mean more energy is needed to pull molecules apart, so the boiling point is higher. That is exactly why you can rank boiling points from the forces." data-hint="If molecules cling together more tightly, does it take more or less heat to boil them?">
+            <div class="widget-row-prompt">3. A substance with stronger intermolecular forces will, in general, have a higher boiling point.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. HCl is polar, so it has dipole-dipole forces, but its hydrogen is bonded to chlorine, not to N, O, or F &mdash; so it does NOT form hydrogen bonds." data-hint="Is chlorine one of the three atoms (N, O, F) that allow hydrogen bonding?">
+            <div class="widget-row-prompt">4. HCl forms hydrogen bonds because it contains a hydrogen atom.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- rank-the-BP commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Rank helium (He), methane (CH<sub>4</sub>), and water (H<sub>2</sub>O) from lowest to highest boiling point, and say why.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>He &lt; CH<sub>4</sub> &lt; H<sub>2</sub>O.</strong> Helium is a tiny nonpolar atom with the weakest possible dispersion forces &mdash; lowest. Methane is also nonpolar (dispersion only) but larger, with more electrons, so its dispersion forces are stronger &mdash; middle. Water hydrogen-bonds, the strongest of the three intermolecular forces &mdash; highest. Notice you never needed the actual temperatures: you ranked them purely from the forces.</div>
+        </details>
+
+        <!-- Modern Research: Then -> Now -> Future (IMFs -> nanotechnology/materials) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#11088; MODERN RESEARCH &middot; THEN &rarr; NOW &rarr; FUTURE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.7;">
+                <strong>Then.</strong> In 1873 van der Waals argued that molecules attract one another at all &mdash; a faint force many chemists doubted was real.<br>
+                <strong>Now.</strong> Those &ldquo;weak&rdquo; forces are engineered on purpose. Researchers traced a gecko's ability to walk up smooth glass to millions of tiny van der Waals contacts on the hairs of its toes, and are designing gecko-inspired adhesives from that insight; materials scientists and nanotechnologists tune intermolecular forces to make self-assembling materials and molecular machines that snap together on their own.<br>
+                <strong>Future.</strong> An open question drives the field: can we design a material's bulk behavior &mdash; its strength, stickiness, or the way it flows &mdash; by <em>programming</em> the weak forces between its molecules? Predicting and controlling intermolecular forces in crowded, complex systems is still hard, and it is where a lot of today's materials research lives.
+            </div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your module-long project in OptimaXR &mdash; the <strong>Intermolecular Forces &amp; States Model</strong>, which you'll add to every week and narrate on camera at the end. This is <strong>Build 1 of 3</strong>. You'll build molecular-scale models of all three intermolecular forces: a <strong>London dispersion</strong> attraction between two nonpolar molecules, a <strong>dipole-dipole</strong> attraction between two polar molecules, and a <strong>hydrogen bond</strong> between two water molecules &mdash; each clearly labeled, with a note connecting "stronger IMF &rarr; higher boiling point." The models you build are exactly the forces you read about today, made big enough to point at. Leave room on the bench &mdash; you'll add a crystal lattice and a dissolution station, then property explanations, in the weeks ahead.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 6.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the three intermolecular forces, their strength order, and boiling-point reasoning. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 6.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you know the forces, you'll see what they <em>do</em> to a liquid: surface tension, viscosity, and the climb of water up a narrow tube &mdash; and why water, of all liquids, is so unusual.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Intermolecular Forces &amp; States Model (Build 1 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build labeled molecular models of the three intermolecular forces and connect them to boiling point. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The bonds <em>inside</em> a molecule give it its identity; the forces <em>between</em> molecules give it its physical properties. There are three, weakest to strongest: London dispersion (in everything), dipole-dipole (in polar molecules), and hydrogen bonding (the strong special case, requiring H bonded to N, O, or F). Stronger forces mean higher melting and boiling points &mdash; so you can rank a set of substances by reasoning from structure alone. Hold onto this: <em>nearly every physical property you'll measure in this module &mdash; surface tension, melting point, solubility, the very state a substance is in &mdash; traces back to the strength of these intermolecular forces.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 6.01 &middot; Intermolecular Forces</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

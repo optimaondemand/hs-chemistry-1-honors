@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 9.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (half-life calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 12px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 9.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Radioactive Decay &amp; Half-Life</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 9.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Radioactive Decay &amp; Half-Life</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A single radioactive nucleus is unpredictable &mdash; you cannot say when <em>that one</em> will decay. So how can a buried bone or a chunk of rock tell us, reliably, how old it is?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">The answer is one of the most beautiful patterns in all of chemistry. Decay of a single atom is pure chance, yet a <em>huge population</em> of atoms decays on a clock so steady you can use it to read deep time. That clock is the <strong>half-life</strong>. In this lesson you'll see that radioactive decay is a <strong>first-order rate process</strong> &mdash; exactly the kind of kinetics you met in Module 8 &mdash; learn what stays constant and what doesn't, work the &ldquo;fraction remaining&rdquo; pattern, and meet carbon-14 dating, the activity units, and a calculator you can drive yourself.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain that radioactive decay is a first-order process (rate = kN) and that a nuclide's half-life is constant, independent of sample size, temperature, or chemical form.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the fraction and mass of a sample remaining after a whole number of half-lives using (1/2)<sup>n</sup>, counting n = time &divide; t&frac12;.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe how carbon-14 dating works and identify the units of radioactive activity (becquerel and curie).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 8 notes on first-order kinetics and your Lesson 9.02 notes on decay types.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction. (This week's Hands-On is an <strong>Excel</strong> decay-table task &mdash; this lesson sets it up.)</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; DECAY IS FIRST-ORDER KINETICS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You have a sample of a radioactive isotope. If you <em>warm it up</em>, crush it, or dissolve it in acid &mdash; do you think you can make it decay faster? Commit to an answer before you read on. (No wrong answer &mdash; just predict.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct to test &mdash; but no. Unlike ordinary chemical reactions, nuclear decay rate does NOT depend on temperature, pressure, or chemical form. The decay happens deep in the nucleus, far below the electrons that chemistry and heat touch. The half-life is a fixed property of the nuclide itself.">&#128293; Yes &mdash; heat speeds up reactions</button>
+            <button data-response="Exactly right &mdash; and this is what makes radioactive dating possible. The decay rate is set inside the nucleus and is untouched by temperature, pressure, or what compound the atom is part of. That unshakeable constancy is why a half-life is a reliable clock.">&#129482; No &mdash; the nucleus ignores all of that</button>
+            <button data-response="A careful answer &mdash; but the truth is cleaner than 'it depends.' Nuclear decay rate is independent of temperature, pressure, and chemical form for essentially all practical purposes. The half-life is fixed by the nuclide, which is precisely why it works as a clock.">&#129335; It depends on the isotope</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">In Module 8 you learned that the <strong>rate</strong> of a reaction tells you how fast it goes, and that a <strong>first-order</strong> reaction is one whose rate is proportional to the amount of stuff present. Radioactive decay is the cleanest first-order process in nature. The more radioactive nuclei you have, the more decays happen each second:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">DECAY IS FIRST-ORDER</div>
+            <div style="font-size:30px; color:#ffffff;"><strong>rate = kN</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">N = number of radioactive nuclei present &middot; k = the decay constant (a fixed rate for each nuclide)</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the strange and wonderful part. <em>Which</em> nucleus decays next, and <em>when</em>, is genuinely random &mdash; you cannot predict a single atom. But with billions of atoms, the randomness averages out into a perfectly steady statistical pattern, the way a coin is unpredictable on one flip but lands heads almost exactly half the time over a million flips. That steady population behavior gives every nuclide a fixed, repeatable timing. We give that timing a name.</p>
+
+        <!-- Cross-module callout (M8 kinetics) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; THE ARC THIS CONTINUES &middot; BACK TO KINETICS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In <strong>Module 8</strong> you studied reaction rates, rate laws, and first-order behavior for chemical reactions among atoms and molecules. Radioactive decay is the same mathematics &mdash; rate = kN, first order &mdash; but happening one level deeper, <em>inside the nucleus</em>, untouched by the temperature and concentration changes that controlled chemical rates. Same rate-law shape, a brand-new arena. That is why this final module can lean on tools you already own.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Two sealed vials hold the same isotope &mdash; one is kept in a freezer, the other in a warm oven. Does the cold sample decay more slowly?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No &mdash; both decay at exactly the same rate. The decay constant k (and therefore the half-life) is a fixed property of the nuclide and does <strong>not</strong> change with temperature, pressure, or chemical form. Heating speeds up <em>chemical</em> reactions because it stirs up electrons and collisions; nuclear decay happens far below all of that. This independence is exactly what lets a half-life serve as a trustworthy clock.</div>
+        </details>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #0E1C42; margin-bottom: 8px;">&#128300; NATURE OF SCIENCE &middot; HOW DO WE KNOW?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A half-life is not a number anyone chose &mdash; it is <em>measured</em>. Scientists count decays from real samples and find the same steady timing every time, and that timing does not budge when they heat the sample, cool it, crush it, or lock the atoms into different compounds. That is what makes it trustworthy: a quantity that stays constant no matter what you do to it is exactly the kind of empirical anchor science can build a clock on. Ask yourself: <em>what observation would it take to convince you a half-life truly is fixed &mdash; and what would you have to see for the idea to fall apart?</em></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; HALF-LIFE AND THE (1/2)&#8319; PATTERN</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <strong>half-life (t&frac12;)</strong> is the time it takes for <em>half</em> of the radioactive nuclei in a sample to decay. The magic is that it is <strong>constant</strong> for a given nuclide: the first half takes the same time as the next half, and the next. Wait one half-life and half is gone; wait another and half of <em>what remains</em> is gone (leaving a quarter); and so on. After <strong>n</strong> half-lives, the fraction still left is:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">FRACTION REMAINING AFTER n HALF-LIVES</div>
+            <div style="font-size:30px; color:#ffffff;"><strong>fraction left = (1/2)<sup>n</sup></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">where n = (elapsed time) &divide; (half-life) &middot; mass left = initial &times; (1/2)<sup>n</sup></div>
+        </div>
+
+        <!-- Halving visual blocks -->
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 4px 0 8px 0;">Watch how fast it shrinks &mdash; each step is half of the step before:</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:560px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Half-lives elapsed (n)</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Fraction remaining</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">As a decimal</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Of 80.0 g you'd have&hellip;</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1 (whole)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1.000</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">80.0 g</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">1</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/2</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.500</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">40.0 g</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">2</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/4</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.250</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">20.0 g</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">3</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/8</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.125</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">10.0 g</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">4</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/16</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.0625</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">5.0 g</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;">5</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">1/32</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.03125</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">2.5 g</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">The decay constant and the half-life are two ways of saying the same thing, tied together by <strong>t&frac12; = 0.693 / k</strong> (the 0.693 is the natural logarithm of 2). A large k means fast decay and a short half-life; a tiny k means a long half-life. Half-lives span an astonishing range, from fractions of a second to billions of years:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:480px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Nuclide</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Half-life (about)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Technetium-99m</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">6 hours</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Iodine-131</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">8 days</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Cobalt-60</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">5.27 years</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Carbon-14</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">5730 years</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Uranium-238</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">4.5 billion years</td></tr>
+        </table>
+        </div>
+
+        <!-- The counting trap -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; THE HALF-LIFE COUNTING TRAP</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The classic mistake is to <em>subtract halves linearly</em> &mdash; thinking &ldquo;3 half-lives means three halves are gone, so nothing is left.&rdquo; Wrong. Each half-life takes half of what <em>currently</em> remains, never half of the original. The right move is always: <strong>count n = (elapsed time) &divide; (half-life)</strong>, then apply <strong>(1/2)<sup>n</sup></strong>. After 3 half-lives you have 1/8 left, not zero. Halving repeatedly never reaches zero &mdash; it just gets smaller and smaller.</div>
+        </div>
+
+        <!-- ow-select: half-life reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; COUNT HALF-LIVES, THEN HALVE</div>
+          <div class="widget-question">Use n = time &divide; t&frac12; and fraction = (1/2)<sup>n</sup>. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; 16 days &divide; 8-day half-life = 2 half-lives, so (1/2)&sup2; = 1/4 of the iodine-131 remains." data-hint="How many 8-day half-lives fit into 16 days?">
+            <div class="widget-row-prompt">1. Iodine-131 has t&frac12; = 8 days. After 16 days, what fraction of a sample remains?</div>
+            <div class="widget-options">
+              <button data-choice="0">none &mdash; it's gone</button>
+              <button data-choice="1">1/2</button>
+              <button data-choice="2">1/4</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; the half-life is a fixed property of the nuclide and does not change with temperature, sample size, or chemical form." data-hint="Does heating or crushing a sample change how fast its nuclei decay?">
+            <div class="widget-row-prompt">2. The half-life of a given nuclide is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">constant, no matter the amount, temperature, or chemical form</button>
+              <button data-choice="1">larger when the sample is hotter</button>
+              <button data-choice="2">larger when you start with more of it</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; radioactive decay is first order: its rate is proportional to the number of radioactive nuclei present (rate = kN)." data-hint="Recall rate = kN from Module 8.">
+            <div class="widget-row-prompt">3. Radioactive decay follows which kind of kinetics?</div>
+            <div class="widget-options">
+              <button data-choice="0">zero order (constant rate)</button>
+              <button data-choice="1">first order (rate = kN)</button>
+              <button data-choice="2">second order</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; after 3 half-lives the fraction is (1/2)&sup3; = 1/8, so 40 g &times; 1/8 = 5.0 g remains." data-hint="Find n = 3, then 40 g &times; (1/2)&sup3;.">
+            <div class="widget-row-prompt">4. You start with 40 g of a nuclide and 3 half-lives pass. How much remains?</div>
+            <div class="widget-options">
+              <button data-choice="0">13.3 g</button>
+              <button data-choice="1">0 g</button>
+              <button data-choice="2">5.0 g</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; READING TIME: DATING, ACTIVITY, AND A CALCULATOR</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">A worked example &mdash; the (1/2)<sup>n</sup> pattern in action</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            A sample starts with <strong>80.0 g</strong> of a nuclide whose half-life is <strong>t&frac12; = 8 days</strong>. How much remains after <strong>24 days</strong>?<br><br>
+            <strong>Step 1 &mdash; count the half-lives.</strong> n = (elapsed time) &divide; (half-life) = 24 days &divide; 8 days = <strong>3 half-lives</strong>.<br><br>
+            <strong>Step 2 &mdash; find the fraction remaining.</strong> (1/2)<sup>3</sup> = <strong>1/8</strong>.<br><br>
+            <strong>Step 3 &mdash; apply it to the mass.</strong> 80.0 g &times; 1/8 = <strong>10.0 g</strong>.<br><br>
+            <strong>Answer:</strong> after 24 days, <strong>10.0 g</strong> remains. Notice we did <em>not</em> subtract three halves of 80 g; we halved, halved, and halved again: 80 &rarr; 40 &rarr; 20 &rarr; 10.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Because the clock is so steady, half-life lets us measure age. The most famous case is <strong>carbon-14 dating</strong>. Living things constantly take in carbon, so they hold a fixed, known level of radioactive carbon-14 (t&frac12; &asymp; <strong>5730 years</strong>) while alive. The moment something dies, it stops taking in carbon, and its carbon-14 begins to decay on schedule. Measuring how much carbon-14 is <em>left</em> tells you how many half-lives have passed &mdash; and therefore how long ago the thing died. The method works on once-living material up to roughly 50,000 years old. For dating rocks and the Earth itself, scientists use far slower clocks like uranium-238.</p>
+
+        <!-- History vignette: the decay law & radiocarbon dating -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; THE CLOCK IS DISCOVERED</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Around <strong>1902</strong>, working at McGill University, Ernest Rutherford and the chemist Frederick Soddy studied decaying thorium and reached a startling conclusion: radioactivity is one element <em>transforming</em> into another, and the amount left drops by a fixed fraction in each equal stretch of time. That regularity is the exponential decay law, and Rutherford gave the time for a sample to fall to half its name &mdash; the <strong>half-life</strong>. For the first time, decay had a clock. Decades later, in the late <strong>1940s</strong>, the American chemist Willard Libby turned that clock into a ruler for time itself. Reasoning that living things take in carbon-14 at a steady level and stop at death, he developed <strong>radiocarbon dating</strong> to read the age of once-living material from how much carbon-14 remains &mdash; work recognized with the Nobel Prize in Chemistry in 1960. The steadiness you are calculating in this lesson is the very thing that made deep time measurable.</div>
+        </div>
+
+        <!-- History callout (Modern Research woven; carbon dating use) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; THE NAME ON THE UNIT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">How do we count decays? The <strong>becquerel (Bq)</strong> &mdash; one decay per second &mdash; is named for Henri Becquerel, who discovered radioactivity. The older, larger unit is the <strong>curie (Ci)</strong>, equal to <strong>3.7 &times; 10<sup>10</sup> Bq</strong>, named in honor of Marie and Pierre Curie, who isolated radium and polonium and gave radioactivity its name. The number of decays per second a sample produces is called its <em>activity</em> &mdash; and because activity is proportional to the number of nuclei present, it falls by half every half-life, right alongside the mass.</div>
+        </div>
+
+        <!-- Custom .aam-widget: Half-Life Calculator -->
+        <div class="aam-widget" id="hl-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#129518; TRY IT &middot; HALF-LIFE CALCULATOR</div>
+          <div class="widget-question" style="font-size:16px;">Enter the initial amount, the half-life, and the elapsed time (use the <strong>same time units</strong> for both times). The tool computes n = time &divide; t&frac12;, the fraction remaining (1/2)<sup>n</sup>, and the amount remaining. Try the worked values first: initial = 80, half-life = 8, elapsed time = 24.</div>
+          <div style="font-size:13px; color:#8A1F16; background:#FDECEC; border-left:3px solid #C0392B; border-radius:4px; padding:8px 12px; margin-bottom:10px;">&#9888;&#65039; <strong>AI check:</strong> if you hand a decay problem to an AI tool, it can <em>invent a half-life value</em> that isn't real &mdash; or even mix up fission and fusion when you ask it to explain the chemistry. Treat its output as an instrument reading: confirm the half-life against the course values above, and re-run the (1/2)<sup>n</sup> math by hand before you trust the number.</div>
+          <div class="aam-row">
+            <label for="hl-init">Initial amount =</label><input id="hl-init" type="number" step="any" placeholder="80" />
+            <label for="hl-half" style="margin-left:8px;">Half-life =</label><input id="hl-half" type="number" step="any" placeholder="8" />
+            <label for="hl-time" style="margin-left:8px;">Elapsed time =</label><input id="hl-time" type="number" step="any" placeholder="24" />
+            <button class="aam-btn" id="hl-go">Compute</button>
+          </div>
+          <div class="aam-result" id="hl-out"></div>
+          <button class="widget-reset" id="hl-reset">Reset</button>
+        </div>
+
+        <!-- ow-flip: predict the answer -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; READ THE CLOCK</div>
+          <div class="widget-question">Predict each answer, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">After 4 half-lives, what fraction of a sample is left? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>1/16.</strong> (1/2)<sup>4</sup> = 1/16 &asymp; 0.0625. Halve four times: 1 &rarr; 1/2 &rarr; 1/4 &rarr; 1/8 &rarr; 1/16.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">A bone has 1/4 of its original carbon-14. How old is it? (t&frac12; &asymp; 5730 yr) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>About 11,460 years.</strong> 1/4 = (1/2)<sup>2</sup>, so 2 half-lives passed: 2 &times; 5730 &asymp; 11,460 yr.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Does halving 80 g repeatedly ever reach exactly 0 g? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>No.</strong> Each step takes half of what remains, so it shrinks toward zero but never reaches it in the model: 80 &rarr; 40 &rarr; 20 &rarr; 10 &rarr; 5 &hellip;</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">How many becquerels are in 1 curie? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>3.7 &times; 10<sup>10</sup> Bq.</strong> A becquerel is 1 decay per second; the curie is the much larger unit named for the Curies.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; AI AS A SCIENTIFIC INSTRUMENT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Half-life problems are exactly where an AI tool often slips: it may <em>miscount</em> the half-lives (subtracting halves linearly instead of dividing time by t&frac12;), or <em>mix up time units</em> (days vs. years), and then state a confident, wrong answer. Treat an AI's decay calculation the way a chemist treats any instrument reading &mdash; useful, but verified. Re-derive n = time &divide; t&frac12; and (1/2)<sup>n</sup> by hand before you trust the number.</div>
+        </div>
+
+        <!-- commit-then-reveal worked self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Cobalt-60 has t&frac12; &asymp; 5.27 years. Starting with 8.0 g, about how much remains after roughly 15.8 years?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">n = 15.8 yr &divide; 5.27 yr &asymp; <strong>3 half-lives</strong>. Fraction remaining = (1/2)<sup>3</sup> = 1/8. Mass = 8.0 g &times; 1/8 = <strong>1.0 g</strong>. Notice we counted the half-lives first, then halved the mass three times (8 &rarr; 4 &rarr; 2 &rarr; 1) &mdash; never subtracting halves linearly.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR work is <strong>Build 2 of 3: the Half-Life &amp; Energy Station</strong>, added to the same persistent <strong>Nuclear Science Lab</strong> where last week's decay &amp; stability model is waiting. You'll build a <strong>half-life decay model</strong> &mdash; a sample that visibly halves across successive half-lives (1/2, 1/4, 1/8&hellip;) &mdash; and the sticky note you sign carries today's through-line: &ldquo;after n half-lives, (1/2)<sup>n</sup> remains.&rdquo; (Lesson 9.04 adds the fission-vs-fusion panel to the same station.) Leave room on the bench for the Week 3 applications exhibit.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 9.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on first-order decay, the constant half-life, and the (1/2)<sup>n</sup> pattern. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Work a set of half-life and carbon-14 dating problems, then build a decay table and line graph in <strong>Excel</strong> to see the exponential shape for yourself.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Half-Life &amp; Energy Station (Build 2 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the half-life decay model now; you'll add the fission-vs-fusion panel after Lesson 9.04. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A single nucleus decays at random, but a population decays on a clock so steady you can read deep time with it. Decay is <strong>first-order</strong> (rate = kN); the <strong>half-life</strong> is <strong>constant</strong> for a nuclide, untouched by amount, temperature, or chemical form. After n half-lives the fraction left is <strong>(1/2)<sup>n</sup></strong>, where <strong>n = time &divide; t&frac12;</strong> &mdash; count the half-lives, then halve; never subtract halves linearly. Carbon-14 (t&frac12; &asymp; 5730 yr) dates once-living things; activity is measured in becquerels and curies. Next, in Lesson 9.04, we ask where the enormous energy of the nucleus comes from &mdash; fission and fusion.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 9.03 &middot; Radioactive Decay &amp; Half-Life</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== Half-life calculator (.aam-widget) ===== */
+  document.addEventListener('click', function (e) {
+    var w = document.getElementById('hl-widget');
+    if (!w) return;
+    if (e.target.id === 'hl-reset') {
+      document.getElementById('hl-init').value = '';
+      document.getElementById('hl-half').value = '';
+      document.getElementById('hl-time').value = '';
+      var o0 = document.getElementById('hl-out'); o0.className = 'aam-result'; o0.innerHTML = '';
+      return;
+    }
+    if (e.target.id !== 'hl-go') return;
+    var init = parseFloat(document.getElementById('hl-init').value);
+    var half = parseFloat(document.getElementById('hl-half').value);
+    var time = parseFloat(document.getElementById('hl-time').value);
+    var out = document.getElementById('hl-out');
+    if (isNaN(init) || isNaN(half) || isNaN(time)) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Enter a number for all three boxes: initial amount, half-life, and elapsed time.';
+      return;
+    }
+    if (init < 0 || half <= 0 || time < 0) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Use a positive half-life, and amounts/times cannot be negative. Check your inputs and try again.';
+      return;
+    }
+    var n = time / half;                 // number of half-lives
+    var frac = Math.pow(0.5, n);         // fraction remaining
+    var remain = init * frac;
+    var nRounded = Math.round(n * 1000) / 1000;
+    var fracPct = Math.round(frac * 10000) / 100;
+    var remainRounded = Math.round(remain * 1000) / 1000;
+    out.className = 'aam-result show good';
+    out.innerHTML =
+      'n = time &divide; t&frac12; = ' + time + ' &divide; ' + half + ' = <strong>' + nRounded + ' half-lives</strong>.<br>' +
+      'fraction remaining = (1/2)<sup>' + nRounded + '</sup> = <strong>' + (Math.round(frac * 100000) / 100000) + '</strong> (about ' + fracPct + '%).<br>' +
+      'amount remaining = ' + init + ' &times; ' + (Math.round(frac * 100000) / 100000) + ' = <strong>' + remainRounded + '</strong> (same units as the initial amount).';
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.10</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.10; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.10</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Hydrolysis of Salts</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.10</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Hydrolysis of Salts</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Dissolve ordinary table salt (NaCl) in water and the pH stays right around 7. Dissolve baking-soda's cousin, sodium acetate, and the water turns slightly basic. Dissolve ammonium chloride and it turns slightly acidic. All three are &ldquo;just salts&rdquo; &mdash; so why do they leave the water at three different pH values?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You learned in Lesson 7.09 that some acids and bases are strong and some are weak. That single distinction turns out to settle a puzzle that would otherwise look like magic: a salt is the product of an acid reacting with a base, and the <em>strength</em> of the acid and base it came from decides whether its solution ends up neutral, basic, or acidic. The hidden actor is a reaction called <strong>hydrolysis</strong> &mdash; certain dissolved ions react with water itself. This lesson gives you a clean three-case rule for predicting a salt solution's pH just by tracing the salt back to its parent acid and base.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> trace a salt back to the acid and base that formed it and identify each as strong or weak.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict whether a salt solution is neutral, basic, or acidic using the three-case rule, and identify spectator ions that do not hydrolyze.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why only the conjugate of a weak acid or weak base reacts with water, while the conjugate of a strong acid or strong base is a spectator.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 7.09 list of strong acids and strong bases, and the conjugate-pair idea from 7.07 &mdash; we lean on both today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 25&ndash;30 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; A SALT IS NOT ALWAYS NEUTRAL</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Table salt, NaCl, is the salt left behind when hydrochloric acid (HCl) reacts with sodium hydroxide (NaOH). Both of those are <em>strong</em> &mdash; HCl a strong acid, NaOH a strong base. When you dissolve the leftover NaCl in pure water, what do you predict the pH will be? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct &mdash; and it's right. NaCl comes from a STRONG acid and a STRONG base. Its ions (Na&#8314; and Cl&#8315;) are the conjugates of a strong base and a strong acid, and those conjugates are so weak that they don't react with water at all. They just float there as spectators, so the water stays neutral, pH &asymp; 7. That's case one of the three you'll meet today.">&#128167; About 7 &mdash; it stays neutral</button>
+            <button data-response="It's a reasonable guess, but NaCl actually leaves the water neutral (pH &asymp; 7). Both its parents &mdash; HCl and NaOH &mdash; are strong, so its ions are extremely weak conjugates that don't react with water. Where salts DO turn acidic is when one parent was a weak base, as you'll see in case three today.">&#129482; Below 7 &mdash; it turns acidic</button>
+            <button data-response="Not this time &mdash; NaCl leaves the water neutral (pH &asymp; 7), because both parents (HCl and NaOH) are strong, so neither ion reacts with water. A salt only turns the water basic when one parent was a weak acid, like the sodium acetate case you'll meet today.">&#129514; Above 7 &mdash; it turns basic</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">When an acid neutralizes a base, the products are water and a <strong>salt</strong> &mdash; an ionic compound made of the base's cation and the acid's anion. It is tempting to assume that, because neutralization &ldquo;cancels out&rdquo; the acid and base, every salt solution must be neutral. Measure the pH, though, and you find this is often false. Sodium acetate makes a slightly <em>basic</em> solution; ammonium chloride makes a slightly <em>acidic</em> one. The salt itself is not an acid or a base in the usual sense, yet its solution shifts the pH. The explanation is a quiet reaction between certain dissolved ions and the water around them.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That reaction is called <strong>salt hydrolysis</strong> (the word means &ldquo;splitting by water&rdquo;). When a salt dissolves, it separates into its ions. Some of those ions are <em>conjugates</em> of weak acids or weak bases &mdash; and a conjugate of something weak is itself reactive enough to pull a proton from water, or donate one to it, nudging the pH. The key, which you already hold from Lesson 7.09, is this: <strong>the stronger an acid, the weaker its conjugate base &mdash; and vice versa.</strong> An ion that is the conjugate of a <em>strong</em> acid or base is so feeble it does nothing; an ion that is the conjugate of a <em>weak</em> acid or base is strong enough to react.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:23px; color:#ffffff;"><strong>Only the conjugate of a WEAK acid or WEAK base hydrolyzes</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">conjugates of strong acids/bases are spectators &mdash; they leave the pH alone</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>HCl is a strong acid. Is its conjugate base, Cl&#8315;, a strong base or a hopelessly weak one?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Hopelessly weak. Because HCl is a <em>strong</em> acid (it gives up its proton almost completely), its conjugate base Cl&#8315; has essentially no pull to grab a proton back from water. So Cl&#8315; just floats in solution as a spectator and does not affect the pH. This inverse relationship &mdash; strong acid &rarr; negligibly weak conjugate base &mdash; is the engine behind the whole three-case rule.</div>
+        </details>
+
+        <!-- Hydrolysis-framing vignette (blue/teal helpful info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW &middot; HYDROLYSIS IS ALL AROUND YOU</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Salt hydrolysis is not a textbook curiosity &mdash; it quietly shapes everyday life. Reach for <strong>baking soda</strong> (sodium bicarbonate) and you are using a salt whose anion is the conjugate base of a weak acid; dissolved in water it turns mildly <em>basic</em>, which is exactly why a spoonful can soothe an acidic stomach or lift the pH of a cake batter. The <strong>ammonium salts</strong> in many fertilizers do the opposite: their cation is the conjugate acid of the weak base ammonia, so as they dissolve they release H<sub>3</sub>O<sup>+</sup> and slowly turn soil more <em>acidic</em>. Even the fluid inside your own cells is kept in a narrow pH window partly by the hydrolysis of dissolved salts &mdash; a preview of the biological <em>buffering</em> you'll study in the next lesson. The same three-case rule you're learning here lets a chemist, a gardener, or a physiologist predict which way a dissolved salt will nudge the pH before ever reaching for a pH meter.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE THREE-CASE RULE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To predict a salt solution's pH, trace the salt back to the acid and base that would form it, label each as strong or weak, and apply one of three cases. The strong-from-strong combination is neutral; a weak parent on either side tips the balance.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Case 1. Strong acid + strong base &rarr; neutral</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Take <strong>NaCl</strong>, from the strong acid HCl and the strong base NaOH. Both ions &mdash; Na&#8314; (conjugate of the strong base) and Cl&#8315; (conjugate of the strong acid) &mdash; are far too weak to react with water. They are pure <strong>spectators</strong>. With no ion pulling a proton from water or donating one to it, the solution stays at <strong>pH &asymp; 7, neutral.</strong> Potassium nitrate, <strong>KNO<sub>3</sub></strong> (from HNO<sub>3</sub> + KOH), behaves the same way.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Case 2. Strong base + weak acid &rarr; basic</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Take <strong>sodium acetate, NaC<sub>2</sub>H<sub>3</sub>O<sub>2</sub></strong>, from the strong base NaOH and the <em>weak</em> acid acetic acid. The Na&#8314; is a spectator, but the acetate ion (C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>&minus;</sup>) is the conjugate base of a <em>weak</em> acid &mdash; so it is a meaningful base. It grabs a proton from water:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7; text-align:center;">
+            C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>&minus;</sup> + H<sub>2</sub>O &nbsp;&#8652;&nbsp; HC<sub>2</sub>H<sub>3</sub>O<sub>2</sub> + OH<sup>&minus;</sup>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">By stealing a proton it leaves extra <strong>OH<sup>&minus;</sup></strong> behind, so the solution turns <strong>basic, pH &gt; 7.</strong></p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Case 3. Strong acid + weak base &rarr; acidic</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Take <strong>ammonium chloride, NH<sub>4</sub>Cl</strong>, from the strong acid HCl and the <em>weak</em> base ammonia. Now the Cl&#8315; is the spectator, but the ammonium ion (NH<sub>4</sub><sup>+</sup>) is the conjugate acid of a <em>weak</em> base &mdash; so it is a meaningful acid. It donates a proton to water:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7; text-align:center;">
+            NH<sub>4</sub><sup>+</sup> + H<sub>2</sub>O &nbsp;&#8652;&nbsp; NH<sub>3</sub> + H<sub>3</sub>O<sup>+</sup>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">By releasing a proton it makes extra <strong>H<sub>3</sub>O<sup>+</sup></strong>, so the solution turns <strong>acidic, pH &lt; 7.</strong></p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>The whole rule in one line:</strong><br>
+            strong acid + strong base &rarr; <strong>neutral</strong> &nbsp;&middot;&nbsp; strong base + weak acid &rarr; <strong>basic</strong> &nbsp;&middot;&nbsp; strong acid + weak base &rarr; <strong>acidic</strong>.<br>
+            <span style="font-size:15px; color:#555;">Memory hook: the <em>strong</em> parent wins. Two strong parents &rarr; a stand-off (neutral); one weak parent &rarr; the strong parent's character (acidic or basic) shows through.</span>
+        </div>
+
+        <!-- Spectator-ion callout (blue/teal helpful info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW &middot; THE USUAL SPECTATORS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A short list of ions almost always behave as <strong>spectators</strong> because they are conjugates of strong acids or strong bases: the cations of strong bases &mdash; <strong>Na<sup>+</sup>, K<sup>+</sup></strong> (and the other group-1 metals) &mdash; and the anions of strong acids &mdash; <strong>Cl<sup>&minus;</sup>, Br<sup>&minus;</sup>, I<sup>&minus;</sup>, NO<sub>3</sub><sup>&minus;</sup></strong>. When you spot one of these in a salt, cross it off: it will not change the pH. Whatever decides the pH must be the <em>other</em> ion.</div>
+        </div>
+
+        <!-- ow-flip: salt -> pH -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; PREDICT THE SOLUTION'S pH</div>
+          <div class="widget-question">For each salt, decide neutral, basic, or acidic &mdash; then tap to flip and check your reasoning.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; <strong>KNO<sub>3</sub></strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Neutral.</strong> From strong acid HNO<sub>3</sub> + strong base KOH. Both K<sup>+</sup> and NO<sub>3</sub><sup>&minus;</sup> are spectators, so pH &asymp; 7.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129514; <strong>NaC<sub>2</sub>H<sub>3</sub>O<sub>2</sub></strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Basic.</strong> Strong base NaOH + weak acid (acetic). Acetate hydrolyzes to make OH<sup>&minus;</sup>, so pH &gt; 7.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127859; <strong>NH<sub>4</sub>Cl</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Acidic.</strong> Strong acid HCl + weak base (ammonia). NH<sub>4</sub><sup>+</sup> donates a proton to water, making H<sub>3</sub>O<sup>+</sup>, so pH &lt; 7.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9879;&#65039; <strong>NaCl</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Neutral.</strong> Strong acid HCl + strong base NaOH. Na<sup>+</sup> and Cl<sup>&minus;</sup> are both spectators, so pH &asymp; 7.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; A WORKED WALK-THROUGH</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the routine you'll use every time. Suppose you're asked whether a solution of <strong>NH<sub>4</sub>Cl</strong> is neutral, basic, or acidic.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Step 1 &mdash; split the salt:</strong> NH<sub>4</sub>Cl &rarr; NH<sub>4</sub><sup>+</sup> + Cl<sup>&minus;</sup>.<br>
+            <strong>Step 2 &mdash; trace each ion to a parent:</strong> NH<sub>4</sub><sup>+</sup> is the conjugate acid of ammonia (a <em>weak</em> base); Cl<sup>&minus;</sup> is the conjugate base of HCl (a <em>strong</em> acid).<br>
+            <strong>Step 3 &mdash; cross off spectators:</strong> Cl<sup>&minus;</sup> comes from a strong acid, so it's a spectator. The decider is NH<sub>4</sub><sup>+</sup>.<br>
+            <strong>Step 4 &mdash; ask what the active ion does to water:</strong> NH<sub>4</sub><sup>+</sup> donates a proton to water, producing H<sub>3</sub>O<sup>+</sup>.<br>
+            <strong>Conclusion:</strong> extra H<sub>3</sub>O<sup>+</sup> means <strong>acidic, pH &lt; 7.</strong> &#10003;
+        </div>
+
+        <!-- Connect-it callout (gold highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128279; CONNECT IT &middot; HYDROLYSIS IS EQUILIBRIUM IN DISGUISE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice the double arrow (&#8652;) in every hydrolysis equation. Hydrolysis is just the equilibrium chemistry from earlier this module applied to water: a weak conjugate sets up a small equilibrium with H<sub>2</sub>O, and its tiny extra OH<sup>&minus;</sup> or H<sub>3</sub>O<sup>+</sup> is what tips the pH. The shift is usually <em>slight</em> &mdash; these are weak players &mdash; which is why salt solutions drift only a little off neutral rather than becoming as harsh as a strong acid or base.</div>
+        </div>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #0E1C42; margin-bottom: 8px;">&#129504; HOW SCIENTISTS KNOW &middot; NATURE OF SCIENCE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Notice that no one <em>sees</em> a proton jump from water to an acetate ion. The three-case rule works because chemists trust a <strong>model</strong> &mdash; equilibrium between weak conjugates and water &mdash; that they built from repeated, measurable evidence: dissolve the salt, measure the pH, and check whether the prediction holds. The model earns its authority not because it is obvious but because it keeps <em>predicting the measured pH correctly</em>, salt after salt. <strong>Think it through:</strong> if you dissolved a brand-new salt and the measured pH disagreed with the three-case rule, which would you trust &mdash; the rule or the measurement &mdash; and what would a careful scientist do next?</div>
+        </div>
+
+        <!-- ow-select: acidic/basic/neutral sorting -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; SORT EACH SALT: ACIDIC, BASIC, OR NEUTRAL?</div>
+          <div class="widget-question">Trace each salt to its parent acid and base, then choose the solution's character. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; NaCl comes from strong acid HCl and strong base NaOH. Both Na&#8314; and Cl&#8315; are spectators, so the solution is NEUTRAL (pH &asymp; 7)." data-hint="Trace it: HCl (strong) + NaOH (strong). Two strong parents means&hellip;?">
+            <div class="widget-row-prompt">1. A solution of <strong>NaCl</strong> is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">acidic</button>
+              <button data-choice="1">basic</button>
+              <button data-choice="2">neutral</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; sodium acetate comes from strong base NaOH and WEAK acid acetic acid. The acetate ion hydrolyzes, pulling a proton off water and leaving OH&#8315;, so the solution is BASIC (pH &gt; 7)." data-hint="The acid parent (acetic acid) is weak. A weak acid's conjugate makes the solution&hellip;?">
+            <div class="widget-row-prompt">2. A solution of <strong>NaC<sub>2</sub>H<sub>3</sub>O<sub>2</sub></strong> (sodium acetate) is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">acidic</button>
+              <button data-choice="1">basic</button>
+              <button data-choice="2">neutral</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; ammonium chloride comes from strong acid HCl and WEAK base ammonia. NH&#8324;&#8314; donates a proton to water, making H&#8323;O&#8314;, so the solution is ACIDIC (pH &lt; 7)." data-hint="The base parent (ammonia) is weak. Its conjugate acid NH&#8324;&#8314; donates protons, making the solution&hellip;?">
+            <div class="widget-row-prompt">3. A solution of <strong>NH<sub>4</sub>Cl</strong> (ammonium chloride) is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">acidic</button>
+              <button data-choice="1">basic</button>
+              <button data-choice="2">neutral</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; KNO&#8323; comes from strong acid HNO&#8323; and strong base KOH. K&#8314; and NO&#8323;&#8315; are both spectators, so the solution is NEUTRAL (pH &asymp; 7)." data-hint="HNO&#8323; (strong) + KOH (strong). Both ions are on the spectator list, so&hellip;?">
+            <div class="widget-row-prompt">4. A solution of <strong>KNO<sub>3</sub></strong> (potassium nitrate) is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">acidic</button>
+              <button data-choice="1">basic</button>
+              <button data-choice="2">neutral</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- spectator commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In a solution of NaC<sub>2</sub>H<sub>3</sub>O<sub>2</sub>, which ion is the spectator and which one decides the pH?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Na<sup>+</sup> is the spectator</strong> (it's the conjugate of the strong base NaOH, so it ignores water). <strong>The acetate ion, C<sub>2</sub>H<sub>3</sub>O<sub>2</sub><sup>&minus;</sup>, decides the pH</strong>: it's the conjugate base of a weak acid, so it grabs a proton from water and leaves OH<sup>&minus;</sup> behind, tipping the solution basic. Always find the ion that came from the <em>weak</em> parent &mdash; that's your decider.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the final week of your module-long OptimaXR project, the <strong>Equilibrium &amp; Acid-Base Station</strong> &mdash; this week is <strong>Build 5 of 5: the Titration Station</strong>. You'll build a titration setup (buret, flask, indicator), mark the equivalence point, and then <strong>record the full walkthrough video</strong> that becomes your graded module VR project. Today's hydrolysis rule matters there: the salt formed at a titration's equivalence point is exactly the kind of salt you sorted above, and it sets whether the equivalence-point pH lands at 7, above 7, or below 7 &mdash; something you'll meet head-on in Lesson 7.12.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.10</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the three-case rule, spectator ions, and predicting a salt solution's pH. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.11</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Next you'll meet <em>buffers</em> &mdash; mixtures that resist pH change &mdash; and polyprotic acids that give up more than one proton, including the buffer that keeps your own blood at pH 7.4.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 5 of 5 &mdash; Titration Station (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish your Equilibrium &amp; Acid-Base Station and record the walkthrough video for the module project. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A salt is not automatically neutral. Trace it to its parent acid and base: two strong parents leave the solution <em>neutral</em>; a strong base with a weak acid leaves it <em>basic</em>; a strong acid with a weak base leaves it <em>acidic</em>. The reason is hydrolysis &mdash; only the conjugate of a <em>weak</em> acid or base reacts with water, while spectators like Na<sup>+</sup>, K<sup>+</sup>, Cl<sup>&minus;</sup>, and NO<sub>3</sub><sup>&minus;</sup> leave the pH alone. Hold onto this: <em>the salt left at a titration's equivalence point obeys this exact rule, which is why not every &ldquo;neutralization&rdquo; ends at pH 7.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.10 &middot; Hydrolysis of Salts</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

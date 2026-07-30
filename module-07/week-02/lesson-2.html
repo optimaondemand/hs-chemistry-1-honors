@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.04; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Chemical Equilibria &amp; the Equilibrium Constant</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Chemical Equilibria &amp; the Equilibrium Constant</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Seal a colorless gas in a tube and watch it slowly turn brown &mdash; then stop. The color holds steady and never changes again, even though you've added nothing and taken nothing away. The reaction looks finished. But is it really? Or is something still happening that you simply can't see?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Until now you've treated reactions as a one-way street: reactants go to products, full stop. But most reactions are <strong>reversible</strong> &mdash; products can turn back into reactants &mdash; and in a closed container they settle into a state where the forward and reverse reactions run at exactly the same speed. The amounts stop changing, yet the reaction never truly stops. This is <strong>chemical equilibrium</strong>, and chemists capture it in a single number, the <strong>equilibrium constant K</strong>, that says how far a reaction goes before it balances. This lesson builds K from a balanced equation, distinguishes the dynamic "looks-still-but-isn't" nature of equilibrium, and introduces a companion number, the reaction quotient Q, that predicts which way a reaction will move.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe dynamic equilibrium as the state where the forward and reverse reaction rates are equal and concentrations stay constant in a closed system.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write the equilibrium-constant expression K from a balanced equation, omitting pure solids and liquids, and interpret a large or small K.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> compare the reaction quotient Q to K to predict whether a reaction will shift toward products or toward reactants.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your skill from Module 4 in writing balanced chemical equations &mdash; you'll build K directly from a balanced equation.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE REACTION THAT STOPS CHANGING BUT NEVER STOPS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">In a sealed flask, a reaction's color deepens for a while and then holds perfectly steady &mdash; no further change for hours. Nothing is added or removed. What is the most likely explanation for why the color stops changing? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's the key insight. The reaction hasn't quit &mdash; the forward and reverse reactions are now running at the SAME speed, so for every product molecule made, another turns back into reactant. The amounts stop changing even though both reactions continue. This balanced, still-busy state is dynamic equilibrium, the heart of today's lesson.">&#9878;&#65039; The forward and reverse reactions are now running at equal speeds</button>
+            <button data-response="That's the natural first guess, but a sealed reaction can stop changing while still being chemically active. What has really happened is that the forward and reverse reactions reached EQUAL rates &mdash; molecules keep converting both ways, but the totals no longer change. That's dynamic equilibrium.">&#9989; The reactants are completely used up, so it's finished</button>
+            <button data-response="Reasonable thought, but temperature isn't the cause here. The reaction reached a balance point where the forward and reverse rates became equal, so concentrations hold steady even though molecules keep converting in both directions. That dynamic balance is the subject of this lesson.">&#127777;&#65039; It cooled down and the reaction shut off</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Behind everything in this lesson is one driving question: <strong>how do chemical systems reach balance?</strong> The answer starts with an observation you can watch. Many reactions are <strong>reversible</strong>: as products build up, they begin reacting back into reactants. We write a reversible reaction with a <strong>double arrow</strong> (&#8652;) instead of a single one. Start with only reactants in a closed container, and at first the forward reaction is fast (lots of reactant) while the reverse is slow (no product yet). As reactant is consumed the forward rate falls; as product accumulates the reverse rate rises. Eventually the two rates meet. From that instant on, the concentrations of everything stop changing.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">DYNAMIC EQUILIBRIUM</div>
+            <div style="font-size:22px; color:#ffffff;"><strong>forward rate = reverse rate</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.8); margin-top:8px;">concentrations stay constant &mdash; but the reaction is still running in both directions</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The word <strong>dynamic</strong> matters. Equilibrium is <em>not</em> a reaction that has stopped. Molecules are still converting forward and backward every moment &mdash; it is just that they do so at equal rates, so the <em>net</em> amount of each substance holds steady. It is like a busy escalator station where exactly as many people step on as step off each minute: the crowd size never changes, but no one is standing still. Two conditions are required for this to hold: a <strong>closed system</strong> (nothing escaping or being added), and constant temperature.</p>
+
+        <!-- Four-feature box -->
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.8;">
+            <strong>Four signatures of chemical equilibrium:</strong><br>
+            &#10003;&nbsp; The forward and reverse rates are <strong>equal</strong>.<br>
+            &#10003;&nbsp; Macroscopic concentrations (and color, pressure, etc.) are <strong>constant</strong> &mdash; steady and <em>non-zero</em>, with both reactants and products still present (not necessarily in equal amounts).<br>
+            &#10003;&nbsp; The reaction has <strong>not stopped</strong> &mdash; it is dynamic, running both ways.<br>
+            &#10003;&nbsp; It requires a <strong>closed system</strong> at constant temperature.
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>At equilibrium, are the concentrations of reactants and products necessarily equal to each other?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No &mdash; this is a common mix-up. At equilibrium the <strong>rates</strong> are equal, not the <strong>concentrations</strong>. The amounts of reactants and products simply stop <em>changing</em>; they can be very different from each other. A reaction that strongly favors products will sit at equilibrium with lots of product and little reactant. "Equal rates" is the definition; "equal concentrations" is not.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE EQUILIBRIUM CONSTANT K</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Once a reaction reaches equilibrium, the ratio of products to reactants &mdash; each raised to the power of its coefficient &mdash; settles to a fixed value at a given temperature. That value is the <strong>equilibrium constant, K</strong>. For a general reaction <em>a</em>A + <em>b</em>B &#8652; <em>c</em>C + <em>d</em>D, the expression is products over reactants:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE EQUILIBRIUM-CONSTANT EXPRESSION</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>K = [C]<sup>c</sup>[D]<sup>d</sup> &divide; ([A]<sup>a</sup>[B]<sup>b</sup>)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.8); margin-top:8px;">products on top, reactants on the bottom &mdash; each concentration raised to its coefficient</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two rules make these expressions reliable:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Rule 1 &mdash; products over reactants, each to its coefficient.</strong> The coefficient from the balanced equation becomes the exponent.<br>
+            <strong>Rule 2 &mdash; omit pure solids and pure liquids.</strong> Their "concentration" doesn't change, so they are left out of K entirely. Only gases and dissolved (aqueous) species appear.
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Kc versus Kp</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For gas reactions you can write K two ways. <strong>K<sub>c</sub></strong> uses molar <em>concentrations</em> (mol/L, shown in square brackets). <strong>K<sub>p</sub></strong> uses <em>partial pressures</em> of the gases instead. They describe the same equilibrium from two measurement choices &mdash; concentrations or pressures &mdash; and either is valid as long as you're consistent. For reactions in solution, only K<sub>c</sub> applies.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked expression</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            For <strong>H<sub>2</sub>(g) + I<sub>2</sub>(g) &#8652; 2 HI(g)</strong>:<br>
+            &nbsp;&nbsp;<strong>K<sub>c</sub> = [HI]<sup>2</sup> &divide; ([H<sub>2</sub>][I<sub>2</sub>])</strong><br>
+            The coefficient 2 on HI becomes the exponent on [HI]; H<sub>2</sub> and I<sub>2</sub> each have a coefficient of 1. At a particular temperature this equilibrium has <strong>K<sub>c</sub> = 64</strong> &mdash; a value well above 1, which tells you products (HI) are favored.<br><br>
+            Now one with a solid: <strong>CaCO<sub>3</sub>(s) &#8652; CaO(s) + CO<sub>2</sub>(g)</strong>.<br>
+            Both CaCO<sub>3</sub> and CaO are pure <em>solids</em>, so they drop out. Only the gas remains:<br>
+            &nbsp;&nbsp;<strong>K<sub>c</sub> = [CO<sub>2</sub>]</strong>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">What the size of K tells you</h3>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:480px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">If K is&hellip;</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Then at equilibrium&hellip;</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>large</strong> (K &raquo; 1)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Mostly <strong>products</strong> &mdash; the reaction proceeds far to the right.</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>small</strong> (K &laquo; 1)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Mostly <strong>reactants</strong> &mdash; very little product forms.</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>near 1</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Significant amounts of <strong>both</strong> reactants and products.</td></tr>
+        </table>
+        </div>
+
+        <!-- Nature-of-Science: law describes vs. model explains -->
+        <div style="background: #F4F6FA; border: 1px solid #C5DCE5; border-left: 5px solid #6b7a99; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #55617a; margin-bottom: 8px;">&#129504; THINK LIKE A SCIENTIST &middot; NATURE OF SCIENCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice the two different jobs being done here. The <em>observation</em> that a closed reaction settles to a steady, unchanging mixture &mdash; and that its product-to-reactant ratio always lands on the same value at a given temperature &mdash; is a kind of <strong>law</strong>: it <em>describes</em> a pattern nature reliably follows, without saying why. The equilibrium constant K belongs to a <strong>model</strong>: it <em>explains and predicts</em>, letting us calculate how far a reaction will go and &mdash; with Q &mdash; which way an unbalanced mixture will move. Laws tell us <em>what</em> happens; models tell us <em>why</em> and <em>what next</em>. Keeping the two straight is one of the clearest habits of scientific thinking, and equilibrium is a textbook case of the difference.</div>
+        </div>
+
+        <!-- ow-select: write K / interpret -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; WRITING AND READING K</div>
+          <div class="widget-question">Apply the two rules and the size-of-K guide. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct. Products over reactants, each raised to its coefficient: K = [NH&#8323;]&sup2; &divide; ([N&#8322;][H&#8322;]&sup3;). The 2 and the 3 from the balanced equation become exponents." data-hint="The coefficient of each species becomes its exponent. NH&#8323; has coefficient 2; H&#8322; has coefficient 3.">
+            <div class="widget-row-prompt">1. For N&#8322;(g) + 3 H&#8322;(g) &#8652; 2 NH&#8323;(g), the correct K is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">[N&#8322;][H&#8322;] &divide; [NH&#8323;]</button>
+              <button data-choice="1">[NH&#8323;]&sup2; &divide; ([N&#8322;][H&#8322;]&sup3;)</button>
+              <button data-choice="2">[NH&#8323;] &divide; ([N&#8322;][H&#8322;])</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; this is TRUE. Pure solids and pure liquids are left out of K because their concentration doesn't change. Only gases and aqueous species appear." data-hint="What happens to pure solids and pure liquids when you write K?">
+            <div class="widget-row-prompt">2. In writing K, pure solids and pure liquids are omitted from the expression.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; a very large K (like 1 &times; 10&#8312;) means the equilibrium lies far to the right, so the mixture is mostly products with very little reactant left." data-hint="A big numerator-over-denominator value means products dominate or reactants dominate?">
+            <div class="widget-row-prompt">3. A reaction has K = 1 &times; 10&#8312;. At equilibrium the mixture is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">mostly reactants</button>
+              <button data-choice="1">about half-and-half</button>
+              <button data-choice="2">mostly products</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct. For C(s) + O&#8322;(g) &#8652; CO&#8322;(g), the solid carbon is omitted, leaving K = [CO&#8322;] &divide; [O&#8322;]." data-hint="Drop the pure solid (C). What's left on top and bottom?">
+            <div class="widget-row-prompt">4. For C(s) + O&#8322;(g) &#8652; CO&#8322;(g), the correct K is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">[CO&#8322;] &divide; [O&#8322;]</button>
+              <button data-choice="1">[CO&#8322;] &divide; ([C][O&#8322;])</button>
+              <button data-choice="2">[C][O&#8322;] &divide; [CO&#8322;]</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE REACTION QUOTIENT Q &mdash; PREDICTING THE DIRECTION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">K describes a reaction <em>at</em> equilibrium. But what if your mixture isn't there yet &mdash; how do you know which way it will move? You compute the same products-over-reactants ratio, but with the <em>current</em> (not necessarily equilibrium) concentrations. That value is the <strong>reaction quotient, Q</strong>. It has the exact same form as K; the only difference is that Q uses whatever amounts you have right now. Then you compare Q to K.</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:520px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Comparison</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Meaning</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Which way it shifts</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Q &lt; K</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">too few products</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;">shifts <strong>forward</strong> (right) to make more product</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Q &gt; K</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">too much product</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;">shifts <strong>reverse</strong> (left) to remake reactant</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Q = K</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">just right</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">already at <strong>equilibrium</strong> &mdash; no net shift</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">The intuition: a reaction always moves in the direction that brings Q closer to K. If Q is too small (not enough product), the reaction runs forward to build product up until Q rises to meet K. If Q is too large (too much product), it runs backward. When Q lands on K, the motion stops being net &mdash; you're at equilibrium.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked prediction</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            For H<sub>2</sub>(g) + I<sub>2</sub>(g) &#8652; 2 HI(g), the equilibrium constant is K<sub>c</sub> = 64. Suppose a flask currently holds [HI] = 1.0 M, [H<sub>2</sub>] = 1.0 M, and [I<sub>2</sub>] = 1.0 M.<br><br>
+            <strong>Compute Q:</strong> Q = [HI]<sup>2</sup> &divide; ([H<sub>2</sub>][I<sub>2</sub>]) = (1.0)<sup>2</sup> &divide; (1.0 &times; 1.0) = <strong>1.0</strong><br>
+            <strong>Compare:</strong> Q = 1.0 is much less than K = 64, so <strong>Q &lt; K</strong>.<br>
+            <strong>Predict:</strong> the reaction shifts <strong>forward (right)</strong> &mdash; it makes more HI until Q climbs to 64.
+        </div>
+
+        <!-- History/Nature-of-Science styled callout (Then -> Now framing, blue) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; AN IDEA THAT TOOK TIME TO ACCEPT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the early 1800s many chemists pictured a reaction as a one-way trip: reactants simply became products and the process was over. But careful measurements kept turning up reactions that seemed to stall with both reactants and products still present &mdash; evidence the one-way picture couldn't explain. In the 1860s two Norwegian scientists, <strong>Cato Guldberg and Peter Waage</strong>, offered a different account: a reaction's rate depends on the &ldquo;active mass&rdquo; (concentration) of the substances present, so as products build up the reverse reaction speeds until the two rates balance. Their <em>law of mass action</em> is exactly the products-over-reactants logic behind K, and it reframed equilibrium not as a stopped reaction but as a balance of opposing rates. Like Gibbs's work in the previous lesson, their idea was first published in a form that took years to be widely understood. It became a bedrock principle only after it survived repeated testing against measured equilibrium mixtures &mdash; a good reminder that even a correct idea has to earn acceptance through evidence.</div>
+        </div>
+
+        <!-- NOW & NEXT: equilibrium at industrial scale (Then->Now->Future, gold) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#10024; NOW &amp; NEXT &middot; EQUILIBRIUM AT INDUSTRIAL SCALE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Now:</strong> the same K-and-Q reasoning is a working tool in industry. When engineers design a process to make ammonia for fertilizer (N<sub>2</sub> + 3 H<sub>2</sub> &#8652; 2 NH<sub>3</sub>) &mdash; the reaction that feeds much of the world &mdash; they tune temperature, pressure, and when to pull product out of the mix precisely to keep the system pushing forward, squeezing the highest possible <em>yield</em> from each pass. Reading K and Q is how they choose those settings. <strong>Next:</strong> researchers are currently exploring new catalysts and reactor designs that might reach useful yields at far lower temperature and pressure, which would cut the enormous energy cost of today's process. It isn't solved yet, but the goal is a greener chemistry built on exactly the equilibrium ideas you are learning now.</div>
+        </div>
+
+        <!-- ow-flip: Q vs K -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHICH WAY WILL IT SHIFT?</div>
+          <div class="widget-question">For a reaction with K = 10, predict the shift from each Q, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128313; <strong>Q = 2</strong> (K = 10) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Q &lt; K &rarr; shifts forward (right).</strong> Too few products; the reaction makes more product until Q rises to 10.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128312; <strong>Q = 50</strong> (K = 10) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Q &gt; K &rarr; shifts reverse (left).</strong> Too much product; the reaction runs backward, remaking reactant until Q falls to 10.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9899; <strong>Q = 10</strong> (K = 10) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Q = K &rarr; at equilibrium.</strong> No net shift &mdash; the mixture is already balanced.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129513; <strong>Q = 0</strong> (only reactants, K = 10) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Q &lt; K &rarr; shifts forward.</strong> With no product yet, Q = 0, far below K, so the reaction proceeds strongly forward.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction has K = 0.01. If you compute Q = 5 for your current mixture, which way will it shift, and what does that say about the mixture?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Q = 5 is much greater than K = 0.01, so <strong>Q &gt; K</strong> and the reaction shifts <strong>reverse (left)</strong>, remaking reactants. The small K (0.01 &laquo; 1) already tells you this reaction barely favors products at all, so a mixture rich in product is far from where it wants to be &mdash; it will run backward strongly until Q drops all the way to 0.01.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR build &mdash; <strong>Build 2 of 5: the Reversible-Reaction Equilibrium Demo</strong> &mdash; is exactly this lesson made three-dimensional. On the same persistent lab bench you started last week, you'll build a forward-and-reverse reaction showing <strong>dynamic equilibrium</strong>: both arrows, equal rates, and concentrations that hold steady even as molecules keep converting. You'll label K = [products]/[reactants] and note that a large K means products are favored. As you build it, narrate to yourself the four signatures of equilibrium from Part 1 &mdash; that's the understanding you'll record on camera at the end of the module.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on dynamic equilibrium, writing K, and comparing Q to K. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &mdash; K and Q Problems</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Write K expressions, compute K from equilibrium concentrations, and use Q vs. K to predict shift direction &mdash; this week's "doing chemistry" set, with a self-check answer key.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Reversible-Reaction Equilibrium Demo (Build 2 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Continue your Equilibrium &amp; Acid-Base Station with a dynamic-equilibrium demo. A non-VR pathway meets the same objectives. Looking ahead, Lesson 7.05 asks what happens when you <em>disturb</em> an equilibrium &mdash; Le Ch&acirc;telier's principle.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A reversible reaction in a closed system reaches <strong>dynamic equilibrium</strong>: the forward and reverse rates become equal, concentrations hold constant, but the reaction never actually stops. The <strong>equilibrium constant K</strong> &mdash; products over reactants, each raised to its coefficient, with pure solids and liquids omitted &mdash; captures how far the reaction goes: large K means products are favored, small K means reactants. To predict the direction of a mixture not yet at equilibrium, compute the same ratio as the <strong>reaction quotient Q</strong> and compare: Q &lt; K shifts right, Q &gt; K shifts left, Q = K is equilibrium. Next you'll learn how to <em>nudge</em> an equilibrium on purpose.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.04 &middot; Chemical Equilibria &amp; the Equilibrium Constant</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Final Review</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom calculator / checker widgets ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3&ndash;Q4 &middot; Semester 2</div>
+        <div style="font-size: 12px; color: #666;">Cumulative Final &mdash; Modules 5&ndash;9</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Final Review</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Gases &amp; Energy &rarr; Solutions &rarr; Equilibrium &rarr; Cells &rarr; the Nucleus</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How do humans investigate, understand, and explain matter?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Final Review</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Pulling the Whole Year Together &mdash; Modules 5&ndash;9</div>
+        <div style="font-size: 16px; color: #666;">Study Guide &amp; Self-Check (not graded)</div>
+    </div>
+
+    <!-- What this review is for -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS REVIEW IS FOR</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">In Semester 1 you answered <em>&ldquo;What is matter?&rdquo;</em> In Semester 2 you answered the two questions that follow: <em>&ldquo;Can chemistry be measured?&rdquo;</em> and <em>&ldquo;How does chemistry shape our world?&rdquo;</em> This page gathers Modules 5&ndash;9 into one place so you can see the whole second-semester arc before you test on it.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Five modules, but really <strong>one continuing argument</strong>: matter on the move &mdash; <strong>gases and energy</strong> (M5) &rarr; the forces between particles that set the properties of <strong>liquids, solids and solutions</strong> (M6) &rarr; whether and how far a change goes, through <strong>thermodynamics, equilibrium and acid-base chemistry</strong> (M7) &rarr; change that <em>moves electrons and happens over time</em>, in <strong>electrochemistry and kinetics</strong> (M8) &rarr; change deep inside the <strong>nucleus</strong> itself (M9). And it all still rests on Semester 1: the <strong>mole</strong>, <strong>periodic trends</strong>, <strong>bonding</strong>, and <strong>redox</strong> you learned then do real work in every module here. This is a <strong>study and self-check page, not a graded one</strong>. Work the five sections, redo the worked examples on paper, and use the self-check widgets to find your weak spots. When the sections feel solid, you're ready for the cumulative <strong>Final Exam</strong>.</div>
+    </div>
+
+    <!-- Exam Blueprint panel -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; THE FINAL EXAM BLUEPRINT &mdash; KNOW WHAT'S COMING</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">The Final Exam has <strong>40 questions</strong>, split into five sections &mdash; one per module. It is <strong>cumulative with a Semester 2 emphasis</strong>: every item is drawn from Modules 5&ndash;9, and a few deliberately reach back to the Semester 1 spine. The five review sections below mirror it exactly, so reviewing in order walks you straight through the exam.</p>
+        <div style="overflow-x: auto;">
+        <table style="width:100%; border-collapse: collapse; font-size: 16px; color:#1a2340; min-width: 480px;">
+            <thead>
+                <tr style="background:#0E1C42; color:#fff;">
+                    <th style="text-align:left; padding:10px 14px; border:1px solid #0E1C42;">Section</th>
+                    <th style="text-align:left; padding:10px 14px; border:1px solid #0E1C42;">Module &amp; focus</th>
+                    <th style="text-align:center; padding:10px 14px; border:1px solid #0E1C42;">Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background:#F4F6FA;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>A</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 5 &middot; Gas Laws &amp; Thermochemistry</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>8</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>B</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 6 &middot; Liquids, Solids, Solutions &amp; Colloids</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>7</strong></td>
+                </tr>
+                <tr style="background:#F4F6FA;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>C</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 7 &middot; Thermodynamics, Equilibrium &amp; Acid-Base</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>10</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>D</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 8 &middot; Electrochemistry, Redox &amp; Kinetics</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>9</strong></td>
+                </tr>
+                <tr style="background:#F4F6FA;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;"><strong>E</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;">Module 9 &middot; Nuclear Chemistry &amp; Its Applications</td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>6</strong></td>
+                </tr>
+                <tr style="background:#EEF1F8;">
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8;" colspan="2"><strong>Total</strong></td>
+                    <td style="padding:10px 14px; border:1px solid #D0D9E8; text-align:center;"><strong>40</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;">
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Time</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>~75 minutes</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Attempts</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>One</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Allowed</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>Calculator + periodic table</strong></div>
+            </div>
+            <div style="flex:1; min-width:150px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:12px 14px; text-align:center;">
+                <div style="font-size:13px; color:#666;">Question types</div>
+                <div style="font-size:17px; color:#0E1C42;"><strong>MC / TF / Matching</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION A · MODULE 5 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION A &middot; MODULE 5 &mdash; GAS LAWS &amp; THERMOCHEMISTRY</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 5 put matter in motion and learned to measure it. The simple gas laws combine into the <strong>ideal gas law, PV = nRT</strong> (temperature always in <strong>kelvin</strong>), which connects pressure, volume, amount, and temperature in one relationship &mdash; and notice the <strong>n</strong>: the mole from Module 4 is right at the center. The <strong>kinetic-molecular theory</strong> explains <em>why</em> the laws hold: gas is mostly empty space, molecules move randomly, and <strong>average kinetic energy depends only on temperature</strong>. The second half turned to <strong>energy</strong>: heat flow, calorimetry, and enthalpy.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>The gas laws</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Boyle</strong> (P&middot;V constant), <strong>Charles</strong> (V/T), <strong>Gay-Lussac</strong> (P/T), and <strong>PV = nRT</strong> (R = 0.08206). At STP one mole fills <strong>22.4 L</strong>. <strong>Dalton:</strong> total pressure = sum of partial pressures.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>KMT &amp; real gases</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Same temperature &rarr; same average KE, so lighter molecules move faster (<strong>Graham's law</strong> of effusion). Real gases deviate most at <strong>high pressure and low temperature</strong>, where size and attractions matter.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Energy &amp; enthalpy</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>q = mc&Delta;T</strong> (c_water = 4.184). Energy is conserved: q_metal = &minus;q_water. Estimate <strong>&Delta;H</strong> from bond energies: <strong>bonds broken &minus; bonds formed</strong>. Negative &Delta;H = exothermic.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: ideal gas + bond energy -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: the ideal gas law &amp; an enthalpy estimate</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">How many <strong>moles</strong> of gas occupy <strong>2.0 L at 1.0 atm and 273 K</strong>?</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            Rearrange <strong>PV = nRT</strong> to <strong>n = PV &divide; RT</strong>:<br>
+            n &nbsp;=&nbsp; (1.0)(2.0) &divide; [(0.08206)(273)] &nbsp;=&nbsp; 2.0 &divide; 22.4 &nbsp;=&nbsp; <strong>0.0893 mol</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">2.0 L is about one-eleventh of the 22.4 L a full mole fills at STP &mdash; and the mole is the same counting unit from Module 4.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Bond-energy &Delta;H for H<sub>2</sub> + Cl<sub>2</sub> &rarr; 2 HCl:</strong> bonds broken = 436 + 243 = <strong>679 kJ</strong>; bonds formed = 2 &times; 431 = <strong>862 kJ</strong>; &Delta;H &asymp; 679 &minus; 862 = <strong>&minus;183 kJ</strong> (exothermic). And keep these ready: Boyle 1.0 atm &times; 6.0 L &rarr; 2.0 L gives <strong>3.0 atm</strong>; q to warm 50.0 g water 20&rarr;80 &deg;C = 50.0 &times; 4.184 &times; 60.0 = <strong>12,552 J</strong>; gas over water, 760 &minus; 23.8 = <strong>736.2 mmHg</strong> dry; Graham He vs O<sub>2</sub> = &radic;(32/4) = <strong>2.83&times;</strong> faster.
+        </div>
+
+        <!-- Self-check widget: custom calculator (.aam-widget) -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; GAS &amp; ENERGY CALCULATOR</div>
+          <div class="widget-question">Pick a Module 5 calculation, work it on paper, type <strong>your</strong> answer, and check it. The tool tells you high or low and names the relationship &mdash; but <em>you</em> do the math. (A checker verifies a number; it can't teach you the path.)</div>
+          <div class="aam-row">
+            <label>Calculation:
+              <select id="a-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">Boyle: 1.0 atm &times; 6.0 L compressed to 2.0 L &rarr; P&#8322; (atm) = ?</option>
+                <option value="B">Ideal gas: n = PV&divide;RT, 1.0 atm, 2.0 L, 273 K (mol) = ?</option>
+                <option value="C">Graham: He (4.00) vs O&#8322; (32.00), He is how many &times; faster?</option>
+                <option value="D">Calorimetry: q = mc&Delta;T, 50.0 g water, 20&rarr;80 &deg;C (J) = ?</option>
+                <option value="E">Bond energy: &Delta;H for H&#8322;+Cl&#8322;&rarr;2HCl (kJ) = ?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="a-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="a-check">Check my answer</button>
+            <button class="widget-reset" id="a-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="a-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION B · MODULE 6 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION B &middot; MODULE 6 &mdash; LIQUIDS, SOLIDS, SOLUTIONS &amp; COLLOIDS</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 6 explained the <strong>macroscopic properties of matter from the forces between particles</strong>. <strong>Intermolecular forces</strong> (much weaker than bonds) run, weakest to strongest, <strong>London dispersion &lt; dipole-dipole &lt; hydrogen bonding</strong> (which needs H bonded to N, O, or F). Stronger forces mean higher boiling points, higher surface tension, lower vapor pressure. A liquid <strong>boils when its vapor pressure equals the external pressure</strong>. Solids come in four types (molecular, ionic, metallic, and very-hard high-melting <strong>covalent network</strong>). When things dissolve, <strong>like dissolves like</strong>, and the number of dissolved particles &mdash; not their identity &mdash; sets the <strong>colligative properties</strong>.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Forces &amp; properties</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Highest boiling point among similar-mass molecules &rarr; strongest IMF (often hydrogen bonding). Water's H-bonding gives it high specific heat, high surface tension, and floating ice.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Dissolving &amp; electrolytes</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Ionic solids dissolve by <strong>ion-dipole</strong> hydration. <strong>Strong</strong> electrolytes fully ionize (NaCl), <strong>weak</strong> partly (acetic acid), <strong>non</strong> not at all (sugar). Solubility of solids usually rises with temperature; gases fall.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Colligative &amp; colloids</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>&Delta;T_f = i&middot;K_f&middot;m</strong>; more particles (higher van 't Hoff <strong>i</strong>) means more freezing-point depression. <strong>Colloids</strong> scatter light (the <strong>Tyndall effect</strong>); true solutions don't.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: freezing-point depression -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: freezing-point depression</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">What is the freezing point of a <strong>1.00 m NaCl</strong> solution? (K_f(water) = 1.86 &deg;C/m; for NaCl, i = 2.)</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            Use <strong>&Delta;T_f = i &middot; K_f &middot; m</strong>:<br>
+            &Delta;T_f &nbsp;=&nbsp; 2 &times; 1.86 &times; 1.00 &nbsp;=&nbsp; <strong>3.72 &deg;C</strong> of depression<br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">Freezing point = 0 &minus; 3.72 = <strong>&minus;3.72 &deg;C</strong>. The two ions per NaCl double the effect &mdash; CaCl<sub>2</sub> (i = 3) would lower it even more.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Quick recall:</strong> only-dispersion molecule &rarr; <strong>CH<sub>4</sub></strong>; very hard, non-conducting, super-high-melting &rarr; <strong>covalent network</strong> (diamond, quartz); light beam visible through milk but not salt water &rarr; <strong>colloid / Tyndall</strong>.
+        </div>
+
+        <!-- Self-check widget: ow-select classify -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; FORCES, SOLIDS &amp; SOLUTIONS</div>
+          <div class="widget-question">One pick per row, with instant feedback. These mirror the multiple-choice and matching items in Section B.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; CH&#8324; is nonpolar, so its only intermolecular force is London dispersion. H&#8322;O and NH&#8323; both hydrogen-bond (H on O or N)." data-hint="Which of these is nonpolar and has no H bonded to N, O, or F?">
+            <div class="widget-row-prompt">1. Which substance has <em>only</em> London dispersion forces?</div>
+            <div class="widget-options">
+              <button data-choice="0">H&#8322;O</button>
+              <button data-choice="1">NH&#8323;</button>
+              <button data-choice="2">CH&#8324;</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; the highest boiling point among similar-mass molecules signals the strongest IMF, and hydrogen bonding (e.g. an &ndash;OH group) is strongest." data-hint="Highest boiling point = strongest forces. Which force is strongest among molecules of similar mass?">
+            <div class="widget-row-prompt">2. Of three similar-mass substances, the one boiling highest (+78 &deg;C) most likely:</div>
+            <div class="widget-options">
+              <button data-choice="0">Can form hydrogen bonds</button>
+              <button data-choice="1">Has only dispersion forces</button>
+              <button data-choice="2">Is the lightest one</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; freezing-point depression scales with the van 't Hoff factor i. CaCl&#8322; gives 3 ions (Ca&sup2;+ + 2 Cl&minus;), the most of the three, so it depresses the freezing point most." data-hint="More dissolved particles = more depression. Which releases the most ions per formula unit?">
+            <div class="widget-row-prompt">3. At the same molality, which lowers water's freezing point the <em>most</em>?</div>
+            <div class="widget-options">
+              <button data-choice="0">Sucrose (i = 1)</button>
+              <button data-choice="1">CaCl&#8322; (i = 3)</button>
+              <button data-choice="2">NaCl (i = 2)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; diamond and quartz are covalent network solids: a continuous web of covalent bonds makes them extremely hard, non-conducting, and very high-melting." data-hint="Breaking it means breaking actual covalent bonds throughout the whole crystal.">
+            <div class="widget-row-prompt">4. A solid that is very hard, doesn't conduct, and melts extremely high (like diamond) is a:</div>
+            <div class="widget-options">
+              <button data-choice="0">Molecular solid</button>
+              <button data-choice="1">Metallic solid</button>
+              <button data-choice="2">Covalent network solid</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== SECTION C · MODULE 7 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION C &middot; MODULE 7 &mdash; THERMODYNAMICS, EQUILIBRIUM &amp; ACID-BASE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 7 asked the deepest question: <strong>will a change happen at all, and how far?</strong> <strong>Entropy (S)</strong> measures dispersal of matter and energy; the second law says the entropy of the <em>universe</em> rises in any spontaneous change. <strong>Gibbs free energy &Delta;G = &Delta;H &minus; T&Delta;S</strong> combines enthalpy and entropy into one verdict: <strong>&Delta;G &lt; 0 spontaneous</strong>. When a reaction doesn't go to completion it reaches <strong>dynamic equilibrium</strong>, described by <strong>K</strong> (products over reactants); <strong>Le Ch&acirc;telier's principle</strong> predicts how a stress shifts it. The acid-base half ties it together: <strong>Br&oslash;nsted-Lowry</strong> donors and acceptors, <strong>pH = &minus;log[H<sub>3</sub>O<sup>+</sup>]</strong>, and <strong>titration</strong>.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Spontaneity</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>&Delta;G = &Delta;H &minus; T&Delta;S.</strong> &minus;/+ spontaneous at all T; +/&minus; never; &minus;/&minus; only low T; +/+ only high T. (Convert &Delta;S from J/K to kJ/K before subtracting.)</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Equilibrium</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>K = [products]/[reactants]</strong> (each to its coefficient; omit solids/liquids). Large K favors products. Compress &rarr; shift to fewer gas moles. A catalyst changes <em>rate, not K</em>.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Acids &amp; bases</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>pH = &minus;log[H<sub>3</sub>O<sup>+</sup>]</strong>; pH + pOH = 14. Kw = 1.0&times;10<sup>&minus;14</sup>. A <strong>buffer</strong> is a weak acid + its conjugate base. Titration: <strong>M_aV_a = M_bV_b</strong>.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: Gibbs + Kc -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: free energy &amp; an equilibrium constant</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a reaction at 298 K with <strong>&Delta;H = &minus;100 kJ</strong> and <strong>&Delta;S = +50 J/K</strong>, find &Delta;G.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            First convert &Delta;S: 50 J/K = <strong>0.050 kJ/K</strong>. Then <strong>&Delta;G = &Delta;H &minus; T&Delta;S</strong>:<br>
+            T&Delta;S = 298 &times; 0.050 = 14.9 kJ &nbsp;&rarr;&nbsp; &Delta;G = &minus;100 &minus; 14.9 = <strong>&minus;114.9 kJ</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">&Delta;G is negative, so the reaction is <strong>spontaneous</strong>. Here &Delta;H and &Delta;S both favor it, so it runs at any temperature.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Have these ready:</strong> for H<sub>2</sub>+I<sub>2</sub>&rightleftharpoons;2HI with [H<sub>2</sub>]=[I<sub>2</sub>]=0.20 M and [HI]=1.60 M, Kc = (1.60)&sup2; &divide; (0.20&times;0.20) = <strong>64</strong>; [H<sub>3</sub>O<sup>+</sup>] = 1.0&times;10<sup>&minus;3</sup> &rarr; pH = <strong>3.00</strong> (acidic); titration 30.0 mL of 0.100 M NaOH neutralizing 25.0 mL HCl &rarr; M_HCl = (0.0300&times;0.100)&divide;0.0250 = <strong>0.120 M</strong>. For the Haber process (exothermic, 4 mol gas &rarr; 2 mol), <strong>low T + high P</strong> maximizes NH<sub>3</sub> yield.
+        </div>
+
+        <!-- Self-check widget: custom calculator (.aam-widget) -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; THERMO / EQUILIBRIUM / pH CALCULATOR</div>
+          <div class="widget-question">Choose a Module 7 calculation, work it on paper, type <strong>your</strong> answer, and check it. The tool flags too-high / too-low and names the relationship &mdash; but the path is yours. Mind your unit conversions and signs.</div>
+          <div class="aam-row">
+            <label>Calculation:
+              <select id="c-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">&Delta;G = &Delta;H &minus; T&Delta;S: &Delta;H=&minus;100 kJ, &Delta;S=+50 J/K, 298 K (kJ) = ?</option>
+                <option value="B">Kc for H&#8322;+I&#8322;&rightleftharpoons;2HI, [H&#8322;]=[I&#8322;]=0.20, [HI]=1.60 = ?</option>
+                <option value="C">pH of [H&#8323;O&#8314;] = 1.0&times;10&#8315;&sup3; M = ?</option>
+                <option value="D">Titration: 25.0 mL HCl, 30.0 mL of 0.100 M NaOH &rarr; M_HCl = ?</option>
+                <option value="E">pOH if pH = 3.00 (and pH + pOH = 14.00) = ?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="c-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="c-check">Check my answer</button>
+            <button class="widget-reset" id="c-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="c-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION D · MODULE 8 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION D &middot; MODULE 8 &mdash; ELECTROCHEMISTRY, REDOX &amp; KINETICS</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 8 followed change that <strong>moves electrons</strong> and change that <strong>takes time</strong>. <strong>Redox</strong> &mdash; first met as a reaction type in Module 4 &mdash; is electron transfer: <strong>OIL RIG</strong> (Oxidation Is Loss, Reduction Is Gain). A <strong>galvanic cell</strong> turns a spontaneous redox reaction into electricity: oxidation at the <strong>anode</strong> (&minus;), reduction at the <strong>cathode</strong> (+), with <strong>E&deg;cell = E&deg;cathode &minus; E&deg;anode</strong>. Positive E&deg;cell, negative &Delta;G&deg;, and K &gt; 1 all travel together (<strong>&Delta;G&deg; = &minus;nFE&deg;cell</strong>) &mdash; the same energy story from M5 and M7, now read off a voltmeter. <strong>Kinetics</strong> asks <em>how fast</em>: rate laws, collision theory, and catalysts that lower activation energy.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Redox &amp; cells</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Reduction = gain of e&minus; (oxidation number drops). Anode = oxidation = negative terminal. Daniell cell <strong>E&deg;cell = +1.10 V</strong>. The oxidizing agent is reduced; the reducing agent is oxidized.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Driven cells &amp; corrosion</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>Electrolysis</strong> drives a non-spontaneous reaction (E&deg;cell &lt; 0). <strong>Faraday:</strong> Q = I&middot;t, mol e&minus; = Q/F (F = 96,485). Galvanizing = a <strong>sacrificial anode</strong>: the more-active metal corrodes first.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Kinetics</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;"><strong>rate = k[A]<sup>m</sup>[B]<sup>n</sup></strong>; orders are found <em>experimentally</em> (double [A], rate &times;4 &rarr; second order). A <strong>catalyst</strong> lowers E<sub>a</sub> via an alternate path &mdash; it isn't consumed and doesn't change &Delta;G or K.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: E°cell + ΔG° -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: cell potential &rarr; free energy</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For the Daniell cell, E&deg;(Cu&sup2;+/Cu) = +0.34 V (cathode) and E&deg;(Zn&sup2;+/Zn) = &minus;0.76 V (anode). Find E&deg;cell, then &Delta;G&deg; (n = 2, F = 96,485).</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            <strong>E&deg;cell = E&deg;cathode &minus; E&deg;anode</strong> = (+0.34) &minus; (&minus;0.76) = <strong>+1.10 V</strong><br>
+            <strong>&Delta;G&deg; = &minus;nFE&deg;cell</strong> = &minus;(2)(96,485)(1.10) = &minus;212,267 J &asymp; <strong>&minus;212 kJ</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">Positive E&deg;cell &rarr; negative &Delta;G&deg; &rarr; spontaneous (galvanic). The three always agree.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Also keep cold:</strong> S in SO<sub>4</sub><sup>2&minus;</sup> = <strong>+6</strong>; 2.00 A for 3600 s plating Cu&sup2;+ (needs 2 e&minus;) &rarr; Q = 7200 C, mol e&minus; = 0.0746, mol Cu = 0.0373, mass &asymp; <strong>2.37 g</strong>; doubling [A] and seeing rate &times;4 &rarr; <strong>second order</strong> in A.
+        </div>
+
+        <!-- Self-check widget: ow-select redox/cells/kinetics -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; ELECTRONS, CELLS &amp; RATES</div>
+          <div class="widget-question">One pick per row, with instant feedback. These mirror the multiple-choice items in Section D.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; Reduction Is Gain of electrons (OIL RIG); the oxidation number goes down. The species reduced is the oxidizing agent." data-hint="OIL RIG: which half is 'Reduction Is Gain'?">
+            <div class="widget-row-prompt">1. In a redox reaction, <em>reduction</em> is the:</div>
+            <div class="widget-options">
+              <button data-choice="0">Loss of electrons</button>
+              <button data-choice="1">Gain of electrons</button>
+              <button data-choice="2">Loss of protons</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; oxidation always happens at the anode, which in a galvanic cell is the negative terminal (it releases electrons). The cathode is reduction, positive." data-hint="Oxidation happens at the anode. In a galvanic cell, is the anode + or &minus;?">
+            <div class="widget-row-prompt">2. In a galvanic cell, the anode is where:</div>
+            <div class="widget-options">
+              <button data-choice="0">Oxidation occurs; it is the negative terminal</button>
+              <button data-choice="1">Reduction occurs; it is the positive terminal</button>
+              <button data-choice="2">No reaction occurs</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; E&deg;cell = E&deg;cathode &minus; E&deg;anode = (+0.34) &minus; (&minus;0.76) = +1.10 V. Positive, so the cell is spontaneous (galvanic)." data-hint="E&deg;cell = E&deg;cathode &minus; E&deg;anode. Watch the double negative: &minus;(&minus;0.76).">
+            <div class="widget-row-prompt">3. E&deg;cell for Cu cathode (+0.34 V) and Zn anode (&minus;0.76 V) is:</div>
+            <div class="widget-options">
+              <button data-choice="0">&minus;0.42 V</button>
+              <button data-choice="1">+0.42 V</button>
+              <button data-choice="2">+1.10 V</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; rate &times;4 when [A] doubles means rate &prop; [A]&sup2;, so it is second order in A (2&sup2; = 4). Orders come from experiment, not coefficients." data-hint="Doubling gives &times;4. What power of 2 equals 4?">
+            <div class="widget-row-prompt">4. Doubling [A] multiplies the rate by 4. The order in A is:</div>
+            <div class="widget-options">
+              <button data-choice="0">First order</button>
+              <button data-choice="1">Second order</button>
+              <button data-choice="2">Zero order</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== SECTION E · MODULE 9 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; SECTION E &middot; MODULE 9 &mdash; NUCLEAR CHEMISTRY &amp; ITS APPLICATIONS</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 4px 0 8px 0;">Key ideas to carry in</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Module 9 went where chemistry rarely does &mdash; <strong>inside the nucleus</strong>, where changes are millions of times more energetic than the electron-shuffling of ordinary reactions. <strong>Nucleons</strong> (protons + neutrons) are held by the short-range <strong>strong force</strong>; beyond Z = 83 no nucleus is stable. Unstable nuclei <strong>decay</strong> (alpha, beta, gamma), and in a nuclear equation both <strong>mass number (A) and atomic number (Z) are conserved</strong>. Decay is first-order, so each nuclide has a fixed <strong>half-life</strong>. <strong>Fission</strong> and <strong>fusion</strong> release enormous energy because a tiny mass becomes energy via <strong>E = mc&sup2;</strong>. Radioisotopes serve medicine, dating, and power &mdash; benefits that must be weighed honestly against risks.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:12px 0;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Structure &amp; decay</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Neutrons = A &minus; Z. Alpha (<sup>4</sup><sub>2</sub>He) drops A by 4, Z by 2; beta&minus; turns a neutron into a proton (Z + 1); gamma changes neither. Penetration: <strong>alpha &lt; beta &lt; gamma</strong>.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Half-life</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Fraction remaining = <strong>(1/2)<sup>n</sup></strong> after n half-lives. Half-life is constant (independent of mass, temperature, chemical form) &mdash; which is what makes <strong>carbon-14 dating</strong> work (t&frac12; &asymp; 5730 yr).</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:14px; color:#0E1C42; margin-bottom:6px;"><strong>Energy &amp; use</strong></div>
+                <div style="font-size:15px; color:#1a2340; line-height:1.55;">Both fission and fusion release energy via <strong>E = mc&sup2;</strong> (binding-energy peak near iron-56). Alpha emitters are most dangerous <strong>inside</strong> the body &mdash; type and location both matter.</div>
+            </div>
+        </div>
+
+        <!-- Worked refresher: half-life / carbon-14 dating -->
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked refresher: carbon-14 dating</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A wooden artifact has <strong>1/4</strong> of the carbon-14 a living tree of the same size would have. With t&frac12; &asymp; 5730 yr, how old is it?</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            Find how many half-lives give 1/4 using <strong>(1/2)<sup>n</sup></strong>:<br>
+            1/4 = (1/2)&sup2; &nbsp;&rarr;&nbsp; <strong>n = 2 half-lives</strong><br>
+            age = 2 &times; 5730 = <strong>11,460 years</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;">A living thing keeps a steady <sup>14</sup>C level; after death it decays, and the fraction left reads the age.</span>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Quick recall:</strong> neutrons in <sup>235</sup><sub>92</sub>U = 235 &minus; 92 = <strong>143</strong>; <sup>238</sup><sub>92</sub>U &rarr; <sup>234</sup><sub>90</sub>Th + <strong><sup>4</sup><sub>2</sub>He (alpha)</strong>; most penetrating radiation = <strong>gamma</strong>; both fission and fusion release energy via <strong>E = mc&sup2;</strong>.
+        </div>
+
+        <!-- Self-check widget: custom calculator (.aam-widget) -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; SELF-CHECK &middot; NUCLEAR CALCULATOR</div>
+          <div class="widget-question">Pick a Module 9 calculation, work it on paper, type <strong>your</strong> answer, and check it. Conserve A and Z; count half-lives carefully. The tool confirms the number &mdash; you supply the reasoning.</div>
+          <div class="aam-row">
+            <label>Calculation:
+              <select id="e-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">Neutrons in &#8203;&sup2;&sup3;&#8309;&#8322;U (A = 235, Z = 92) = ?</option>
+                <option value="B">Mass remaining: 80 g, t&frac12; = 10 yr, after 30 yr (g) = ?</option>
+                <option value="C">Carbon-14 age: 1/4 of original &#8203;&sup1;&#8308;C left (t&frac12; = 5730 yr) = ?</option>
+                <option value="D">How many half-lives to reach 1/8 of the original = ?</option>
+                <option value="E">Mass number of the particle emitted in &#8203;&sup2;&sup3;&#8312;U &rarr; &#8203;&sup2;&sup3;&#8308;Th + ? = ?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="e-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="e-check">Check my answer</button>
+            <button class="widget-reset" id="e-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="e-out"></div>
+        </div>
+    </div>
+
+    <!-- How to study this / Nature-of-Science note -->
+    <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 16px 22px; margin: 16px 0;">
+        <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HOW TO STUDY THIS &middot; A NATURE-OF-SCIENCE NOTE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;">Study Semester 2 as <strong>one question asked five ways</strong>: <em>what drives change, and how far and how fast does it go?</em> Energy answers part of it (M5 thermochemistry &rarr; M7 free energy &rarr; M8 cell potential &mdash; one continuous account), forces answer another (M6 sets the properties matter shows), and equilibrium and kinetics answer the rest (how far, in M7; how fast, in M8). When a fact feels isolated, trace it back to that question. Two habits of mind run through the whole year and are worth carrying into the exam: first, <strong>a model is honest about its limits</strong> &mdash; the ideal gas law works where its assumptions hold and fails at high pressure and low temperature; equilibrium and rate are two different questions about the same reaction. Second, <strong>knowledge carries responsibility</strong> &mdash; the Haber process feeds billions, batteries and fusion shape our energy future, and nuclear technology demands an honest weighing of benefit against risk. That is chemistry &ldquo;shaping our world,&rdquo; the fourth Grand Question, in action. To prepare: re-read each worked example and redo it on paper without looking, run every self-check widget until the feedback is green, and revisit any module's reading checks where you stumble.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Shore up weak spots first</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Any widget row or worked example that didn't click? Go back to that module's reading and redo its Reading Checks and hands-on assignment. Those are your fastest path to confidence &mdash; and they're untimed. If a calculation tripped you, redo it on paper until the units cancel cleanly.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Take the Final Exam</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">When all five sections feel solid, take the cumulative <strong>Final Exam</strong> &mdash; 40 auto-graded questions across Modules 5&ndash;9 (with a few reaching back to Semester 1), one attempt, ~75 minutes, with a calculator and periodic table allowed. It mirrors this review section for section, so a strong run here means you're ready.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A full year ago you started with a single question &mdash; <em>What is matter?</em> &mdash; and followed it down to atoms, into bonds, and through reactions. This semester you learned to <em>measure</em> that matter in motion (gases and energy), to read its properties from the forces between its particles, to predict whether and how far a change will go, to harness the electrons that change releases, and finally to look inside the nucleus itself. The course's Grand Question &mdash; <em>How do humans investigate, understand, and explain the behavior of matter?</em> &mdash; now has a year's worth of your own answers behind it. You investigated by experiment, explained with models, measured with care, and weighed what chemistry means for the world. That is what a chemist does. Carry it forward.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3&ndash;4 &middot; Student Review Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Final Review &middot; Cumulative Study Guide &mdash; Modules 5&ndash;9</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== shared number parser (handles scientific notation forms) =====
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x').replace('−','-');
+    var m = s.match(/^(-?[0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+
+  // generic checker wiring: (probId, ansId, checkId, resetId, outId, dataMap)
+  function wireChecker(probId, ansId, checkId, resetId, outId, MAP) {
+    var btn = document.getElementById(checkId);
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var out = document.getElementById(outId);
+        var key = document.getElementById(probId).value;
+        var raw = document.getElementById(ansId).value;
+        out.className = 'aam-result show';
+        if (!key) { out.classList.add('warn'); out.textContent = 'Pick a calculation from the menu first.'; return; }
+        var guess = parseNum(raw);
+        if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number. For powers of ten you can write forms like 6.022e23 or 6.0x10^14.'; return; }
+        var d = MAP[key];
+        if (Math.abs(guess - d.val) <= d.tol) {
+          out.classList.add('good');
+          out.textContent = '✓ Correct — ' + d.how + ' Confirm your units cancel: that is how you know the relationship was applied the right way.';
+        } else {
+          out.classList.add('warn');
+          var hi = guess > d.val ? 'too high' : 'too low';
+          out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.how + ' Re-check the relationship and whether you multiplied or divided.';
+        }
+      });
+    }
+    var rst = document.getElementById(resetId);
+    if (rst) {
+      rst.addEventListener('click', function () {
+        document.getElementById(probId).value = '';
+        document.getElementById(ansId).value = '';
+        var out = document.getElementById(outId); out.className = 'aam-result'; out.textContent = '';
+      });
+    }
+  }
+
+  // ===== Section A: gas & energy calculator =====
+  var AMAP = {
+    A: { val:3.0, tol:0.05, how:'Boyle: P₂ = P₁V₁ ÷ V₂ = (1.0 × 6.0) ÷ 2.0 = 3.0 atm.' },
+    B: { val:0.0893, tol:0.002, how:'Ideal gas: n = PV ÷ RT = (1.0 × 2.0) ÷ (0.08206 × 273) = 2.0 ÷ 22.4 = 0.0893 mol.' },
+    C: { val:2.83, tol:0.05, how:'Graham: rate_He ÷ rate_O₂ = √(32.00 ÷ 4.00) = √8 = 2.83 — the lighter gas effuses faster.' },
+    D: { val:12552, tol:50, how:'q = mcΔT = 50.0 × 4.184 × (80.0 − 20.0) = 50.0 × 4.184 × 60.0 = 12,552 J.' },
+    E: { val:-183, tol:2, how:'ΔH ≈ bonds broken − bonds formed = (436 + 243) − (2 × 431) = 679 − 862 = −183 kJ (exothermic).' }
+  };
+  wireChecker('a-prob','a-ans','a-check','a-reset','a-out', AMAP);
+
+  // ===== Section C: thermo / equilibrium / pH calculator =====
+  var CMAP = {
+    A: { val:-114.9, tol:0.5, how:'ΔG = ΔH − TΔS; convert ΔS to kJ/K: TΔS = 298 × 0.050 = 14.9 kJ, so ΔG = −100 − 14.9 = −114.9 kJ.' },
+    B: { val:64, tol:0.5, how:'Kc = [HI]² ÷ ([H₂][I₂]) = (1.60)² ÷ (0.20 × 0.20) = 2.56 ÷ 0.04 = 64.' },
+    C: { val:3.0, tol:0.05, how:'pH = −log[H₃O⁺] = −log(1.0 × 10⁻³) = 3.00 (acidic).' },
+    D: { val:0.120, tol:0.003, how:'mol NaOH = 0.0300 L × 0.100 M = 0.00300 mol = mol HCl; M_HCl = 0.00300 ÷ 0.0250 L = 0.120 M.' },
+    E: { val:11.0, tol:0.05, how:'pH + pOH = 14.00, so pOH = 14.00 − 3.00 = 11.00.' }
+  };
+  wireChecker('c-prob','c-ans','c-check','c-reset','c-out', CMAP);
+
+  // ===== Section E: nuclear calculator =====
+  var EMAP = {
+    A: { val:143, tol:0.5, how:'Neutrons = A − Z = 235 − 92 = 143.' },
+    B: { val:10, tol:0.5, how:'30 yr ÷ 10 yr = 3 half-lives; (1/2)³ = 1/8 remains; 80 g × 1/8 = 10 g.' },
+    C: { val:11460, tol:50, how:'1/4 = (1/2)² → 2 half-lives; 2 × 5730 = 11,460 years.' },
+    D: { val:3, tol:0.5, how:'1/8 = (1/2)³, so 3 half-lives.' },
+    E: { val:4, tol:0.5, how:'²³⁸U → ²³⁴Th + ⁴₂He; balancing A: 238 − 234 = 4 (an alpha particle).' }
+  };
+  wireChecker('e-prob','e-ans','e-check','e-reset','e-out', EMAP);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 6.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 12px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 6.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">The Dissolution Process &amp; Electrolytes</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 6.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">The Dissolution Process &amp; Electrolytes</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Stir a spoonful of salt into a glass of water and it vanishes; stir in a spoonful of cooking oil and it stubbornly refuses to mix. Stir in sugar and it disappears like the salt &mdash; yet only the salt water can carry an electric current. What is the water actually <em>doing</em> to each one?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you saw how a salt crystal is built &mdash; charged ions locked in a rigid lattice. Now you'll watch that lattice come apart. <strong>Dissolving</strong> looks like a disappearing act, but at the molecular level it is a tug-of-war of the very intermolecular forces you studied this module. This lesson explains why some things dissolve and others don't (the rule <em>like dissolves like</em>), follows water as it pulls an ionic solid apart ion by ion, and then sorts dissolved substances by a measurable test: whether their solution conducts electricity. That single test &mdash; does the bulb light? &mdash; turns out to reveal whether a substance broke into ions or stayed whole.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain dissolution at the molecular level and use the rule &ldquo;like dissolves like&rdquo; to predict whether a solute will dissolve in a given solvent.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe how water pulls ions from an ionic lattice (hydration) and write a dissolution such as NaCl &rarr; Na<sup>+</sup>(aq) + Cl<sup>&minus;</sup>(aq).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a dissolved substance as a strong electrolyte, weak electrolyte, or nonelectrolyte.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes on polarity and intermolecular forces (Module 3 and Lessons 6.01&ndash;6.04) and the ionic lattice from Lesson 6.04.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT DISSOLVING REALLY IS &mdash; AND &ldquo;LIKE DISSOLVES LIKE&rdquo;</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Two clear glasses sit on a counter. One holds salt water, one holds sugar water &mdash; both perfectly dissolved, both look identical. Dip a battery-and-bulb tester into each, and the salt water lights the bulb while the sugar water leaves it dark. Both dissolved the same way, didn't they? So why does only one carry a current? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That is exactly the heart of this lesson. A current needs charged particles free to move. When salt dissolves, it breaks apart into Na&#8314; and Cl&#8315; IONS that drift through the water and carry the charge &mdash; so the bulb lights. When sugar dissolves, it spreads out as whole, NEUTRAL sugar molecules; nothing is charged, so nothing carries current and the bulb stays dark. Dissolving and conducting are two different questions.">&#9889; Salt breaks into charged ions, but sugar dissolves as whole neutral molecules</button>
+            <button data-response="A natural guess &mdash; it does seem like 'more dissolved' should mean 'more conductive.' But concentration isn't the deciding factor here: even very strong sugar water won't light the bulb. What matters is WHAT the dissolved particles are. Salt splits into charged ions that can carry current; sugar spreads out as whole, neutral molecules that can't. This lesson sorts substances by exactly that test.">&#129516; The salt water is simply more concentrated</button>
+            <button data-response="Reasonable, but it isn't about the water itself &mdash; it is the same water in both glasses. The difference is what the dissolved substance becomes. Salt separates into Na&#8314; and Cl&#8315; ions that drift and carry charge, lighting the bulb; sugar dissolves as whole neutral molecules that carry no charge, so the bulb stays dark. The conductivity test reads out whether ions formed.">&#128167; The salt makes the water itself electric</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>solution</strong> is a homogeneous mixture &mdash; one substance spread so evenly through another that it looks like a single thing. The substance present in the smaller amount, the thing being dissolved, is the <strong>solute</strong>; the substance doing the dissolving, present in the larger amount, is the <strong>solvent</strong>. In salt water, salt is the solute and water is the solvent.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Dissolving is not magic &mdash; it is a competition between attractions. To dissolve a solute, you must pull its particles apart from each other (breaking solute&ndash;solute attractions) and push apart some solvent particles to make room (breaking solvent&ndash;solvent attractions). What pays for all that is the new <strong>solute&ndash;solvent</strong> attraction that forms. A substance dissolves readily when the solute&ndash;solvent attractions are <em>comparable</em> to the attractions that had to be broken. When they're not &mdash; when the solute and solvent simply don't attract each other well &mdash; the solute stays put.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This balance gives chemistry one of its most quoted rules of thumb: <strong>like dissolves like.</strong> Polar and ionic solutes dissolve in polar solvents (water is the great example); nonpolar solutes dissolve in nonpolar solvents (oil, hexane). The reason oil and water refuse to mix is right here: water molecules cling to one another through strong hydrogen bonds, and a nonpolar oil molecule offers nothing comparable to break into that network &mdash; so the water simply excludes the oil, and the two separate into layers.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE RULE OF THUMB</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Like dissolves like</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:8px;">polar/ionic solutes &rarr; polar solvents (water) &nbsp;&middot;&nbsp; nonpolar solutes &rarr; nonpolar solvents (oil, hexane)</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why does oil refuse to mix with water, no matter how hard you stir?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Water molecules are strongly attracted to one another by <strong>hydrogen bonding</strong>. To dissolve oil, those water&ndash;water attractions would have to be broken and replaced by water&ndash;oil attractions &mdash; but oil is <strong>nonpolar</strong> and offers only weak London dispersion forces, which are no match for water's hydrogen bonds. There's nothing in it for the water, so it stays clustered with itself and excludes the oil. Polar water and nonpolar oil are not &ldquo;like,&rdquo; so they don't dissolve &mdash; they separate into layers. Stirring just breaks them into droplets that quickly recombine.</div>
+        </details>
+
+        <!-- Nature of Science: "like dissolves like" as a model with limits -->
+        <div style="background:#EEF1F8; border-left:5px solid #6A4C93; border-radius:6px; padding:14px 20px; margin:16px 0;">
+            <div style="font-size:11px; color:#5B3E86; margin-bottom:8px;">&#128300; NATURE OF SCIENCE &middot; A RULE OF THUMB, NOT A LAW</div>
+            <div style="font-size:17px; color:#0E1C42; line-height:1.6;">&ldquo;Like dissolves like&rdquo; is exactly that &mdash; a <em>rule of thumb</em>, a compact model rather than an exact law. It captures a real pattern (polar with polar, nonpolar with nonpolar) and predicts a great many cases correctly, which is why chemists keep it close at hand. But like every model it has edges: it tells you nothing about <em>how much</em> will dissolve, temperature and pressure can shift the result, and many molecules are partly polar and partly nonpolar, dissolving only so far. A true law would give you an exact answer; a rule of thumb points you the right way and still expects your judgment. That difference &mdash; a law that <em>describes</em> versus a model that <em>explains but simplifies</em> &mdash; runs through all of chemistry. <strong>In your notebook:</strong> name one prediction &ldquo;like dissolves like&rdquo; makes well, and one question it cannot answer on its own.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; HOW WATER TAKES A LATTICE APART: HYDRATION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now follow the salt crystal from Lesson 6.04 as it meets water. A water molecule is <strong>polar</strong>: its oxygen end carries a slight negative charge and its hydrogen ends a slight positive charge. When a crystal of NaCl touches water, those charged ends go to work. The negative oxygen ends of water molecules crowd around each positive <strong>Na<sup>+</sup></strong> ion at the crystal's surface, while the positive hydrogen ends crowd around each negative <strong>Cl<sup>&minus;</sup></strong> ion. These attractions between an ion and the polar water molecules are called <strong>ion&ndash;dipole</strong> forces.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Tug by tug, the surrounding water molecules pull each ion out of the lattice and wrap it in a shell of water &mdash; a process called <strong>hydration</strong> (or, in any solvent, <strong>solvation</strong>). Freed from the crystal and cushioned by water, the ions drift off into solution. We write the whole event compactly:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:20px; color:#0e1c42; line-height:1.7; text-align:center;">
+            <strong>NaCl(s) &rarr; Na<sup>+</sup>(aq) + Cl<sup>&minus;</sup>(aq)</strong>
+            <div style="font-size:14px; color:#666; margin-top:8px;">the solid lattice separates into hydrated ions spread through the water (&ldquo;aq&rdquo; = aqueous, surrounded by water)</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is the molecular picture behind &ldquo;like dissolves like&rdquo;: polar water can dissolve an ionic solid precisely because its charged ends form strong ion&ndash;dipole attractions that compete with &mdash; and win against &mdash; the ionic bonds holding the lattice together. A nonpolar solvent has no such charged ends, so it leaves the salt crystal untouched.</p>
+
+        <!-- History callout THEN: Arrhenius -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In <strong>1884</strong>, a young Swedish chemist named <strong>Svante Arrhenius</strong> proposed a startling idea in his doctoral dissertation: that when salts and acids dissolve in water, they split apart into separate, electrically charged particles &mdash; <strong>ions</strong> &mdash; and that this is why such solutions can carry an electric current. At the time the notion that a stable compound would simply break into charged fragments in water seemed so far-fetched that his examiners barely passed his thesis. But the idea explained the conductivity measurements beautifully, and over the following years it became the foundation of how we understand solutions of acids, bases, and salts. Nearly two decades later, the same work earned Arrhenius the <strong>1903 Nobel Prize in Chemistry</strong>. It is a quiet lesson in <em>honesty</em> &mdash; following the evidence even when it points somewhere uncomfortable: the conductivity data demanded ions, and Arrhenius trusted the data over the consensus of his day.</div>
+        </div>
+
+        <!-- ow-select: like dissolves like + hydration T/F -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE?</div>
+          <div class="widget-question">Each statement is about dissolving and hydration. Decide whether it is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. &ldquo;Like dissolves like&rdquo; means polar/ionic solutes dissolve in polar solvents and nonpolar solutes in nonpolar solvents. Nonpolar oil does NOT dissolve in polar water; they separate into layers." data-hint="Oil is nonpolar and water is polar. Does &ldquo;like dissolves like&rdquo; predict they mix?">
+            <div class="widget-row-prompt">1. Because water dissolves so many things, nonpolar oil also dissolves easily in water.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; water is polar, so its negative (oxygen) ends surround positive ions and its positive (hydrogen) ends surround negative ions. These ion&ndash;dipole attractions pull the ions out of the lattice and hydrate them." data-hint="Water's oxygen end is slightly negative and its hydrogen ends slightly positive. What would those do near an ion?">
+            <div class="widget-row-prompt">2. Polar water molecules surround the ions of a dissolving salt &mdash; oxygen ends toward the positive ions, hydrogen ends toward the negative ions.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; dissolving NaCl gives Na&#8314;(aq) + Cl&#8315;(aq): the lattice separates into hydrated ions free to move through the water. That freedom is exactly what lets the solution conduct." data-hint="When the solid lattice comes apart in water, what is left drifting through the solution?">
+            <div class="widget-row-prompt">3. When NaCl dissolves, it separates into Na<sup>+</sup> and Cl<sup>&minus;</sup> ions that move freely through the water.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; ELECTROLYTES: STRONG, WEAK, AND NONE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Arrhenius's insight gives us a clean way to sort dissolved substances using one measurable test &mdash; <strong>does the solution conduct electricity?</strong> A current needs charged particles free to move, so a solution conducts only if the solute produced <strong>ions</strong> when it dissolved. Substances whose solutions conduct are called <strong>electrolytes</strong>, and they come in two strengths; substances whose solutions don't conduct are <strong>nonelectrolytes</strong>.</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:560px; margin:14px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Category</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">What happens in water</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Conducts?</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Examples</th>
+            </tr>
+            <tr style="background:#FFFFFF;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Strong electrolyte</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Fully</strong> dissociates / ionizes &mdash; nearly all of it becomes ions</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Strongly (bulb bright)</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Soluble salts (NaCl); strong acids (HCl); strong bases (NaOH)</td>
+            </tr>
+            <tr style="background:#F4F6FA;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Weak electrolyte</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>Partially</strong> ionizes &mdash; only a small fraction becomes ions; the rest stays as whole molecules</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Weakly (bulb dim)</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Weak acids (acetic acid / vinegar); weak bases (ammonia)</td>
+            </tr>
+            <tr style="background:#FFFFFF;">
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Nonelectrolyte</strong></td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Dissolves but forms <strong>no ions</strong> &mdash; stays as whole, neutral molecules</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">No (bulb dark)</td>
+                <td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">Sugar (sucrose); ethanol</td>
+            </tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is the answer to the opening puzzle. Salt is a <strong>strong electrolyte</strong>: it dissociates completely into Na<sup>+</sup> and Cl<sup>&minus;</sup> ions, so salt water conducts strongly and the bulb burns bright. Sugar is a <strong>nonelectrolyte</strong>: it dissolves perfectly well, but as whole, neutral sucrose molecules &mdash; no ions form, no charge can move, and the bulb stays dark. Two solutions that look identical can be told apart by a single quantitative reading: how brightly the bulb lights measures how many ions are free to carry the current.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the &ldquo;strong vs weak&rdquo; distinction is about the <em>fraction</em> that becomes ions, not how much dissolves. Acetic acid (the acid in vinegar) dissolves easily in water, but only a small fraction of its molecules break into ions at any moment &mdash; so vinegar conducts, but weakly. You'll return to this strong/weak idea in a big way when you study acids and bases next quarter.</p>
+
+        <!-- ow-select: classify strong/weak/non -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; STRONG, WEAK, OR NONE?</div>
+          <div class="widget-question">Classify each dissolved substance by how it behaves in water. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-hint="It dissolves beautifully and tastes sweet &mdash; but it stays as whole, neutral molecules. Does the bulb light?">
+            <div class="widget-row-prompt">1. Table sugar (sucrose) dissolved in water.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Not a strong electrolyte &mdash; a strong electrolyte fully breaks into ions and conducts brightly. Sugar dissolves but forms no ions at all.">Strong electrolyte</button>
+              <button data-choice="1" data-fb="Correct &mdash; sugar is a nonelectrolyte. It dissolves as whole, neutral sucrose molecules, produces no ions, and so its solution does not conduct (the bulb stays dark).">Nonelectrolyte</button>
+              <button data-choice="2" data-fb="Not a weak electrolyte &mdash; a weak electrolyte makes at least a few ions and conducts dimly. Sugar makes no ions whatsoever.">Weak electrolyte</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-hint="It is a soluble ionic salt; in water it separates completely into Na&#8314; and Cl&#8315;.">
+            <div class="widget-row-prompt">2. Sodium chloride (NaCl) dissolved in water.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Correct &mdash; NaCl is a strong electrolyte. As a soluble ionic salt it dissociates completely into Na&#8314;(aq) and Cl&#8315;(aq), so its solution conducts strongly.">Strong electrolyte</button>
+              <button data-choice="1" data-fb="Not a nonelectrolyte &mdash; NaCl produces plenty of free ions and conducts well. A nonelectrolyte makes no ions.">Nonelectrolyte</button>
+              <button data-choice="2" data-fb="Not weak &mdash; NaCl dissociates essentially completely, not partially. It is a strong electrolyte.">Weak electrolyte</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-hint="It is the acid in vinegar; it dissolves easily, but only a small fraction of its molecules break into ions at any moment.">
+            <div class="widget-row-prompt">3. Acetic acid (vinegar) dissolved in water.</div>
+            <div class="widget-options">
+              <button data-choice="0" data-fb="Not a strong electrolyte &mdash; acetic acid only partially ionizes, so it conducts weakly, not strongly. A strong electrolyte (like HCl) ionizes essentially completely.">Strong electrolyte</button>
+              <button data-choice="1" data-fb="Not a nonelectrolyte &mdash; it does make some ions, so its solution conducts (dimly). A nonelectrolyte makes none.">Nonelectrolyte</button>
+              <button data-choice="2" data-fb="Correct &mdash; acetic acid is a weak electrolyte. It dissolves readily, but only a small fraction of its molecules ionize at a time, so the solution conducts weakly (a dim bulb).">Weak electrolyte</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI tool whether a substance is a strong, weak, or nonelectrolyte and it will usually answer instantly &mdash; but the reasoning is what you're being graded on, and a tool can get the label right for the wrong reason (or simply get an unusual case wrong). The reliable move is to reason it through yourself: does this substance form ions in water, and if so, fully or only partly? Soluble salts and strong acids &rarr; strong; partly-ionizing weak acids/bases &rarr; weak; molecular substances that stay whole (sugar, ethanol) &rarr; none. Use the tool to <em>check</em> your classification, then make sure your reason &mdash; ions or no ions &mdash; matches the evidence. The conductivity logic is the evidence; the tool is a second opinion, not the judge.</div>
+        </div>
+    </div>
+
+    <!-- Then -> Now -> Future (Modern Research thread, Week 2) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 10px;">&#128262; THEN &rarr; NOW &rarr; FUTURE &middot; FROM DISSOLVING SALT TO CLEAN WATER AND BETTER BATTERIES</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;"><strong>Then:</strong> nineteenth-century chemists worked out the two ideas behind this week &mdash; that a crystal is a repeating <em>lattice</em>, and that dissolving is ions and molecules pulling free into a solvent. <strong>Now:</strong> those same ideas run modern technology. <em>Desalination</em> plants force seawater through membranes that hold back the hydrated Na<sup>+</sup> and Cl<sup>&minus;</sup> ions while letting water through, turning ocean water into drinking water for millions of people; battery engineers design crystal-lattice materials whose structures let ions slip in and out as the cell charges and discharges. <strong>Future:</strong> the open questions are live ones &mdash; can we desalinate seawater with far less energy, and can we build lattice materials that store more ions without breaking down over thousands of charge cycles? Scientists are actively exploring both, and the chemistry you are learning now is where that work begins.</div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson powers the second half of this week's <strong>Build 2 of 3</strong> in OptimaXR &mdash; the <strong>dissolution station</strong> you add beside your crystal lattice. There you'll show water molecules crowding around the ions at the surface of the lattice and pulling them off one by one (ion&ndash;dipole hydration), with labels marking <strong>Na<sup>+</sup>(aq)</strong> and <strong>Cl<sup>&minus;</sup>(aq)</strong> drifting free &mdash; a strong electrolyte caught in the act. Add a second small jar of sugar dissolving as whole, neutral molecules and label it a <em>nonelectrolyte</em> for contrast. The sticky-note idea: <em>dissolving and conducting are two questions &mdash; only substances that break into ions can carry a current.</em></div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 6.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on dissolution, &ldquo;like dissolves like,&rdquo; hydration, and electrolytes. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Complete the Week 2 Hands-On</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Classify solids by type and predict their properties, read solubility curves, and sort substances as strong, weak, or nonelectrolytes &mdash; this week's &ldquo;doing chemistry&rdquo; work.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Intermolecular Forces &amp; States Model (Build 2 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish the dissolution station &mdash; water pulling ions off the lattice, labeled strong electrolyte vs nonelectrolyte &mdash; beside this week's crystal lattice. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Dissolving is a tug-of-war of intermolecular forces: a solute dissolves when its attraction to the solvent is comparable to the attractions broken &mdash; which is why <em>like dissolves like</em>, and why polar water dissolves ionic salts but excludes nonpolar oil. Water takes an ionic lattice apart through ion&ndash;dipole hydration, sending free Na<sup>+</sup>(aq) and Cl<sup>&minus;</sup>(aq) into solution. A single measurable test &mdash; does the solution conduct? &mdash; sorts solutes into strong electrolytes (fully ionize), weak electrolytes (partly ionize), and nonelectrolytes (no ions). Hold onto this: <em>dissolving and conducting are two different questions &mdash; only substances that break into ions can carry a current.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 6.05 &middot; The Dissolution Process &amp; Electrolytes</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

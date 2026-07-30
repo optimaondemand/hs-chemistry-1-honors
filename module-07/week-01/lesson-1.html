@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (entropy-sign predictor) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Spontaneity &amp; Entropy</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Spontaneity &amp; Entropy</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Snap an instant cold pack and it turns icy in your hand &mdash; it pulls in heat and gets <em>colder</em> on its own, with nothing pushing it. How can a process that takes in energy still happen all by itself?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For three quarters you have asked <em>what</em> matter is and <em>how much</em> it changes. Now, in the final quarter, we ask a deeper question: <strong>which</strong> changes happen on their own, and <strong>why</strong>? An ice cube melts in a warm room, but a puddle never refreezes by itself; a drop of dye spreads through water but never gathers back into a drop; iron rusts but rust never un-rusts. Energy alone cannot explain this &mdash; the cold pack <em>absorbs</em> energy yet still happens. The missing idea is <strong>entropy</strong>, a measure of how spread out energy and matter are. This lesson introduces <strong>spontaneity</strong> (a change that proceeds without continuous outside help) and entropy, and shows how the two together begin to explain the direction of all natural change. It is the opening move of the great thermodynamic question that runs through this whole module.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> define a spontaneous process and recognize that spontaneity is about direction, not speed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe entropy (S) as the dispersal of energy and matter, and predict whether a process raises or lowers the entropy of the system.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how a process that absorbs heat can still be spontaneous, using the entropy of the surroundings (&Delta;S<sub>surr</sub> = &minus;&Delta;H<sub>sys</sub>/T).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 5 notes on enthalpy (&Delta;H), endothermic vs. exothermic, and the states of matter &mdash; we build directly on both today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT IT MEANS FOR A CHANGE TO HAPPEN ON ITS OWN</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Snap an instant cold pack and it gets icy cold in your hand &mdash; it <em>absorbs</em> heat from your skin, yet it does this all by itself the moment you break the inner pouch. If a process can be cold-producing and still happen on its own, what does that tell you about &ldquo;giving off heat&rdquo;? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson builds on. Giving off heat is NOT what makes a change happen on its own. The cold pack absorbs heat (endothermic) and still proceeds, so something besides energy is at work. That something is entropy &mdash; how spread out the energy and matter become. The salt dissolving inside the pack scatters its ions through the water, a big increase in disorder, and that drives the change.">&#129482; Releasing heat can't be the only thing that drives a change</button>
+            <button data-response="It feels like spontaneous changes should release heat, but the cold pack is living proof they don't have to &mdash; it absorbs heat and still happens. So heat flow alone can't be the rule. The real driver here is entropy: dissolving scatters the salt's ions through the water, a large increase in disorder, and that pushes the process forward even though it takes in energy.">&#128293; A change can only happen on its own if it releases heat</button>
+            <button data-response="Speed isn't the issue &mdash; the cold pack reacts almost instantly, but a spontaneous change could just as easily be slow (iron rusting takes years). Spontaneity is about DIRECTION, not speed. What's striking here is that an energy-absorbing change still goes forward on its own, which means entropy &mdash; the spreading out of matter and energy &mdash; must be part of the story.">&#9201;&#65039; It must just be happening too fast to take in heat</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Chemists call a change <strong>spontaneous</strong> when it proceeds <em>without continuous outside intervention</em> &mdash; once it starts, nature carries it forward on its own. A nail left outdoors rusts; a hot cup of coffee cools to room temperature; a sugar cube dissolves in tea. None of these need to be pushed along. Their reverses &mdash; rust turning back into shiny iron, cool coffee reheating itself, dissolved sugar reassembling into a cube &mdash; never happen on their own. They are <strong>nonspontaneous</strong>: you could force them, but only by spending continuous energy from outside.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">One warning that trips up almost everyone: <strong>spontaneous does not mean fast</strong>. Spontaneity tells you the <em>direction</em> a change will run, not how quickly. A diamond is, very slowly, spontaneously turning into graphite &mdash; but the rate is so glacial that diamonds last for ages. The cold pack, by contrast, is spontaneous <em>and</em> fast. Speed is a separate question (you will study reaction rates later in this module); right now we care only about which way change naturally goes.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Spontaneity is about <em>direction</em>, not speed</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">a change can be spontaneous and slow, or spontaneous and fast</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction is extremely slow at room temperature. Does that prove it is nonspontaneous?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. Slow says nothing about spontaneity. A spontaneous change can crawl &mdash; diamond converting to graphite, or wood slowly rotting &mdash; because spontaneity only tells you which <em>direction</em> nature favors, not the speed. To know the speed you need to study reaction rates (kinetics), which is a different question entirely. Keep the two separate: <em>direction</em> = thermodynamics (this lesson); <em>speed</em> = kinetics (later).</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; ENTROPY &mdash; THE SPREADING OUT OF ENERGY AND MATTER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why does change run one way and not the other? The deep reason is that matter and energy, left to themselves, tend to <strong>spread out</strong>. A drop of dye disperses through water because there are vastly more ways for the dye particles to be scattered everywhere than to be clustered in one drop. Heat flows from hot to cold because energy spreads out among more particles. This natural tendency to disperse is measured by a quantity called <strong>entropy</strong>, given the symbol <strong>S</strong> and measured in joules per kelvin (<strong>J/K</strong>).</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Entropy is often described in shorthand as &ldquo;disorder,&rdquo; and that picture is useful as long as you remember what it really means: a state of higher entropy is one in which energy and matter are more spread out, with more possible arrangements. A neat deck of cards has low entropy (one arrangement); a shuffled deck has high entropy (countless arrangements). At the molecular level, a gas has far higher entropy than the same substance as a solid, because gas particles roam freely through an enormous space while solid particles are locked in place.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">When does entropy increase?</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A few reliable patterns let you predict the sign of &Delta;S (the change in entropy) without any calculation:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Entropy tends to <strong>increase</strong> (&Delta;S &gt; 0) when:<br>
+            &bull; a substance changes <strong>solid &rarr; liquid &rarr; gas</strong> (particles get freer);<br>
+            &bull; a solid <strong>dissolves</strong> and its particles scatter through the solvent;<br>
+            &bull; the <strong>temperature rises</strong> (particles move and jostle more);<br>
+            &bull; a reaction produces <strong>more moles of gas</strong> than it consumed;<br>
+            &bull; two substances <strong>mix</strong>.<br>
+            <span style="font-size:15px; color:#555;">The reverse of any of these (freezing, condensing, fewer gas moles, cooling) <em>lowers</em> entropy &mdash; &Delta;S &lt; 0.</span>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The idea of entropy grew out of a very practical nineteenth-century problem: how to get useful work out of a steam engine. The French engineer <strong>Sadi Carnot</strong> studied the flow of heat in engines in the 1820s, and decades later the German physicist <strong>Rudolf Clausius</strong> gave the concept its name and symbol, coining <em>entropy</em> in the 1860s to capture the heat that always seemed to slip away, unable to do work. At the time, many still pictured heat as a weightless fluid called <em>caloric</em> that simply flowed from hot to cold; it was careful measurement of what engines could and could not do that decided the matter, revealing heat instead as energy in transit that always tends to disperse. What began as a question about machines turned out to describe the direction of <em>every</em> natural change &mdash; one of the great unifying surprises in the history of science.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked entropy-ranking</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Rank one mole of water as a <strong>solid (ice)</strong>, a <strong>liquid</strong>, and a <strong>gas (steam)</strong> from lowest to highest entropy.<br><br>
+            <strong>Reason it out:</strong><br>
+            &bull; <strong>Ice</strong> &mdash; molecules locked in a rigid lattice, very few arrangements. <em>Lowest entropy.</em><br>
+            &bull; <strong>Liquid water</strong> &mdash; molecules still touching but free to slide past one another, more arrangements. <em>Middle.</em><br>
+            &bull; <strong>Steam</strong> &mdash; molecules flying apart through a huge volume, enormous number of arrangements. <em>Highest entropy.</em><br><br>
+            <strong>Order: ice &lt; liquid water &lt; steam.</strong> So melting (s&rarr;l) and boiling (l&rarr;g) both have &Delta;S &gt; 0, while freezing and condensing have &Delta;S &lt; 0.
+        </div>
+
+        <!-- ow-flip: more or less entropy cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; MORE OR LESS ENTROPY?</div>
+          <div class="widget-question">Predict whether each process raises (&Delta;S &gt; 0) or lowers (&Delta;S &lt; 0) the entropy of the system, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128167; Ice melting into water &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>&Delta;S &gt; 0 (increase).</strong> Solid &rarr; liquid frees the molecules to move past one another &mdash; more arrangements, higher entropy.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127786;&#65039; Water vapor condensing on a cold glass &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>&Delta;S &lt; 0 (decrease).</strong> Gas &rarr; liquid pulls free-flying molecules into a tight liquid &mdash; fewer arrangements, lower entropy.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; Salt dissolving in water &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>&Delta;S &gt; 0 (increase).</strong> The ions scatter from an ordered crystal out through the whole solution &mdash; a large rise in disorder.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9879;&#65039; 2 NO<sub>2</sub>(g) &rarr; N<sub>2</sub>O<sub>4</sub>(g) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>&Delta;S &lt; 0 (decrease).</strong> Two moles of gas become one &mdash; fewer gas particles means fewer arrangements, so entropy drops.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY THE COLD PACK WORKS &mdash; ENTROPY OF THE SURROUNDINGS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now we can answer the opening puzzle. The salt dissolving inside an instant cold pack is <strong>endothermic</strong> &mdash; it pulls heat in from the surroundings (your hand), which is exactly why the pack feels cold. From Module 5 you would expect endothermic changes to resist happening. So why does it run on its own?</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because spontaneity depends on the entropy of <em>everything</em> involved &mdash; not just the reacting system, but its surroundings too. When the system absorbs heat, it cools the surroundings, which slightly <em>lowers</em> the surroundings' entropy. When the system releases heat, it warms the surroundings and <em>raises</em> their entropy. This relationship is captured by a compact equation:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">ENTROPY OF THE SURROUNDINGS</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>&Delta;S<sub>surr</sub> = &minus;&Delta;H<sub>sys</sub> / T</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">an exothermic system (&Delta;H &lt; 0) warms the surroundings and raises their entropy; T is in kelvin</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For the cold pack, the dissolving releases its salt ions into the water &mdash; an enormous increase in the entropy of the <em>system</em>. That gain in spreading-out is large enough to outweigh the small entropy loss in the cooled surroundings, so the <em>total</em> still increases and the process runs. The lesson is profound: a change does not have to release heat to be spontaneous. It only has to increase the entropy of the universe as a whole. (That total-entropy rule is the Second Law, which you meet next lesson.)</p>
+
+        <!-- Custom .aam-widget: entropy-sign predictor -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; ENTROPY-SIGN PREDICTOR</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick what happens to the particles, and the tool reports the expected sign of &Delta;S for the system &mdash; then reason out <em>why</em> before you read the explanation.</div>
+          <div class="aam-row">
+            <label for="esp-sel">Process:&nbsp;</label>
+            <select id="esp-sel">
+              <option value="">&mdash; choose a process &mdash;</option>
+              <option value="up">Solid melts to a liquid (s &rarr; l)</option>
+              <option value="up2">Liquid boils to a gas (l &rarr; g)</option>
+              <option value="up3">Solid dissolves and scatters in water</option>
+              <option value="up4">Reaction makes MORE moles of gas</option>
+              <option value="down">Gas condenses to a liquid (g &rarr; l)</option>
+              <option value="down2">Liquid freezes to a solid (l &rarr; s)</option>
+              <option value="down3">Reaction makes FEWER moles of gas</option>
+            </select>
+            <button class="aam-btn" id="esp-go">Predict &Delta;S</button>
+          </div>
+          <div class="aam-result" id="esp-out"></div>
+          <button class="widget-reset" id="esp-reset">Reset</button>
+        </div>
+
+        <!-- Then -> Now -> Future callout (gold highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; THEN &rarr; NOW &rarr; FUTURE &middot; ENTROPY AND THE ENERGY WE CAN USE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> the whole idea began with a machine question &mdash; how much of a fire's heat can a steam engine actually turn into work? The answer, worked out in the 1800s, was sobering: no heat engine can convert heat to work perfectly, because some energy always disperses. That inescapable limit <em>is</em> entropy at work.<br><br><strong>Now:</strong> the same entropy-and-energy budget governs today's great energy race. Engineers chasing <strong>fusion energy</strong> &mdash; the reaction that powers the Sun &mdash; must make a reaction deliver far more usable energy than inevitably disperses as low-grade heat before a reactor can &ldquo;break even.&rdquo;<br><br><strong>Future:</strong> scientists are currently exploring reactor designs and materials whose energy-and-entropy balance might make clean, controllable fusion power practical &mdash; though how far and how fast this scales remains an open question. You will meet the tool that makes this budget precise &mdash; Gibbs free energy &mdash; very soon, the single number that combines energy and entropy to decide what is possible.</div>
+        </div>
+
+        <!-- ow-select: spontaneity/entropy true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT SPONTANEITY &amp; ENTROPY</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Spontaneity is about direction, not speed. A spontaneous change can be extremely slow (diamond &rarr; graphite) or fast (a cold pack). Slowness never proves a change is nonspontaneous." data-hint="Does 'spontaneous' tell you how FAST a change goes, or only which DIRECTION?">
+            <div class="widget-row-prompt">1. If a reaction is very slow, it must be nonspontaneous.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; gases have far higher entropy than solids. In a gas the particles roam through an enormous space with countless arrangements; in a solid they are locked in place with very few." data-hint="Which state has its particles most spread out and free to move?">
+            <div class="widget-row-prompt">2. For the same substance, the gas phase has higher entropy than the solid phase.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The instant cold pack ABSORBS heat (endothermic) yet happens on its own, because dissolving scatters the salt ions and raises the system's entropy enough to drive it. Spontaneous changes do not have to release heat." data-hint="Think about the cold pack &mdash; does it give off heat or take it in?">
+            <div class="widget-row-prompt">3. A spontaneous change must always release heat to the surroundings.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; dissolving a solid scatters its particles from an ordered crystal throughout the solution, a clear increase in disorder, so &Delta;S is positive (entropy increases)." data-hint="When the crystal breaks apart, do the particles become more spread out or less?">
+            <div class="widget-row-prompt">4. Dissolving a solid in water generally increases the entropy of the system.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal rank entropy -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>For the reaction 2 H<sub>2</sub>(g) + O<sub>2</sub>(g) &rarr; 2 H<sub>2</sub>O(g), does the entropy of the system rise or fall? Why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>It falls &mdash; &Delta;S &lt; 0.</strong> Count the moles of gas: the left side has 3 moles of gas (2 H<sub>2</sub> + 1 O<sub>2</sub>), the right side has only 2 moles of gas (2 H<sub>2</sub>O vapor). Fewer gas particles means fewer possible arrangements, so the entropy of the system decreases. Counting gas moles is the single fastest way to predict the sign of &Delta;S for a reaction.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your module-long project in OptimaXR &mdash; the <strong>Equilibrium &amp; Acid-Base Station</strong>, which you'll add to every week and narrate on camera at the end. This is <strong>Build 1 of 5: the Entropy &amp; Spontaneity Sort</strong>. You'll sort sample processes into <em>more-entropy</em> / <em>less-entropy</em> bins and <em>spontaneous</em> / <em>nonspontaneous</em> bins, labeling <em>why</em> for each (gas formed, dissolving, temperature up, more gas moles). A sticky note will anchor the whole module: &ldquo;&Delta;S<sub>univ</sub> &gt; 0 for a spontaneous process.&rdquo; The sorting you do is exactly the &Delta;S reasoning you practiced above, made big enough to walk through. Leave plenty of room on the bench &mdash; you'll add an equilibrium demo, a Le Ch&acirc;telier panel, a pH station, and a titration setup in the weeks ahead.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on spontaneity, entropy, and the patterns that raise or lower &Delta;S. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can read entropy, you'll meet the Second Law &mdash; the universe's entropy always rises in a spontaneous change &mdash; and the Third Law, which gives entropy an absolute zero point so we can tabulate it.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Equilibrium &amp; Acid-Base Station (Build 1 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Sort processes by entropy and spontaneity and label why. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A <em>spontaneous</em> change is one that proceeds without continuous outside help &mdash; and spontaneity is about <em>direction</em>, not speed. The deep driver of direction is <strong>entropy (S)</strong>, the spreading out of energy and matter, which rises when solids melt, liquids boil, solids dissolve, temperatures climb, or reactions make more gas. Crucially, a change need <em>not</em> release heat to be spontaneous: an endothermic cold pack runs because dissolving raises the system's entropy enough to win, even as the cooled surroundings lose a little (&Delta;S<sub>surr</sub> = &minus;&Delta;H<sub>sys</sub>/T). Hold onto this: <em>the direction of every natural change is decided by what happens to the total entropy &mdash; the rule we sharpen into the Second Law next lesson, and fold into a single decision-making number, Gibbs free energy, soon after.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.01 &middot; Spontaneity &amp; Entropy</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== entropy-sign predictor (.aam-widget) ===== */
+  var espGo = document.getElementById('esp-go');
+  if (espGo) {
+    var espMsg = {
+      up:  ['good', '&Delta;S &gt; 0 (entropy INCREASES). Melting frees molecules from a rigid lattice to slide past one another &mdash; more arrangements.'],
+      up2: ['good', '&Delta;S &gt; 0 (entropy INCREASES). Boiling sends molecules flying apart through a huge volume &mdash; the largest entropy jump of the phase changes.'],
+      up3: ['good', '&Delta;S &gt; 0 (entropy INCREASES). The ions scatter from an ordered crystal throughout the whole solution &mdash; a big rise in disorder.'],
+      up4: ['good', '&Delta;S &gt; 0 (entropy INCREASES). More moles of gas means more freely moving particles and more arrangements. Counting gas moles is the fastest sign check.'],
+      down:  ['warn', '&Delta;S &lt; 0 (entropy DECREASES). Condensing pulls free-flying gas molecules into a tight liquid &mdash; fewer arrangements.'],
+      down2: ['warn', '&Delta;S &lt; 0 (entropy DECREASES). Freezing locks molecules into a rigid lattice &mdash; far fewer arrangements.'],
+      down3: ['warn', '&Delta;S &lt; 0 (entropy DECREASES). Fewer moles of gas means fewer freely moving particles, so entropy drops.']
+    };
+    espGo.addEventListener('click', function () {
+      var sel = document.getElementById('esp-sel').value;
+      var out = document.getElementById('esp-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a process first.'; return; }
+      var m = espMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('esp-reset').addEventListener('click', function () {
+      document.getElementById('esp-sel').value = '';
+      var out = document.getElementById('esp-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

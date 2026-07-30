@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom Graham's-law effusion-ratio checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Kinetic-Molecular Theory; Effusion &amp; Diffusion</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Kinetic-Molecular Theory; Effusion &amp; Diffusion</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You have spent two weeks <em>measuring</em> gases &mdash; pressure, volume, temperature, amount &mdash; and the laws have held beautifully. But none of those laws told you <em>why</em>. Why should squeezing a gas raise its pressure? Why should warming it push the plunger out? What is actually happening in there?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">So far you have treated a gas as a set of numbers that obey rules. This lesson opens the box. The <strong>kinetic-molecular theory</strong> (KMT) is the picture of moving particles that <em>explains</em> every gas law you have already measured &mdash; turning a list of empirical regularities into a single, reasoned story. Along the way you will meet a clean test of that story: lighter molecules move faster than heavy ones at the same temperature, and you can predict exactly how much faster with <strong>Graham's law</strong>. By the end you will be able to look at a number on a pressure gauge and say not just <em>what</em> it reads, but <em>why</em>.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the postulates of the kinetic-molecular theory and use them to explain why a gas exerts pressure and obeys the gas laws.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why the average kinetic energy of gas particles depends only on the absolute (Kelvin) temperature, so lighter molecules move faster than heavier ones at the same temperature.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish diffusion from effusion and use Graham's law, rate&#8321;/rate&#8322; = &radic;(M&#8322;/M&#8321;), to compare the rates of two gases.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table (for molar masses), and a calculator with a square-root key.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes an effusion-ratio checking tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE THEORY BEHIND THE LAWS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You press the plunger of a sealed syringe and the pressure reading climbs. Picture the gas inside as billions of tiny particles flying around. <em>Why</em> does squeezing them into a smaller space raise the pressure? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That is exactly the kinetic picture. Pressure is just particles striking the walls. Shrink the container and each particle reaches a wall sooner &mdash; more collisions per second on every patch of wall &mdash; so the pressure rises. Nothing about the particles changed; you only crowded them.">&#128293; The particles hit the walls more often when crowded together</button>
+            <button data-response="Careful &mdash; if you only push the plunger, you don't speed the particles up. Their speed depends on temperature, not on volume. What changes is how OFTEN they hit a wall: in a smaller space, each particle reaches a wall sooner, so the collision rate &mdash; and the pressure &mdash; goes up.">&#9889; The particles start moving faster when squeezed</button>
+            <button data-response="A reasonable guess, but the particles don't grow or shrink &mdash; and in the kinetic model their own volume is tiny compared with the space between them. What rises is the NUMBER of wall collisions per second as you crowd them into less room. That is the pressure.">&#9711; The particles get bigger and fill the space</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Notice what just happened. You explained a measured fact &mdash; smaller volume, higher pressure &mdash; not by quoting Boyle's law, but by imagining what the particles are <em>doing</em>. That move is the whole point of a scientific theory. A <strong>law</strong> describes a pattern in measurements; a <strong>theory</strong> offers a mechanism that explains <em>why</em> the pattern holds. The kinetic-molecular theory is the mechanism behind every gas law in this module. It rests on a short list of assumptions about gas particles:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:12px 0; font-size:16px; color:#0e1c42; line-height:1.75;">
+            <strong>The postulates of the kinetic-molecular theory</strong><br>
+            <strong>1.</strong> A gas is made of a huge number of tiny particles in constant, random motion, far apart from one another.<br>
+            <strong>2.</strong> The particles themselves take up almost no space &mdash; nearly all of a gas's volume is empty space between them.<br>
+            <strong>3.</strong> The particles neither attract nor repel one another; between collisions they travel in straight lines.<br>
+            <strong>4.</strong> Collisions (with each other and with the walls) are <em>elastic</em> &mdash; no kinetic energy is lost overall.<br>
+            <strong>5.</strong> The <em>average</em> kinetic energy of the particles depends only on the absolute temperature, in kelvins.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Watch how these few ideas pay for every law you measured. <strong>Pressure</strong> is nothing more than countless particles drumming on the walls (postulate 1). <strong>Boyle's law</strong> (squeeze the volume, pressure rises) follows because a smaller box means each particle reaches a wall sooner &mdash; more hits per second. <strong>Charles's law</strong> (warm it, it expands) follows because higher temperature means faster particles striking harder and more often, which pushes a movable wall outward until the pressure rebalances. <strong>Gay-Lussac's law</strong> (warm a rigid container, pressure rises) is the same story with the walls held fixed. Even <strong>Dalton's law of partial pressures</strong> falls out of postulate 3: because particles ignore one another, each gas in a mixture drums on the walls as if the others weren't there, and the total pressure is just the sum. One picture; all the laws.</p>
+
+        <!-- Nature of Science note -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; LAW vs. THEORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">It is tempting to think a &ldquo;theory&rdquo; is a weaker, less-certain kind of fact &mdash; a guess waiting to be promoted to a law. In science it is the other way around. A <strong>law</strong> tells you reliably <em>what</em> happens (pressure doubles when volume halves); a <strong>theory</strong> tells you <em>why</em>, with a mechanism you can reason from and test in new situations. Boyle measured his law more than a century before anyone could picture moving molecules. The kinetic-molecular theory came later and earned its keep by explaining not one law but all of them at once &mdash; and, as you'll see next lesson, by predicting exactly where the simple picture should start to fail. That reach is what makes it a theory, not just a summary.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Using the kinetic picture, why does a sealed, rigid can of gas thrown into a fire eventually burst?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Heating the gas raises its temperature, which (postulate 5) raises the average kinetic energy of its particles &mdash; they move faster. In a rigid can the volume can't grow, so the faster particles simply strike the walls harder and more often: the pressure climbs (Gay-Lussac). When the pressure exceeds what the metal can hold, it bursts. The fix is never to heat a sealed pressurized container &mdash; the same reasoning is printed as a warning on aerosol cans.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; TEMPERATURE, KINETIC ENERGY, AND SPEED</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Postulate 5 is the quiet engine of the whole theory, so it deserves a careful look. It says the <strong>average kinetic energy</strong> of the particles is set by the <strong>absolute temperature</strong> &mdash; the temperature in <strong>kelvins</strong> &mdash; and by nothing else. This is the deepest meaning of temperature: it is a measure of how energetically the particles are moving.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE HEART OF THE THEORY</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>average kinetic energy &nbsp;&prop;&nbsp; absolute temperature (K)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">same temperature &rarr; same average KE, for <em>every</em> gas</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the consequence that surprises people. At a given temperature &mdash; say, room temperature &mdash; helium, oxygen, and carbon dioxide all share the <em>same average kinetic energy</em>. But kinetic energy is &frac12;<em>mv</em>&sup2;: it depends on both mass and speed. If a heavy molecule and a light molecule carry the same energy, the light one must be moving <strong>faster</strong> to make up for its smaller mass. So at the same temperature, lighter molecules travel faster on average than heavier ones. A helium atom (4.00 g/mol) zips along; a carbon-dioxide molecule (44.01 g/mol) lumbers. Same energy, very different speeds.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is also <em>why we always convert to kelvins</em> in gas calculations &mdash; a habit you have now used all module. Kinetic energy can never be negative, and it reaches zero only when motion stops. The Kelvin scale is built so that 0&nbsp;K (absolute zero) is exactly that point of zero motion. Double the Kelvin temperature and you double the average kinetic energy; the Celsius scale, with its arbitrary zero, can't make that claim. The precision of the Kelvin scale is the discipline that lets the theory be quantitative at all.</p>
+
+        <!-- ow-select: KMT/temperature classify -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TEMPERATURE, ENERGY, AND SPEED</div>
+          <div class="widget-question">Each statement is about kinetic energy, temperature, or molecular speed. Decide whether it is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; at the same temperature every gas has the same AVERAGE kinetic energy. That's postulate 5, and it's exactly why speeds differ: same energy, different masses." data-hint="At one temperature, is the average kinetic energy the same for all gases, or different?">
+            <div class="widget-row-prompt">1. At the same temperature, helium and oxygen have the same average kinetic energy.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Same energy, but different masses, means different speeds. The lighter helium atom must move faster than the heavier oxygen molecule to carry the same kinetic energy." data-hint="If they share the same energy but helium is much lighter, can their speeds really be equal?">
+            <div class="widget-row-prompt">2. Because they have the same average kinetic energy, helium and oxygen also move at the same average speed.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; raising the Kelvin temperature raises the average kinetic energy, so the particles speed up. Temperature IS the measure of average molecular motion." data-hint="What does the absolute temperature measure about the particles?">
+            <div class="widget-row-prompt">3. Warming a gas (raising its Kelvin temperature) increases the average kinetic energy of its particles.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; FALSE. Heavier molecules move SLOWER at a given temperature, not faster. Same energy + more mass = less speed. CO&#8322; lumbers; helium zips." data-hint="Same energy for both &mdash; does more mass make a molecule faster or slower?">
+            <div class="widget-row-prompt">4. At the same temperature, a heavier molecule moves faster than a lighter one.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; DIFFUSION, EFFUSION, AND GRAHAM'S LAW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">If lighter molecules really move faster, we should be able to <em>see</em> it &mdash; and we can, in two everyday phenomena. <strong>Diffusion</strong> is the gradual spreading of one gas through another: open a bottle of perfume at the front of a room and, minute by minute, it reaches the back as its molecules wander among the air molecules. <strong>Effusion</strong> is the escape of gas particles one at a time through a tiny pinhole into a vacuum or lower-pressure region &mdash; like helium slowly leaking out of a sealed balloon until it sags. Both depend on how fast the particles move, so both happen faster for lighter gases.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;"><strong>Diffusion</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">One gas spreading <em>through</em> another &mdash; perfume crossing a room, smoke filling the air. Particles mingle and mix.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:17px; color:#0E1C42; margin-bottom:4px;"><strong>Effusion</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Gas escaping through a tiny <em>pinhole</em> into emptier space &mdash; a balloon slowly deflating. Particles slip out one at a time.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In the 1800s the Scottish chemist <strong>Thomas Graham</strong> measured effusion rates carefully and found a clean rule. The rate at which a gas effuses is inversely proportional to the square root of its molar mass &mdash; so comparing two gases gives:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">GRAHAM'S LAW OF EFFUSION</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>rate&#8321; / rate&#8322; &nbsp;=&nbsp; &radic;(M&#8322; / M&#8321;)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">the lighter gas (smaller M) effuses faster</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read the formula carefully: the molar masses are <em>flipped</em> relative to the rates. Gas&nbsp;1's rate sits over gas&nbsp;2's rate, but gas&nbsp;2's mass sits over gas&nbsp;1's mass inside the square root. That flip is what makes the lighter gas come out faster &mdash; exactly what the kinetic theory predicted in Part 2.</p>
+
+        <!-- History-of-science vignette: Graham + Maxwell-Boltzmann -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128220; HISTORY OF SCIENCE &middot; GRAHAM, AND THE DISTRIBUTION OF SPEEDS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Thomas Graham, working in Scotland in the 1830s and 1840s, could not see a single gas molecule &mdash; yet he set out to <em>measure</em> how fast different gases escape through a fine opening. Timing gas after gas, he uncovered a strikingly simple pattern: the rate of effusion is inversely proportional to the square root of the gas's density, and so to the square root of its molar mass. The regularity was too clean to be coincidence &mdash; it was the deciding evidence that a gas's very identity governs how fast its particles move. Decades later <strong>James Clerk Maxwell</strong> and <strong>Ludwig Boltzmann</strong> supplied the deeper picture: the particles in a gas do not all share one speed but spread across a whole <em>distribution</em> of speeds, and that distribution stretches faster and wider as temperature climbs. Graham measured the pattern; Maxwell and Boltzmann explained why its average behaves exactly as the kinetic theory says it must.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: helium vs. oxygen</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">How much faster does helium (He, 4.00 g/mol) effuse than oxygen (O<sub>2</sub>, 32.00 g/mol)? Let gas&nbsp;1 be helium and gas&nbsp;2 be oxygen, then put the masses into the square root with gas&nbsp;2 on top:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            rate<sub>He</sub> / rate<sub>O&#8322;</sub> &nbsp;=&nbsp; &radic;(M<sub>O&#8322;</sub> / M<sub>He</sub>) &nbsp;=&nbsp; &radic;(32.00 / 4.00) &nbsp;=&nbsp; &radic;8.00<br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;"><strong>= 2.83 &nbsp;&rarr;&nbsp; helium effuses about 2.83 times faster than oxygen</strong></span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A sensible answer: helium is the lighter gas, so it should come out faster, and 2.83 is greater than 1 &mdash; the arithmetic agrees with the physics. (This is why a helium balloon goes limp days before an air-filled one: the small, fast helium atoms slip through the rubber far faster.) A quick way to check yourself: <em>the lighter gas always wins the race, so its rate-over-the-other should be a number bigger than 1.</em></p>
+
+        <!-- CUSTOM WIDGET: Graham's-law effusion-ratio checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; GRAHAM'S-LAW EFFUSION-RATIO CHECKER</div>
+          <div class="widget-question">Pick a pair, decide which is gas&nbsp;1, type <strong>your</strong> ratio (rate of gas&nbsp;1 &divide; rate of gas&nbsp;2), and check it. The tool tells you if you're too high or too low and reminds you to flip the masses &mdash; but <em>you</em> set up &radic;(M&#8322;/M&#8321;) and do the square root. (A checker can verify a number; it can't decide which gas is faster for you.)</div>
+          <div class="aam-row">
+            <label>Compare (gas&nbsp;1 / gas&nbsp;2):
+              <select id="gl-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">He / O&#8322; &nbsp;(4.00 / 32.00)</option>
+                <option value="B">H&#8322; / O&#8322; &nbsp;(2.016 / 32.00)</option>
+                <option value="C">He / CH&#8324; &nbsp;(4.00 / 16.04)</option>
+                <option value="D">N&#8322; / CO&#8322; &nbsp;(28.02 / 44.01)</option>
+                <option value="E">H&#8322; / He &nbsp;(2.016 / 4.00)</option>
+              </select>
+            </label>
+            <label>Your ratio: <input type="text" id="gl-ans" placeholder="e.g. 2.83" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="gl-check">Check my answer</button>
+            <button class="widget-reset" id="gl-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="gl-out"></div>
+        </div>
+
+        <!-- Modern-research callout: Then / Now / Future -->
+        <div style="background: #FDF6E3; border-left: 5px solid #C7922C; border-top: 3px solid #E0B043; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &middot; NOW &middot; FUTURE &middot; WHERE THIS LEADS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then.</strong> In the 1800s the kinetic-molecular theory took shape as a daring claim: that all the measured behavior of gases comes from countless invisible particles in motion. It explained the gas laws before anyone could observe a single molecule.<br><br><strong>Now.</strong> The same picture &mdash; particles of different mass and speed mixing, spreading, and colliding &mdash; is the working foundation of <strong>atmospheric science</strong> and of <strong>aerospace engineering</strong>. Climate scientists model how carbon dioxide, methane, and water vapor diffuse, circulate, and trade energy in collisions, motions that help set the planet's energy balance. Aerospace engineers use the same kinetic reasoning to predict how thin, fast-moving gas behaves around a spacecraft high in the atmosphere, where molecules are so sparse that the ordinary gas laws begin to strain and engineers must reason directly about individual particle motion.<br><br><strong>Future.</strong> Open questions remain: how to capture, at planetary scale, the very particle motions you are reasoning about here on a small one; and how to design vehicles and instruments for atmospheres we have barely measured &mdash; the thin carbon dioxide of Mars, the dense haze of Titan. The molecule that lumbers or zips in your calculation is, multiplied by uncountable copies, part of all of it.</div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI tool to compare two gases' effusion rates and it will usually hand back a number instantly. Treat it like any instrument: useful, but to be checked. AI tools have been known to <em>invert the ratio</em> &mdash; reporting the heavy gas as faster &mdash; or to use a different molar mass. The reliable move is the one you just practiced: decide for yourself which gas is lighter (it must be faster), set up &radic;(M&#8322;/M&#8321;) by hand, and use the tool only to <em>confirm</em> your number. Your reasoning about which gas wins the race is the evidence; the tool is a second opinion, not the judge.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week is <strong>Build 3 of 4</strong> of your module-long <strong>Gas &amp; Energy Lab</strong> in OptimaXR. You already have the gas-law apparatus (Week 1) and the measured-amounts station (Week 2) waiting in your scene. This week you make the kinetic theory <em>visible</em>: spawn a swarm of moving particles inside the apparatus, then annotate it with two sticky notes that capture today's lesson &mdash; <em>&ldquo;avg KE &prop; T (Kelvin)&rdquo;</em> and <em>&ldquo;lighter molecule = faster, Graham's law.&rdquo;</em> You'll also set up a small diffusion/effusion observation to show fast vs. slow particles. Leave room for next week's calorimetry setup. The picture you build is the very mechanism that explains every gauge reading from Weeks 1 and 2.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the KMT postulates, kinetic energy and temperature, and Graham's law. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 5.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">The kinetic theory is a model &mdash; and every model has limits. Where does the ideal-gas picture start to break down, and why? You'll find out next.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Gas &amp; Energy Lab (Build 3 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add moving particles and KMT annotations to your apparatus in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The gas laws tell you <em>what</em> gases do; the kinetic-molecular theory tells you <em>why</em>. Picture a gas as tiny particles in constant random motion whose average kinetic energy is fixed by the absolute temperature, and every law you measured &mdash; Boyle, Charles, Gay-Lussac, Dalton &mdash; follows as a consequence. Because all gases at one temperature share the same average kinetic energy, lighter molecules must move faster, and Graham's law, rate&#8321;/rate&#8322; = &radic;(M&#8322;/M&#8321;), lets you put a number on exactly how much faster. <em>Hold onto the distinction between a law and the theory that explains it &mdash; next lesson you'll watch even this powerful model reach the edge of where it works.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.05 &middot; Kinetic-Molecular Theory; Effusion &amp; Diffusion</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom Graham's-law effusion-ratio checker =====
+  // ratio = rate(gas1)/rate(gas2) = sqrt(M2/M1)
+  var GL = {
+    A: { val: Math.sqrt(32.00/4.00),  tol:0.03, factor:'He is gas 1, O₂ is gas 2: √(M₂/M₁) = √(32.00/4.00) = √8.00 = 2.83. Helium is lighter, so it effuses ~2.83× faster.' },
+    B: { val: Math.sqrt(32.00/2.016), tol:0.04, factor:'H₂ is gas 1, O₂ is gas 2: √(M₂/M₁) = √(32.00/2.016) = √15.87 = 3.98. Hydrogen is the lightest gas, so it wins big.' },
+    C: { val: Math.sqrt(16.04/4.00),  tol:0.03, factor:'He is gas 1, CH₄ is gas 2: √(M₂/M₁) = √(16.04/4.00) = √4.01 = 2.00. Helium effuses about twice as fast as methane.' },
+    D: { val: Math.sqrt(44.01/28.02), tol:0.03, factor:'N₂ is gas 1, CO₂ is gas 2: √(M₂/M₁) = √(44.01/28.02) = √1.571 = 1.25. The lighter N₂ effuses ~1.25× faster than CO₂.' },
+    E: { val: Math.sqrt(4.00/2.016),  tol:0.03, factor:'H₂ is gas 1, He is gas 2: √(M₂/M₁) = √(4.00/2.016) = √1.984 = 1.41. Hydrogen is lighter than helium, so it edges it out.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var glBtn = document.getElementById('gl-check');
+  if (glBtn) {
+    glBtn.addEventListener('click', function () {
+      var out = document.getElementById('gl-out');
+      var key = document.getElementById('gl-prob').value;
+      var raw = document.getElementById('gl-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a pair of gases from the menu first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number (for example, 2.83).'; return; }
+      var d = GL[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Sanity check: the lighter gas wins, so the ratio is greater than 1 — and it is.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        var inv = Math.abs(guess - (1/d.val)) <= d.tol ? ' It looks like you may have flipped the masses (you used √(M₁/M₂) instead of √(M₂/M₁)).' : '';
+        out.textContent = 'Not yet — your answer is ' + hi + '.' + inv + ' Hint: ' + d.factor + ' Remember the masses flip relative to the rates: rate₁/rate₂ = √(M₂/M₁).';
+      }
+    });
+  }
+  var glReset = document.getElementById('gl-reset');
+  if (glReset) {
+    glReset.addEventListener('click', function () {
+      document.getElementById('gl-prob').value = '';
+      document.getElementById('gl-ans').value = '';
+      var out = document.getElementById('gl-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

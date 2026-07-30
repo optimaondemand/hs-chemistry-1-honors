@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 9.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (&Delta;G&deg; from E&deg;cell calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 12px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 9.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Nuclear Structure &amp; Stability</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 9.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Nuclear Structure &amp; Stability</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">All year you have treated the atom's nucleus as a tiny, unchanging dot of positive charge. But here is a strange fact: some atoms are perfectly stable and sit unchanged for billions of years, while others fall apart on their own. <strong>Why are some atoms radioactive and others not?</strong></div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In Module 2 you learned the atom has a dense central nucleus, and you counted its protons and neutrons. We then left the nucleus alone and spent the year on electrons &mdash; where all of chemistry's bonding and reacting happens. This final module finally looks <em>inside</em> the nucleus itself. Today you'll meet the particles that live there, the force that holds them together against enormous repulsion, the energy locked inside every nucleus, and the pattern &mdash; the <strong>band of stability</strong> &mdash; that decides which atoms last forever and which are doomed to decay.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read and write nuclide notation (mass number A, atomic number Z) and identify protons, neutrons, nucleons, and isotopes.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how the strong nuclear force and mass defect / binding energy (E = mc<sup>2</sup>) hold a nucleus together, and why binding energy per nucleon peaks near iron-56.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the band of stability (N vs. Z) to predict whether a nuclide is likely stable or radioactive.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 2 notes on atomic structure (protons, neutrons, atomic number, mass number, isotopes).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; INSIDE THE NUCLEUS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A lump of ordinary carbon and a lump of uranium are both made of atoms with a nucleus. Yet the carbon just sits there while the uranium slowly, steadily decays and gives off radiation. Before you read on &mdash; what do you think makes the difference? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="A natural first guess &mdash; but size alone isn't the whole story. What really matters is the BALANCE inside the nucleus: the ratio of neutrons to protons, and whether that nucleus falls inside the &lsquo;band of stability.&rsquo; Heavy nuclei like uranium do tend to be unstable, and this lesson shows exactly why &mdash; nothing is stable past Z = 83.">&#9878;&#65039; Uranium atoms are just bigger and heavier</button>
+            <button data-response="You're onto the heart of it. A nucleus is a crowd of positive protons that repel each other fiercely, held together only by the short-range strong nuclear force. When the proton/neutron balance is wrong, that truce breaks down and the nucleus decays. This lesson is all about that balance.">&#9889; Something about the balance of particles inside</button>
+            <button data-response="Close in spirit &mdash; the electrons aren't the cause here. Radioactivity comes from the NUCLEUS, not the electron cloud where ordinary chemistry happens. That's the big shift this module makes: for the first time all year, we look inside the nucleus itself.">&#127760; The electrons must be arranged differently</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Start with what lives inside the nucleus. Packed into that tiny central region are two kinds of particle: positively charged <strong>protons</strong> and uncharged <strong>neutrons</strong>. Together, protons and neutrons are called <strong>nucleons</strong> &mdash; the particles of the nucleus. The number of protons is the <strong>atomic number, Z</strong>, and it alone decides which element you have. The total number of nucleons (protons + neutrons) is the <strong>mass number, A</strong>. So the neutron count is simply A &minus; Z.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists write all of this in a compact shorthand called <strong>nuclide notation</strong>: the mass number A goes above and the atomic number Z below, just before the element symbol. Carbon-14, for example, is written:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">NUCLIDE NOTATION</div>
+            <div style="font-size:34px; color:#ffffff;"><strong><sup>14</sup><sub>&nbsp;6</sub>C</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">A = 14 (mass number, top) &middot; Z = 6 (atomic number, bottom) &middot; neutrons = A &minus; Z = 8</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Atoms of the same element always share the same Z (that's what makes them that element), but they can carry different numbers of neutrons &mdash; and therefore different mass numbers A. These variants are called <strong>isotopes</strong>. Carbon-12 (<sup>12</sup><sub>&nbsp;6</sub>C), carbon-13, and carbon-14 are all carbon (Z = 6), differing only in neutron count. A specific kind of nucleus &mdash; a particular A and Z &mdash; is called a <em>nuclide</em>. This is the same atomic bookkeeping you did in Module 2; now we put it to work to ask which nuclides survive and which fall apart.</p>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">That there even <em>is</em> a nucleus to look inside was itself a hard-won discovery &mdash; and finding it <em>overturned</em> the atomic model scientists had accepted. In the experiments you met in Module 2, <strong>Ernest Rutherford</strong> and his team fired alpha particles at a thin sheet of gold foil and found that a few bounced sharply backward &mdash; something impossible if the atom were the soft, evenly spread blob of charge the earlier &ldquo;plum-pudding&rdquo; model described. The only explanation was that nearly all of an atom's mass and all of its positive charge are concentrated in a minuscule central <strong>nucleus</strong>. A single stubborn observation forced a better model &mdash; and in Lesson 9.02 you'll watch that happen again, when unexpected evidence reveals the nucleus is not unchangeable either. Everything in this module unfolds in that tiny space Rutherford uncovered.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>The nuclide <sup>238</sup><sub>&nbsp;92</sub>U. How many protons, neutrons, and nucleons does it have?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Z = 92, so there are <strong>92 protons</strong> (that's what makes it uranium). The mass number A = 238 is the total nucleon count, so there are <strong>238 nucleons</strong> in all. Neutrons = A &minus; Z = 238 &minus; 92 = <strong>146 neutrons</strong>. Notice already how many <em>more</em> neutrons than protons a heavy nucleus carries &mdash; that's a clue we'll return to in Part 3.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; WHAT HOLDS A NUCLEUS TOGETHER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is a puzzle. Like charges repel, and a nucleus is a crowd of positive protons jammed into an unimaginably small space. The electrostatic repulsion between them is enormous. By the rules of electricity alone, every nucleus should instantly blow itself apart. They don't &mdash; so something stronger must be at work.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That something is the <strong>strong nuclear force</strong>. It is an attraction that acts between nucleons (protons and neutrons alike), and it is far stronger than electrical repulsion &mdash; but only over an extremely short, sub-nuclear range. Within touching distance, the strong force easily overpowers proton repulsion and binds the nucleus together. Reach past that tiny range and it fades to nothing. This short reach is exactly why neutrons matter so much: adding neutrons adds strong-force &ldquo;glue&rdquo; without adding any new repulsion, which is why larger nuclei need extra neutrons to hold together.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now for the most astonishing fact about the nucleus. If you could weigh a nucleus and then weigh all of its protons and neutrons <em>separately</em>, the separated pieces would weigh <strong>more</strong> than the assembled nucleus. The difference is called the <strong>mass defect</strong> (&Delta;m). Mass appears to have gone missing &mdash; but it hasn't. That missing mass was converted into the energy that binds the nucleus together, through Einstein's famous relationship:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">MASS BECOMES BINDING ENERGY</div>
+            <div style="font-size:32px; color:#ffffff;"><strong>E = mc<sup>2</sup></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">a tiny mass defect &Delta;m &times; (speed of light)<sup>2</sup> = a huge nuclear binding energy</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <strong>nuclear binding energy</strong> is the energy that would be required to pull a nucleus apart into its individual nucleons &mdash; the same energy that was released when those nucleons first came together. A more useful way to compare nuclei is the <strong>binding energy per nucleon</strong>: how tightly each individual nucleon is held. The larger the binding energy per nucleon, the <strong>more stable</strong> the nucleus.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When you plot binding energy per nucleon against mass number, the curve climbs steeply for light nuclei, reaches a broad <strong>peak around iron (mass number near 56)</strong>, and then slowly declines for the heaviest nuclei. Iron-region nuclei are the most tightly bound &mdash; the most stable matter there is. This single curve quietly explains where nuclear energy comes from: any process that moves a nucleus <em>toward</em> the iron peak releases energy. Light nuclei release energy by <strong>fusing</strong> together toward iron; very heavy nuclei release energy by <strong>splitting</strong> down toward iron. We'll unpack both in Lesson 9.04 &mdash; but the reason both can release energy is right here in this one curve.</p>
+
+        <!-- ow-flip cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; HOLDING THE NUCLEUS TOGETHER</div>
+          <div class="widget-question">Predict each answer, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">What force overcomes proton&ndash;proton repulsion in the nucleus? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">The <strong>strong nuclear force</strong> &mdash; very strong but only over a tiny, sub-nuclear range, so it wins inside the nucleus where the protons are crowded together.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">A nucleus weighs less than its separate nucleons. Where did the mass go? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">It became the <strong>binding energy</strong> via E = mc<sup>2</sup>. The missing mass (the mass defect) is the energy that holds the nucleus together.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Which nuclei are the most tightly bound (most stable)? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">Those near <strong>iron (A &asymp; 56)</strong> &mdash; the peak of the binding-energy-per-nucleon curve.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Why can BOTH fusion and fission release energy? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">Because both move nuclei <strong>toward the iron peak</strong>: light nuclei fuse up toward it, heavy nuclei split down toward it. (More in 9.04.)</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; AI AS A SCIENTIFIC INSTRUMENT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI tool for &ldquo;the most stable nucleus&rdquo; and you may get iron-56, nickel-62, or a confident-sounding mix &mdash; the fine print genuinely is subtle. For this course, the dependable, evidence-based statement is that binding energy per nucleon peaks in the <strong>iron region (A &asymp; 56)</strong>. Treat an AI answer the way a chemist treats any instrument reading: useful for orientation, but checked against your trusted reference before you trust it.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE BAND OF STABILITY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now we can answer the opening question. Imagine a graph with the number of protons (Z) along the bottom and the number of neutrons (N) up the side, and a dot placed for every nucleus that exists. The stable nuclides do not scatter randomly &mdash; they cluster along a narrow diagonal stripe called the <strong>band (or belt) of stability</strong>. A nucleus is stable when its neutron-to-proton balance lands inside that band.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For the lightest elements, the band runs close to a 1-to-1 line: stable light nuclei have roughly equal numbers of neutrons and protons (N/Z &asymp; 1). But as Z grows, the band bends <em>upward</em> away from that line &mdash; heavier stable nuclei need proportionally <strong>more neutrons</strong> (N/Z climbing toward about 1.5). The reason is exactly the short-range strong force from Part 2: extra neutrons add binding attraction without adding any new proton repulsion, so big nuclei need that extra neutron glue just to hold together. And there is a hard ceiling: <strong>no nuclide beyond Z = 83 (bismuth) is stable.</strong> Every element heavier than bismuth is radioactive &mdash; including the uranium from our opening puzzle.</p>
+
+        <!-- Band-of-stability visual -->
+        <div style="background: #FFFFFF; border: 1px dashed #C5DCE5; border-radius: 8px; padding: 16px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 12px; text-align:center;">THE BAND OF STABILITY &mdash; AND WHICH WAY UNSTABLE NUCLEI DECAY</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content:center;">
+                <div style="flex:1; min-width:220px; background:#FDECEC; border:1px solid #E0B4AE; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:15px; color:#8A1F16; margin-bottom:4px;"><strong>Above the band</strong> (too many neutrons)</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;">Tends to undergo <strong>&beta;<sup>&minus;</sup> (beta-minus) decay</strong> &mdash; details in Lesson 9.02.</div>
+                </div>
+                <div style="flex:1; min-width:220px; background:#D8F0DD; border:1px solid #9BCDA9; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:15px; color:#1A6B3D; margin-bottom:4px;"><strong>Inside the band</strong> (balanced N/Z)</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;"><strong>Stable</strong> &mdash; the nucleus holds together indefinitely.</div>
+                </div>
+                <div style="flex:1; min-width:220px; background:#FDF3E3; border:1px solid #E3C893; border-radius:8px; padding:12px 14px;">
+                    <div style="font-size:15px; color:#8a6d1d; margin-bottom:4px;"><strong>Below the band</strong> (too few neutrons)</div>
+                    <div style="font-size:14px; color:#1a2340; line-height:1.5;">Tends toward <strong>positron emission or electron capture</strong>.</div>
+                </div>
+            </div>
+            <div style="text-align:center; font-size:13px; color:#6b7a99; margin-top:12px; font-style:italic;">Very heavy nuclei (Z &gt; 83) typically undergo <strong>alpha decay</strong> to shed mass and charge.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">There is one more layer to the pattern, and it rhymes with the electron shells you studied in Module 2. Just as filled electron shells make noble gases unreactive, certain &ldquo;<strong>magic numbers</strong>&rdquo; of protons or neutrons &mdash; 2, 8, 20, 28, 50, 82, 126 &mdash; give a nucleus extra stability. And nuclei with <strong>even</strong> numbers of both protons and neutrons (&ldquo;even-even&rdquo;) tend to be more stable than odd ones. You won't memorize the magic numbers here; just notice that stability follows orderly rules, not chance.</p>
+
+        <!-- Current research callout (NOW) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &middot; CHASING THE EDGE OF STABILITY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">If nothing is stable past bismuth, how far can the periodic table go? Scientists are currently exploring this very edge, synthesizing fleeting <strong>superheavy elements</strong> a few atoms at a time in particle accelerators. Some researchers suspect there may be an &ldquo;island of stability&rdquo; near certain magic numbers, where superheavy nuclei might survive a little longer than their neighbors. The questions about what holds matter together are not finished &mdash; they are being asked right now.</div>
+        </div>
+
+        <!-- ow-select multi-row check -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; STABLE OR RADIOACTIVE?</div>
+          <div class="widget-question">Use what you've learned about nucleons, the band of stability, and the Z = 83 ceiling. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; that's FALSE. The atomic number Z (number of protons) is what defines the element; the mass number A is protons + neutrons." data-hint="Which number tells you which element it is &mdash; A or Z?">
+            <div class="widget-row-prompt">1. In nuclide notation, the mass number A is what identifies which element an atom is.</div>
+            <div class="widget-options">
+              <button data-choice="0">Can't tell</button>
+              <button data-choice="1">True</button>
+              <button data-choice="2">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; nothing beyond Z = 83 (bismuth) is stable, so polonium (Z = 84) and everything heavier is radioactive." data-hint="Where is the hard ceiling for stable nuclides?">
+            <div class="widget-row-prompt">2. Polonium has Z = 84. Based on the Z = 83 ceiling, polonium is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">definitely stable</button>
+              <button data-choice="1">radioactive (no stable nuclide exists)</button>
+              <button data-choice="2">stable only if it has magic numbers</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; heavier stable nuclei need proportionally MORE neutrons (N/Z rising toward ~1.5) because extra neutrons add strong-force attraction without adding repulsion." data-hint="As nuclei get heavier, does the band stay at N/Z = 1 or rise above it?">
+            <div class="widget-row-prompt">3. Compared with a light stable nucleus (N/Z &asymp; 1), a heavy stable nucleus has&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">a higher neutron-to-proton ratio</button>
+              <button data-choice="1">exactly the same N/Z ratio</button>
+              <button data-choice="2">far fewer neutrons than protons</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; a nucleus ABOVE the band has too many neutrons and tends to undergo &beta;&minus; decay (you'll see why in 9.02)." data-hint="Above the band means an excess of which particle?">
+            <div class="widget-row-prompt">4. A nucleus that sits <em>above</em> the band of stability has&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">too few neutrons</button>
+              <button data-choice="1">a perfectly balanced nucleus</button>
+              <button data-choice="2">too many neutrons (tends toward &beta;&minus; decay)</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Cross-module callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; CONNECTING BACK &middot; FINALLY INSIDE THE NUCLEUS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In <strong>Module 2</strong> you built the atom from protons, neutrons, and electrons, and then spent the whole year on the <em>electrons</em> &mdash; because that is where bonding, reactions, acids and bases, and electrochemistry all happen. The nucleus, you were told, simply rides along unchanged. This module overturns that simplification: the nucleus can change too. The protons, neutrons, and isotopes you counted in Module 2 are the very foundation of nuclear chemistry &mdash; the difference is that now we ask what makes a nucleus itself stable or unstable, a question Module 2 deliberately left alone. That shift is the <strong>nature of science</strong> in action: a model that served us well all year is now <em>revised, not discarded</em>, because new evidence demands it &mdash; the same durable-yet-revisable pattern you saw when the plum-pudding atom gave way to Rutherford's nucleus. <strong>Ask yourself:</strong> what kind of evidence would it take to make you revise a model you trust? And this is no mere abstraction &mdash; learning to read the nucleus is exactly what makes <strong>modern nuclear medicine</strong> possible, as you'll see across this module.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why does a heavy nucleus like uranium need so many more neutrons than protons to (barely) hold together?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Because the strong nuclear force acts only over a very short range, while electrical repulsion between protons reaches across the whole nucleus. In a large nucleus the protons repel one another more and more, but each added neutron contributes strong-force <em>attraction</em> with <em>no</em> extra repulsion. So heavy nuclei pile on extra neutrons (N/Z rising toward ~1.5) to supply enough binding glue. Even so, past Z = 83 the balance can no longer be maintained, and the nucleus is radioactive.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin <strong>Build 1 of 3: the Decay &amp; Stability Model</strong> in OptimaXR &mdash; the first piece of your <strong>Nuclear Decay &amp; Applications Exhibit</strong>, the project you'll add to every week of this module and narrate on camera at the end. Today's lesson gives you the materials: you'll build a <strong>nuclide model</strong> from protons and neutrons, sketch a <strong>band-of-stability chart</strong>, and start a <strong>decay-type station</strong>. After Lesson 9.02 you'll add the actual decay equations to that station. Keep this lesson's vocabulary close &mdash; nucleons, A and Z, the band of stability &mdash; because your exhibit (and your final recorded explanation) will be graded on getting it right.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 9.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on nuclide notation, the strong force and binding energy, and the band of stability. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On: Balancing Nuclear Equations</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">After Lesson 9.02 you'll balance nuclear equations using A and Z conservation, classify decay types, and reason from the band of stability.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Decay &amp; Stability Model (Build 1 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Begin your Nuclear Decay &amp; Applications Exhibit: a nuclide model, a band-of-stability chart, and a decay-type station. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A nucleus is a crowd of <strong>nucleons</strong> &mdash; protons (Z) and neutrons &mdash; held together by the short-range <strong>strong nuclear force</strong> against fierce proton repulsion. A tiny <strong>mass defect</strong> becomes the <strong>binding energy</strong> (E = mc<sup>2</sup>) that locks the nucleus in place, and binding energy per nucleon peaks near <strong>iron-56</strong> &mdash; the reason both fusion and fission can release energy. Whether a nuclide lasts forever or decays depends on its neutron-to-proton balance: stable nuclides cluster in the <strong>band of stability</strong> (N/Z rising for heavier elements), and <strong>nothing past Z = 83 is stable</strong>. Next lesson: when a nucleus <em>does</em> decay, what comes out &mdash; and how we write the equation for it.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 9.01 &middot; Nuclear Structure &amp; Stability</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

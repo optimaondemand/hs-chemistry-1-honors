@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.08</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom bond-energy ΔH checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.08</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Enthalpy &amp; Bond Energies</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.08</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Enthalpy &amp; Bond Energies</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A reaction gives off heat &mdash; but <em>where does that energy actually come from</em>, when nothing was added but the reactants themselves? And could I predict, before ever running it, whether a reaction will warm its surroundings or chill them?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you measured heat with a thermometer. Today you trace that heat to its source. Every chemical reaction is, underneath, a rearrangement of <strong>chemical bonds</strong> &mdash; old ones breaking, new ones forming &mdash; and bonds store energy. The heat a reaction releases or absorbs at constant pressure has a precise name, <strong>enthalpy change (&Delta;H)</strong>, and the remarkable thing is that you can <em>estimate it on paper</em> before you ever step into a lab, just from a table of bond energies. By the end of this lesson you'll read an enthalpy diagram, tell an exothermic reaction from an endothermic one by the sign of &Delta;H alone, and predict the energy of a reaction from the bonds it breaks and makes.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> define enthalpy change (&Delta;H) as the heat of a reaction at constant pressure, and connect the sign of &Delta;H to exothermic (&Delta;H &lt; 0) and endothermic (&Delta;H &gt; 0) reactions.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> interpret an enthalpy diagram showing reactants, products, and the energy released or absorbed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> estimate a reaction's &Delta;H from bond energies using &Delta;H &asymp; &Sigma;(bonds broken) &minus; &Sigma;(bonds formed).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a calculator, and the bond-energy table provided in this lesson.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a bond-energy &Delta;H checker).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; ENTHALPY: GIVING THE HEAT A NAME</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">When natural gas burns on a stove, the flame is hot &mdash; energy clearly pours out. Where did that energy come from, given that you only supplied gas and air? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the heart of this lesson. The energy was stored in the chemical bonds of the reactants. Breaking bonds costs energy, but forming the new, more stable bonds in the products releases even more — and that surplus pours out as heat. The flame is the difference between the two.">It was stored in the chemical bonds of the gas</button>
+            <button data-response="A reasonable thought, but the heat doesn't come from the flame igniting it — the spark only gets things started. The real energy was already stored in the chemical bonds of the fuel, and it is released when those bonds rearrange into more stable ones. The match supplies a nudge, not the energy.">The match or spark added all the energy</button>
+            <button data-response="It can seem like new energy appears, but the first law forbids that — energy is never created. The heat was there all along, locked in the bonds of the natural gas. The reaction simply releases it by forming more stable bonds in the products. Nothing is created; stored energy is set free.">New energy is created by the reaction</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Most reactions in a lab or on a stovetop happen in containers open to the air &mdash; at constant <em>pressure</em>. The heat a reaction releases or absorbs under those everyday conditions is so important that it gets its own name: the <strong>enthalpy change</strong>, written <strong>&Delta;H</strong>. For our purposes the rule is simple: <strong>&Delta;H is the heat of the reaction at constant pressure.</strong> It is just the q you learned to measure last lesson, now tied specifically to a chemical change happening at ordinary pressure &mdash; which is why a calorimeter can measure it directly.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <em>sign</em> of &Delta;H carries the whole story of direction. We define it from the system's point of view &mdash; the reaction itself:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:220px; background:#FDECEC; border:1px solid #E7B8b2; border-top:3px solid #C0392B; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#8A1F16; margin-bottom:4px;"><strong>EXOTHERMIC &middot; &Delta;H &lt; 0</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">The reaction <strong>releases</strong> heat. The system ends with less energy than it started with, so &Delta;H is <strong>negative</strong>. The surroundings warm up. (Burning fuel, neutralizing an acid.)</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#E8F6FB; border:1px solid #C5DCE5; border-top:3px solid #2196D0; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#1B6A94; margin-bottom:4px;"><strong>ENDOTHERMIC &middot; &Delta;H &gt; 0</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">The reaction <strong>absorbs</strong> heat. The system ends with more energy than it started with, so &Delta;H is <strong>positive</strong>. The surroundings cool down. (Cooking an egg, an instant cold pack.)</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Reading an enthalpy diagram</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">An <strong>enthalpy diagram</strong> draws energy on a vertical axis and shows where the reactants and products sit. If the products are <em>lower</em> than the reactants, energy was released on the way down &mdash; exothermic, &Delta;H negative. If the products are <em>higher</em>, energy had to be absorbed to climb up &mdash; endothermic, &Delta;H positive. The vertical gap between them <em>is</em> &Delta;H.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:14px; margin:14px 0;">
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:16px;">
+                <div style="font-size:14px; color:#8A1F16; margin-bottom:8px;"><strong>Exothermic (&Delta;H &lt; 0)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.7;">
+                    energy &uarr;<br>
+                    &nbsp;&nbsp;reactants &mdash;&mdash;&#9488;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9474; releases heat<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9495;&mdash; products (lower)
+                </div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:16px;">
+                <div style="font-size:14px; color:#1B6A94; margin-bottom:8px;"><strong>Endothermic (&Delta;H &gt; 0)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.7;">
+                    energy &uarr;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9484;&mdash; products (higher)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9474; absorbs heat<br>
+                    &nbsp;&nbsp;reactants &mdash;&mdash;&#9496;
+                </div>
+            </div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction has &Delta;H = +58 kJ. Is it exothermic or endothermic, and do the surroundings warm or cool?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">A <strong>positive</strong> &Delta;H means the reaction <strong>absorbs</strong> heat &mdash; it is <strong>endothermic</strong>. Energy flows from the surroundings into the system, so the <strong>surroundings cool down</strong>. On a diagram, the products sit higher than the reactants.</div>
+        </details>
+
+        <!-- History callout THEN: Hess & early calorimetry -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Before anyone could estimate reaction heats from a table, someone had to show that those heats <em>add up</em> in a predictable way. Around 1840 &mdash; a few years before Joule pinned down the mechanical equivalent of heat &mdash; the chemist <strong>Germain Hess</strong>, working in St. Petersburg, measured the heat released by reactions with early calorimeters and noticed something reliable: the total heat of a reaction is the same whether it happens in a single step or is broken into several steps along the way. This is now called <strong>Hess's law</strong>, the law of constant heat summation. Its deeper meaning is pure energy accounting &mdash; the heat of a reaction depends only on the starting and ending substances, not on the route between them. That is exactly why you can add and subtract bond energies on paper to forecast a reaction's heat: the ledger balances no matter which path the reaction actually takes.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; WHERE THE ENERGY LIVES: BOND ENERGIES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now to the source. A chemical bond is a pocket of stored energy. To <strong>break</strong> a bond, you must <em>put energy in</em> &mdash; bond-breaking is always endothermic. When a bond <strong>forms</strong>, energy is <em>released</em> &mdash; bond-forming is always exothermic. The amount of energy tied up in a particular bond is its <strong>bond energy</strong>, measured in kilojoules per mole (kJ/mol). A reaction, deep down, is just bonds breaking in the reactants and new bonds forming in the products &mdash; so the reaction's overall energy is a tug-of-war between the energy spent breaking and the energy returned forming.</p>
+
+        <!-- Flip cards: break vs form -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Breaking bonds&hellip;</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">&hellip;<strong>costs</strong> energy. You must put energy in to pull bonded atoms apart, so bond-breaking is <strong>endothermic</strong>. In the bond-energy sum, broken bonds count as a positive (energy spent).</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Forming bonds&hellip;</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">&hellip;<strong>releases</strong> energy. New bonds settle atoms into a more stable, lower-energy arrangement, so bond-forming is <strong>exothermic</strong>. In the sum, formed bonds count as energy returned (subtracted).</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">The net result&hellip;</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">&hellip;decides the sign of &Delta;H. If forming the products releases <em>more</em> than breaking the reactants cost, energy is left over &mdash; exothermic. If breaking costs more, the reaction must absorb energy &mdash; endothermic.</div>
+              </div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">That tug-of-war is captured in one estimate. Add up the energy needed to break <em>every</em> bond in the reactants, subtract the energy released when <em>every</em> bond in the products forms, and you get an estimate of the reaction's enthalpy change:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">&Delta;H &asymp; &Sigma;(bonds broken) &minus; &Sigma;(bonds formed)</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 10px 0; text-align:center;"><em>&Sigma; means &ldquo;sum of.&rdquo;</em> A negative result means more energy was released than spent &rarr; exothermic. A positive result means the reverse &rarr; endothermic.</p>
+
+        <!-- Bond energy table -->
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; min-width:420px; margin:10px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:8px 12px; color:#fff; text-align:left; border:1px solid #334;">Bond</th>
+                <th style="padding:8px 12px; color:#fff; text-align:left; border:1px solid #334;">Energy (kJ/mol)</th>
+                <th style="padding:8px 12px; color:#fff; text-align:left; border:1px solid #334;">Bond</th>
+                <th style="padding:8px 12px; color:#fff; text-align:left; border:1px solid #334;">Energy (kJ/mol)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">H&ndash;H</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">436</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">C&ndash;H</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">414</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">Cl&ndash;Cl</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">243</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">C&ndash;C</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">347</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">H&ndash;Cl</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">431</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">C=O</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">799</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">O=O</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">498</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">N&equiv;N</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">945</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">O&ndash;H</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">463</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">&nbsp;</td><td style="padding:7px 12px; border:1px solid #D0D9E8; color:#1a2340;">&nbsp;</td></tr>
+        </table>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: the synthesis of hydrogen chloride</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Estimate &Delta;H for <strong>H<sub>2</sub> + Cl<sub>2</sub> &rarr; 2 HCl</strong>. First count the bonds. On the left you break <em>one</em> H&ndash;H bond and <em>one</em> Cl&ndash;Cl bond. On the right you form <em>two</em> H&ndash;Cl bonds (one in each HCl molecule).</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.85;">
+            <strong>Bonds broken (energy in):</strong> 1(H&ndash;H) + 1(Cl&ndash;Cl) = 436 + 243 = <strong>679 kJ</strong><br>
+            <strong>Bonds formed (energy out):</strong> 2(H&ndash;Cl) = 2 &times; 431 = <strong>862 kJ</strong><br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;"><strong>&Delta;H &asymp; 679 &minus; 862 = &minus;183 kJ</strong> (negative &rarr; exothermic)</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The negative sign tells you, before you ever run it, that this reaction <em>releases</em> energy &mdash; forming the two H&ndash;Cl bonds gave back 183 kJ more than it cost to break the reactant bonds. That surplus is the heat you'd feel. Treat the number as an <em>estimate</em>: bond energies are averages, so bond-energy predictions land close to measured values but rarely exactly on them. Still, the sign &mdash; exothermic or endothermic &mdash; comes out reliably, and that alone is powerful.</p>
+
+        <!-- CUSTOM WIDGET: bond-energy ΔH checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; BOND-ENERGY &Delta;H CHECKER</div>
+          <div class="widget-question">Count the bonds, do the sum <strong>on paper</strong> with the table above, then type your &Delta;H and check it. The tool flags too-high / too-low and shows the bond count &mdash; but you choose which bonds break and form. (The tool checks the number; the chemistry is yours.)</div>
+          <div class="aam-row">
+            <label>Reaction:
+              <select id="be-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="B1">B1 &middot; H&#8322; + Cl&#8322; &rarr; 2 HCl (answer in kJ)</option>
+                <option value="B2">B2 &middot; 2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O (answer in kJ)</option>
+              </select>
+            </label>
+            <label>Your &Delta;H: <input type="number" step="any" id="be-ans" placeholder="kJ (with sign)" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="be-check">Check my answer</button>
+            <button class="widget-reset" id="be-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="be-out"></div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; WHY BOND ENERGIES MATTER: THE ENERGY OF THE FUTURE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The energy locked in chemical bonds is what we burn for nearly everything &mdash; but breaking and re-forming chemical bonds is not the only way to release stored energy, and it is far from the most concentrated. The most energetic process humans know reaches past chemistry entirely, into the nucleus of the atom.</p>
+
+        <!-- Then -> Now -> Future callout (gold): calorimetry & enthalpy -> fusion -> open questions -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-top: 3px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#9728;&#65039; THEN &rarr; NOW &rarr; FUTURE &middot; MEASURING ENERGY, FROM A CUP TO A STAR</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then.</strong> The calorimeter and the enthalpy accounting in these two lessons gave chemists their first way to put a firm number on the energy of a chemical change &mdash; to measure, to the joule, how much heat a reaction releases or absorbs. Energy became something you could enter on a ledger and check.<br><br><strong>Now.</strong> The same principle &mdash; energy released when particles settle into a more stable, lower-energy arrangement &mdash; runs on a vastly larger scale inside the Sun through <strong>nuclear fusion</strong>, where light nuclei such as hydrogen are forced together into heavier ones and release enormous energy. For decades scientists and engineers have worked to recreate controlled fusion on Earth as a potential source of abundant, clean power, and several experimental approaches are being actively pursued today.<br><br><strong>Future.</strong> The hard part is still open. Fusion demands temperatures far hotter than the Sun's core to overcome the repulsion between nuclei, and holding that super-hot matter steady long enough to release <em>more</em> energy than was put in &mdash; sustained, net-positive fusion at engineering scale &mdash; remains an unsolved challenge rather than a guarantee. Yet the accounting is the very one you practiced here: a more stable arrangement of particles sits at lower energy, and the difference is set free. (You'll meet the nuclear side of this story in the final module.)</div>
+        </div>
+
+        <!-- Single-select widget: enthalpy/bond reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; ENTHALPY &amp; BOND-ENERGY REASONING</div>
+          <div class="widget-question">Reason through each one &mdash; these test understanding, not just arithmetic. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right — a negative ΔH means the reaction releases heat to its surroundings: it is exothermic. The products sit lower in energy than the reactants." data-hint="Negative ΔH: does the system end with more energy or less? Released or absorbed?">
+            <div class="widget-row-prompt">1. A reaction has &Delta;H = &minus;183 kJ. This reaction is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">endothermic (absorbs heat)</button>
+              <button data-choice="1">exothermic (releases heat)</button>
+              <button data-choice="2">neither &mdash; energy is unchanged</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct — breaking a bond always requires energy input (endothermic). Pulling bonded atoms apart costs energy; it is forming bonds that releases it." data-hint="To pull two bonded atoms apart, do you have to put energy in or get energy out?">
+            <div class="widget-row-prompt">2. Breaking a chemical bond&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">requires energy (endothermic)</button>
+              <button data-choice="1">releases energy (exothermic)</button>
+              <button data-choice="2">has no energy change</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes — a reaction is exothermic when forming the product bonds releases MORE energy than breaking the reactant bonds cost. The leftover energy pours out as heat, and ΔH comes out negative." data-hint="Exothermic means net energy comes out. Compare the energy spent breaking with the energy returned forming.">
+            <div class="widget-row-prompt">3. A reaction is exothermic when&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">breaking bonds costs more than forming bonds returns</button>
+              <button data-choice="1">no bonds break at all</button>
+              <button data-choice="2">forming bonds releases more than breaking bonds cost</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A MODEL THAT ESTIMATES, NOT DECREES</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Bond energies are <em>averages</em>, gathered across many molecules, so a bond-energy &Delta;H is an honest estimate, not an exact decree &mdash; it usually lands near the calorimeter's measured value but not on top of it. That gap is not a failure; it's a feature of using a model. Good scientists hold both numbers at once: the prediction the model makes and the measurement nature returns, and they trust the measurement when the two disagree. The same conservation of energy that let a thermometer identify a metal last lesson now lets a table of bond energies forecast a reaction's heat before it runs &mdash; two routes to the same conserved quantity, each checking the other.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week (green activity callout) -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When you record your <strong>Gas &amp; Energy Lab</strong> walkthrough (Build 4 of 4) in OptimaXR this week, let the calorimetry station carry one extra sentence from this lesson. As you point to the hot metal cooling in the water, name what is happening in energy terms: heat flows out of the metal (an <strong>exothermic</strong> change for the metal, &Delta;H &lt; 0 from its point of view) and into the water, and the books balance because energy is conserved. That single connection &mdash; from a measured temperature change to the sign of an energy flow &mdash; is exactly the depth your graded module project is looking for.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on enthalpy, the sign of &Delta;H, and bond-energy estimates. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build a spreadsheet that runs calorimetry across several metal-in-water trials &mdash; computing the heat gained by the water, the heat lost by each metal, and each metal's specific heat to identify it.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Finish &amp; Record Your Module VR Project</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Complete Build 4 of 4 (the calorimetry station) and record the Gas &amp; Energy Lab walkthrough. Then submit your module writing assignment (the calorimetry lab report). A non-VR pathway is provided.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Enthalpy change (&Delta;H) is the heat of a reaction at constant pressure: negative for exothermic reactions that release heat, positive for endothermic ones that absorb it. That energy lives in chemical bonds &mdash; breaking bonds costs energy, forming them releases it &mdash; so you can <em>estimate</em> &Delta;H on paper as &Sigma;(bonds broken) &minus; &Sigma;(bonds formed), and the sign reliably tells you which way the heat will flow. From a coffee-cup thermometer to a bond-energy table to the fusion reactions of the Sun, the same conserved quantity is being tracked. That is what it means to say chemistry &mdash; even its energy &mdash; can be measured.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.08 &middot; Enthalpy &amp; Bond Energies</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom bond-energy ΔH checker =====
+  var BE = {
+    B1: { val:-183, tol:5, unit:'kJ', work:'Broken: 1(H–H) + 1(Cl–Cl) = 436 + 243 = 679 kJ. Formed: 2(H–Cl) = 2×431 = 862 kJ. ΔH ≈ 679 − 862 = −183 kJ (exothermic).' },
+    B2: { val:-482, tol:6, unit:'kJ', work:'Broken: 2(H–H) + 1(O=O) = 2×436 + 498 = 1370 kJ. Formed: 4(O–H) = 4×463 = 1852 kJ (each H₂O has two O–H bonds, two H₂O molecules = 4). ΔH ≈ 1370 − 1852 = −482 kJ (exothermic).' }
+  };
+  var beBtn = document.getElementById('be-check');
+  if (beBtn) {
+    beBtn.addEventListener('click', function () {
+      var out = document.getElementById('be-out');
+      var key = document.getElementById('be-prob').value;
+      var raw = document.getElementById('be-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a reaction from the menu first.'; return; }
+      if (raw === '' || isNaN(parseFloat(raw))) { out.classList.add('warn'); out.textContent = 'Type your numeric ΔH first — include the minus sign if the reaction releases energy.'; return; }
+      var guess = parseFloat(raw);
+      var d = BE[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ΔH ≈ ' + d.val + ' ' + d.unit + '. ' + d.work + ' Treat it as an estimate: bond energies are averages.';
+      } else {
+        out.classList.add('warn');
+        var msg;
+        if (Math.abs(guess + d.val) <= d.tol) { msg = 'Close — but check your SIGN. You have the magnitude right, but ΔH = broken − formed. If forming releases more than breaking costs, ΔH is negative (exothermic). '; }
+        else { var hi = guess > d.val ? 'too high' : 'too low'; msg = 'Not yet — your answer (' + guess + ') is ' + hi + '. '; }
+        out.textContent = msg + 'Hint: ' + d.work;
+      }
+    });
+  }
+  var beReset = document.getElementById('be-reset');
+  if (beReset) {
+    beReset.addEventListener('click', function () {
+      document.getElementById('be-prob').value = '';
+      document.getElementById('be-ans').value = '';
+      var out = document.getElementById('be-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

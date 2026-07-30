@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (galvanic-cell labeler) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Galvanic (Voltaic) Cells</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Galvanic (Voltaic) Cells</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Push two different metal strips into a lemon, connect them to a tiny LED, and the light glows. No outlet, no batteries from the store &mdash; just a lemon and two pieces of metal. Where is the electricity coming from?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you learned to follow electrons as they transfer from one substance to another in a redox reaction. Today you learn to <em>capture</em> that flow and put it to work. A <strong>galvanic cell</strong> (also called a <strong>voltaic cell</strong>) is a clever arrangement that takes a spontaneous redox reaction and forces its electrons to travel through a wire on their way from one substance to another &mdash; and electrons moving through a wire is an electric current. This is the chemistry inside every battery you have ever used. In this lesson you'll learn the parts of the cell, why each one is necessary, and the vocabulary &mdash; anode, cathode, salt bridge &mdash; that you'll carry through the rest of the module and into your VR build.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe how a galvanic (voltaic) cell turns a spontaneous redox reaction into an electric current, and name the job of each part &mdash; electrodes, external wire, and salt bridge.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the anode (oxidation, &minus;) and cathode (reduction, +), and state the direction electrons flow through the external wire.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read and write cell notation (anode | anode solution || cathode solution | cathode), using the Daniell zinc&ndash;copper cell as the model.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes from Lesson 8.01 &mdash; oxidation/reduction, OIL RIG, and oxidizing/reducing agents. The cell is built entirely on those ideas.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; FORCING ELECTRONS TO TAKE THE LONG WAY AROUND</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">In the last lesson, zinc handed electrons straight to copper(II) ions when they touched in a beaker &mdash; the reaction happened, but no useful electricity came out. To light an LED, you need those electrons to travel through a <em>wire</em> instead. What do you think we'd have to change about the setup to make that happen? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the insight behind every battery. If we SEPARATE the zinc from the copper(II) &mdash; put them in two different containers &mdash; the electrons can't jump directly. The only path left is through a wire we connect between them. That detour through the wire IS the electric current. A galvanic cell is just a spontaneous redox reaction split into two locations so its electrons must travel through a circuit.">&#128268; Separate the two substances so electrons must travel through a wire to meet</button>
+            <button data-response="More zinc would give a longer-lasting reaction, but it wouldn't produce any current &mdash; if zinc and copper(II) still touch directly, electrons jump across instantly and never enter a wire. The real trick is to SEPARATE the two halves into different containers, so the only route for electrons is the external wire. That's the heart of a galvanic cell.">&#9879;&#65039; Just use a bigger piece of zinc</button>
+            <button data-response="Heating it up would speed the reaction, but speed isn't the issue &mdash; even a fast reaction in one beaker sends electrons straight from zinc to copper(II) with no current in a wire. To capture the electron flow, you must SEPARATE the two substances into different half-cells so electrons are forced through an external wire. That detour is the current.">&#128293; Heat the beaker to speed it up</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">When zinc metal and copper(II) ions touch directly in a beaker, the reaction <strong>Zn(s) + Cu<sup>2+</sup>(aq) &rarr; Zn<sup>2+</sup>(aq) + Cu(s)</strong> runs on its own &mdash; it is spontaneous &mdash; but the electrons leap straight across, releasing their energy uselessly as heat. A <strong>galvanic (voltaic) cell</strong> captures that same spontaneous reaction and makes it do work by a simple trick: it <em>separates the two halves</em> into two containers, called <strong>half-cells</strong>, so the electrons have no direct path. The only route left is through an <strong>external wire</strong> connecting the two &mdash; and electrons moving through a wire are an electric current that can light a bulb or run a motor.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>A galvanic cell turns a spontaneous redox reaction into electricity</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">by separating the two halves so electrons must travel through a wire</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">But separating the halves creates a new problem. As zinc dissolves into Zn<sup>2+</sup>, its half-cell builds up positive charge; as copper(II) ions plate out, the other half-cell builds up negative charge. That charge imbalance would halt the electron flow within moments. The fix is a <strong>salt bridge</strong> &mdash; a tube of inert ions that connects the two half-cells and lets ions drift between them, keeping each side electrically neutral. The wire carries <em>electrons</em>; the salt bridge carries <em>ions</em>. Both paths are needed, or the current stops.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>If you removed the salt bridge but kept the wire, would the cell still produce a steady current? Why or why not?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>No &mdash; the current would die almost immediately.</strong> Without the salt bridge, charge piles up: the oxidation half-cell grows more and more positive as metal ions form, and the reduction half-cell grows more negative as positive ions are consumed. That growing charge imbalance pushes back on the electrons and stops them within moments. The salt bridge lets ions flow to cancel the buildup, keeping each half-cell neutral so electrons can keep moving. The wire and the salt bridge are a team: electrons through one, ions through the other.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; ANODE, CATHODE, AND THE DIRECTION OF FLOW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each half-cell holds an <strong>electrode</strong> &mdash; a strip of metal dipping into a solution &mdash; and the two electrodes have specific names tied to the chemistry happening there:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; The <strong>anode</strong> is where <strong>oxidation</strong> happens &mdash; electrons are <em>produced</em> here as the metal gives them up.<br>
+            &bull; The <strong>cathode</strong> is where <strong>reduction</strong> happens &mdash; electrons are <em>consumed</em> here as ions take them up.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two mnemonics lock this in: <strong>&ldquo;An Ox, Red Cat&rdquo;</strong> &mdash; <em>An</em>ode = <em>Ox</em>idation, <em>Red</em>uction = <em>Cat</em>hode &mdash; and the matching phrase <strong>AN OX RED CAT</strong>. Because the anode produces electrons and pushes them out into the wire, in a galvanic cell the anode is the <strong>negative (&minus;)</strong> terminal; the cathode, which pulls electrons in, is the <strong>positive (+)</strong> terminal.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So which way do the electrons go? They are made at the anode and used up at the cathode, so through the external wire <strong>electrons always flow from anode to cathode</strong>. (You may hear that &ldquo;conventional current&rdquo; flows the opposite way &mdash; that is just an old convention about positive charge; the electrons themselves go anode &rarr; cathode.)</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">REMEMBER THE FLOW</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Electrons flow ANODE (&minus;) &rarr; CATHODE (+)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">An Ox (anode = oxidation) &middot; Red Cat (reduction = cathode)</div>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the 1780s and 90s the Italian anatomist <strong>Luigi Galvani</strong> noticed that a dead frog's leg would twitch when touched by two different metals at once. He thought he had discovered a special &ldquo;animal electricity&rdquo; stored in living tissue. His countryman <strong>Alessandro Volta</strong> disagreed &mdash; he argued the electricity came from the <em>metals</em> and the moist contact between them, not from the frog. To prove it, in 1800 Volta stacked discs of zinc and copper (or silver) separated by brine-soaked cloth and built the <strong>voltaic pile</strong>: the first true battery, producing a steady current with no animal at all. Both men are remembered in the words we still use &mdash; a cell that makes its own electricity is <em>galvanic</em>, and the unit of electric potential, the <strong>volt</strong>, is named for Volta.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE DANIELL CELL AND CELL NOTATION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The classic example, worth memorizing as a model, is the <strong>Daniell cell</strong> &mdash; a zinc&ndash;copper galvanic cell. A zinc electrode sits in a zinc-ion solution; a copper electrode sits in a copper(II)-ion solution; a wire and a salt bridge join them. The overall reaction is the same spontaneous one from last lesson:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Zn(s) + Cu<sup>2+</sup>(aq) &rarr; Zn<sup>2+</sup>(aq) + Cu(s)</strong><br><br>
+            &bull; <strong>Zinc is oxidized</strong> (Zn &rarr; Zn<sup>2+</sup> + 2 e<sup>&minus;</sup>) at the <strong>anode</strong>. The zinc electrode slowly <em>dissolves</em>.<br>
+            &bull; <strong>Copper(II) is reduced</strong> (Cu<sup>2+</sup> + 2 e<sup>&minus;</sup> &rarr; Cu) at the <strong>cathode</strong>. Shiny copper metal <em>deposits</em> on the electrode.<br>
+            &bull; Electrons flow from the zinc anode, through the wire, to the copper cathode.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists record all of this compactly with <strong>cell notation</strong>, which lists the cell from anode to cathode, left to right:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">CELL NOTATION (DANIELL CELL)</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Zn(s) | Zn<sup>2+</sup>(aq) || Cu<sup>2+</sup>(aq) | Cu(s)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">anode | anode solution &nbsp;||&nbsp; cathode solution | cathode</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read it like a map of the cell: a single bar <strong>|</strong> marks a boundary between a solid electrode and its solution; the double bar <strong>||</strong> in the middle is the <em>salt bridge</em>. The <strong>anode is always written on the left</strong>, the cathode on the right &mdash; the same order in which the electrons travel.</p>
+
+        <!-- Custom .aam-widget: galvanic-cell labeler -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; GALVANIC-CELL LABELER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick a part of the galvanic cell. The tool reports its job and (for the electrodes) its sign &mdash; but predict the answer yourself <em>first</em>, then check.</div>
+          <div class="aam-row">
+            <label for="gcl-sel">Cell part:&nbsp;</label>
+            <select id="gcl-sel">
+              <option value="">&mdash; choose a part &mdash;</option>
+              <option value="anode">Anode</option>
+              <option value="cathode">Cathode</option>
+              <option value="salt">Salt bridge</option>
+              <option value="wire">External wire</option>
+            </select>
+            <button class="aam-btn" id="gcl-go">Label it</button>
+          </div>
+          <div class="aam-result" id="gcl-out"></div>
+          <button class="widget-reset" id="gcl-reset">Reset</button>
+        </div>
+
+        <!-- Current-research callout (gold highlight) NOW -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; NOW &middot; WHY THIS QUESTION STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Volta's 1800 pile and the lithium-ion battery in a modern electric car are the same idea &mdash; a galvanic cell with an anode, a cathode, and a path for ions &mdash; refined across two centuries. Scientists today are exploring electrode and electrolyte chemistries that pack far more energy into less mass, charge in minutes instead of hours, and use abundant, less hazardous materials. The salt bridge of Volta's pile has become the engineered electrolyte and separator at the center of this research. Every advance still rests on the same parts you just labeled.</div>
+        </div>
+
+        <!-- ow-flip: cell part roles -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; NAME THE PART'S JOB</div>
+          <div class="widget-question">Predict each part's role in a galvanic cell, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9851;&#65039; The salt bridge &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Carries ions</strong> between the half-cells to keep each side electrically neutral. Without it, charge builds up and the current stops.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9211; The cathode &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Reduction</strong> happens here; electrons are consumed. In a galvanic cell it is the <strong>positive (+)</strong> terminal. (&ldquo;Red Cat.&rdquo;)</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#10134; The anode &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Oxidation</strong> happens here; electrons are produced. In a galvanic cell it is the <strong>negative (&minus;)</strong> terminal. (&ldquo;An Ox.&rdquo;)</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128268; The external wire &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Carries electrons</strong> from the anode to the cathode. This flow of electrons through the wire is the electric current.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- ow-select: galvanic cell true/false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT GALVANIC CELLS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; this is TRUE. Oxidation happens at the anode (An Ox), which produces electrons and pushes them into the wire, making it the negative terminal in a galvanic cell." data-hint="Where does oxidation happen &mdash; and does that electrode push electrons out or pull them in?">
+            <div class="widget-row-prompt">1. In a galvanic cell, oxidation occurs at the anode, the negative terminal.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Through the external wire, electrons flow from the ANODE to the CATHODE (anode &rarr; cathode). They are produced at the anode and consumed at the cathode." data-hint="Electrons are made at the anode and used up at the cathode &mdash; so which way do they travel?">
+            <div class="widget-row-prompt">2. Electrons flow through the external wire from the cathode to the anode.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; the salt bridge lets ions move between the half-cells to balance the charge that builds up, keeping each side neutral so the current can continue." data-hint="What builds up in each half-cell as the reaction runs, and what cancels it?">
+            <div class="widget-row-prompt">3. The salt bridge keeps each half-cell electrically neutral by allowing ions to move.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A galvanic (voltaic) cell uses a SPONTANEOUS redox reaction to PRODUCE electricity. (A cell that uses electricity to force a nonspontaneous reaction is an electrolytic cell &mdash; you'll meet that later in the module.)" data-hint="Does a galvanic cell make electricity on its own, or does it need electricity supplied to it?">
+            <div class="widget-row-prompt">4. A galvanic cell needs an outside power source to drive its reaction.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal cell notation check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In the notation Zn(s) | Zn<sup>2+</sup>(aq) || Cu<sup>2+</sup>(aq) | Cu(s), which electrode is the cathode, and what does the &ldquo;||&rdquo; in the middle represent?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>The copper electrode (Cu, on the right) is the cathode</strong> &mdash; cell notation always puts the anode on the left and the cathode on the right, in the order electrons travel. So zinc is the anode (oxidation) and copper is the cathode (reduction). <strong>The double bar &ldquo;||&rdquo; represents the salt bridge</strong>, the ion path connecting the two half-cells; the single bars &ldquo;|&rdquo; mark the boundary between each solid electrode and its solution.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson is the blueprint for your VR build. This week's OptimaXR activity &mdash; <strong>Build 1 of 4: the Galvanic Cell Foundation</strong> of your module-long <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; has you construct exactly the cell you just studied: two electrodes in two half-cells, a salt bridge between them, and an external wire with the electron-flow direction marked. You'll label the <strong>anode (oxidation, &minus;)</strong> and <strong>cathode (reduction, +)</strong> and draw the electron flow <strong>anode &rarr; cathode</strong>. Your anchor sticky note reads: &ldquo;Galvanic cell: a spontaneous redox reaction makes electricity; electrons flow anode &rarr; cathode.&rdquo; Leave room on the bench to the right &mdash; you'll add a cell-potential panel, real cells &amp; electrolysis, and a rate &amp; catalysis demo over the next three weeks.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the parts of a galvanic cell, anode/cathode, electron flow direction, and cell notation. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 1 of 4 &mdash; the Galvanic Cell Foundation</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build and label the galvanic cell you just studied in OptimaXR (or complete the non-VR alternate), then save your snapshot for next week.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Looking ahead to Week 2</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Next week you'll learn to measure <em>how much</em> push a cell delivers &mdash; cell potential and the standard reduction-potential table &mdash; and add a potential panel to your VR build.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A <strong>galvanic (voltaic) cell</strong> harnesses a <em>spontaneous</em> redox reaction to make an electric current by separating the reaction into two half-cells, so its electrons must travel through an <strong>external wire</strong> (the current) while a <strong>salt bridge</strong> carries ions to keep each side neutral. Oxidation happens at the <strong>anode</strong> (the negative terminal, where electrons are made) and reduction at the <strong>cathode</strong> (the positive terminal, where they are used) &mdash; <em>An Ox, Red Cat</em> &mdash; so electrons always flow <strong>anode &rarr; cathode</strong>. The <strong>Daniell cell</strong>, Zn(s) | Zn<sup>2+</sup>(aq) || Cu<sup>2+</sup>(aq) | Cu(s), is the model to remember. Hold onto this: <em>you now understand the device inside every battery &mdash; next week we'll learn to measure exactly how hard it pushes those electrons.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.02 &middot; Galvanic (Voltaic) Cells</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== galvanic-cell labeler (.aam-widget) ===== */
+  var gclGo = document.getElementById('gcl-go');
+  if (gclGo) {
+    var gclMsg = {
+      anode:   ['warn', '<strong>Anode:</strong> the site of <strong>OXIDATION</strong> &mdash; electrons are produced here. In a galvanic cell it is the <strong>negative (&minus;)</strong> terminal. (&ldquo;An Ox.&rdquo;)'],
+      cathode: ['good', '<strong>Cathode:</strong> the site of <strong>REDUCTION</strong> &mdash; electrons are consumed here. In a galvanic cell it is the <strong>positive (+)</strong> terminal. (&ldquo;Red Cat.&rdquo;)'],
+      salt:    ['good', '<strong>Salt bridge:</strong> the <strong>ion path</strong>. It lets ions drift between the half-cells to balance charge and keep each side electrically neutral, so the current keeps flowing.'],
+      wire:    ['good', '<strong>External wire:</strong> the <strong>electron path</strong>. Electrons travel through it from the anode to the cathode &mdash; and that flow of electrons is the electric current.']
+    };
+    gclGo.addEventListener('click', function () {
+      var sel = document.getElementById('gcl-sel').value;
+      var out = document.getElementById('gcl-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a part first.'; return; }
+      var m = gclMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('gcl-reset').addEventListener('click', function () {
+      document.getElementById('gcl-sel').value = '';
+      var out = document.getElementById('gcl-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

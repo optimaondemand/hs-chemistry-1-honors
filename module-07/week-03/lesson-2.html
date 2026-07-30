@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (ICE/K checker used on 7.06) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+    /* ICE table styling */
+    .ice-table { width:100%; border-collapse:collapse; min-width:420px; font-size:16px; }
+    .ice-table th, .ice-table td { border:1px solid #D0D9E8; padding:9px 12px; text-align:center; color:#1a2340; }
+    .ice-table th { background:#0E1C42; color:#fff; }
+    .ice-table td.rowlab { background:#EEF1F8; color:#0E1C42; font-weight:bold; text-align:left; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Equilibrium Calculations (ICE Tables)</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Equilibrium Calculations (ICE Tables)</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You start with known amounts of reactants, and the reaction settles at equilibrium. The forward reaction used up some reactant and made some product &mdash; but exactly how much? If you can measure just one equilibrium concentration, can you recover all the others, and even the value of K?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you predicted the <em>direction</em> a stressed equilibrium would move. Today you put numbers on it. The tool is a simple piece of bookkeeping called the <strong>ICE table</strong> &mdash; Initial, Change, Equilibrium &mdash; that tracks every concentration from the moment you mix the reactants to the moment the system settles. The key insight is that the reaction can only consume and produce in fixed proportions, set by the balanced equation's coefficients. Once you write those proportions into the &ldquo;Change&rdquo; row, the rest is algebra. By the end you'll be able to find an unknown equilibrium concentration, or compute K itself, from a single measured value.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> set up an ICE table for a reaction, using the balanced equation's coefficients to write the &ldquo;Change&rdquo; row in terms of x.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use an ICE table to solve for the equilibrium constant K from measured equilibrium concentrations.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use an ICE table and the value of K to solve for an unknown equilibrium concentration.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 7.04 notes on the equilibrium constant expression K = [products]&#8319; / [reactants]&#8319;.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE BOOKKEEPING OF EQUILIBRIUM</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You seal 1.00 M of H<sub>2</sub> and 1.00 M of I<sub>2</sub> in a flask. They react: H<sub>2</sub> + I<sub>2</sub> &#8652; 2HI. When the system reaches equilibrium you measure the HI and find 1.60 M. Before reading on &mdash; how much H<sub>2</sub> do you think is left? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Sharp reasoning. Making 1.60 M of HI required consuming HALF that many moles of H&#8322; (the coefficients are 1 H&#8322; : 2 HI), so 0.80 M of H&#8322; was used up, leaving 1.00 &minus; 0.80 = 0.20 M. You just did, in your head, exactly what the ICE table does on paper &mdash; track the change through the coefficients.">&#128313; About 0.20 M &mdash; some was used up to make the HI</button>
+            <button data-response="Close thinking, but watch the coefficients. The change isn't 1:1. Making 1.60 M of HI used up half as many moles of H&#8322; (1 H&#8322; per 2 HI), so 0.80 M of H&#8322; reacted, leaving 0.20 M &mdash; not 0.40. The ICE table keeps these proportions straight for you.">&#128314; About 0.40 M</button>
+            <button data-response="Not quite &mdash; if HI formed, then H&#8322; must have been consumed, so less than 1.00 M remains. The exact amount comes from the coefficients: 1.60 M HI needed 0.80 M of H&#8322;, leaving 0.20 M. That's what the ICE table is for.">&#128308; Still about 1.00 M &mdash; barely any reacted</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">An equilibrium problem almost always gives you some information &mdash; the amounts you started with, plus one measured value at equilibrium &mdash; and asks for the rest. The challenge is keeping track of how much of each substance was consumed or produced. The <strong>ICE table</strong> is a three-row ledger that does exactly that:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>I &mdash; Initial:</strong> the concentrations right after mixing, before any reaction.<br>
+            <strong>C &mdash; Change:</strong> how much each concentration changes as the system reaches equilibrium, written in terms of <strong>x</strong> using the <em>coefficients</em>.<br>
+            <strong>E &mdash; Equilibrium:</strong> Initial + Change, the concentrations once the system settles.
+        </div>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE ONE RULE THAT MAKES IT WORK</div>
+            <div style="font-size:22px; color:#ffffff;"><strong>The &ldquo;Change&rdquo; row uses the balanced coefficients</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">reactants decrease (&minus;), products increase (+), each scaled by its coefficient times x</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 4px 0;">If a reaction is A + 3B &#8652; 2C, then for every x of A that reacts, 3x of B reacts and 2x of C forms. The Change row would read &minus;x, &minus;3x, +2x. The coefficients are the gears that lock the amounts together &mdash; this is the same conservation of atoms you used when balancing equations, now used to count change.</p>
+
+        <!-- Methodological / history vignette (helpful-info) -->
+        <div style="background:#E8F6FB; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:8px;">&#128300; A NOTE ON METHOD &middot; WHERE THE BOOKKEEPING COMES FROM</div>
+            <div style="font-size:17px; color:#1a2340; line-height:1.6;">The ICE table is not a natural law &mdash; it is a piece of <em>method</em>, a tidy way to organize a calculation so you don't lose track of what changed. The chemistry it feeds, though, rests on a real discovery. In the 1860s and 1870s two Norwegian scientists, <strong>Cato Guldberg</strong> and <strong>Peter Waage</strong>, worked out the <strong>law of mass action</strong>: at equilibrium the concentrations of products and reactants settle into a fixed ratio &mdash; the equilibrium constant K &mdash; set by the balanced equation. That law is <em>why</em> the K expression you learned in Lesson 7.04 works at all. The ICE table simply gives you a disciplined place to put the numbers before you plug them into K. This is worth noticing as a habit of the quantitative sciences: a good bookkeeping method turns a tangled problem into ordinary algebra, letting the underlying law do the real work. Keep the two ideas distinct &mdash; the <em>law</em> is the science; the <em>table</em> is the tool.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; A WORKED EXAMPLE &mdash; SOLVING FOR K</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 12px 0;">Let's solve the problem from the opener completely. We seal <strong>1.00 M H<sub>2</sub></strong> and <strong>1.00 M I<sub>2</sub></strong> in a flask (no HI yet) and let it reach equilibrium: <strong>H<sub>2</sub>(g) + I<sub>2</sub>(g) &#8652; 2HI(g)</strong>. At equilibrium we measure <strong>[HI] = 1.60 M</strong>. Find K<sub>c</sub>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 6px 0;"><strong>Step 1 &mdash; Build the ICE table.</strong> Because HI is formed, the reaction runs forward, so H<sub>2</sub> and I<sub>2</sub> each change by &minus;x and HI by +2x (coefficient 2).</p>
+        <div style="overflow-x:auto; margin:10px 0;">
+        <table class="ice-table">
+            <tr><th></th><th>[H<sub>2</sub>]</th><th>[I<sub>2</sub>]</th><th>[HI]</th></tr>
+            <tr><td class="rowlab">Initial</td><td>1.00</td><td>1.00</td><td>0</td></tr>
+            <tr><td class="rowlab">Change</td><td>&minus;x</td><td>&minus;x</td><td>+2x</td></tr>
+            <tr><td class="rowlab">Equilibrium</td><td>1.00 &minus; x</td><td>1.00 &minus; x</td><td>2x</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0;"><strong>Step 2 &mdash; Use the measured value to find x.</strong> The equilibrium HI is 2x, and we measured it as 1.60 M:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:8px 0; font-size:18px; color:#0e1c42; line-height:1.8; text-align:center;">
+            2x = 1.60 &nbsp;&rarr;&nbsp; <strong>x = 0.80</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0;"><strong>Step 3 &mdash; Fill in the equilibrium concentrations.</strong></p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:8px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            [H<sub>2</sub>] = 1.00 &minus; 0.80 = <strong>0.20 M</strong> &nbsp;&middot;&nbsp; [I<sub>2</sub>] = 1.00 &minus; 0.80 = <strong>0.20 M</strong> &nbsp;&middot;&nbsp; [HI] = 2(0.80) = <strong>1.60 M</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0;"><strong>Step 4 &mdash; Write the K<sub>c</sub> expression and plug in.</strong> Remember HI's coefficient of 2 becomes an exponent:</p>
+        <div style="background:#0E1C42; border-radius:8px; padding:16px 20px; margin:10px 0; text-align:center; color:#fff; font-size:18px; line-height:1.9;">
+            K<sub>c</sub> = [HI]&sup2; / ([H<sub>2</sub>][I<sub>2</sub>]) = (1.60)&sup2; / (0.20 &times; 0.20)<br>
+            = 2.56 / 0.04 = <strong style="color:#55c8e8; font-size:22px;">64</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0 0 0;">K<sub>c</sub> = 64 is comfortably greater than 1, which tells you products are favored &mdash; consistent with most of the iodine and hydrogen ending up as HI. The ICE table turned one measured number into the full picture of the equilibrium.</p>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE OTHER DIRECTION &mdash; SOLVING FOR A CONCENTRATION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The ICE method runs both ways. If you already know K and the starting amounts, you can solve for the unknown x &mdash; and from x, every equilibrium concentration. Set up the same three rows, write the equilibrium concentrations in terms of x, substitute them into the K expression, and solve the resulting equation for x.</p>
+
+        <div style="background:#FDF3E3; border-left: 5px solid #C7922C; border-radius:6px; padding:14px 20px; margin:14px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128290; A USEFUL SHORTCUT &mdash; THE SMALL-x APPROXIMATION</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">When K is <strong>very small</strong> (much less than 1), only a tiny bit of reactant converts, so x is tiny compared with the initial concentration. In that case a term like &ldquo;1.00 &minus; x&rdquo; is almost exactly 1.00, and you may <em>approximate</em> it as 1.00 to avoid a messy quadratic. It's a convenience worth knowing about now; you'll lean on it more in later chemistry. (A good rule of thumb: the approximation is fair when x turns out to be less than about 5% of the initial value.)</div>
+        </div>
+
+        <!-- AI red callout (AI-as-Instrument) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">You could paste an equilibrium problem like the one below into an AI assistant and get an answer in seconds &mdash; but AI tools regularly slip on exactly this kind of task: dropping a coefficient, forgetting to square the [HI] term, or mishandling the &minus;x. Treat any AI answer as a <em>proposal to be checked</em>, not a result to be trusted. <strong>Build your own ICE table first, work out x by hand, and use it as the standard the AI must match.</strong> If the AI's number disagrees with your table, find out which of you dropped a step &mdash; that verification against your own evidence is the real skill here.</div>
+        </div>
+
+        <!-- Custom ICE/K checker (.aam-widget) -->
+        <div class="aam-widget" id="iceCheck">
+          <div class="widget-kicker" style="color:#1B6A94;">&#129518; TRY IT &middot; ICE / K CHECKER</div>
+          <div style="font-size:16px; color:#0E1C42; line-height:1.55; margin-bottom:12px;">A new run of <strong>H<sub>2</sub> + I<sub>2</sub> &#8652; 2HI</strong> starts at <strong>0.50 M H<sub>2</sub></strong> and <strong>0.50 M I<sub>2</sub></strong> (no HI). At equilibrium you measure <strong>[HI] = 0.80 M</strong>. Work the ICE table on paper, then enter your answers to check.</div>
+          <div class="aam-row">
+            <label>x (where [HI] = 2x): &nbsp;</label>
+            <input type="text" id="iceX" inputmode="decimal" placeholder="e.g. 0.40" />
+          </div>
+          <div class="aam-row">
+            <label>[H<sub>2</sub>] at equilibrium (M): &nbsp;</label>
+            <input type="text" id="iceH2" inputmode="decimal" placeholder="e.g. 0.10" />
+          </div>
+          <div class="aam-row">
+            <label>K<sub>c</sub> = [HI]&sup2; / ([H<sub>2</sub>][I<sub>2</sub>]): &nbsp;</label>
+            <input type="text" id="iceK" inputmode="decimal" placeholder="round to nearest whole" />
+          </div>
+          <button class="aam-btn" id="iceBtn">Check my work</button>
+          <button class="widget-reset" id="iceReset">Reset</button>
+          <div class="aam-result" id="iceResult"></div>
+        </div>
+
+        <!-- ow-select: ICE reasoning -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CHECK YOUR ICE-TABLE REASONING</div>
+          <div class="widget-question">Choose the best answer for each. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct. For 2A &#8652; B + 3C, A loses 2x (coefficient 2), B gains x, and C gains 3x &mdash; the Change row reads &minus;2x, +x, +3x. The coefficients scale every term." data-hint="Match each species' change to its coefficient: A has coefficient 2, B has 1, C has 3.">
+            <div class="widget-row-prompt">1. For the reaction 2A &#8652; B + 3C, the &ldquo;Change&rdquo; row should be:</div>
+            <div class="widget-options">
+              <button data-choice="0">&minus;x, +x, +x</button>
+              <button data-choice="1">&minus;x, +2x, +3x</button>
+              <button data-choice="2">&minus;2x, +x, +3x</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes. The Equilibrium row is always Initial + Change. If A starts at 0.50 and changes by &minus;2x, its equilibrium concentration is 0.50 &minus; 2x." data-hint="Equilibrium = Initial + Change. Add the Change term to the starting value.">
+            <div class="widget-row-prompt">2. If A starts at 0.50 M and its Change is &minus;2x, its Equilibrium concentration is:</div>
+            <div class="widget-options">
+              <button data-choice="0">2x &minus; 0.50</button>
+              <button data-choice="1">0.50 &minus; 2x</button>
+              <button data-choice="2">0.50 + 2x</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; a very small K means very little reactant converts, so x is tiny and a term like (1.00 &minus; x) is essentially 1.00. That's exactly when the small-x approximation is justified." data-hint="When does almost no reaction occur, making x negligible &mdash; large K or small K?">
+            <div class="widget-row-prompt">3. The small-x approximation (treating 1.00 &minus; x as 1.00) is most appropriate when:</div>
+            <div class="widget-options">
+              <button data-choice="0">K is very small</button>
+              <button data-choice="1">K is very large</button>
+              <button data-choice="2">K is exactly 1</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why must we know whether the reaction runs forward or reverse before writing the &ldquo;Change&rdquo; row signs?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Because the signs flip. If the system reaches equilibrium by running <em>forward</em>, reactants decrease (&minus;x) and products increase (+x). If it must run <em>reverse</em> (for example, if you start with only products), reactants increase (+x) and products decrease (&minus;x). You can decide the direction the same way you did in Lesson 7.04 &mdash; compare the reaction quotient Q to K. Get the direction right first, and the algebra follows cleanly.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR activity is <strong>Build 3 of 5</strong> of your <strong>Equilibrium &amp; Acid-Base Station</strong> &mdash; <strong>Le Ch&acirc;telier Shift Narration</strong>. While today's lesson put numbers on equilibrium, the VR build lets you <em>narrate</em> the directional reasoning from Lesson 7.05: add a stress panel to your reversible-reaction demo and walk through how the equilibrium shifts to counteract an added reactant, a pressure change, and a temperature change. Keep working in the same persistent Session so your station keeps growing toward the final recorded walkthrough.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on building an ICE table and computing K. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &mdash; ICE-Table Calculations</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A self-check problem set: set up ICE tables, predict Le Ch&acirc;telier shifts, and solve for K and for unknown concentrations &mdash; your week's &ldquo;doing chemistry&rdquo; work.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Le Ch&acirc;telier Shift Narration (Build 3 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a stress panel to your equilibrium demo and narrate three shifts. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The ICE table &mdash; Initial, Change, Equilibrium &mdash; turns an equilibrium problem into ordinary algebra. Its one essential rule is that the <em>Change</em> row uses the balanced coefficients: reactants fall by their coefficient times x, products rise by theirs. Find x from a measured value, fill in the equilibrium row, and you can compute K or recover a missing concentration. When K is very small, the small-x approximation can save you a quadratic. Hold onto this method: <em>it is the same bookkeeping you'll use next week for acids and bases, where the &ldquo;reaction&rdquo; is an acid donating a proton to water.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.06 &middot; Equilibrium Calculations (ICE Tables)</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== ICE / K checker (custom numeric widget) =====
+  function near(val, target, tol) { return Math.abs(val - target) <= tol; }
+  var btn = document.getElementById('iceBtn');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var res = document.getElementById('iceResult');
+      var x = parseFloat(document.getElementById('iceX').value);
+      var h2 = parseFloat(document.getElementById('iceH2').value);
+      var k = parseFloat(document.getElementById('iceK').value);
+      // Correct: 2x = 0.80 -> x = 0.40; [H2] = 0.50 - 0.40 = 0.10; [I2] = 0.10; Kc = 0.80^2/(0.10*0.10) = 0.64/0.01 = 64
+      var parts = [];
+      var allGood = true;
+      if (isNaN(x) || isNaN(h2) || isNaN(k)) {
+        res.className = 'aam-result show warn';
+        res.innerHTML = 'Enter a number in all three boxes. Hint: [HI] = 2x, so x = 0.80 ÷ 2.';
+        return;
+      }
+      if (near(x, 0.40, 0.005)) { parts.push('✓ x = 0.40 (since 2x = 0.80).'); } else { parts.push('✗ x should be 0.40: [HI] = 2x = 0.80, so x = 0.80 ÷ 2 = 0.40.'); allGood = false; }
+      if (near(h2, 0.10, 0.005)) { parts.push('✓ [H₂] = 0.10 M (0.50 − 0.40).'); } else { parts.push('✗ [H₂] should be 0.10 M: 0.50 − x = 0.50 − 0.40 = 0.10. ([I₂] is the same.)'); allGood = false; }
+      if (near(k, 64, 1.5)) { parts.push('✓ Kᴄ ≈ 64.'); } else { parts.push('✗ Kᴄ should be 64: (0.80)² ÷ (0.10 × 0.10) = 0.64 ÷ 0.01 = 64.'); allGood = false; }
+      res.className = 'aam-result show ' + (allGood ? 'good' : 'warn');
+      res.innerHTML = (allGood ? '<strong>All correct.</strong> Notice Kᴄ ≈ 64 — the same value as the worked example, because K depends on the reaction and temperature, not on the starting amounts.<br>' : '') + parts.join('<br>');
+    });
+  }
+  var ir = document.getElementById('iceReset');
+  if (ir) {
+    ir.addEventListener('click', function () {
+      ['iceX','iceH2','iceK'].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ''; });
+      var res = document.getElementById('iceResult');
+      if (res) { res.className = 'aam-result'; res.innerHTML = ''; }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

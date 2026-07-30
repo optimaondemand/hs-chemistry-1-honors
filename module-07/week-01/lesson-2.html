@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (.aam-widget) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Second &amp; Third Laws of Thermodynamics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Second &amp; Third Laws of Thermodynamics</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A drop of ink spreads through a glass of water in seconds and never gathers back. Why does the universe seem to have a one-way arrow &mdash; and is there a single rule that decides which direction every change must run?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you met entropy and saw that an endothermic cold pack can still be spontaneous because dissolving raises the entropy of the system. But notice: that argument needed <em>both</em> the system and the surroundings. Today we make that bookkeeping into a law. The <strong>Second Law of Thermodynamics</strong> states the one rule that governs the direction of every natural change &mdash; the entropy of the <em>universe</em> always increases for a spontaneous process. Then the <strong>Third Law</strong> hands us something invaluable: a true zero point for entropy, so that &mdash; unlike energy, which we can only measure as a change &mdash; we can list the <em>absolute</em> entropy of any substance and compute the entropy change of a reaction from a table. Together these two laws turn entropy from an idea into a tool.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the Second Law as &Delta;S<sub>univ</sub> = &Delta;S<sub>sys</sub> + &Delta;S<sub>surr</sub> &gt; 0 for a spontaneous process, and recognize that &Delta;S<sub>univ</sub> = 0 at equilibrium.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the Third Law &mdash; a perfect crystal at 0 K has zero entropy &mdash; and explain why it gives substances an <em>absolute</em> molar entropy S&deg;.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the standard entropy change of a reaction using &Delta;S&deg;<sub>rxn</sub> = &Sigma;S&deg;(products) &minus; &Sigma;S&deg;(reactants).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 7.01 notes on entropy (S), &Delta;S sign rules, and &Delta;S<sub>surr</sub> = &minus;&Delta;H<sub>sys</sub>/T &mdash; we extend all three today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE SECOND LAW &mdash; THE UNIVERSE'S ARROW</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">When water freezes into ice, the molecules lock into a rigid lattice &mdash; the system's entropy clearly goes <em>down</em>. Yet on a cold winter night, water freezes all on its own. How can a change that lowers entropy still be spontaneous? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's exactly the key. The system's entropy drops when water freezes, but freezing RELEASES heat to the cold surroundings, raising THEIR entropy by even more. The Second Law cares about the TOTAL &mdash; system plus surroundings &mdash; and the total still increases, so the change is spontaneous. This is why a single law about the whole universe, not just the system, is needed.">&#127759; The surroundings' entropy must rise enough to more than make up for it</button>
+            <button data-response="It can't be a broken rule &mdash; entropy never has to rise for the SYSTEM alone. Freezing lowers the system's entropy, but it pours heat into the cold surroundings and raises their entropy by more. The Second Law is about the TOTAL of system + surroundings, and that total goes up, so freezing is spontaneous on a cold night.">&#10060; It must break the rule that entropy always increases</button>
+            <button data-response="The cold matters, but not because spontaneity needs cold in general &mdash; it's that the surroundings are cold enough to absorb the released heat and gain a lot of entropy. Freezing lowers the SYSTEM's entropy yet raises the SURROUNDINGS' entropy by more, so the TOTAL rises and the change runs. That total-entropy rule is the Second Law.">&#10052;&#65039; Cold weather just forces it &mdash; entropy isn't really involved</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Last lesson hinted at the rule; now we state it plainly. The <strong>Second Law of Thermodynamics</strong> says that for any <em>spontaneous</em> process, the total entropy of the universe &mdash; the system <em>plus</em> its surroundings &mdash; <strong>increases</strong>. In symbols:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE SECOND LAW OF THERMODYNAMICS</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>&Delta;S<sub>univ</sub> = &Delta;S<sub>sys</sub> + &Delta;S<sub>surr</sub> &gt; 0</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">for a spontaneous process &middot; at equilibrium, &Delta;S<sub>univ</sub> = 0</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This single inequality explains everything from the last lesson. The cold pack: its system entropy soars as salt dissolves, so even though the cooled surroundings lose a little, the total rises. Freezing on a winter night: the system entropy drops, but the heat released warms the cold surroundings enough to raise <em>their</em> entropy more, so again the total rises. The Second Law never demands that the system's own entropy increase &mdash; only that the <em>universe's</em> does. When the two parts exactly balance, with &Delta;S<sub>univ</sub> = 0, the process is at <strong>equilibrium</strong>: it has no net direction, a foreshadowing of the chemical equilibria you study later this module.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The Second Law is the reason the world has a direction in time. Heat flows from hot to cold, never the reverse on its own; gases mix but never un-mix; an egg scrambles but never unscrambles. Every one of these is the universe's entropy marching upward. It is among the most far-reaching statements in all of science.</p>
+
+        <!-- Nature of Science: laws describe vs. models explain -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#129534; HOW DO SCIENTISTS KNOW? &middot; NATURE OF SCIENCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice what <em>kind</em> of statement the Second Law is. A scientific <strong>law describes</strong> a pattern that has held in every measurement ever made &mdash; the total entropy of the universe rises in every spontaneous change &mdash; but the law itself does not say <em>why</em>. The <em>why</em> comes from a <strong>model</strong>: the picture that matter and energy spread among the countless arrangements available to them, so the most spread-out outcome is overwhelmingly the most likely. Laws and models do different jobs &mdash; one records <em>what</em> happens, the other explains <em>why</em> &mdash; and keeping the two straight is part of thinking like a scientist. It matters outside the lab, too: when society weighs energy choices, the law sets the hard limits no clever design can dodge, while the model helps us imagine what is even worth trying.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>The entropy of a system DECREASES during a certain change, yet the change is spontaneous. Has the Second Law been violated?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. The Second Law is about the entropy of the <em>universe</em>, not the system alone. If the system's entropy falls, the change can still be spontaneous as long as the surroundings' entropy rises by more &mdash; usually because the change releases heat that warms the surroundings (&Delta;S<sub>surr</sub> = &minus;&Delta;H<sub>sys</sub>/T &gt; 0). The total, &Delta;S<sub>univ</sub>, is still positive. Freezing water on a cold night is exactly this case.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE THIRD LAW &mdash; A TRUE ZERO FOR ENTROPY</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Energy has no natural zero &mdash; in Module 5 you could only ever measure <em>changes</em> in enthalpy (&Delta;H), never an absolute amount. Entropy is different, and that difference is a gift. The <strong>Third Law of Thermodynamics</strong> states that the entropy of a <strong>perfect crystal at absolute zero (0 K)</strong> is exactly <strong>zero</strong>.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE THIRD LAW OF THERMODYNAMICS</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>S = 0 for a perfect crystal at 0 K</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">a single, motionless, perfectly ordered arrangement &mdash; no disorder at all</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why zero? At absolute zero a perfect crystal has every particle frozen in one flawless arrangement, with no thermal motion &mdash; there is exactly one way to arrange it, and so no disorder at all. As you warm any substance up from there, its entropy climbs from this firm zero. Because the starting point is fixed, scientists can measure the <em>total</em> entropy a substance has accumulated by the time it reaches standard conditions (25&nbsp;&deg;C, 1 atm). That value is its <strong>standard molar entropy, S&deg;</strong>, reported in <strong>J/(mol&middot;K)</strong>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Three habits of S&deg; values are worth remembering: <strong>every substance has a positive S&deg;</strong> (any real substance above 0 K has some disorder &mdash; even pure elements, whose &Delta;H of formation is defined as zero, have a nonzero entropy); gases have much larger S&deg; than liquids, which exceed solids; and more complex molecules generally have larger S&deg; than simple ones.</p>
+
+        <!-- History vignette THEN (Boltzmann) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">By the late 1800s two pictures of entropy were competing. Clausius had defined it from the top down, through heat and temperature, without ever asking <em>what it really was</em>. The Austrian physicist <strong>Ludwig Boltzmann</strong> argued from the bottom up: entropy simply <em>counts</em> the number of microscopic arrangements &mdash; call it W &mdash; that all look the same from the outside, captured in his famous relation <strong>S = k&nbsp;log&nbsp;W</strong>. His view demanded that matter be built from countless invisible atoms, and many respected scientists of the day rejected atoms as unprovable speculation. It was only as atomic evidence piled up in the early 1900s that Boltzmann's statistical picture won out &mdash; and it explains the Third Law at a glance: a perfect crystal at 0 K has exactly one possible arrangement (W = 1), and because log 1 = 0, its entropy is exactly zero.</div>
+        </div>
+
+        <!-- ow-flip: more or less entropy / S° intuition cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHICH HAS THE LARGER S&deg;?</div>
+          <div class="widget-question">Predict which member of each pair has the larger standard molar entropy, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128167; H<sub>2</sub>O(g) &nbsp;vs&nbsp; H<sub>2</sub>O(l) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>The gas, H<sub>2</sub>O(g).</strong> Gases have far larger S&deg; than liquids of the same substance &mdash; their molecules roam through a huge volume.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; NaCl(s) &nbsp;vs&nbsp; NaCl(aq) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>The dissolved ions, NaCl(aq).</strong> Dissolving scatters the ordered crystal's ions throughout the solution &mdash; more arrangements, higher entropy.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9883;&#65039; A perfect crystal at 0 K &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>S = 0.</strong> The Third Law's reference point &mdash; one motionless, perfectly ordered arrangement, so no disorder at all.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129514; CO<sub>2</sub>(g) &nbsp;vs&nbsp; He(g) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>CO<sub>2</sub>(g).</strong> Both are gases, but the larger, multi-atom CO<sub>2</sub> molecule has more ways to store energy (it can bend and stretch), so a larger S&deg;.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Nature of Science / Honesty callout (Q4) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#129534; HOW DO SCIENTISTS KNOW? &middot; NATURE OF SCIENCE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice the discipline behind the Third Law. Because scientists agreed to anchor entropy at a single honest reference point &mdash; a perfect crystal at 0 K &mdash; the S&deg; value of every substance can be measured against the same baseline, by anyone, anywhere, and the numbers will agree. That is empirical honesty made practical: a shared zero that no one gets to move to make a result come out the way they wish. When you compute a reaction's &Delta;S&deg; from tabulated values, you are trusting a chain of careful measurements built on that common foundation &mdash; and you should be able to <em>check</em> the sign of your answer against the gas-mole reasoning from 7.01. Reason from the evidence, not from what you hoped to find.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; COMPUTING A REACTION'S ENTROPY CHANGE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">With absolute entropies in hand, finding the entropy change of a reaction works just like the enthalpy-of-reaction sums from Module 5: add up the products, subtract the reactants, and weight each by its coefficient.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">STANDARD REACTION ENTROPY</div>
+            <div style="font-size:25px; color:#ffffff;"><strong>&Delta;S&deg;<sub>rxn</sub> = &Sigma; S&deg;(products) &minus; &Sigma; S&deg;(reactants)</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">multiply each S&deg; by its coefficient before adding</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked example</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Find &Delta;S&deg; for: &nbsp;<strong>N<sub>2</sub>(g) + 3 H<sub>2</sub>(g) &rarr; 2 NH<sub>3</sub>(g)</strong><br>
+            using S&deg; values: N<sub>2</sub> = 192 J/(mol&middot;K), H<sub>2</sub> = 131 J/(mol&middot;K), NH<sub>3</sub> = 193 J/(mol&middot;K).<br><br>
+            <strong>Products:</strong> 2 &times; S&deg;(NH<sub>3</sub>) = 2 &times; 193 = <strong>386 J/K</strong><br>
+            <strong>Reactants:</strong> S&deg;(N<sub>2</sub>) + 3 &times; S&deg;(H<sub>2</sub>) = 192 + (3 &times; 131) = 192 + 393 = <strong>585 J/K</strong><br>
+            <strong>&Delta;S&deg;<sub>rxn</sub> = 386 &minus; 585 = &minus;199 J/K.</strong><br><br>
+            <strong>Does the sign make sense?</strong> Yes. The reaction turns 4 moles of gas (1 N<sub>2</sub> + 3 H<sub>2</sub>) into 2 moles of gas (2 NH<sub>3</sub>) &mdash; fewer gas particles, so entropy should fall, and &Delta;S&deg; came out negative. The gas-mole check from 7.01 confirms the arithmetic.
+        </div>
+
+        <!-- Custom .aam-widget: ΔS°rxn checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; &Delta;S&deg;<sub>rxn</sub> CHECKER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Enter the total S&deg; you summed for the products and for the reactants (each already multiplied by its coefficients), in J/K. The tool returns &Delta;S&deg;<sub>rxn</sub> and whether entropy rose or fell &mdash; do the subtraction yourself first.</div>
+          <div class="aam-row">
+            <label for="ds-prod">&Sigma; S&deg; products (J/K):&nbsp;</label>
+            <input id="ds-prod" type="number" step="any" placeholder="e.g. 386" />
+            <label for="ds-react">&Sigma; S&deg; reactants (J/K):&nbsp;</label>
+            <input id="ds-react" type="number" step="any" placeholder="e.g. 585" />
+            <button class="aam-btn" id="ds-go">Compute &Delta;S&deg;</button>
+          </div>
+          <div class="aam-result" id="ds-out"></div>
+          <button class="widget-reset" id="ds-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-instrument note -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 6px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 15px; color: #8A1F16; line-height: 1.6;">Ask an AI tool for a reaction's &Delta;S&deg; and it may hand you a confident number &mdash; but it can quietly pull a wrong S&deg; value or reverse the products-minus-reactants order and flip the sign. Treat its answer as a <em>claim to verify</em>, not a result: predict the sign yourself from the change in gas moles (your 7.01 rule), then re-add the tabulated values by hand and check that the two agree. The reasoning is yours to own; the tool is only an instrument.</div>
+        </div>
+
+        <!-- ow-select: laws true-false / MC -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; THE SECOND &amp; THIRD LAWS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; the Second Law is about the entropy of the UNIVERSE (system + surroundings). For a spontaneous process &Delta;S&#8336;&#8344;&#8341;&#7525; &gt; 0; at equilibrium it equals zero." data-hint="Whose entropy must increase &mdash; just the system, or the whole universe?">
+            <div class="widget-row-prompt">1. For a spontaneous process, the entropy of the universe (system + surroundings) increases.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The Third Law sets the entropy of a PERFECT CRYSTAL at 0 K to zero, not its energy or enthalpy. Energy has no natural zero; entropy does." data-hint="What does the Third Law say equals zero at 0 K &mdash; entropy or energy?">
+            <div class="widget-row-prompt">2. The Third Law says the energy of a perfect crystal at 0 K is zero.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; because entropy has a true zero (the Third Law), every substance has a measurable ABSOLUTE molar entropy S&deg;, which lets us tabulate values and compute &Delta;S&deg; for reactions." data-hint="Does a fixed zero point let us measure absolute amounts, or only changes?">
+            <div class="widget-row-prompt">3. Substances have absolute molar entropies (S&deg;) that we can look up and add or subtract.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. &Delta;S&deg;&#8341;&#8339;&#8345; = &Sigma;S&deg;(products) &minus; &Sigma;S&deg;(reactants). You SUBTRACT reactants from products, not the other way around &mdash; reversing it flips the sign." data-hint="Is it products minus reactants, or reactants minus products?">
+            <div class="widget-row-prompt">4. To find &Delta;S&deg; of a reaction you subtract the products' entropies from the reactants'.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal sign of ΔS° -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>For CaCO<sub>3</sub>(s) &rarr; CaO(s) + CO<sub>2</sub>(g), predict the SIGN of &Delta;S&deg; before doing any arithmetic.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>&Delta;S&deg; is positive.</strong> The reactant side has zero moles of gas; the product side produces one mole of gas (CO<sub>2</sub>). Releasing a gas from a solid is a large jump in disorder, so the entropy of the system rises and &Delta;S&deg; &gt; 0. You can predict the sign from the gas-mole change alone, then confirm it with the &Sigma;products &minus; &Sigma;reactants calculation &mdash; the two should agree.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your module-long OptimaXR project &mdash; the <strong>Equilibrium &amp; Acid-Base Station</strong> &mdash; begins this week with <strong>Build 1 of 5: the Entropy &amp; Spontaneity Sort</strong>. You'll sort sample processes into <em>more-entropy</em> / <em>less-entropy</em> and <em>spontaneous</em> / <em>nonspontaneous</em> bins and label <em>why</em>. As you sort, lean on this lesson's big rule: a process is spontaneous when the <em>total</em> entropy rises, which is exactly what your anchor sticky note says &mdash; &ldquo;&Delta;S<sub>univ</sub> &gt; 0 for a spontaneous process.&rdquo; Leave room on the bench for the equilibrium demo, Le Ch&acirc;telier panel, pH station, and titration setup you'll add in the coming weeks.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the Second Law, the Third Law, absolute molar entropy S&deg;, and the &Delta;S&deg;<sub>rxn</sub> formula. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Predict &Delta;S and &Delta;H signs, read the spontaneity sign chart, and compute &Delta;G = &Delta;H &minus; T&Delta;S &mdash; the number that combines energy and entropy into one verdict.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Continue Your Equilibrium &amp; Acid-Base Station (Build 1 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Sort processes by entropy and spontaneity and label why. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">The <strong>Second Law</strong> gives the universe its arrow: for any spontaneous process the total entropy rises, &Delta;S<sub>univ</sub> = &Delta;S<sub>sys</sub> + &Delta;S<sub>surr</sub> &gt; 0, and at equilibrium it is exactly zero. The system's own entropy may fall &mdash; as when water freezes &mdash; so long as the surroundings gain more. The <strong>Third Law</strong> fixes a true zero (a perfect crystal at 0 K has S = 0), which lets us assign every substance an <em>absolute</em> molar entropy S&deg; and compute a reaction's entropy change as &Delta;S&deg;<sub>rxn</sub> = &Sigma;S&deg;(products) &minus; &Sigma;S&deg;(reactants). Hold onto this: <em>we now have both halves of the spontaneity story &mdash; energy (&Delta;H) and entropy (&Delta;S). Next we fuse them into a single deciding number, the Gibbs free energy, and finally answer &ldquo;which way?&rdquo; with one calculation.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.02 &middot; Second &amp; Third Laws of Thermodynamics</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== ΔS°rxn checker (.aam-widget) ===== */
+  var dsGo = document.getElementById('ds-go');
+  if (dsGo) {
+    dsGo.addEventListener('click', function () {
+      var p = parseFloat(document.getElementById('ds-prod').value);
+      var r = parseFloat(document.getElementById('ds-react').value);
+      var out = document.getElementById('ds-out');
+      if (isNaN(p) || isNaN(r)) { out.className = 'aam-result show warn'; out.innerHTML = 'Enter both totals (numbers only).'; return; }
+      var d = p - r;
+      var rounded = Math.round(d * 100) / 100;
+      var dir = d > 0 ? 'entropy INCREASED (&Delta;S&deg; &gt; 0) &mdash; expect this when the reaction makes more moles of gas.'
+              : d < 0 ? 'entropy DECREASED (&Delta;S&deg; &lt; 0) &mdash; expect this when the reaction makes fewer moles of gas.'
+              : 'no net entropy change (&Delta;S&deg; = 0).';
+      out.className = 'aam-result show ' + (d >= 0 ? 'good' : 'warn');
+      out.innerHTML = '&Delta;S&deg;<sub>rxn</sub> = ' + p + ' &minus; ' + r + ' = <strong>' + rounded + ' J/K</strong>. So ' + dir + ' Always check the sign against the change in gas moles.';
+    });
+    document.getElementById('ds-reset').addEventListener('click', function () {
+      document.getElementById('ds-prod').value = '';
+      document.getElementById('ds-react').value = '';
+      var out = document.getElementById('ds-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

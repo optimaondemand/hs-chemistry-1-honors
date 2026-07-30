@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (&Delta;G&deg; from E&deg;cell calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Cell Potential, Free Energy &amp; Equilibrium</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Cell Potential, Free Energy &amp; Equilibrium</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You now have three very different-looking numbers for a reaction: a cell <strong>voltage</strong> (E&deg;<sub>cell</sub>), a <strong>free-energy change</strong> (&Delta;G&deg;), and an <strong>equilibrium constant</strong> (K). They come from three separate parts of chemistry. So why do they always agree about whether a reaction will go?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you measured the push behind a cell's electrons as a voltage. In Module 7 you met two other ways to ask &ldquo;does this reaction go?&rdquo; &mdash; the Gibbs free energy change &Delta;G&deg; and the equilibrium constant K. This lesson reveals that those three quantities are <strong>three views of one question</strong>. A single equation, &Delta;G&deg; = &minus;nFE&deg;<sub>cell</sub>, converts a voltage directly into a free-energy change, and a positive voltage, a negative &Delta;G&deg;, and a large K turn out to always travel together. By the end you'll compute &Delta;G&deg; from a cell potential, see how the signs lock together, and understand where this fits in the grand thermodynamic story of the course.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the standard free-energy change of a cell with &Delta;G&deg; = &minus;nFE&deg;<sub>cell</sub>, identifying n and using the Faraday constant correctly.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the three-way relationship E&deg;<sub>cell</sub> &gt; 0 &#8660; &Delta;G&deg; &lt; 0 &#8660; K &gt; 1 to predict whether a reaction is spontaneous and product-favored.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how this lesson completes the &ldquo;what drives change&rdquo; arc (&Delta;H &rarr; &Delta;G &rarr; E&deg;) and why none of it tells you a reaction's <em>speed</em>.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 8.03 notes (E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub>; +1.10 V for Zn&ndash;Cu) and your Module 7 notes on &Delta;G and the equilibrium constant K.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THREE NUMBERS, ONE QUESTION</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">The Zn&ndash;Cu cell has a positive voltage (+1.10 V). From Module 7, a reaction that &ldquo;goes&rdquo; has a negative &Delta;G&deg; and an equilibrium constant K bigger than 1. Before you read on &mdash; do you think these three facts are coincidences, or are they connected? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the insight of this lesson. They aren't separate facts &mdash; they're three measurements of the same underlying tendency for a reaction to go forward. One equation, &Delta;G&deg; = &minus;nFE&deg;, even converts the voltage directly into the free-energy change, and the signs lock together: positive voltage, negative &Delta;G&deg;, large K.">&#128279; They're connected &mdash; three views of the same thing</button>
+            <button data-response="It can look like coincidence, but it isn't. A positive cell voltage, a negative &Delta;G&deg;, and a large K always travel together because they all measure the same thing: how strongly a reaction is pushed forward. Today's equation, &Delta;G&deg; = &minus;nFE&deg;, makes the link exact.">&#127922; Just a coincidence that they happen to agree</button>
+            <button data-response="Reasonable caution &mdash; but they don't disagree under standard conditions. They always point the same way because they're tied together mathematically: &Delta;G&deg; = &minus;nFE&deg; links voltage and free energy, and &Delta;G&deg; = &minus;RT ln K links free energy and the equilibrium constant. Same story, three languages.">&#129335; They probably contradict each other sometimes</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">All three quantities answer the same question &mdash; <em>will this reaction go forward on its own, and how far?</em> &mdash; in three different languages. <strong>E&deg;<sub>cell</sub></strong> answers it in volts (the electrical push). <strong>&Delta;G&deg;</strong> answers it in joules (the free energy released). <strong>K</strong> answers it as a ratio of products to reactants at equilibrium (how far the reaction runs). It would be strange if they disagreed, and they don't. The bridge between the first two is a single, clean equation:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">VOLTAGE TO FREE ENERGY</div>
+            <div style="font-size:30px; color:#ffffff;"><strong>&Delta;G&deg; = &minus;nFE&deg;<sub>cell</sub></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">n = moles of electrons transferred &middot; F = Faraday constant = 96,485 C/mol &middot; (V &times; C = J)</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Look at the minus sign. It guarantees that a <strong>positive</strong> cell voltage produces a <strong>negative</strong> &Delta;G&deg; &mdash; and a negative &Delta;G&deg;, from Module 7, means <em>spontaneous</em>. So the rule you learned last lesson (&ldquo;positive E&deg;<sub>cell</sub> &rarr; galvanic&rdquo;) is exactly the same statement as &ldquo;negative &Delta;G&deg; &rarr; spontaneous.&rdquo; The Faraday constant <strong>F = 96,485 C/mol</strong> (often rounded to 96,500) is just the charge carried by one mole of electrons; it converts &ldquo;volts per electron&rdquo; into &ldquo;joules per mole of reaction.&rdquo; And <strong>n</strong> is the number of moles of electrons the balanced reaction transfers.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The constant F honors the English scientist <strong>Michael Faraday</strong>, who in the 1830s discovered that the amount of chemical change at an electrode is proportional to the quantity of electric charge passed &mdash; the link between electricity and chemical reaction, measured by counting charge. Faraday had little formal mathematics, but his careful, relentless experiments uncovered the quantitative laws of electrochemistry. The number that bears his name &mdash; the charge on one mole of electrons &mdash; is precisely what lets us turn a measured voltage into the energy released by a reaction.</div>
+        </div>
+
+        <!-- History vignette: unification of thermodynamics & electrochemistry -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; TWO SCIENCES BECOME ONE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The equation &Delta;G&deg; = &minus;nFE&deg; is a quiet landmark: it marks the exact point where <strong>thermodynamics</strong> and <strong>electrochemistry</strong> turned out to be one subject. In the 1870s the American physicist <strong>Josiah Willard Gibbs</strong> recast the question &ldquo;will a reaction go?&rdquo; in terms of free energy &mdash; a purely energetic kind of bookkeeping. A little over a decade later, <strong>Walther Nernst</strong> and others showed that this same free energy could be read straight off a voltmeter as a cell's potential. Two lines of inquiry that had grown up separately &mdash; the study of heat and energy on one side, the study of electricity and chemical cells on the other &mdash; met in a single equation. When you multiply n, F, and E&deg; and attach that minus sign, you are crossing a bridge that took the better part of a century to build.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A cell has E<sup>&deg;</sup><sub>cell</sub> = +0.50 V. Without any numbers, what can you say about the sign of &Delta;G&deg; and whether the reaction is spontaneous?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Because &Delta;G&deg; = &minus;nFE&deg;, and n and F are both positive, a <strong>positive</strong> E&deg;<sub>cell</sub> forces &Delta;G&deg; to be <strong>negative</strong>. A negative &Delta;G&deg; means the reaction is <strong>spontaneous</strong> &mdash; the cell is galvanic. You don't even need to compute the number to know the sign and the verdict; the minus sign in the equation does it for you.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE THREE-WAY SIGN RELATIONSHIP</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Put all three together and a tidy picture emerges. There is a second bridge, from Module 7, between free energy and equilibrium: <strong>&Delta;G&deg; = &minus;RT ln K</strong>. Chaining the two equations links the voltage all the way to K. You won't compute K from a voltage in this course, but the <em>direction</em> of the relationship is worth knowing cold:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:540px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">E&deg;<sub>cell</sub></th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">&Delta;G&deg;</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">K</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">What it means</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;"><strong>&gt; 0</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;"><strong>&lt; 0</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;"><strong>&gt; 1</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">spontaneous; <strong>products favored</strong></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">= 0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">= 0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">= 1</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">at equilibrium; no net drive</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;"><strong>&lt; 0</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;"><strong>&gt; 0</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;"><strong>&lt; 1</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">nonspontaneous; <strong>reactants favored</strong></td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">Read any row across and every cell agrees. A positive voltage <em>always</em> comes with a negative &Delta;G&deg; and a K greater than 1 &mdash; the reaction runs forward and ends up product-rich. Flip every sign and you get a reaction that won't go on its own. The middle row, where all three sit at their neutral value, is equilibrium: the cell voltage has dropped to zero (a &ldquo;dead battery&rdquo; is a cell that has reached equilibrium). One equation that captures the standard-temperature link to K, derived from these relationships, is <strong>E&deg;<sub>cell</sub> = (0.0592 V / n) log K</strong> at 25&nbsp;&deg;C &mdash; useful to recognize, though we keep K-from-voltage qualitative here.</p>
+
+        <!-- ow-select: sign relationship true-false / MC -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; LOCK THE SIGNS TOGETHER</div>
+          <div class="widget-question">Use the three-way relationship and &Delta;G&deg; = &minus;nFE&deg;. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The minus sign in &Delta;G&deg; = &minus;nFE&deg; flips it: a positive E&deg;cell gives a NEGATIVE &Delta;G&deg;, which is the spontaneous case." data-hint="Look at the minus sign in &Delta;G&deg; = &minus;nFE&deg;.">
+            <div class="widget-row-prompt">1. A positive E&deg;<sub>cell</sub> produces a positive &Delta;G&deg;.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; when E&deg;cell > 0, &Delta;G&deg; < 0 and K > 1, so products are favored. All three agree across the row." data-hint="In the top row of the table, what does K do when the voltage is positive?">
+            <div class="widget-row-prompt">2. When E&deg;<sub>cell</sub> &gt; 0, the equilibrium constant K is greater than 1 (products favored).</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; a dead battery has run down to E&deg;cell = 0, which means &Delta;G = 0: the cell has reached equilibrium and there is no more net drive." data-hint="What cell voltage means 'no more push left'?">
+            <div class="widget-row-prompt">3. A &ldquo;dead&rdquo; battery is best described as a cell that has reached&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">a negative voltage</button>
+              <button data-choice="1">maximum free energy</button>
+              <button data-choice="2">equilibrium (E<sub>cell</sub> = 0)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; the Faraday constant F = 96,485 C/mol is the charge on one mole of electrons; it converts volts per electron into joules per mole of reaction." data-hint="F is a charge per mole of electrons.">
+            <div class="widget-row-prompt">4. In &Delta;G&deg; = &minus;nFE&deg;, the Faraday constant F is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">the temperature in kelvin</button>
+              <button data-choice="1">the charge on one mole of electrons (96,485 C/mol)</button>
+              <button data-choice="2">the number of electrons transferred</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; COMPUTING &Delta;G&deg; FROM A VOLTAGE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The calculation is short, but two things trip people up: getting <strong>n</strong> right (count the electrons the balanced reaction actually transfers) and remembering that the answer comes out in <strong>joules</strong>, which you'll usually convert to kilojoules. Here is the worked example, our Zn&ndash;Cu cell from last lesson.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked calculation &mdash; &Delta;G&deg; for the Daniell cell</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            The Zn&ndash;Cu cell transfers <strong>2 electrons</strong> (Zn &rarr; Zn<sup>2+</sup> + 2 e<sup>&minus;</sup>; Cu<sup>2+</sup> + 2 e<sup>&minus;</sup> &rarr; Cu), and from Lesson 8.03 its E&deg;<sub>cell</sub> = <strong>+1.10 V</strong>. Find &Delta;G&deg;.<br><br>
+            <strong>Step 1 &mdash; identify n.</strong> The balanced reaction moves 2 mol of electrons, so <strong>n = 2</strong>.<br><br>
+            <strong>Step 2 &mdash; plug into &Delta;G&deg; = &minus;nFE&deg;.</strong><br>
+            &nbsp;&nbsp;&Delta;G&deg; = &minus;(2)(96,485 C/mol)(1.10 V)<br>
+            &nbsp;&nbsp;&Delta;G&deg; = &minus;212,267 J &nbsp;(since V &times; C = J)<br><br>
+            <strong>Step 3 &mdash; convert J to kJ.</strong><br>
+            &nbsp;&nbsp;&Delta;G&deg; = &minus;212,267 J &times; (1 kJ / 1000 J) &asymp; <strong>&minus;212 kJ</strong><br><br>
+            <strong>Verdict:</strong> &Delta;G&deg; is large and <strong>negative</strong> &mdash; strongly spontaneous, exactly as the positive +1.10 V promised. Same reaction, same conclusion, two languages.
+        </div>
+
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; THE SIGN-AND-UNIT TRAP</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Two classic slips: (1) <strong>forgetting the minus sign</strong>, which makes a spontaneous reaction look nonspontaneous &mdash; the formula is &Delta;G&deg; = <em>minus</em> nFE&deg;; and (2) <strong>leaving the answer in joules</strong> and comparing it to kJ values. With F &asymp; 96,485, the raw answer is in joules &mdash; a number in the hundred-thousands. Divide by 1000 to get kJ. A reasonable cell gives a &Delta;G&deg; of a few hundred kJ, not a few hundred thousand kJ.</div>
+        </div>
+
+        <!-- Custom .aam-widget: &Delta;G&deg; from E&deg;cell calculator -->
+        <div class="aam-widget" id="dg-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#129518; TRY IT &middot; &Delta;G&deg; FROM E&deg;<sub>cell</sub> CALCULATOR</div>
+          <div class="widget-question" style="font-size:16px;">Pick n (moles of electrons) and enter E&deg;<sub>cell</sub> in volts. The tool computes &Delta;G&deg; = &minus;nFE&deg; with F = 96,485 C/mol, converts to kJ, and reports the verdict. Try the worked values (n = 2, E&deg; = 1.10) first.</div>
+          <div class="aam-row">
+            <label for="dg-n">n (electrons) =</label>
+            <select id="dg-n">
+              <option value="">&mdash; choose &mdash;</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+            <label style="margin-left:8px;">E&deg;<sub>cell</sub> =</label><input id="dg-e" type="number" step="any" placeholder="1.10" /> <span style="font-size:14px;color:#0E1C42;">V</span>
+            <button class="aam-btn" id="dg-go">Compute &Delta;G&deg;</button>
+          </div>
+          <div class="aam-result" id="dg-out"></div>
+          <button class="widget-reset" id="dg-reset">Reset</button>
+        </div>
+
+        <!-- Cross-module callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; THE ARC THIS COMPLETES &middot; WHAT DRIVES CHANGE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Step back and notice what you've just finished. In <strong>Module 5</strong> you measured heat with enthalpy (&Delta;H). In <strong>Module 7</strong> you folded heat and disorder into the single decision-maker, free energy (&Delta;G). Now in <strong>Module 8</strong> you've connected that free energy directly to a voltage you can read on a meter (E&deg;). &Delta;H &rarr; &Delta;G &rarr; E&deg; is one long story about <em>what drives a reaction</em>. But a warning for what comes next: <strong>none of these tells you how fast</strong> a reaction goes. A reaction can have a huge negative &Delta;G&deg; and a big positive voltage and still be unimaginably slow (diamond turning to graphite). Speed is a separate question &mdash; <em>kinetics</em> &mdash; and it's exactly where the rest of this module is headed.</div>
+        </div>
+
+        <!-- ow-flip: predict the link -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; FOLLOW THE SIGNS</div>
+          <div class="widget-question">Predict each answer, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">E&deg;<sub>cell</sub> = +1.56 V (n = 2). Sign of &Delta;G&deg;? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Negative.</strong> &Delta;G&deg; = &minus;nFE&deg; with a positive voltage is always negative &rarr; spontaneous. (Numerically &asymp; &minus;301 kJ.)</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">A reaction has &Delta;G&deg; &gt; 0. Is K bigger or smaller than 1? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Smaller than 1.</strong> Positive &Delta;G&deg; means reactants favored, so K &lt; 1 &mdash; and E&deg;<sub>cell</sub> &lt; 0.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Does a big negative &Delta;G&deg; mean the reaction is fast? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>No.</strong> &Delta;G&deg; and E&deg; tell you only DIRECTION, never speed. Speed is kinetics &mdash; coming up next in this module.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">What is n for a reaction that transfers 3 electrons? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>n = 3.</strong> n is just the moles of electrons the balanced reaction moves &mdash; count them straight from the half-reactions.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal worked self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A cell has n = 2 and E<sup>&deg;</sup><sub>cell</sub> = +0.46 V. Compute &Delta;G&deg; in kJ and state the verdict.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">&Delta;G&deg; = &minus;nFE&deg; = &minus;(2)(96,485)(0.46) = &minus;88,766 J &asymp; <strong>&minus;88.8 kJ</strong>. Negative, so the reaction is <strong>spontaneous</strong>. (This is the Ag&ndash;Cu cell from Lesson 8.03, E&deg;<sub>cell</sub> = +0.46 V.) Check the trap: keep the minus sign, and divide the joules answer by 1000 to land in the sensible &ldquo;tens-to-hundreds of kJ&rdquo; range.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's OptimaXR work is <strong>Build 2 of 4: the Cell Potential Panel</strong>, added to the same persistent <strong>Electrochemical Cell &amp; Rate Build</strong> bench where last week's galvanic cell is waiting. Beside the cell you'll mount a <strong>voltmeter</strong> reading E&deg;<sub>cell</sub> (+1.10 V for Zn&ndash;Cu) and a <strong>standard-reduction-potential ranking strip</strong> ordered most-positive (top, strongest oxidizer / cathode) to most-negative. The sticky note you sign carries today's through-line in full: &ldquo;E&deg;<sub>cell</sub> &gt; 0 &rarr; spontaneous &rarr; &Delta;G&deg; = &minus;nFE&deg; &lt; 0&rdquo; &mdash; the exact bridge between voltage and free energy you just calculated. Leave bench room for the Week 3&ndash;4 builds (real cells &amp; electrolysis, then a rate &amp; catalysis demo).</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on &Delta;G&deg; = &minus;nFE&deg;, the three-way sign relationship, and the Faraday constant. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Work a set of cell-potential problems: identify cathode/anode, compute E&deg;<sub>cell</sub>, decide spontaneity, and run one &Delta;G&deg; = &minus;nFE&deg; calculation by hand.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Cell Potential Panel (Build 2 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add the voltmeter, the reduction-potential ranking strip, and the through-line sticky note. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A cell's voltage, its free-energy change, and its equilibrium constant are <strong>three views of one question</strong>. The bridge is <strong>&Delta;G&deg; = &minus;nFE&deg;<sub>cell</sub></strong> (F = 96,485 C/mol; n = moles of electrons; answer in joules &rarr; convert to kJ). The minus sign locks the signs together: <strong>E&deg;<sub>cell</sub> &gt; 0 &#8660; &Delta;G&deg; &lt; 0 &#8660; K &gt; 1</strong> &mdash; spontaneous and product-favored. The Zn&ndash;Cu cell gives E&deg; = +1.10 V and &Delta;G&deg; &asymp; &minus;212 kJ, the same conclusion in two languages. This completes the &Delta;H &rarr; &Delta;G &rarr; E&deg; arc on <em>what drives change</em> &mdash; but remember the catch: it tells you direction, never speed. Speed is kinetics, and that is exactly where this module turns next.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.04 &middot; Cell Potential, Free Energy &amp; Equilibrium</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== &Delta;G&deg; from E&deg;cell calculator (.aam-widget) ===== */
+  document.addEventListener('click', function (e) {
+    var w = document.getElementById('dg-widget');
+    if (!w) return;
+    if (e.target.id === 'dg-reset') {
+      document.getElementById('dg-n').value = '';
+      document.getElementById('dg-e').value = '';
+      var o0 = document.getElementById('dg-out'); o0.className = 'aam-result'; o0.innerHTML = '';
+      return;
+    }
+    if (e.target.id !== 'dg-go') return;
+    var n = parseInt(document.getElementById('dg-n').value, 10);
+    var ev = parseFloat(document.getElementById('dg-e').value);
+    var out = document.getElementById('dg-out');
+    if (isNaN(n) || isNaN(ev)) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Choose n and enter a number for E&deg;<sub>cell</sub> (in volts).';
+      return;
+    }
+    var F = 96485;
+    var dGj = -n * F * ev;        // joules
+    var dGkJ = dGj / 1000;        // kJ
+    var roundedJ = Math.round(dGj);
+    var roundedkJ = Math.round(dGkJ * 10) / 10;
+    var verdict, cls;
+    if (Math.abs(dGj) < 1e-6) { verdict = 'at equilibrium (&Delta;G&deg; = 0) — the cell has no net drive (a &ldquo;dead battery&rdquo;).'; cls = 'aam-result show'; }
+    else if (dGj < 0) { verdict = '<strong>spontaneous</strong> (&Delta;G&deg; &lt; 0) — a galvanic cell, with K &gt; 1 (products favored).'; cls = 'aam-result show good'; }
+    else { verdict = '<strong>nonspontaneous</strong> as written (&Delta;G&deg; &gt; 0) — K &lt; 1 (reactants favored).'; cls = 'aam-result show warn'; }
+    out.className = cls;
+    out.innerHTML =
+      '&Delta;G&deg; = &minus;nFE&deg; = &minus;(' + n + ')(96,485 C/mol)(' + ev + ' V)<br>' +
+      '&Delta;G&deg; = <strong>' + roundedJ.toLocaleString() + ' J</strong> = <strong>' + roundedkJ + ' kJ</strong> (divide by 1000).<br>' +
+      'So this reaction is ' + verdict;
+  });
+})();
+</script>
+
+</body>
+</html>

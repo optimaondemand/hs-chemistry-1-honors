@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.09</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (order-from-data checker) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.09</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Rate Laws &amp; Collision Theory</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.09</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Rate Laws &amp; Collision Theory</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You learned last lesson that raising a reactant's concentration speeds the reaction up. But by how much? Double the concentration of one reactant and sometimes the rate doubles &mdash; and sometimes it quadruples, and sometimes it doesn't change at all. How can the <em>same</em> doubling produce three different results?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson gave you the five levers that change a reaction's speed. Today we make the concentration lever <strong>quantitative</strong>. The tool is the <strong>rate law</strong>, an equation that says exactly how rate depends on each reactant's concentration. Its most important &mdash; and most often misunderstood &mdash; feature is that you cannot read it off the balanced equation; you must find it from <strong>experimental data</strong>. We'll learn to do that with the method of initial rates, then look beneath the equation at <strong>collision theory</strong>: the picture of particles that must collide with enough energy and the right orientation for a reaction to occur at all.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> write a rate law in the form rate = k[A]<sup>m</sup>[B]<sup>n</sup>, and explain that the orders m and n come from experiment, not from the balanced equation.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the method of initial rates to find the order in each reactant, the overall order, and the rate constant k.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the collision theory &mdash; a reaction needs collisions with enough energy (the activation energy, E<sub>a</sub>) and the correct orientation &mdash; and use it to explain why temperature has such a strong effect.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 8.08 notes on reaction rate and the five factors &mdash; especially the role of concentration and temperature.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE RATE LAW &mdash; AND WHY YOU CAN'T READ IT OFF THE EQUATION</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">For the reaction 2 NO + O<sub>2</sub> &rarr; 2 NO<sub>2</sub>, a student says &ldquo;the equation has a 2 in front of NO, so doubling [NO] must double the rate.&rdquo; Do you trust that reasoning? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Sharp skepticism &mdash; and it's exactly right. You CANNOT read reaction orders off the coefficients. The exponents in a rate law are found by EXPERIMENT, not by copying the balanced equation. For this very reaction, the data show the rate actually depends on [NO] SQUARED &mdash; so doubling [NO] quadruples the rate, not doubles it. The coefficient was a coincidence-trap, and today you'll learn to get the real answer from data.">&#129488; No &mdash; orders aren't read from coefficients</button>
+            <button data-response="It's the single most common kinetics mistake, so you're in good company &mdash; but it's wrong. The exponents in a rate law (the orders) must be measured from EXPERIMENTAL data, not copied from the coefficients. In fact this reaction is second order in NO, so doubling [NO] quadruples the rate. Today's method of initial rates is how you find the real exponents.">&#9989; Yes &mdash; the coefficient gives the order</button>
+            <button data-response="Good caution. The honest answer is that the coefficient tells you nothing reliable about the order &mdash; sometimes they happen to match, often they don't. The only way to know is to run experiments and compare how the rate responds when you change one concentration at a time. For this reaction the data give second order in NO, so doubling it quadruples the rate.">&#129335; Maybe &mdash; it depends on the reaction</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>rate law</strong> is an equation that says exactly how a reaction's rate depends on the concentrations of its reactants. For a reaction of A and B it has the form:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE RATE LAW</div>
+            <div style="font-size:28px; color:#ffffff;"><strong>rate = k[A]<sup>m</sup>[B]<sup>n</sup></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">k is the rate constant; m and n are the reaction orders, found from experiment</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The exponents <strong>m</strong> and <strong>n</strong> are called the <strong>reaction orders</strong>. The order in A tells you how sensitive the rate is to [A]; the order in B does the same for [B]. Their sum, m + n, is the <strong>overall order</strong> of the reaction. Here is the rule that matters most in all of kinetics:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:23px; color:#ffffff;"><strong>Reaction orders come from EXPERIMENT, not from coefficients</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">never copy the exponents off the balanced equation &mdash; measure them</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">It is tempting to copy the coefficients from the balanced equation into the rate law, but that is a trap. The balanced equation describes the <em>overall</em> bookkeeping of atoms; the rate law describes the <em>actual fastest step</em> of the reaction, which often looks nothing like the overall equation. The only honest way to get m and n is to run experiments and watch how the rate responds. The <strong>k</strong> in the equation is the <strong>rate constant</strong>: a number specific to that reaction at a given temperature. It is not a concentration &mdash; it is a fixed proportionality that increases when you raise the temperature.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction has the rate law rate = k[A][B]<sup>2</sup>. What is its overall order, and what is the order in B?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The order in B is <strong>2</strong> (the exponent on [B]). The order in A is 1 (an unwritten exponent of 1). The <strong>overall order is 1 + 2 = 3</strong> &mdash; third order. Because the order in B is 2, doubling [B] would multiply the rate by 2<sup>2</sup> = 4; because the order in A is 1, doubling [A] would simply double the rate. Notice none of this could be guessed from a balanced equation &mdash; the exponents had to be measured.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE METHOD OF INITIAL RATES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">How do chemists actually find the orders? They run several trials of the reaction, each time changing <em>one</em> reactant's starting concentration while holding the others fixed, and measure the initial rate of each. By comparing trials, the response of the rate to that one concentration reveals its order:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            When you <strong>double</strong> one reactant's concentration (everything else fixed):<br>
+            &bull; the rate <strong>doubles</strong> (&times;2) &rarr; <strong>first order</strong> in that reactant (m = 1)<br>
+            &bull; the rate <strong>quadruples</strong> (&times;4) &rarr; <strong>second order</strong> (m = 2)<br>
+            &bull; the rate <strong>does not change</strong> (&times;1) &rarr; <strong>zero order</strong> (m = 0)
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The logic is just exponents at work: doubling a concentration multiplies the rate by 2 raised to that reactant's order. Since 2<sup>1</sup> = 2, 2<sup>2</sup> = 4, and 2<sup>0</sup> = 1, the factor by which the rate changes <em>tells you the order directly.</em></p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked example: finding the rate law from data</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For the reaction A + B &rarr; products, three trials are run:</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:420px; margin: 8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Trial</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">[A] (M)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">[B] (M)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Initial rate (M/s)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.010</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.020</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">3</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.040</td></tr>
+        </table>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Order in A &mdash; compare trials 1 and 2</strong> ([B] fixed): [A] doubles (0.10 &rarr; 0.20) and the rate doubles (0.010 &rarr; 0.020). Rate &times;2 &rarr; <strong>first order in A (m = 1).</strong><br><br>
+            <strong>Order in B &mdash; compare trials 1 and 3</strong> ([A] fixed): [B] doubles (0.10 &rarr; 0.20) and the rate quadruples (0.010 &rarr; 0.040). Rate &times;4 &rarr; <strong>second order in B (n = 2).</strong><br><br>
+            <strong>Rate law:</strong> rate = <strong>k[A][B]<sup>2</sup></strong> &mdash; overall order = 1 + 2 = <strong>3 (third order).</strong><br><br>
+            <strong>Solve for k</strong> using Trial 1: 0.010 = k(0.10)(0.10)<sup>2</sup> = k(0.10)(0.010) = k(0.0010).<br>
+            So k = 0.010 / 0.0010 = <strong>10 M<sup>&minus;2</sup>&middot;s<sup>&minus;1</sup>.</strong>
+        </div>
+
+        <!-- AI-as-instrument red callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; VERIFY, DON'T TRUST</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI assistant for the rate law of a reaction and it will very often hand back the <em>coefficients</em> of the balanced equation as the orders &mdash; the exact trap you just learned to avoid. AI is a useful instrument for setting up a problem, but it cannot know the orders without the experimental data, and it has no way to verify what it asserts. <strong>The orders must come from the data table, and you confirm them by hand</strong> &mdash; compare the trials, watch how the rate responds, and check that your k comes out the same from more than one trial. Treat the AI's answer as a claim to test against the evidence, never as the evidence itself.</div>
+        </div>
+
+        <!-- ow-flip: doubling -> order -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHAT ORDER DOES THE DATA SHOW?</div>
+          <div class="widget-question">Each card describes what happens to the rate when you double one reactant. Predict the order, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Double [A], rate doubles (&times;2) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>First order (m = 1).</strong> 2<sup>1</sup> = 2, so the rate scales directly with [A].</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Double [A], rate quadruples (&times;4) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Second order (m = 2).</strong> 2<sup>2</sup> = 4, so the rate depends on [A] squared.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Double [A], rate is unchanged (&times;1) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Zero order (m = 0).</strong> 2<sup>0</sup> = 1, so [A] doesn't appear in the rate at all.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Double [B], rate goes up &times;8 (overall) &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Third order in B (n = 3).</strong> 2<sup>3</sup> = 8 &mdash; rare, but it shows the rule still holds.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; COLLISION THEORY &mdash; WHY ANY OF THIS WORKS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Beneath the rate law sits a physical picture called <strong>collision theory</strong>. Its claim is simple: a reaction happens only when reactant particles actually <em>collide</em> &mdash; but not just any collision will do. A collision leads to reaction only if it meets <strong>two conditions</strong>:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            <strong>1. Enough energy.</strong> The colliding particles must carry at least a minimum energy &mdash; the <strong>activation energy, E<sub>a</sub></strong> &mdash; to break the old bonds and start forming new ones.<br>
+            <strong>2. Correct orientation.</strong> The particles must be aimed so the right atoms meet. A glancing or wrongly turned collision bounces off without reacting.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Most collisions fail one test or the other, which is why reactions are slower than the sheer collision frequency would suggest. This explains the levers from last lesson: more concentration means more collisions; more surface area means more contact; and a catalyst (Lesson 8.10) <em>lowers</em> E<sub>a</sub> so a larger fraction of collisions clear the bar.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Temperature deserves special attention. Raising the temperature does more than speed particles up &mdash; it sharply increases the <em>fraction</em> of collisions that carry at least E<sub>a</sub>. This is captured by the <strong>Arrhenius equation</strong>, k = A&middot;e<sup>(&minus;E<sub>a</sub>/RT)</sup>, which shows the rate constant k climbing steeply as T rises. That steep climb is exactly the outsized temperature effect Arrhenius first noticed &mdash; and the reason a small temperature change can have a large effect on rate.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In 1889 the Swedish chemist <strong>Svante Arrhenius</strong> turned the outsized effect of temperature into a single equation. Studying how reaction rates climbed as solutions were warmed, he proposed that only molecules carrying at least a certain minimum energy &mdash; what we now call the <strong>activation energy</strong> &mdash; can react, and that heating a mixture sharply raises the <em>fraction</em> of molecules clearing that bar. His relationship, k = A&middot;e<sup>(&minus;E<sub>a</sub>/RT)</sup>, tied the rate constant to temperature and to that energy barrier, and it still carries his name. The same habit of turning careful measurements into a predictive equation later led Arrhenius to reason quantitatively about how carbon dioxide in the atmosphere might warm the planet &mdash; an early example of chemistry making testable predictions about the wider world. <em>(You may remember Arrhenius from acids and bases; this is his separate, earlier work on the speed of reactions.)</em></div>
+        </div>
+
+        <!-- Custom .aam-widget: order-from-data checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; ORDER-FROM-DATA CHECKER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick what the data show when you double [A] (everything else held fixed), and the tool reports the order in A &mdash; then reason out <em>why</em> before you read the explanation.</div>
+          <div class="aam-row">
+            <label for="ord-sel">When [A] doubles&hellip;&nbsp;</label>
+            <select id="ord-sel">
+              <option value="">&mdash; choose what the rate does &mdash;</option>
+              <option value="first">the rate doubles (&times;2)</option>
+              <option value="second">the rate quadruples (&times;4)</option>
+              <option value="zero">the rate does not change (&times;1)</option>
+            </select>
+            <button class="aam-btn" id="ord-go">Find the order in A</button>
+          </div>
+          <div class="aam-result" id="ord-out"></div>
+          <button class="widget-reset" id="ord-reset">Reset</button>
+        </div>
+
+        <!-- Current-research callout (gold highlight) NOW -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; NOW &middot; WHY THIS QUESTION STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Rate laws and activation energies are not just textbook exercises &mdash; they are how scientists predict the shelf life of a medicine, the speed of a pollutant breaking down in the atmosphere, or how quickly a new fuel will combust. Researchers are currently using fast lasers and computer models to watch reactions unfold and to estimate activation energies for reactions too quick or too dangerous to time by hand, sharpening the very kind of rate law you built today.</div>
+        </div>
+
+        <!-- ow-select: rate-law / collision-theory true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT RATE LAWS &amp; COLLISIONS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Reaction orders are found by EXPERIMENT, not copied from the balanced equation's coefficients. Sometimes they happen to match, but you can never count on it." data-hint="Where do the exponents in a rate law actually come from?">
+            <div class="widget-row-prompt">1. You can read the reaction orders straight off the coefficients in the balanced equation.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; if doubling a reactant's concentration quadruples the rate, the rate scales as (concentration)&sup2;, so it is second order in that reactant (2&sup2; = 4)." data-hint="Doubling gives 2 raised to the order. What order gives a factor of 4?">
+            <div class="widget-row-prompt">2. If doubling [A] makes the rate four times larger, the reaction is second order in A.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; collision theory requires BOTH enough energy (at least the activation energy) AND the correct orientation. A hard collision aimed the wrong way still bounces off without reacting." data-hint="Is energy alone enough, or does the collision also have to be aimed correctly?">
+            <div class="widget-row-prompt">3. For a collision to lead to reaction, the particles need both enough energy and the correct orientation.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The rate constant k is NOT fixed for all conditions: it increases as temperature rises (that's the Arrhenius relationship). It is constant only at a given temperature." data-hint="What happens to k when you heat the reaction up?">
+            <div class="widget-row-prompt">4. The rate constant k stays exactly the same no matter the temperature.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why does a modest rise in temperature speed a reaction up so much more than the same rise in concentration would?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Raising concentration only adds more collisions; raising temperature does <em>two</em> things at once &mdash; it makes collisions more frequent, <strong>and</strong> it sharply raises the <em>fraction</em> of those collisions that carry at least the activation energy E<sub>a</sub>. Because that fraction grows steeply (the Arrhenius e<sup>(&minus;E<sub>a</sub>/RT)</sup> term), a small temperature increase can push many more collisions over the energy barrier &mdash; a much bigger effect than simply crowding more particles in.</div>
+        </details>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">&#129504; NATURE OF SCIENCE &middot; HOW DO WE KNOW?</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Notice what <em>kind</em> of knowledge a reaction order is. You cannot deduce it by staring at the balanced equation, however reasonable that feels &mdash; you have to run the experiment and let the data decide. Reaction orders are <strong>empirical</strong>: they are measured, and if better measurements ever disagreed with an accepted order, the order would have to be revised. <strong>Collision theory</strong> is a different kind of knowledge again &mdash; it is a <em>model</em>, a mental picture of colliding particles that <em>explains</em> why the levers work and why temperature matters so much. A good model earns its keep by explaining and predicting, but it remains a human construction, and scientists keep refining it where it falls short. Holding these two apart &mdash; measured evidence on one side, explanatory model on the other &mdash; is a large part of what it means to think like a scientist.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the final week of your module-long OptimaXR project, the <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; <strong>Build 4 of 4: the Reaction-Rate &amp; Catalysis Demo</strong>. The <strong>energy-profile diagram</strong> you'll build shows exactly the activation-energy barrier E<sub>a</sub> from today's collision theory, and your <strong>collision-theory demo</strong> will model the two requirements you just learned &mdash; enough energy and the right orientation. After finishing, you'll record the full project walkthrough video for the separate Module VR Project assignment.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on rate laws, finding orders from data, and collision theory. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 8.10</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Next you'll open up the reaction itself &mdash; the step-by-step <em>mechanism</em> &mdash; and see how a <em>catalyst</em> lowers the activation energy without being used up.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 4 of 4 &mdash; Reaction-Rate &amp; Catalysis Demo (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add the energy profile and collision-theory demo, then prepare to record. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A <strong>rate law</strong>, rate = k[A]<sup>m</sup>[B]<sup>n</sup>, says exactly how rate depends on concentration &mdash; and its orders <strong>m and n must be found from experiment, never copied from coefficients.</strong> Using the method of initial rates, double one concentration at a time: a &times;2 response is first order, &times;4 is second order, &times;1 is zero order; the orders' sum is the overall order, and one trial then gives the rate constant k. Beneath it all sits <strong>collision theory</strong>: reactions need collisions with enough energy (the activation energy E<sub>a</sub>) <em>and</em> the right orientation, which is why temperature &mdash; raising the fraction of energetic collisions &mdash; matters so much. Hold onto E<sub>a</sub>: <em>next lesson a catalyst will lower that very barrier.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.09 &middot; Rate Laws &amp; Collision Theory</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== order-from-data checker (.aam-widget) ===== */
+  var ordGo = document.getElementById('ord-go');
+  if (ordGo) {
+    var ordMsg = {
+      first:  ['good', 'FIRST order in A (m = 1). The rate scales directly with [A]: 2<sup>1</sup> = 2, so doubling [A] doubles the rate.'],
+      second: ['good', 'SECOND order in A (m = 2). The rate depends on [A] squared: 2<sup>2</sup> = 4, so doubling [A] quadruples the rate.'],
+      zero:   ['good', 'ZERO order in A (m = 0). [A] does not appear in the rate: 2<sup>0</sup> = 1, so doubling [A] leaves the rate unchanged.']
+    };
+    ordGo.addEventListener('click', function () {
+      var sel = document.getElementById('ord-sel').value;
+      var out = document.getElementById('ord-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose what the rate does first.'; return; }
+      var m = ordMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('ord-reset').addEventListener('click', function () {
+      document.getElementById('ord-sel').value = '';
+      var out = document.getElementById('ord-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (used on 7.03: &Delta;G sign predictor) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Gibbs Free Energy</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Gibbs Free Energy</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A chemical cold pack feels cold &mdash; it absorbs heat from your hand &mdash; yet it begins the instant you snap it, all on its own. An exothermic reaction <em>releases</em> heat and also tends to happen on its own. So if a process can be spontaneous whether it gives off heat <em>or</em> takes it in, what is the single quantity that actually decides?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In the last two lessons you met two competing drives: reactions tend to release energy (a favorable change in enthalpy, &Delta;H), and the universe tends toward greater disorder (a favorable change in entropy, &Delta;S). Sometimes these pull the same way; sometimes they fight. This lesson introduces the one bookkeeping quantity that combines them and gives a final verdict on spontaneity: the <strong>Gibbs free energy change, &Delta;G</strong>. With a single sign &mdash; positive or negative &mdash; &Delta;G tells you whether a reaction will go forward on its own, run backward, or sit balanced at equilibrium. By the end you'll be able to compute &Delta;G, read its sign, and predict how temperature can flip a reaction from "won't go" to "will go."</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the Gibbs free energy change using &Delta;G = &Delta;H &minus; T&Delta;S, converting units carefully so enthalpy and entropy match.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the sign of &Delta;G to decide whether a process is spontaneous (&Delta;G &lt; 0), nonspontaneous (&Delta;G &gt; 0), or at equilibrium (&Delta;G = 0).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict, from the signs of &Delta;H and &Delta;S, whether a reaction is spontaneous at all temperatures, no temperatures, only low temperatures, or only high temperatures.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes from Lessons 7.01&ndash;7.02 on enthalpy (&Delta;H), entropy (&Delta;S), and the second law &mdash; we combine both today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; ONE NUMBER TO DECIDE SPONTANEITY</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">An instant cold pack gets noticeably <em>colder</em> when you snap it &mdash; it pulls heat out of its surroundings, the opposite of "releasing energy." Yet it starts dissolving the moment you break the inner pouch, with no help from you. If giving off heat isn't what makes it go, what else could be driving an endothermic process to happen on its own? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Strong thinking. When the solid dissolves, its packed, ordered ions scatter freely through the water &mdash; a big jump in disorder, a positive &Delta;S. That entropy increase can be large enough to drive the process even though it absorbs heat. Spontaneity is a tug-of-war between energy (&Delta;H) and disorder (&Delta;S), and today's quantity &mdash; &Delta;G &mdash; settles it.">&#10052;&#65039; The disorder of the system increases as the solid spreads out</button>
+            <button data-response="Reasonable guess, but the cold pack actually absorbs heat (it cools your hand), so it is NOT releasing energy. What drives it is the large increase in disorder when the solid dissolves &mdash; a positive &Delta;S. Energy and disorder together decide spontaneity, and &Delta;G combines them.">&#128293; It must secretly be releasing energy somewhere</button>
+            <button data-response="It can feel that way, but you don't push on a cold pack &mdash; it goes by itself once snapped. The real driver is the leap in disorder as the ordered solid dissolves into freely moving ions (a positive &Delta;S), which can outweigh the heat absorbed. &Delta;G is the quantity that weighs the two against each other.">&#129308; Something outside has to keep pushing it along</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">In Lesson 7.02 you learned the real test of spontaneity: a process is spontaneous when the entropy of the <em>whole universe</em> increases (&Delta;S<sub>univ</sub> &gt; 0). That rule is always true, but it is awkward to use &mdash; it forces you to track the surroundings as well as the reaction. In 1876 the American physicist <strong>J. Willard Gibbs</strong> found a way to fold both halves of the universe into a single quantity that depends only on the <em>system</em>: the <strong>Gibbs free energy</strong>, G. Its change during a reaction is what we actually compute.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE GIBBS FREE ENERGY EQUATION</div>
+            <div style="font-size:30px; color:#ffffff;"><strong>&Delta;G = &Delta;H &minus; T&Delta;S</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:8px;">T is the absolute temperature in <strong>kelvin</strong> (K). &Delta;H is the enthalpy change; &Delta;S is the entropy change.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read the equation as a competition. The &Delta;H term carries the pull toward <em>lower energy</em> (exothermic reactions, &Delta;H &lt; 0, are favorable). The &minus;T&Delta;S term carries the pull toward <em>greater disorder</em> (an entropy increase, &Delta;S &gt; 0, makes this term negative and therefore favorable). Temperature sets how loudly the entropy term speaks: the hotter it is, the more T&Delta;S matters. The verdict comes from the <strong>sign</strong> of the result.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>&Delta;G &lt; 0</strong> &nbsp;&rarr;&nbsp; the process is <strong>spontaneous</strong> (releases free energy; called <em>exergonic</em>).<br>
+            <strong>&Delta;G &gt; 0</strong> &nbsp;&rarr;&nbsp; the process is <strong>nonspontaneous</strong> as written (the reverse direction is spontaneous).<br>
+            <strong>&Delta;G = 0</strong> &nbsp;&rarr;&nbsp; the system is at <strong>equilibrium</strong> &mdash; no net change in either direction.
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">By the 1870s chemists were split on a basic question: what makes a reaction go? A popular view held that a reaction's driving force was simply how much heat it gave off &mdash; the more exothermic, the more &ldquo;favorable.&rdquo; But that idea ran into evidence it couldn't explain: some reactions <em>absorb</em> heat (like the cold pack) and still happen entirely on their own. Heat release alone clearly wasn't the whole story. Working quietly at Yale, <strong>Josiah Willard Gibbs</strong> settled the matter in a long, densely mathematical paper that reorganized chemical thermodynamics around the energy of a system. His move was to combine two competing drives &mdash; the pull toward lower energy (&Delta;H) and the pull toward greater disorder (&Delta;S) &mdash; into a single quantity whose <em>sign</em>, not heat alone, decides spontaneity. His work was so abstract that European scientists were slow to grasp it, but self-driven endothermic reactions are exactly what his free energy explained. The quantity you'll calculate today still bears his name.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction has &Delta;G = +25 kJ at room temperature. Will it run forward on its own?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. A positive &Delta;G means the forward reaction is <strong>nonspontaneous</strong> &mdash; it will not proceed on its own as written. What <em>is</em> spontaneous is the reverse reaction, which would have &Delta;G = &minus;25 kJ. To force the forward direction, you'd have to supply energy from outside.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE FOUR-SIGN CHART &mdash; WHEN TEMPERATURE DECIDES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because &Delta;G = &Delta;H &minus; T&Delta;S has temperature inside it, the sign of &Delta;G can <em>change</em> as you heat or cool a reaction. The four combinations of &Delta;H and &Delta;S signs give four distinct behaviors. This little chart is one of the most useful tools in chemistry &mdash; learn to reason it out rather than memorize it.</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:540px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">&Delta;H</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">&Delta;S</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">&minus;T&Delta;S term</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Spontaneous?</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>&minus;</strong> (exo)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>+</strong> (more disorder)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">negative</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;"><strong>Yes &mdash; at ALL temperatures</strong></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>+</strong> (endo)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>&minus;</strong> (less disorder)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">positive</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;"><strong>Never &mdash; at any temperature</strong></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>&minus;</strong> (exo)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>&minus;</strong> (less disorder)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">positive</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Spontaneous only at <strong>LOW</strong> T</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>+</strong> (endo)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>+</strong> (more disorder)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">negative</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Spontaneous only at <strong>HIGH</strong> T</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">The logic is simpler than it looks. When &Delta;H and &Delta;S <em>both</em> favor the reaction (top row), nothing can stop it &mdash; &Delta;G is negative at every temperature. When both <em>oppose</em> it (second row), no temperature can save it. The interesting cases are the mixed rows, where one term helps and the other fights: there, temperature is the referee. For the two bottom rows, the temperature where the tug-of-war ties (&Delta;G = 0) is exactly T = &Delta;H / &Delta;S &mdash; above it, the entropy term wins; below it, the enthalpy term wins.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">A familiar example of the bottom row: ice melting. Melting <em>absorbs</em> heat (&Delta;H &gt; 0) and <em>increases</em> disorder (&Delta;S &gt; 0). That's the "high-T" case &mdash; spontaneous only when it's warm enough. Above 0&nbsp;&deg;C the entropy term wins and ice melts on its own; below 0&nbsp;&deg;C the enthalpy term wins and water freezes instead. The crossover temperature is exactly the melting point.</p>
+
+        <!-- ow-select: spontaneity true-false / MC -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READ THE SIGNS</div>
+          <div class="widget-question">Use &Delta;G = &Delta;H &minus; T&Delta;S and the four-sign chart. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; with &Delta;H negative and &Delta;S positive, the &minus;T&Delta;S term is also negative, so &Delta;G is negative at every temperature. Both drives agree, so the reaction is spontaneous at all T." data-hint="If both &Delta;H and &Delta;S favor the reaction, can any temperature stop it?">
+            <div class="widget-row-prompt">1. A reaction with &Delta;H &lt; 0 and &Delta;S &gt; 0 is spontaneous at all temperatures.</div>
+            <div class="widget-options">
+              <button data-choice="0">False</button>
+              <button data-choice="1">True</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; this is FALSE. &Delta;G &gt; 0 means the forward reaction is nonspontaneous; it will not go on its own. The reverse reaction (&Delta;G &lt; 0) is the one that proceeds." data-hint="A positive &Delta;G points which direction?">
+            <div class="widget-row-prompt">2. A reaction with &Delta;G = +40 kJ will proceed forward spontaneously.</div>
+            <div class="widget-options">
+              <button data-choice="0">False</button>
+              <button data-choice="1">True</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; when &Delta;H &gt; 0 (endothermic) and &Delta;S &gt; 0 (more disorder), the reaction is spontaneous only at HIGH temperature, where the &minus;T&Delta;S term grows large enough to overcome the positive &Delta;H. Ice melting is exactly this case." data-hint="Which term grows with temperature, and does it help or hurt here?">
+            <div class="widget-row-prompt">3. A reaction with &Delta;H &gt; 0 and &Delta;S &gt; 0 becomes spontaneous&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">at all temperatures</button>
+              <button data-choice="1">only at low temperature</button>
+              <button data-choice="2">only at high temperature</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; &Delta;G = 0 is the special condition of equilibrium, where the forward and reverse processes are balanced and there is no net change." data-hint="What is the one &Delta;G value that means 'no net change in either direction'?">
+            <div class="widget-row-prompt">4. When &Delta;G = 0, the system is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">spontaneous forward</button>
+              <button data-choice="1">at equilibrium</button>
+              <button data-choice="2">frozen and unreactive forever</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; CALCULATING &Delta;G &mdash; MIND THE UNITS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Putting numbers into &Delta;G = &Delta;H &minus; T&Delta;S is straightforward arithmetic, but there is one trap that catches nearly everyone the first time: <strong>&Delta;H is usually given in kilojoules (kJ) while &Delta;S is given in joules per kelvin (J/K).</strong> You cannot subtract joules from kilojoules &mdash; the units must match. Convert &Delta;S to kJ/K (divide by 1000), or convert &Delta;H to J, before you subtract. Here is the worked example.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked calculation</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            A reaction has <strong>&Delta;H = &minus;100 kJ</strong>, <strong>&Delta;S = +50 J/K</strong>, run at <strong>T = 298 K</strong> (about room temperature). Is it spontaneous?<br><br>
+            <strong>Step 1 &mdash; fix the units.</strong> Convert &Delta;S to kJ/K so it matches &Delta;H:<br>
+            &nbsp;&nbsp;&Delta;S = 50 J/K &times; (1 kJ / 1000 J) = <strong>0.050 kJ/K</strong><br><br>
+            <strong>Step 2 &mdash; compute the entropy term T&Delta;S.</strong><br>
+            &nbsp;&nbsp;T&Delta;S = 298 K &times; 0.050 kJ/K = <strong>14.9 kJ</strong><br><br>
+            <strong>Step 3 &mdash; subtract.</strong><br>
+            &nbsp;&nbsp;&Delta;G = &Delta;H &minus; T&Delta;S = (&minus;100 kJ) &minus; (14.9 kJ) = <strong>&minus;114.9 kJ</strong><br><br>
+            <strong>Verdict:</strong> &Delta;G is negative, so the reaction is <strong>spontaneous</strong>. (It makes sense: &Delta;H favors it and &Delta;S favors it &mdash; the top row of the chart, spontaneous at all T.)
+        </div>
+
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; THE #1 MISTAKE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">If you forget to convert and plug in &Delta;S = 50 (as if it were kJ/K), you'd get T&Delta;S = 298 &times; 50 = 14,900, and &Delta;G = &minus;100 &minus; 14,900 = &minus;15,000 &mdash; off by a factor of a thousand. Always check: does the entropy term come out as a sensible handful of kilojoules, not a giant number? Mismatched units are the most common error on free-energy problems.</div>
+        </div>
+
+        <!-- aam-widget: &Delta;G sign predictor / calculator -->
+        <div class="aam-widget" id="dg-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#129518; TRY IT &middot; &Delta;G CALCULATOR &amp; SPONTANEITY PREDICTOR</div>
+          <div class="widget-question" style="font-size:16px;">Enter &Delta;H (in kJ), &Delta;S (in J/K), and T (in K). The tool converts units, computes &Delta;G = &Delta;H &minus; T&Delta;S, and reports the verdict. Try the worked values (&minus;100, 50, 298) first, then experiment.</div>
+          <div class="aam-row">
+            <label>&Delta;H =</label><input id="dg-h" type="number" step="any" placeholder="-100" /> <span style="font-size:14px;color:#0E1C42;">kJ</span>
+            <label style="margin-left:8px;">&Delta;S =</label><input id="dg-s" type="number" step="any" placeholder="50" /> <span style="font-size:14px;color:#0E1C42;">J/K</span>
+            <label style="margin-left:8px;">T =</label><input id="dg-t" type="number" step="any" placeholder="298" /> <span style="font-size:14px;color:#0E1C42;">K</span>
+          </div>
+          <button class="aam-btn" id="dg-go">Compute &Delta;G</button>
+          <button class="widget-reset" id="dg-reset" style="margin-left:8px;">Reset</button>
+          <div class="aam-result" id="dg-out"></div>
+        </div>
+
+        <!-- AI-as-Instrument note at the &Delta;G widget -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 12px 18px; margin: 12px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 6px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">This calculator &mdash; or an AI chatbot &mdash; will happily hand you a &Delta;G value, but the number is only as good as the reasoning behind it. Before you trust any answer, check it against your own work: are the units matched (kJ with kJ), and does the sign agree with the four-sign chart for those &Delta;H and &Delta;S signs? Use the tool to <em>confirm</em> your thinking, never to replace it.</div>
+        </div>
+
+        <!-- Current-research gold highlight: fusion energy / efficiency -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#10024; NOW &middot; CURRENT RESEARCH: THE ENERGY LEDGER OF FUSION</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Free-energy thinking &mdash; weighing what a process <em>releases</em> against what it <em>costs</em> &mdash; sits at the heart of one of today's biggest scientific pushes: <strong>fusion energy</strong>, the same reaction that powers the Sun. The dream is a power source that releases far more energy than it consumes. In recent years, fusion laboratories reported experiments in which a fuel target released more energy from the fusion reaction than the laser energy delivered to it &mdash; a milestone scientists call <em>ignition</em>. The harder, still-unsolved question is the <strong>whole-system efficiency</strong>: can the energy out exceed the energy needed to run the entire facility, not just the energy hitting the target? Researchers are currently working on more efficient lasers, magnetic confinement, and reactor designs to close that gap. It is a real-world version of exactly the bookkeeping you did today &mdash; tallying energy in versus energy out and asking whether the net result is favorable.</div>
+        </div>
+
+        <!-- ow-flip: predict the spontaneity case -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHICH ROW OF THE CHART?</div>
+          <div class="widget-question">Predict the temperature behavior for each process, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#10052;&#65039; <strong>Ice melting</strong> (&Delta;H&gt;0, &Delta;S&gt;0) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Spontaneous only at HIGH T.</strong> Above 0&nbsp;&deg;C the entropy term wins and ice melts on its own; below it, freezing is spontaneous instead.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128293; <strong>Combustion</strong> (&Delta;H&lt;0, &Delta;S&gt;0) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Spontaneous at ALL T.</strong> Both terms favor it &mdash; energy released and disorder increased &mdash; so &Delta;G is negative at every temperature.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; <strong>Water freezing</strong> (&Delta;H&lt;0, &Delta;S&lt;0) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Spontaneous only at LOW T.</strong> Releasing heat helps, but order increases. Only when it's cold enough (below 0&nbsp;&deg;C) does the enthalpy term win.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9889; <strong>2 H<sub>2</sub>O &rarr; 2 H<sub>2</sub> + O<sub>2</sub></strong> (&Delta;H&gt;0, &Delta;S&gt;0 small) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">Highly endothermic with only a modest entropy gain &mdash; effectively the <strong>"never" case</strong> under ordinary conditions. Splitting water needs an outside energy push (electrolysis).</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Forward link to K -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; LOOKING AHEAD &middot; &Delta;G CONNECTS TO EQUILIBRIUM</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">There is one more equation that ties free energy to the topic of your <em>next</em> lesson. Under standard conditions, &Delta;G&deg; = &minus;RT ln K, where K is the <strong>equilibrium constant</strong>. You don't need to compute with it yet &mdash; just notice the link it reveals: a strongly negative &Delta;G&deg; means a <em>large</em> K (products strongly favored), and a positive &Delta;G&deg; means a <em>small</em> K (reactants favored). Free energy and equilibrium are two views of the same thing, and the next lesson opens up the equilibrium side.</div>
+        </div>
+
+        <!-- commit-then-reveal worked self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>&Delta;H = +30 kJ, &Delta;S = +100 J/K, T = 298 K. Compute &Delta;G and state the verdict.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Convert &Delta;S: 100 J/K = 0.100 kJ/K. Entropy term: T&Delta;S = 298 &times; 0.100 = 29.8 kJ. Then &Delta;G = (+30) &minus; (29.8) = <strong>+0.2 kJ</strong> &mdash; barely positive, so <strong>just barely nonspontaneous</strong> at 298 K. This is the "high-T" case (&Delta;H&gt;0, &Delta;S&gt;0): warm it only slightly more and the entropy term tips &Delta;G negative. The crossover temperature is T = &Delta;H/&Delta;S = 30 kJ / 0.100 kJ/K = 300 K.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you continue the module-long project in OptimaXR &mdash; the <strong>Equilibrium &amp; Acid-Base Station</strong> &mdash; with <strong>Build 2 of 5: the Reversible-Reaction Equilibrium Demo</strong>. You'll add to the same persistent lab bench you started last week, building a forward-and-reverse reaction that shows <strong>dynamic equilibrium</strong> &mdash; both arrows, equal rates, constant concentrations &mdash; and labeling K = [products]/[reactants]. This connects directly to today's closing idea (negative &Delta;G&deg; &rarr; large K) and to your next lesson on the equilibrium constant. Leave room on the bench &mdash; a Le Ch&acirc;telier stress panel, a pH scale, and a titration station are still to come.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on &Delta;G = &Delta;H &minus; T&Delta;S, the meaning of its sign, and the four-sign chart. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you've met the equilibrium constant in passing, you'll study it head-on: dynamic equilibrium, how to write K from a balanced equation, and the reaction quotient Q that predicts which way a reaction will shift.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Reversible-Reaction Equilibrium Demo (Build 2 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a dynamic-equilibrium demo to your station and label K = [products]/[reactants]. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Spontaneity is decided by a single quantity, the Gibbs free energy change: <strong>&Delta;G = &Delta;H &minus; T&Delta;S</strong>. A negative &Delta;G means the process goes on its own; a positive &Delta;G means it won't (the reverse will); &Delta;G = 0 marks equilibrium. Because temperature multiplies the entropy term, the four combinations of &Delta;H and &Delta;S signs give four behaviors &mdash; always, never, low-T-only, and high-T-only &mdash; so temperature can flip a reaction's fate. Watch your units: &Delta;H in kJ, &Delta;S in J/K, so convert before you subtract. Hold onto the closing link: a negative &Delta;G&deg; points to a large equilibrium constant K &mdash; the bridge into the next lesson.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.03 &middot; Gibbs Free Energy</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== &Delta;G calculator / spontaneity predictor =====
+  document.addEventListener('click', function (e) {
+    var w = document.getElementById('dg-widget');
+    if (!w) return;
+    if (e.target.id === 'dg-reset') {
+      ['dg-h','dg-s','dg-t'].forEach(function (id) { document.getElementById(id).value = ''; });
+      var o0 = document.getElementById('dg-out'); o0.className = 'aam-result'; o0.innerHTML = '';
+      return;
+    }
+    if (e.target.id !== 'dg-go') return;
+    var h = parseFloat(document.getElementById('dg-h').value);
+    var s = parseFloat(document.getElementById('dg-s').value);
+    var t = parseFloat(document.getElementById('dg-t').value);
+    var out = document.getElementById('dg-out');
+    if (isNaN(h) || isNaN(s) || isNaN(t)) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Enter a number in all three boxes (&Delta;H in kJ, &Delta;S in J/K, T in K).';
+      return;
+    }
+    if (t < 0) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Temperature must be in kelvin, so it can’t be negative. (0 K is absolute zero.)';
+      return;
+    }
+    var sKJ = s / 1000;            // J/K -> kJ/K
+    var tdS = t * sKJ;             // kJ
+    var dG = h - tdS;             // kJ
+    var verdict, cls;
+    if (Math.abs(dG) < 1e-9) { verdict = 'at equilibrium (&Delta;G = 0) — no net change in either direction.'; cls = 'aam-result show'; }
+    else if (dG < 0) { verdict = '<strong>spontaneous</strong> (&Delta;G &lt; 0, exergonic) at this temperature.'; cls = 'aam-result show good'; }
+    else { verdict = '<strong>nonspontaneous</strong> as written (&Delta;G &gt; 0) at this temperature — the reverse reaction is the spontaneous one.'; cls = 'aam-result show warn'; }
+    out.className = cls;
+    out.innerHTML = 'Convert &Delta;S: ' + s + ' J/K = ' + sKJ + ' kJ/K.<br>' +
+      'Entropy term T&Delta;S = ' + t + ' &times; ' + sKJ + ' = ' + (Math.round(tdS * 1000) / 1000) + ' kJ.<br>' +
+      '&Delta;G = (' + h + ') &minus; (' + (Math.round(tdS * 1000) / 1000) + ') = <strong>' + (Math.round(dG * 1000) / 1000) + ' kJ</strong>.<br>' +
+      'So this process is ' + verdict;
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.09</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.09; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.09</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Relative Strengths of Acids &amp; Bases</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.09</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Relative Strengths of Acids &amp; Bases</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Stomach acid (hydrochloric acid) can dissolve metal, yet vinegar &mdash; also an acid &mdash; is mild enough to put on a salad. Both donate protons to water. So what makes one acid fierce and another gentle, even at the same concentration?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You now know what an acid <em>is</em> &mdash; a proton donor &mdash; and how to measure the acidity of a solution with pH. The missing piece is <em>how completely</em> a given acid actually donates its protons. Some let go of nearly every proton the instant they hit water; others release only a tiny fraction and hold the rest back. That single difference &mdash; complete versus partial donation &mdash; separates <strong>strong</strong> acids and bases from <strong>weak</strong> ones, and it is captured by an equilibrium constant. This lesson sorts the common acids and bases, introduces K<sub>a</sub> and K<sub>b</sub> as strength meters, and uncovers a neat seesaw rule: the stronger an acid, the weaker the base it leaves behind.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish strong acids and bases (essentially complete ionization) from weak ones (partial ionization) and recognize the common strong acids and strong bases.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> interpret K<sub>a</sub> (and pK<sub>a</sub>) and K<sub>b</sub> as measures of acid and base strength &mdash; larger K<sub>a</sub> means a stronger acid.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> apply the rule that the stronger an acid, the weaker its conjugate base (and vice versa).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Lesson 7.07's conjugate-pair idea and the equilibrium constant K from earlier this module &mdash; both return today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; STRONG MEANS COMPLETE, WEAK MEANS PARTIAL</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Two beakers each hold 1.0 M acid &mdash; one hydrochloric acid (HCl), one acetic acid (vinegar). The HCl solution has a far lower pH. Since both are 1.0 M, what must differ between them to explain the gap? (Just commit a guess.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right. Both start at 1.0 M, but HCl donates almost ALL of its protons to water, while acetic acid donates only a tiny fraction and keeps most molecules intact. More protons released means more H&#8323;O&#8314;, means lower pH. &lsquo;Strong&rsquo; vs. &lsquo;weak&rsquo; is about how COMPLETELY the acid ionizes, not how concentrated it is.">How completely each acid donates its protons</button>
+            <button data-response="Close, but concentration is held fixed here &mdash; both are 1.0 M. The real difference is how COMPLETELY each acid ionizes: HCl gives up nearly all its protons, acetic acid only a small fraction. That fraction is what &lsquo;strong&rsquo; vs. &lsquo;weak&rsquo; measures.">One beaker simply has more acid dissolved</button>
+            <button data-response="Temperature isn't the culprit here. With both at 1.0 M, the gap comes from how COMPLETELY each acid donates protons: HCl ionizes almost fully, acetic acid only partially. That difference defines strong vs. weak acids.">The HCl is at a higher temperature</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>strong acid</strong> ionizes essentially completely in water: nearly every molecule donates its proton. We write the reaction with a single forward arrow because so little un-ionized acid remains &mdash; HCl &rarr; H<sup>+</sup> + Cl<sup>&minus;</sup>. There are only a handful of common strong acids worth memorizing:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9; text-align:center;">
+            <strong>The common strong acids:</strong><br>
+            HCl &nbsp;&middot;&nbsp; HBr &nbsp;&middot;&nbsp; HI &nbsp;&middot;&nbsp; HNO<sub>3</sub> &nbsp;&middot;&nbsp; H<sub>2</sub>SO<sub>4</sub> &nbsp;&middot;&nbsp; HClO<sub>4</sub>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0 10px 0;">The <strong>strong bases</strong> are likewise a short list: the group-1 (alkali metal) hydroxides such as <strong>NaOH</strong> and <strong>KOH</strong>, together with the heavier group-2 hydroxides <strong>Ca(OH)<sub>2</sub>, Sr(OH)<sub>2</sub>,</strong> and <strong>Ba(OH)<sub>2</sub></strong>. These dissociate completely to release hydroxide ions.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>weak acid</strong> or <strong>weak base</strong> ionizes only <em>partially</em>. Most of the molecules stay whole; only a small fraction transfer a proton at any moment. Because both the un-ionized and ionized forms coexist, we write a double arrow &mdash; it is a true equilibrium. Anything <em>not</em> on the strong lists above is weak: acetic acid (vinegar), carbonic acid, ammonia, and the vast majority of acids and bases you'll ever meet.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE KEY DISTINCTION</div>
+            <div style="font-size:22px; color:#ffffff;"><strong>Strong = ionizes ~100% &nbsp;&middot;&nbsp; Weak = ionizes only partially</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">&ldquo;strong&rdquo; describes how completely it ionizes &mdash; not how concentrated it is</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MEASURING WEAK-ACID STRENGTH WITH K<sub>a</sub></div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a weak acid, "partial" is vague &mdash; we want a number. Because the partial ionization is an equilibrium, it has an equilibrium constant, given a special name: the <strong>acid ionization constant, K<sub>a</sub></strong>. For a generic weak acid HA dissolving in water:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9; text-align:center;">
+            HA &nbsp;+&nbsp; H<sub>2</sub>O &nbsp;&#8652;&nbsp; H<sub>3</sub>O<sup>+</sup> &nbsp;+&nbsp; A<sup>&minus;</sup> &nbsp;&nbsp;&nbsp;&nbsp; K<sub>a</sub> = [H<sub>3</sub>O<sup>+</sup>][A<sup>&minus;</sup>] / [HA]
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0 10px 0;">Read K<sub>a</sub> as you read any K: a <strong>larger K<sub>a</sub> means the equilibrium lies further toward products</strong> &mdash; more protons donated, a stronger acid. A tiny K<sub>a</sub> means the acid barely ionizes. Acetic acid, the acid in vinegar, has K<sub>a</sub> &asymp; <strong>1.8 &times; 10<sup>&minus;5</sup></strong> &mdash; a small number, confirming it is weak. (Bases get the parallel constant <strong>K<sub>b</sub></strong>, the base ionization constant; larger K<sub>b</sub> means a stronger base.)</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Those exponents are awkward, so &mdash; just like pH &mdash; chemists take a negative log: <strong>pK<sub>a</sub> = &minus;log K<sub>a</sub></strong>. The sign flips the comparison: a <em>smaller</em> pK<sub>a</sub> means a <em>stronger</em> acid. Acetic acid's pK<sub>a</sub> is about 4.7; an acid with pK<sub>a</sub> = 2 is stronger still.</p>
+
+        <div style="background:#FDF3E3; border-left: 5px solid #C7922C; border-radius:6px; padding:14px 20px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>Two scales, one idea.</strong> Larger K<sub>a</sub> &rarr; stronger acid. Smaller pK<sub>a</sub> &rarr; stronger acid. They always agree &mdash; pK<sub>a</sub> is just K<sub>a</sub> written on a friendlier scale, the same trick that turned [H<sub>3</sub>O<sup>+</sup>] into pH.
+        </div>
+
+        <!-- M7-08 callback: Ka/Kb live inside the Brønsted-Lowry model -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 12px 18px; margin: 12px 0; font-size: 16px; color: #0e1c42; line-height: 1.65;">
+            <strong>Connecting back to the models.</strong> K<sub>a</sub> and K<sub>b</sub> don't replace the definitions from Lesson 7.07 &mdash; they live <em>inside</em> the Br&oslash;nsted-Lowry model. Every K<sub>a</sub> measures exactly how eagerly a proton <em>donor</em> lets go of its H<sup>+</sup>; every K<sub>b</sub> measures how eagerly a proton <em>acceptor</em> takes one. The same proton-transfer idea that broadened Arrhenius's definition is now something chemists can put a precise number on &mdash; a model made not just wider, but measurable.
+        </div>
+
+        <!-- ow-flip: weak-acid Ka reasoning -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHICH IS THE STRONGER ACID?</div>
+          <div class="widget-question">For each pair, predict the stronger acid, then tap to flip and check your reasoning.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; Acid X (K<sub>a</sub> = 1 &times; 10<sup>&minus;3</sup>) vs. Acid Y (K<sub>a</sub> = 1 &times; 10<sup>&minus;7</sup>) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Acid X</strong> is stronger. A larger K<sub>a</sub> (10<sup>&minus;3</sup> &gt; 10<sup>&minus;7</sup>) means the ionization lies further toward products &mdash; more protons donated.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128167; Acid P (pK<sub>a</sub> = 2.0) vs. Acid Q (pK<sub>a</sub> = 5.0) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Acid P</strong> is stronger. A <em>smaller</em> pK<sub>a</sub> means a stronger acid, because pK<sub>a</sub> = &minus;log K<sub>a</sub> flips the comparison.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9883;&#65039; HCl vs. acetic acid (K<sub>a</sub> &asymp; 1.8 &times; 10<sup>&minus;5</sup>) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>HCl</strong> is far stronger &mdash; it is a strong acid that ionizes ~100%, while acetic acid's small K<sub>a</sub> shows it ionizes only partially.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127858; A strong acid vs. a weak acid, both 1.0 M &mdash; which gives lower pH? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">The <strong>strong acid</strong>. At equal concentration it releases far more H<sub>3</sub>O<sup>+</sup>, so its pH is lower. Strength, not concentration, drives the gap.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE CONJUGATE SEESAW</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the elegant payoff. Recall from Lesson 7.07 that when an acid donates a proton, it becomes its conjugate base. If an acid donates protons <em>eagerly</em> (it is strong), then its conjugate base has little tendency to take a proton <em>back</em> &mdash; it is weak. Conversely, a weak acid that clings to its proton leaves behind a conjugate base that grabs protons readily. The two strengths move like opposite ends of a seesaw:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE SEESAW RULE</div>
+            <div style="font-size:22px; color:#ffffff;"><strong>The stronger the acid, the weaker its conjugate base</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">&hellip;and the weaker the acid, the stronger its conjugate base</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0 10px 0;">An example makes it concrete. HCl is a strong acid; its conjugate base, Cl<sup>&minus;</sup>, is so weak that it does essentially nothing to water (which is why chloride is just a spectator ion). Acetic acid is a weak acid; its conjugate base, the acetate ion, is a meaningfully strong-ish base that can pull protons from water &mdash; a fact you'll use next week when salts of weak acids make solutions turn basic.</p>
+
+        <!-- M7-04 Then → Now → Future : ocean acidification (gold highlight, hedged) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#127757; THEN &rarr; NOW &rarr; FUTURE &middot; ACIDS, BASES &amp; THE OCEAN</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;">
+                <strong>Then.</strong> In the late 1800s Svante Arrhenius first tied acidity to ions in water &mdash; and, remarkably, the same chemist also reasoned early on that burning fossil fuels would load the atmosphere with carbon dioxide.<br><br>
+                <strong>Now.</strong> Some of that atmospheric CO<sub>2</sub> dissolves into seawater and forms carbonic acid, a <em>weak</em> acid of exactly the kind you met today. Oceanographers report that the average pH of surface seawater has fallen measurably since the industrial era &mdash; a shift usually called <strong>ocean acidification</strong>. Because pH is logarithmic, even a seemingly small drop reflects a sizeable rise in [H<sub>3</sub>O<sup>+</sup>].<br><br>
+                <strong>Future.</strong> Scientists are still working to pin down how far and how fast this will go, and how shell- and reef-building organisms (corals, oysters, plankton) will fare as the carbonate chemistry of the ocean shifts. It remains an open, active area of research &mdash; and the strong-vs-weak and pH tools from this week are the very ones researchers use to study it.
+            </div>
+        </div>
+
+        <!-- ow-select: strong vs weak SORTING -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; SORT IT &middot; STRONG OR WEAK?</div>
+          <div class="widget-question">For each species, decide whether it is a <strong>strong</strong> or a <strong>weak</strong> acid/base. You'll get instant feedback. (Remember the short strong lists; everything else is weak.)</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; HNO&#8323; (nitric acid) is on the short list of strong acids; it ionizes essentially completely." data-hint="Is HNO&#8323; on the strong-acid list (HCl, HBr, HI, HNO&#8323;, H&#8322;SO&#8324;, HClO&#8324;)?">
+            <div class="widget-row-prompt">1. HNO<sub>3</sub> (nitric acid)</div>
+            <div class="widget-options">
+              <button data-choice="0">Strong acid</button>
+              <button data-choice="1">Weak acid</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; acetic acid is WEAK. Its small K&#8336; (&asymp; 1.8 &times; 10&#8315;&#8309;) shows it ionizes only partially. It is not on the strong list." data-hint="Vinegar is mild. Is acetic acid on the strong list?">
+            <div class="widget-row-prompt">2. CH<sub>3</sub>COOH (acetic acid, in vinegar)</div>
+            <div class="widget-options">
+              <button data-choice="0">Strong acid</button>
+              <button data-choice="1">Weak acid</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; KOH is a group-1 hydroxide, one of the strong bases. It dissociates completely to release OH&#8315;." data-hint="Group-1 hydroxides (NaOH, KOH) are which kind of base?">
+            <div class="widget-row-prompt">3. KOH (potassium hydroxide)</div>
+            <div class="widget-options">
+              <button data-choice="0">Strong base</button>
+              <button data-choice="1">Weak base</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; ammonia is a WEAK base. It accepts protons only partially (NH&#8323; + H&#8322;O &#8652; NH&#8324;&#8314; + OH&#8315;), and it is not a metal hydroxide." data-hint="Is ammonia a group-1/group-2 hydroxide? If not, it's weak.">
+            <div class="widget-row-prompt">4. NH<sub>3</sub> (ammonia)</div>
+            <div class="widget-options">
+              <button data-choice="0">Strong base</button>
+              <button data-choice="1">Weak base</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; H&#8322;SO&#8324; (sulfuric acid) is a strong acid for its first proton; it appears on the strong-acid list." data-hint="Sulfuric acid &mdash; battery acid &mdash; is on the strong list (first proton).">
+            <div class="widget-row-prompt">5. H<sub>2</sub>SO<sub>4</sub> (sulfuric acid)</div>
+            <div class="widget-options">
+              <button data-choice="0">Strong acid</button>
+              <button data-choice="1">Weak acid</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>HCl is a strong acid and HF is a weak acid. Which has the stronger conjugate base, Cl<sup>&minus;</sup> or F<sup>&minus;</sup>, and why?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>F<sup>&minus;</sup></strong> is the stronger conjugate base. By the seesaw rule, the <em>weaker</em> acid (HF) leaves behind the <em>stronger</em> conjugate base. HCl is so strong that its conjugate base Cl<sup>&minus;</sup> is essentially inert in water, while F<sup>&minus;</sup> &mdash; from the weaker HF &mdash; retains some real tendency to accept a proton. Stronger acid &rarr; weaker conjugate base.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When you build this week's <strong>pH &amp; Indicator Station (Build 4 of 5)</strong>, the strong-vs-weak distinction from this lesson decides <em>where</em> each acid and base sits on your 0-to-14 scale: strong acids near the bottom, weak acids closer to the middle, strong bases near the top. Place at least one strong acid, one weak acid, and one strong base, and label which ionize completely versus partially.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on strong vs. weak, K<sub>a</sub>/pK<sub>a</sub>, and the conjugate seesaw. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Complete the Week 4 Hands-On</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Put the week's pH/pOH math to work: compute pH and concentrations both directions, classify solutions, identify conjugate pairs, and rank acids by K<sub>a</sub>.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: pH &amp; Indicator Station (Build 4 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Place strong and weak acids/bases on your pH scale and add indicator swatches. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Acid and base <em>strength</em> is about how completely a substance ionizes, not how much is dissolved. A <strong>strong</strong> acid or base ionizes essentially completely (the short memorized lists: HCl, HBr, HI, HNO<sub>3</sub>, H<sub>2</sub>SO<sub>4</sub>, HClO<sub>4</sub>; NaOH, KOH, and the Ca/Sr/Ba hydroxides); everything else is <strong>weak</strong> and ionizes only partially, measured by <strong>K<sub>a</sub></strong> (larger = stronger) or <strong>pK<sub>a</sub></strong> (smaller = stronger). And the seesaw rule ties it together: <strong>the stronger the acid, the weaker its conjugate base.</strong> Next module-week, this rule explains why dissolving certain salts makes water acidic or basic.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.09 &middot; Relative Strengths of Acids &amp; Bases</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

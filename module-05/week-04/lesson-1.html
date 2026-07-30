@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.07</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom calorimetry q = mcΔT checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.07</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Energy Basics &amp; Calorimetry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.07</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Energy Basics &amp; Calorimetry</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Drop a hot piece of metal into a cup of cool water and, minutes later, both settle at one shared temperature. Nothing was weighed, nothing was poured &mdash; so how can a thermometer reading tell you <em>exactly</em> how much energy moved, and where it went?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">All quarter you have been measuring matter &mdash; pressure, volume, moles of gas. Now you turn the same quantitative discipline on something you cannot pour onto a balance: <strong>energy</strong>. Heat flows silently between a hot object and a cool one until they reach the same temperature, and the astonishing thing is that this invisible flow can be <em>measured to the joule</em> with one simple instrument and one simple equation. This lesson gives you both. You will pin down the difference between heat and temperature, meet the rule that energy is never created or destroyed, and learn to calculate exactly how much heat a sample gains or loses with <strong>q = m&middot;c&middot;&Delta;T</strong>. Then you will use a coffee-cup calorimeter to make heat balance like a ledger &mdash; what one object loses, the other gains.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish heat from temperature, identify a system and its surroundings, and classify a change as endothermic or exothermic.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state the first law (energy is conserved) and use q = m&middot;c&middot;&Delta;T to calculate the heat gained or lost by a sample.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> apply calorimetry &mdash; heat lost by a hot object equals heat gained by the water &mdash; to find an unknown specific heat.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator (you'll work several q = m&middot;c&middot;&Delta;T problems).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a heat-calculation tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; HEAT, TEMPERATURE, AND THE DIRECTION OF FLOW</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A spoonful of boiling water and a full bathtub of warm bath water &mdash; which one holds <em>more total thermal energy</em>? Commit to an answer before you read on. (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="The instinct most people resist &mdash; and the right one. The bathtub is cooler, but it holds vastly more thermal energy, because energy depends on how MUCH matter you have, not just how hot it is. Temperature measures the average motion of particles; total thermal energy also counts how many particles there are. A whole tub of warm water has astronomically more particles than one spoonful of boiling water.">The bathtub of warm water</button>
+            <button data-response="A natural guess &mdash; hotter feels like &lsquo;more energy.&rsquo; But temperature is only the AVERAGE energy per particle. The boiling spoonful has faster particles, yet far fewer of them. The bathtub, though cooler, has so many more particles that its TOTAL thermal energy is much greater. That gap between &lsquo;hot&rsquo; and &lsquo;how much energy&rsquo; is exactly what this lesson untangles.">The spoonful of boiling water</button>
+            <button data-response="Reasonable to wonder &mdash; but no, they are not equal. Temperature (average particle motion) and total thermal energy (which also depends on how much matter is present) are two different things. The cooler bathtub holds far more total energy simply because it contains so much more water.">They hold the same amount</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Start with two words people use as if they meant the same thing &mdash; and they do not. <strong>Temperature</strong> measures the <em>average</em> kinetic energy of the particles in a sample: how fast, on average, they are jostling. <strong>Heat</strong> is something else entirely &mdash; it is <em>energy in transit</em>, the thermal energy that flows from a warmer object to a cooler one. Temperature is a property a thing <em>has</em>; heat is energy a thing <em>gives or receives</em>. And the flow has a fixed direction: heat always moves from hot to cold, never the reverse on its own, until the two reach the same temperature &mdash; a state called <strong>thermal equilibrium</strong>.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To talk about that flow precisely, chemists draw a boundary. The part of the universe you are studying &mdash; the reaction, the hot metal, the water in the cup &mdash; is the <strong>system</strong>. Everything else that can exchange energy with it &mdash; the cup, the air, the lab bench, your hand &mdash; is the <strong>surroundings</strong>. Energy that leaves the system enters the surroundings, and vice versa. That simple bookkeeping line is what lets us track energy honestly.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Two directions of flow: endothermic and exothermic</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">When a process <em>releases</em> energy to its surroundings &mdash; a burning candle, a hand-warmer, water freezing &mdash; it is <strong>exothermic</strong>, and the surroundings get warmer. When a process <em>absorbs</em> energy from its surroundings &mdash; an instant cold pack, ice melting, water boiling &mdash; it is <strong>endothermic</strong>, and the surroundings get cooler. The vocabulary just describes which way the heat crosses the boundary.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:14px 0;">
+            <div style="flex:1; min-width:220px; background:#FDECEC; border:1px solid #E7B8b2; border-top:3px solid #C0392B; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#8A1F16; margin-bottom:4px;"><strong>EXOTHERMIC</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">Energy <strong>out</strong> of the system, into the surroundings. Surroundings warm up. Examples: combustion, a hand-warmer, water freezing.</div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#E8F6FB; border:1px solid #C5DCE5; border-top:3px solid #2196D0; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:18px; color:#1B6A94; margin-bottom:4px;"><strong>ENDOTHERMIC</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.5;">Energy <strong>into</strong> the system, from the surroundings. Surroundings cool down. Examples: an instant cold pack, ice melting, water boiling.</div>
+            </div>
+        </div>
+
+        <!-- ow-select: classify endo/exo + heat vs temp -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; HEAT, TEMPERATURE, AND DIRECTION</div>
+          <div class="widget-question">Decide whether each statement is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is false. Temperature is the AVERAGE energy per particle; total thermal energy also depends on how much matter is present. A large cool object can hold more total energy than a small hot one." data-hint="Does &lsquo;hotter&rsquo; always mean &lsquo;more total energy,&rsquo; regardless of size?">
+            <div class="widget-row-prompt">1. The object with the higher temperature always contains more total thermal energy.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; a burning candle releases energy to its surroundings, warming the air around it. Energy leaving the system is the definition of an exothermic process." data-hint="Does a flame give energy OUT to its surroundings, or take it in?">
+            <div class="widget-row-prompt">2. A burning candle is an exothermic process.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; an instant cold pack absorbs energy FROM its surroundings, which is why it feels cold and the surroundings cool down. Energy entering the system is endothermic." data-hint="A cold pack pulls energy out of your hand. Which way does the heat cross the boundary?">
+            <div class="widget-row-prompt">3. An instant cold pack is an endothermic process.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For a long time scientists pictured heat as an invisible fluid &mdash; &ldquo;caloric&rdquo; &mdash; that flowed out of hot things. In the mid-1800s the English experimenter <strong>James Prescott Joule</strong> overturned that idea with patient, careful measurement: he showed that <em>mechanical work and heat are two forms of the same thing</em>, energy, and that one can be converted into the other in a fixed, measurable ratio. Around the same era the French engineer <strong>Sadi Carnot</strong> was thinking hard about how much useful work an engine could squeeze from heat &mdash; questions that helped found the science of <strong>thermodynamics</strong>. Together their work pointed at a single sweeping rule: energy changes form, but it is never created or destroyed. The unit of energy, the <strong>joule</strong>, carries Joule's name in his honor.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; CONSERVATION OF ENERGY AND q = m&middot;c&middot;&Delta;T</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice that Joule's result was <em>not</em> obvious and was <em>not</em> assumed &mdash; it had to be wrung from years of painstaking measurement, against the intuition of an age that pictured heat as a fluid. Only after that hard-won evidence did conservation of energy harden into one of the deepest rules in all of science, the <strong>first law of thermodynamics</strong>: <em>energy can be transferred or converted from one form to another, but the total energy of the universe is constant.</em> It is not created and it is not destroyed. For us this is more than a slogan &mdash; it is an accounting guarantee. If a hot block of metal loses 1,500 joules, those 1,500 joules did not vanish; they went into something else, and if we can find that something, the books must balance. This is the same conservation discipline you met with mass in Module 4, now applied to energy.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE FIRST LAW (CONSERVATION OF ENERGY)</div>
+            <div style="font-size:22px; color:#ffffff;"><strong>Energy is never created or destroyed &mdash; only transferred or transformed.</strong></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To turn that principle into a number, we need to know how much heat it takes to warm a given sample. Three things control it: <strong>how much</strong> of the substance there is (its mass, m), <strong>how much</strong> the temperature changes (&Delta;T = T<sub>final</sub> &minus; T<sub>initial</sub>), and a property of the substance itself called its <strong>specific heat</strong> (c) &mdash; the energy needed to raise <em>one gram</em> by <em>one degree Celsius</em>. Water has a famously large specific heat, <strong>c = 4.184 J&middot;g<sup>&minus;1</sup>&middot;&deg;C<sup>&minus;1</sup></strong>, which is why oceans moderate climate and why it takes so long to boil a pot. Put the three together and you get the central equation of this lesson:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; margin:10px 0; font-size:22px; color:#0e1c42; text-align:center;">q = m &middot; c &middot; &Delta;T</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 10px 0; text-align:center;"><em>q</em> = heat (joules) &middot; <em>m</em> = mass (grams) &middot; <em>c</em> = specific heat (J&middot;g<sup>&minus;1</sup>&middot;&deg;C<sup>&minus;1</sup>) &middot; <em>&Delta;T</em> = temperature change (&deg;C). A positive q means heat absorbed; a negative q means heat released.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: heating a beaker of water</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">How much heat does it take to warm <strong>50.0 g of water from 20.0 &deg;C to 80.0 &deg;C</strong>? Line up the three quantities and multiply &mdash; watch every unit cancel cleanly.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            m = 50.0 g &nbsp;&middot;&nbsp; c = 4.184 J&middot;g<sup>&minus;1</sup>&middot;&deg;C<sup>&minus;1</sup> &nbsp;&middot;&nbsp; &Delta;T = 80.0 &minus; 20.0 = 60.0 &deg;C<br>
+            q = (50.0 g)(4.184 J&middot;g<sup>&minus;1</sup>&middot;&deg;C<sup>&minus;1</sup>)(60.0 &deg;C)<br>
+            <span style="border-top:1px solid #B9C4DC; display:inline-block; padding-top:6px; margin-top:4px;"><strong>q = 12,552 J &asymp; 12.6 kJ</strong> (positive &mdash; the water absorbed this energy)</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the habit worth keeping: &Delta;T is always final minus initial, grams cancel grams, and degrees cancel degrees, leaving only joules. The same equation, rearranged, lets you solve for any one of the four quantities if you know the other three &mdash; divide instead of multiply. That flexibility is what makes calorimetry possible.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>How much heat is needed to warm 100.0 g of water from 25.0 &deg;C to 75.0 &deg;C? (c = 4.184)</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">&Delta;T = 75.0 &minus; 25.0 = 50.0 &deg;C. q = (100.0)(4.184)(50.0) = <strong>20,920 J &asymp; 20.9 kJ</strong>. Twice the mass and a smaller &Delta;T than the worked example &mdash; the arithmetic, not your intuition, decides the answer.</div>
+        </details>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Paste a calorimetry problem into an AI tool and it will usually hand back a tidy q in seconds. Convenient &mdash; and exactly why you should treat it like any instrument: useful, but to be checked. AI tools have been known to drop a unit, mix up T<sub>final</sub> and T<sub>initial</sub> (flipping the sign of q), or quietly use a different specific heat. The reliable move is the one you just practiced: set up q = m&middot;c&middot;&Delta;T yourself, confirm the units cancel to joules, and use the tool only to <em>second-guess your own number</em> &mdash; never to replace the reasoning. The arithmetic is the evidence; the tool is a second opinion.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; CALORIMETRY: MAKING HEAT BALANCE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the payoff. A <strong>calorimeter</strong> is an insulated container that lets us measure heat by trapping the flow. The simplest version &mdash; a <strong>coffee-cup calorimeter</strong> &mdash; is literally a foam cup of water with a thermometer and a lid. Its insulation keeps heat from escaping to the room, so whatever heat the system loses, the water inside must gain. Drop a hot piece of metal into the water, and the first law gives us a clean rule:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:16px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CALORIMETRY RULE</div>
+            <div style="font-size:20px; color:#ffffff;"><strong>heat lost by the hot object = heat gained by the water</strong></div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.8); margin-top:6px;">q<sub>metal</sub> = &minus;q<sub>water</sub></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The minus sign is just conservation in symbols: energy that leaves the metal (negative q) shows up in the water (positive q), and the two amounts are equal in size. Because we can measure the water's mass, its known specific heat, and its temperature change, we can find the heat it gained &mdash; and that <em>is</em> the heat the metal lost. From there we can work backward to a property of the metal we could not measure any other way: its specific heat.</p>
+
+        <!-- Calorimeter visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#FDECEC; border:1px solid #E7B8b2; border-top:3px solid #C0392B; border-radius:8px; padding:14px 18px; text-align:center; min-width:140px;">
+                <div style="font-size:16px; color:#8A1F16;"><strong>HOT METAL</strong></div>
+                <div style="font-size:13px; color:#666;">loses heat<br>q<sub>metal</sub> &lt; 0</div>
+            </div>
+            <div style="text-align:center; min-width:70px;">
+                <div style="font-size:24px; color:#C7922C;">&rarr;</div>
+                <div style="font-size:11px; color:#1a2340;">heat<br>flows</div>
+            </div>
+            <div style="background:#E8F6FB; border:1px solid #C5DCE5; border-top:3px solid #2196D0; border-radius:8px; padding:14px 18px; text-align:center; min-width:140px;">
+                <div style="font-size:16px; color:#1B6A94;"><strong>WATER</strong></div>
+                <div style="font-size:13px; color:#666;">gains heat<br>q<sub>water</sub> &gt; 0</div>
+            </div>
+            <div style="text-align:center; min-width:70px;">
+                <div style="font-size:24px; color:#C7922C;">&rarr;</div>
+                <div style="font-size:11px; color:#1a2340;">until</div>
+            </div>
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 18px; text-align:center; min-width:140px;">
+                <div style="font-size:16px; color:#0E1C42;"><strong>EQUILIBRIUM</strong></div>
+                <div style="font-size:13px; color:#666;">one shared<br>final temp</div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked all the way through: identifying a mystery metal</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>50.0 g</strong> piece of an unknown metal is heated to <strong>100.0 &deg;C</strong> in boiling water, then dropped into <strong>100.0 g of water at 20.0 &deg;C</strong> in a coffee-cup calorimeter. The mixture settles at a final temperature of <strong>23.5 &deg;C</strong>. What is the metal's specific heat &mdash; and what metal might it be?</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.85;">
+            <strong>Step 1 &mdash; heat gained by the water.</strong> &Delta;T<sub>water</sub> = 23.5 &minus; 20.0 = 3.5 &deg;C.<br>
+            q<sub>water</sub> = (100.0 g)(4.184)(3.5 &deg;C) = <strong>1,464 J gained</strong><br><br>
+            <strong>Step 2 &mdash; heat lost by the metal.</strong> By conservation, q<sub>metal</sub> = &minus;q<sub>water</sub> = <strong>&minus;1,464 J</strong>.<br>
+            The metal cooled: &Delta;T<sub>metal</sub> = 23.5 &minus; 100.0 = &minus;76.5 &deg;C.<br><br>
+            <strong>Step 3 &mdash; solve q = m&middot;c&middot;&Delta;T for c.</strong><br>
+            c<sub>metal</sub> = q<sub>metal</sub> &divide; (m &middot; &Delta;T) = 1,464 J &divide; (50.0 g &times; 76.5 &deg;C) = <strong>0.383 J&middot;g<sup>&minus;1</sup>&middot;&deg;C<sup>&minus;1</sup></strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A specific heat of <strong>0.383</strong> is a strong match for <strong>copper</strong> (table value 0.385). Look at what just happened: a single thermometer reading, run through conservation of energy, identified a metal &mdash; a property we never measured directly fell out of the accounting. (In reality the value lands a hair off the table, because a little heat always leaks to the cup and the air; the better the insulation, the closer the books balance. We'll return to that honest discrepancy in this week's lab.)</p>
+
+        <!-- Nature of Science callout: conservation as accounting that must balance -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; THE ENERGY BOOKS MUST CLOSE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Conservation of energy was not handed to science as an obvious truth &mdash; it was <em>discovered</em>, argued over, and earned through decades of careful measurement like Joule's. What makes it so powerful now is that scientists treat it as a rule that <strong>must</strong> balance: every joule is accounted for, or something has been missed. So when a real calorimetry experiment leaves |q<sub>metal</sub>| a little different from q<sub>water</sub>, a chemist does not shrug &mdash; the gap is a message. It says energy left the system somewhere the accounting didn't capture: heat leaking to the cup, the lid, the air. The discipline is honesty about the ledger. If the books don't close, you go looking for the missing energy rather than fudging the number &mdash; and that habit is exactly what separates measurement from guesswork.</div>
+        </div>
+
+        <!-- CUSTOM WIDGET: calorimetry q=mcΔT checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CALORIMETRY q = m&middot;c&middot;&Delta;T CHECKER</div>
+          <div class="widget-question">Pick a problem, work it <strong>on paper</strong>, then type your answer and check it. The tool tells you if you're too high or too low and reminds you which form of the equation to use &mdash; but <em>you</em> do the calculation. (A checker can verify a number; it can't teach you the path.)</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="cal-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">A &middot; Solve for q: 50.0 g water, 20.0 &rarr; 80.0 &deg;C (answer in J)</option>
+                <option value="B">B &middot; Solve for q: 100.0 g water, 25.0 &rarr; 75.0 &deg;C (answer in J)</option>
+                <option value="C">C &middot; Solve for &Delta;T: q = 4184 J, 100.0 g water (answer in &deg;C)</option>
+                <option value="D">D &middot; Solve for c: q = 1464 J, 50.0 g metal, &Delta;T = 76.5 &deg;C (answer in J&middot;g&#8315;&#185;&middot;&deg;C&#8315;&#185;)</option>
+                <option value="E">E &middot; Calorimetry: q gained by 100.0 g water warming 20.0 &rarr; 23.5 &deg;C (answer in J)</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="number" step="any" id="cal-ans" placeholder="number only" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="cal-check">Check my answer</button>
+            <button class="widget-reset" id="cal-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="cal-out"></div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week is the <strong>final build</strong> of your module-long <strong>Gas &amp; Energy Lab</strong> in OptimaXR &mdash; <strong>Build 4 of 4</strong>. Beside the gas-law apparatus you've grown over the last three weeks, you'll add a <strong>calorimetry station</strong>: a coffee-cup calorimeter with a hot metal lowered into water, a thermometer, and two sticky notes &mdash; one stating <strong>q = m&middot;c&middot;&Delta;T</strong>, the other stating <strong>heat lost by the metal = heat gained by the water</strong> (conservation of energy). When the station is complete, you'll <em>record</em> the narrated walkthrough of the whole lab &mdash; the graded module VR project. Everything you measured this quarter, from a piston to a thermometer, comes together in that recording.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.07</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on heat vs. temperature, q = m&middot;c&middot;&Delta;T, and calorimetry. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 5.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">If a reaction releases or absorbs heat at constant pressure, that heat has a name &mdash; enthalpy. You'll learn to read enthalpy diagrams and estimate a reaction's energy from the bonds it breaks and makes.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Add the Calorimetry Station (Build 4 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the coffee-cup calorimeter into your Gas &amp; Energy Lab, then prepare to record your module walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Temperature is average particle motion; heat is energy in transit, always flowing hot-to-cold until equilibrium. Energy is never created or destroyed (the first law), so a hot object's loss is the water's gain &mdash; and q = m&middot;c&middot;&Delta;T turns that flow into a measured number. A coffee-cup calorimeter makes the accounting visible: <em>heat lost by the metal equals heat gained by the water.</em> With that single balance, a thermometer becomes an instrument for measuring energy &mdash; and even for identifying a metal you never touched. Next lesson, that measured heat gets a name: enthalpy.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.07 &middot; Energy Basics &amp; Calorimetry</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom calorimetry q = mcΔT checker =====
+  var CAL = {
+    A: { val:12552, tol:30,    unit:'J',   work:'q = m·c·ΔT = (50.0)(4.184)(80.0 − 20.0) = (50.0)(4.184)(60.0) = 12,552 J ≈ 12.6 kJ.' },
+    B: { val:20920, tol:30,    unit:'J',   work:'q = m·c·ΔT = (100.0)(4.184)(75.0 − 25.0) = (100.0)(4.184)(50.0) = 20,920 J ≈ 20.9 kJ.' },
+    C: { val:10.0,  tol:0.1,   unit:'°C',  work:'Rearrange q = m·c·ΔT → ΔT = q ÷ (m·c) = 4184 ÷ (100.0 × 4.184) = 10.0 °C.' },
+    D: { val:0.383, tol:0.005, unit:'J·g⁻¹·°C⁻¹', work:'Rearrange q = m·c·ΔT → c = q ÷ (m·ΔT) = 1464 ÷ (50.0 × 76.5) = 0.383 J·g⁻¹·°C⁻¹ (≈ copper).' },
+    E: { val:1464,  tol:5,     unit:'J',   work:'q = m·c·ΔT = (100.0)(4.184)(23.5 − 20.0) = (100.0)(4.184)(3.5) = 1,464 J gained by the water.' }
+  };
+  var calBtn = document.getElementById('cal-check');
+  if (calBtn) {
+    calBtn.addEventListener('click', function () {
+      var out = document.getElementById('cal-out');
+      var key = document.getElementById('cal-prob').value;
+      var raw = document.getElementById('cal-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      if (raw === '' || isNaN(parseFloat(raw))) { out.classList.add('warn'); out.textContent = 'Type your numeric answer first (a plain number — the tool ignores units).'; return; }
+      var guess = parseFloat(raw);
+      var d = CAL[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.val + ' ' + d.unit + '. ' + d.work + ' Now confirm your units cancel: that is how you know the equation was arranged the right way.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer (' + guess + ') is ' + hi + '. Hint: ' + d.work + ' Re-check ΔT (final − initial) and whether you multiplied or divided.';
+      }
+    });
+  }
+  var calReset = document.getElementById('cal-reset');
+  if (calReset) {
+    calReset.addEventListener('click', function () {
+      document.getElementById('cal-prob').value = '';
+      document.getElementById('cal-ans').value = '';
+      var out = document.getElementById('cal-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

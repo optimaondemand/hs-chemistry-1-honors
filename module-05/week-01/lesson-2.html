@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom ideal-gas PV=nRT solver ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">The Gas Laws &amp; the Ideal Gas Law</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">The Gas Laws &amp; the Ideal Gas Law</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Squeeze a sealed syringe and it pushes back harder. Warm a sealed bottle and it strains at its cap. A gas seems to have a will of its own &mdash; but is its behavior <em>predictable</em>? Can a few simple rules tell you exactly what a gas will do?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In Lesson 5.01 you learned to measure a gas's pressure. A gas, though, is described by four quantities at once &mdash; its <strong>pressure (P)</strong>, its <strong>volume (V)</strong>, its <strong>temperature (T)</strong>, and the <strong>amount</strong> of gas present (in moles, n). Change one and the others respond. Over the 1600s and 1700s, careful experimenters discovered that these responses follow clean, repeatable patterns &mdash; the <strong>gas laws</strong>. These laws are also the sharpest answer to the module's driving question &mdash; <strong>why gases behave so differently from solids and liquids</strong>: unlike a solid or a liquid, a gas visibly changes its volume and pressure when you squeeze it or warm it, and the gas laws say <em>by exactly how much</em>. This lesson walks through those laws one relationship at a time, then shows how they all fold into a single master equation, <strong>PV = nRT</strong>, that links all four quantities at once. With it, you can predict the state of any gas sample from measurements you can actually make.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state and apply Boyle's, Charles's, and Gay-Lussac's laws and the combined gas law to predict how a gas responds when conditions change.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain Avogadro's law and use the ideal gas law, PV = nRT, with R = 0.08206, to solve for any one variable.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> define standard temperature and pressure (STP) and use the molar volume of an ideal gas, 22.4 L/mol at STP.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a calculator, and your pressure-unit notes from Lesson 5.01.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40&ndash;45 minutes of focused reading and interaction (this lesson includes an ideal-gas equation solver).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE THREE TWO-VARIABLE GAS LAWS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You seal some air in a syringe, plug the tip, and press the plunger to squeeze the gas into half the space. What do you predict happens to the gas's pressure? (No wrong answer &mdash; just commit before you read on.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right. Halve the volume and you double the pressure &mdash; the molecules now hit a smaller wall area more often, so the push goes up. Pressure and volume trade off in inverse proportion. That is Boyle's law, the first relationship you'll meet.">&#11014;&#65039; The pressure roughly doubles</button>
+            <button data-response="Not quite. Squeezing the same molecules into less space means more collisions per unit area, so the pressure rises &mdash; it doesn't stay the same. In fact, halving the volume roughly doubles the pressure. That inverse trade-off is Boyle's law.">&#10145;&#65039; The pressure stays about the same</button>
+            <button data-response="Think again about which way it goes. Crowding the molecules into a smaller volume makes them strike the walls more often, so the pressure goes UP, not down. Halve the volume and the pressure roughly doubles &mdash; Boyle's law.">&#11015;&#65039; The pressure roughly halves</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Three classic gas laws each hold two of the four quantities fixed and watch how the other two relate. Each was discovered the same way: hold the amount of gas constant, vary one thing, measure the other, and look for the pattern.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Boyle's law &mdash; pressure and volume (at constant T)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a fixed amount of gas at constant temperature, pressure and volume are <strong>inversely</strong> related: squeeze the volume down and the pressure climbs, in exact proportion. The product P &times; V stays constant, which gives the working form <strong>P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub></strong>.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Worked:</strong> A gas at 1.0 atm fills 2.0 L. Compressed to 0.50 L at the same temperature, what is its new pressure?<br>
+            P<sub>2</sub> = (P<sub>1</sub>V<sub>1</sub>) / V<sub>2</sub> = (1.0 atm &times; 2.0 L) / 0.50 L = <strong>4.0 atm</strong><br>
+            <span style="color:#666;">The volume dropped to one-quarter, so the pressure rose four-fold &mdash; exactly the inverse trade-off.</span>
+        </div>
+
+        <!-- Reflective predict-first check-in: Charles (V-T) -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; PREDICT FIRST &middot; BEFORE THE NEXT LAW</div>
+          <div class="widget-question">Now change temperature instead of pressure. You warm a sealed balloon (its pressure free to stay constant) from 300 K to 600 K. Before you read the law, predict what happens to the balloon's <strong>volume</strong>. (No wrong answer &mdash; commit first.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the prediction the evidence rewards. At constant pressure, doubling the absolute (Kelvin) temperature roughly doubles the volume: the faster-moving molecules push the walls out until the balloon has grown to about twice its size. Volume and Kelvin temperature rise together, in direct proportion &mdash; that is Charles's law, which you're about to derive.">&#11014;&#65039; It expands &mdash; roughly doubles</button>
+            <button data-response="Not quite. Warming a gas at constant pressure makes it expand, not hold steady &mdash; the molecules move faster and push the walls outward. Double the Kelvin temperature and the volume roughly doubles. That direct proportion is Charles's law, coming up next.">&#10145;&#65039; It stays about the same size</button>
+            <button data-response="Think again about direction. Heating a gas at constant pressure makes it expand, not contract &mdash; cooling is what shrinks it. From 300 K to 600 K the volume roughly doubles. Volume and Kelvin temperature are directly proportional: Charles's law.">&#11015;&#65039; It shrinks</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Charles's law &mdash; volume and temperature (at constant P)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a fixed amount of gas at constant pressure, volume and <strong>Kelvin</strong> temperature are <strong>directly</strong> related: warm the gas and it expands, in proportion to the absolute temperature. The working form is <strong>V<sub>1</sub>/T<sub>1</sub> = V<sub>2</sub>/T<sub>2</sub></strong>. The catch &mdash; and it is non-negotiable &mdash; is that temperature must be in <strong>Kelvin</strong>, never Celsius. (K = &deg;C + 273.)</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Worked:</strong> A gas occupies 2.0 L at 300 K. Heated to 600 K at constant pressure, what is its new volume?<br>
+            V<sub>2</sub> = (V<sub>1</sub> &times; T<sub>2</sub>) / T<sub>1</sub> = (2.0 L &times; 600 K) / 300 K = <strong>4.0 L</strong><br>
+            <span style="color:#666;">Double the Kelvin temperature, double the volume. (Had you used Celsius, the ratio would have been meaningless.)</span>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Gay-Lussac's law &mdash; pressure and temperature (at constant V)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For a fixed amount of gas in a rigid container, pressure and Kelvin temperature are <strong>directly</strong> related: heat a sealed, rigid can and its internal pressure rises. The working form is <strong>P<sub>1</sub>/T<sub>1</sub> = P<sub>2</sub>/T<sub>2</sub></strong> &mdash; again, Kelvin only.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Worked:</strong> A rigid tank holds gas at 1.0 atm and 300 K. Heated to 450 K, what is the new pressure?<br>
+            P<sub>2</sub> = (P<sub>1</sub> &times; T<sub>2</sub>) / T<sub>1</sub> = (1.0 atm &times; 450 K) / 300 K = <strong>1.5 atm</strong>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">These laws bear the names of the people who measured them. <strong>Robert Boyle</strong>, working in England, published his pressure&ndash;volume relationship in <strong>1662</strong> after careful experiments with trapped air in a J-shaped tube. More than a century later, in France, <strong>Jacques Charles</strong> investigated how gases expand on heating (in the <strong>1780s</strong>, the era of the first hot-air balloons), and <strong>Joseph Louis Gay-Lussac</strong> extended that work into the early 1800s, pinning down the pressure&ndash;temperature link and refining the role of absolute temperature. Notice what these are: <em>empirical laws</em> &mdash; faithful summaries of <em>what gases do</em>, drawn from measurement. They came long before anyone could explain <em>why</em> gases behave this way (that explanation, the kinetic-molecular theory, waits for Lesson 5.05). A law that reliably describes a pattern is genuine knowledge, even before the underlying mechanism is understood &mdash; one of the quiet lessons in how science actually advances.</div>
+        </div>
+
+        <!-- Nature-of-Science prompt: law describes vs theory explains -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#128300; NATURE OF SCIENCE &middot; A LAW vs A THEORY</div>
+          <div class="widget-question">Boyle, Charles, and Gay-Lussac each wrote down a <em>law</em> &mdash; a reliable equation for how gases behave. Which of these best describes what a gas <em>law</em> actually does for us? (Commit first, then read the responses.)</div>
+          <div class="widget-options">
+            <button data-response="Yes &mdash; this is the key Nature-of-Science idea for the whole module. A scientific LAW is an empirical regularity: it DESCRIBES a pattern, measured over and over (P and V trade off inversely; V rises with Kelvin T). It does not, by itself, say WHY. The 'why' &mdash; molecules in constant motion striking the walls &mdash; is the job of a THEORY (the kinetic-molecular theory, Lesson 5.05). Laws describe; theories explain; both are real knowledge.">&#128200; It describes a measured pattern, without saying why</button>
+            <button data-response="Not quite. The gas laws were found by measurement long before anyone could explain the mechanism &mdash; they tell you WHAT happens with great reliability, but the underlying WHY (moving molecules colliding with surfaces) is supplied by a separate THEORY, the kinetic-molecular theory. Distinguishing a describing law from an explaining theory is a running thread this module.">&#9881;&#65039; It explains the hidden cause of the behavior</button>
+            <button data-response="Careful &mdash; a law that has held up across countless measurements is genuine, durable knowledge, not 'just a guess.' What a law does NOT do is explain the mechanism; that is the role of a theory (here, the kinetic-molecular theory). A law describes reliably; a theory explains why the law holds.">&#10067; It is a guess waiting to be proven</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- flip cards: which law? -->
+        <div style="font-size: 14px; color: #1B6A94; margin: 16px 0 8px 0;">&#9889; TRY IT &middot; NAME THE LAW (tap each card to reveal)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin:6px 0 4px 0;">
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+                <div class="ow-flip-front"><div style="font-size:15px; color:#0E1C42; line-height:1.5;">A sealed syringe is squeezed at constant temperature and its pressure rises. <em>Which law &mdash; and what stays constant?</em></div><div style="font-size:12px; color:#1B6A94; margin-top:8px;">tap to reveal</div></div>
+                <div class="ow-flip-back"><div style="font-size:15px; line-height:1.5;"><strong>Boyle's law.</strong> P and V trade off inversely; <em>T and amount are held constant.</em> P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub>.</div></div>
+            </div>
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+                <div class="ow-flip-front"><div style="font-size:15px; color:#0E1C42; line-height:1.5;">A balloon is warmed at constant pressure and swells larger. <em>Which law &mdash; and what stays constant?</em></div><div style="font-size:12px; color:#1B6A94; margin-top:8px;">tap to reveal</div></div>
+                <div class="ow-flip-back"><div style="font-size:15px; line-height:1.5;"><strong>Charles's law.</strong> V and Kelvin T are directly proportional; <em>P and amount are held constant.</em> V<sub>1</sub>/T<sub>1</sub> = V<sub>2</sub>/T<sub>2</sub>.</div></div>
+            </div>
+            <div class="ow-flip" style="flex:1; min-width:220px;">
+                <div class="ow-flip-front"><div style="font-size:15px; color:#0E1C42; line-height:1.5;">A sealed rigid can is heated and its internal pressure climbs. <em>Which law &mdash; and what stays constant?</em></div><div style="font-size:12px; color:#1B6A94; margin-top:8px;">tap to reveal</div></div>
+                <div class="ow-flip-back"><div style="font-size:15px; line-height:1.5;"><strong>Gay-Lussac's law.</strong> P and Kelvin T are directly proportional; <em>V and amount are held constant.</em> P<sub>1</sub>/T<sub>1</sub> = P<sub>2</sub>/T<sub>2</sub>.</div></div>
+            </div>
+        </div>
+        <button class="widget-reset" onclick="this.parentNode.querySelectorAll('.ow-flip.flipped').forEach(function(c){c.classList.remove('flipped');})">Reset cards</button>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; COMBINING THE LAWS &mdash; AND ADDING AVOGADRO</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The three laws above are really three faces of one relationship. Stitch them together and you get the <strong>combined gas law</strong>, which handles any change in which P, V, and T all vary while the amount of gas stays fixed:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE COMBINED GAS LAW</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>P<sub>1</sub>V<sub>1</sub> / T<sub>1</sub> = P<sub>2</sub>V<sub>2</sub> / T<sub>2</sub></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">temperatures in Kelvin, always</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">You can recover any single law from this one by holding a variable constant. Hold T fixed and the T's cancel, leaving Boyle. Hold P fixed and you get Charles. Hold V fixed and you get Gay-Lussac. One equation, three special cases &mdash; tidy, and a relief for your memory.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There is still one quantity the combined law leaves out: the <strong>amount</strong> of gas. That gap is filled by <strong>Avogadro's law</strong>: at the same temperature and pressure, equal volumes of any gas contain equal numbers of molecules &mdash; so volume is directly proportional to the number of moles. Add a gas and it takes up more room; the more moles, the more volume. With Avogadro's law in hand, all four quantities &mdash; P, V, T, and n &mdash; can finally be united in a single equation.</p>
+
+        <!-- ow-select: gas-law true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; DO THESE GAS-LAW STATEMENTS HOLD UP?</div>
+          <div class="widget-question">Decide whether each statement is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="False &mdash; and this is the most common gas-law mistake. Charles's and Gay-Lussac's laws require KELVIN temperature, not Celsius. Using Celsius (which can even be negative or zero) breaks the proportion. Always convert: K = °C + 273." data-hint="Which temperature scale do the gas laws require? What happens at 0 °C in a ratio?">
+            <div class="widget-row-prompt">1. When using Charles's law, it is fine to leave the temperature in degrees Celsius.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; in Boyle's law P and V are inversely related, so cutting the volume to one-quarter multiplies the pressure by four (at constant T)." data-hint="Boyle: P and V are inversely proportional. If V becomes one-quarter, what does P do?">
+            <div class="widget-row-prompt">2. At constant temperature, compressing a gas to one-quarter of its volume raises its pressure four-fold.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; Avogadro's law says equal volumes of gases at the same T and P hold equal numbers of molecules, so volume is directly proportional to the number of moles." data-hint="Avogadro: at the same T and P, what does equal volume tell you about the number of molecules?">
+            <div class="widget-row-prompt">3. At the same temperature and pressure, two gas samples of equal volume contain equal numbers of molecules.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE IDEAL GAS LAW: PV = nRT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">All four quantities come together in the single most useful equation in this module, the <strong>ideal gas law</strong>. It describes a sample's complete state at one moment &mdash; no &ldquo;before and after&rdquo; needed:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE IDEAL GAS LAW</div>
+            <div style="font-size:30px; color:#ffffff;"><strong>PV = nRT</strong></div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); margin-top:8px;">R = 0.08206 L&middot;atm&middot;mol<sup>&minus;1</sup>&middot;K<sup>&minus;1</sup></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here <strong>P</strong> is pressure, <strong>V</strong> is volume, <strong>n</strong> is the number of moles, <strong>T</strong> is the Kelvin temperature, and <strong>R</strong> is the <strong>ideal gas constant</strong> &mdash; a single number that makes the equation balance for any gas. The value of R depends on the units you use; with the value above, pressure must be in <strong>atm</strong>, volume in <strong>liters</strong>, amount in <strong>moles</strong>, and temperature in <strong>Kelvin</strong>. Match those units and R = 0.08206 does the rest. To solve for any one variable, just rearrange the equation algebraically before you plug in.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked: the volume of one mole at STP</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Chemists agree on a reference set of conditions called <strong>STP</strong> &mdash; <strong>standard temperature and pressure</strong> &mdash; defined as <strong>273 K (0 &deg;C) and 1 atm</strong>. What volume does exactly 1.00 mol of an ideal gas occupy there? Solve PV = nRT for V:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            V = nRT / P = (1.00 mol &times; 0.08206 &times; 273 K) / 1.00 atm = <strong>22.4 L</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">That result is worth memorizing: <strong>one mole of any ideal gas occupies 22.4 liters at STP</strong>. This <em>molar volume</em> is a shortcut you'll lean on constantly in the next lesson's gas stoichiometry &mdash; it connects moles (the counting unit from Module 4) directly to a volume you can read off a measuring cylinder.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.7;">
+            <strong>STP, at a glance:</strong> T = 273 K &middot; P = 1 atm &middot; molar volume = 22.4 L/mol. (One mole at STP &mdash; whether H<sub>2</sub>, O<sub>2</sub>, or CO<sub>2</sub> &mdash; fills the same 22.4 L, because volume depends on the <em>number</em> of molecules, not their identity.)
+        </div>
+
+        <!-- CUSTOM WIDGET: PV=nRT solver -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; IDEAL-GAS (PV = nRT) SOLVER &middot; CHECK YOUR OWN ANSWER</div>
+          <div class="widget-question">Choose which variable to solve for, work it out <strong>yourself</strong> with PV = nRT and R = 0.08206, type your answer, and check it. The tool says whether you're too high or too low and reminds you how to rearrange &mdash; but <em>you</em> do the algebra and arithmetic. (Tip: temperature is given in Kelvin already in these cases.)</div>
+          <div class="aam-row">
+            <label>Solve for:
+              <select id="ig-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="V">V: 1.00 mol at 1.00 atm, 273 K &rarr; volume (L)?</option>
+                <option value="n">n: 2.0 L at 1.0 atm, 273 K &rarr; moles?</option>
+                <option value="P">P: 0.500 mol in 5.00 L at 300 K &rarr; pressure (atm)?</option>
+                <option value="T">T: 1.00 mol, 2.00 atm, 10.0 L &rarr; temperature (K)?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="ig-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="ig-check">Check my answer</button>
+            <button class="widget-reset" id="ig-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="ig-out"></div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; THE INSTRUMENT PROPOSES; YOUR ARITHMETIC CONFIRMS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Hand an AI tool a gas-law problem or a whole table of P, V, T, and n data and it will analyze it and hand back numbers &mdash; fast, and usually close. Treat that the way a chemist treats any instrument: useful, but to be checked. The reliable move is to solve PV = nRT <em>yourself</em>, rearranged for the variable you want, with every unit matched to R = 0.08206 (atm, L, mol, K), and then use the tool only to <em>confirm</em> your result. If the tool's answer and your own arithmetic disagree, find out why before you trust either one. The instrument proposes; your own PV = nRT calculation is what confirms it.</div>
+        </div>
+
+        <!-- PhET supplement note -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128302; OPTIONAL SUPPLEMENT &middot; PLAY WITH THE VARIABLES</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">If your course page includes the embedded <strong>PhET <em>Gas Properties</em></strong> (or <em>Gases Intro</em>) simulation below, use it to <em>see</em> these laws happen: pump gas into the box, then change one variable at a time &mdash; squeeze the volume and watch pressure climb (Boyle), heat the gas and watch it expand or push harder (Charles, Gay-Lussac). Treat the simulation as a way to build intuition; the <em>numbers</em> you trust still come from your own PV = nRT setup. <em>(If no simulation appears here, your reading and the solver above already cover the objectives.)</em></div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>How many moles of gas are in 2.0 L at 1.0 atm and 273 K?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Rearrange PV = nRT to n = PV / RT: n = (1.0 atm &times; 2.0 L) / (0.08206 &times; 273 K) = 2.0 / 22.4 = <strong>0.0893 mol</strong>. (Sensible check: 2.0 L is just under one-tenth of the 22.4 L a full mole would fill at STP &mdash; so a bit under 0.1 mol is right.)</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your <strong>Gas Behavior &amp; Energy Lab</strong> project in OptimaXR makes this lesson physical. In <strong>Build 1 of 4</strong> you build the piston/cylinder apparatus with P, V, and T gauges &mdash; the exact set of variables you just learned to relate. Then you'll demonstrate <strong>Boyle's law</strong> directly: push the plunger in to shrink the volume and watch the pressure gauge climb, then label one matching P&ndash;V pair (for example, 1.0 atm at 2.0 L &rarr; 4.0 atm at 0.50 L) right on the apparatus. You're turning P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub> from a formula into something you can move with your hands.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the gas laws, the combined law, and PV = nRT. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Complete this week's Hands-On</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A set of gas-law calculations &mdash; pressure conversions, Boyle, Charles, Gay-Lussac, the combined law, and PV = nRT &mdash; with worked answer keys to check yourself.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Gas Behavior &amp; Energy Lab (Build 1 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the gas-law apparatus and demonstrate Boyle's law on the gauges. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A gas is fully described by P, V, T, and n, and these four are not independent &mdash; change one and the others answer in predictable ways. Boyle, Charles, and Gay-Lussac each captured one pairing; the combined gas law unites the first three, and Avogadro's law brings in amount, so that everything folds into one master equation, <strong>PV = nRT</strong>, with R = 0.08206 and temperature always in Kelvin. At STP (273 K, 1 atm), one mole of any ideal gas fills 22.4 L. Hold onto this: <em>with PV = nRT you can predict the state of a gas from measurements you can actually take &mdash; and in the next lesson, you'll use it to count gas by its volume.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.02 &middot; The Gas Laws &amp; the Ideal Gas Law</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget') && reset.closest('.optima-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom ideal-gas PV=nRT solver =====
+  var R = 0.08206;
+  var IG = {
+    V: { val:22.4, tol:0.2, unit:'L', factor:'Solve V = nRT/P: (1.00 × 0.08206 × 273) / 1.00 = 22.4 L.' },
+    n: { val:0.0893, tol:0.002, unit:'mol', factor:'Solve n = PV/RT: (1.0 × 2.0) / (0.08206 × 273) = 2.0 / 22.4 = 0.0893 mol.' },
+    P: { val:2.463, tol:0.05, unit:'atm', factor:'Solve P = nRT/V: (0.500 × 0.08206 × 300) / 5.00 = 12.31 / 5.00 = 2.46 atm.' },
+    T: { val:243.7, tol:3, unit:'K', factor:'Solve T = PV/(nR): (2.00 × 10.0) / (1.00 × 0.08206) = 20.0 / 0.08206 = 244 K.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var igBtn = document.getElementById('ig-check');
+  if (igBtn) {
+    igBtn.addEventListener('click', function () {
+      var out = document.getElementById('ig-out');
+      var key = document.getElementById('ig-prob').value;
+      var raw = document.getElementById('ig-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick which variable to solve for first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number (for example 22.4 or 0.0893).'; return; }
+      var d = IG[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Check your units: with R = 0.08206 you needed atm, L, mol, and K.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.factor + ' Re-check your rearrangement of PV = nRT and that every unit matches R = 0.08206 (atm, L, mol, K).';
+      }
+    });
+  }
+  var igReset = document.getElementById('ig-reset');
+  if (igReset) {
+    igReset.addEventListener('click', function () {
+      document.getElementById('ig-prob').value = '';
+      document.getElementById('ig-ans').value = '';
+      var out = document.getElementById('ig-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

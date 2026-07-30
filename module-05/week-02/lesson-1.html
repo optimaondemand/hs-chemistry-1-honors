@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom gas-stoichiometry checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Stoichiometry of Gaseous Substances</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Stoichiometry of Gaseous Substances</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How can chemists count particles that cannot be seen? When two gases react, you can't see a single molecule &mdash; but you <em>can</em> read the volumes off a tube or a syringe. Could the space a gas takes up be a way of counting the molecules you can't?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In Module 4 you built the <strong>mole bridge</strong>: grams and particles connect through moles, and a balanced equation reads as a mole ratio. That bridge has a quiet shortcut for gases. Because of one simple observation about gases &mdash; first noticed two centuries ago &mdash; the <em>volume</em> of a gas behaves like a stand-in for the <em>number of particles</em>. That means you can do stoichiometry with the most measurable quantity a gas has: how much space it takes up. This lesson connects gas volumes, moles, and masses, so that a reading on a graduated tube becomes an actual count of molecules reacting.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state Avogadro's law &mdash; that equal volumes of gases at the same temperature and pressure contain equal numbers of molecules &mdash; and use it to treat gas volume ratios as mole ratios.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the molar volume of an ideal gas at STP (22.4 L/mol) to convert between moles of a gas and its volume.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> solve gas-stoichiometry problems &mdash; volume-to-volume, and mass-to-gas-volume &mdash; by crossing the mole bridge.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook, a periodic table (for molar masses), and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 4 notes on the mole bridge and balanced equations &mdash; you'll lean on both here.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 40 minutes of focused reading and interaction (this lesson includes a gas-stoichiometry checking tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; AVOGADRO'S LAW: VOLUME COUNTS PARTICLES</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Two sealed balloons sit side by side in the same warm room &mdash; one filled with helium, one with carbon dioxide &mdash; and both are inflated to exactly the same size. Which balloon holds <em>more molecules</em>? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="This is exactly the surprise at the heart of this lesson. At the same temperature and pressure, equal volumes hold EQUAL numbers of molecules &mdash; regardless of how heavy each molecule is. The CO&#8322; molecules are much heavier, so that balloon weighs more, but the COUNT is the same. Volume tracks the number of particles, not their size.">&#9878;&#65039; The same number &mdash; equal sizes, equal counts</button>
+            <button data-response="A very natural guess &mdash; helium atoms are tiny, so it feels like more should fit. But here's the twist you'll prove this lesson: at the same temperature and pressure, equal volumes hold equal NUMBERS of molecules. The helium isn't more crowded; the gases simply spread to give each particle the same room.">&#129482; The helium &mdash; smaller particles, so more fit</button>
+            <button data-response="Reasonable thinking &mdash; CO&#8322; molecules are bigger and heavier, so it seems like fewer would fit. But molecules in a gas are mostly empty space between them; size barely matters. At the same temperature and pressure, equal volumes hold equal counts. That balloon just weighs more, not holds fewer.">&#127786;&#65039; The carbon dioxide &mdash; bigger molecules push out the helium</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Here is one of the most useful facts in all of chemistry, and it is almost too simple to believe at first. <strong>Equal volumes of different gases, measured at the same temperature and pressure, contain equal numbers of molecules.</strong> This is <strong>Avogadro's law</strong>. It does not matter whether the gas is light helium or heavy carbon dioxide &mdash; if two samples take up the same volume under the same conditions, they hold the same <em>count</em> of particles. The molecules' individual sizes hardly matter, because in a gas the particles are so far apart that the substance is mostly empty space.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Read that one more time, because it changes what a volume measurement <em>means</em>. If volume is proportional to the number of molecules, then volume is proportional to the number of <em>moles</em>. And that is the doorway to gas stoichiometry: <strong>for gases at the same temperature and pressure, the ratio of volumes is the same as the ratio of moles.</strong> You can read a mole ratio straight off a volume reading, without ever weighing anything.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">AVOGADRO'S LAW</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Equal volumes &harr; equal moles</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">(same temperature and pressure) &nbsp;&rarr;&nbsp; volume ratio = mole ratio</div>
+        </div>
+
+        <!-- particle/volume diagram: WHY volume counts particles -->
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 8px 0;">Picture it before you calculate anything. Here are two boxes of the <em>same volume</em>, at the same temperature and pressure &mdash; one holds tiny helium atoms, the other holds big, heavy carbon-dioxide molecules. Count the particles:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:16px; margin:12px 0; align-items:stretch; justify-content:center;">
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:15px; color:#0E1C42; text-align:center; margin-bottom:10px;"><strong>1 L of helium</strong></div>
+                <div style="background:#FFFFFF; border:1px dashed #9fb3c8; border-radius:6px; height:120px; position:relative; display:flex; flex-wrap:wrap; align-content:space-around; justify-content:space-around; padding:10px;">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                    <span style="width:10px; height:10px; border-radius:50%; background:#2196D0;"></span>
+                </div>
+                <div style="font-size:13px; color:#666; text-align:center; margin-top:8px;">6 small atoms</div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; min-width:60px;">
+                <div style="font-size:26px; color:#C7922C; text-align:center;">=<br><span style="font-size:12px; color:#1a2340;">same count</span></div>
+            </div>
+            <div style="flex:1; min-width:220px; background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 16px;">
+                <div style="font-size:15px; color:#0E1C42; text-align:center; margin-bottom:10px;"><strong>1 L of carbon dioxide</strong></div>
+                <div style="background:#FFFFFF; border:1px dashed #9fb3c8; border-radius:6px; height:120px; position:relative; display:flex; flex-wrap:wrap; align-content:space-around; justify-content:space-around; padding:10px;">
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                    <span style="width:20px; height:20px; border-radius:50%; background:#0E1C42;"></span>
+                </div>
+                <div style="font-size:13px; color:#666; text-align:center; margin-top:8px;">6 big molecules</div>
+            </div>
+        </div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 12px 0; text-align:center; font-style:italic;">Same volume, same conditions &rarr; the same <em>number</em> of particles (six here), no matter how big or heavy each one is. That is why a volume you can read off a tube is secretly a count of molecules &mdash; and why a volume ratio can stand in for a mole ratio, before you ever reach for 22.4.</p>
+
+        <!-- Nature of Science note: empirical law vs the theory that explains it -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; A MEASURED LAW, NOT YET AN EXPLANATION</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice what Avogadro's law actually is: a <strong>measured regularity</strong>. Chemists found by experiment that equal volumes of gases hold equal numbers of molecules &mdash; the law reliably tells you <em>what</em> happens. It does <em>not</em>, by itself, tell you <em>why</em>. The &ldquo;why&rdquo; waits for a theory: the kinetic-molecular picture (which you'll meet in a couple of lessons) says gas particles are so far apart, in so much empty space, that their individual sizes barely matter, so any gas fills the same room per particle. Keep the two straight &mdash; the volume-ratio rule is an empirical law you can trust from measurement alone, and the particle theory is the separate explanation that later accounts for it.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: the synthesis of water</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Take the reaction you have followed since Module 4, run entirely in the gas phase: <strong>2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O</strong>. The coefficients are a mole ratio &mdash; 2 mol H<sub>2</sub> react with 1 mol O<sub>2</sub> to make 2 mol H<sub>2</sub>O vapor. By Avogadro's law, at the same temperature and pressure those same numbers are a <em>volume</em> ratio. Suppose you supply <strong>5.0 L of O<sub>2</sub></strong> (with hydrogen in excess) and ask how much water vapor forms:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            The O<sub>2</sub> : H<sub>2</sub>O ratio is <strong>1 : 2</strong> (one O<sub>2</sub> makes two H<sub>2</sub>O).<br>
+            5.0 L O<sub>2</sub> &times; (2 L H<sub>2</sub>O &divide; 1 L O<sub>2</sub>) = <strong>10.0 L H<sub>2</sub>O vapor</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why &ldquo;with hydrogen in excess&rdquo;? That is the <strong>limiting-reactant</strong> idea from Module 4, now read in liters instead of grams: the oxygen runs out first, so the O<sub>2</sub> volume is what caps how much water can form &mdash; the extra H<sub>2</sub> just sits there unreacted. With gases at the same conditions you can spot the limiting reactant straight from the volumes: whichever gas supplies fewer &ldquo;coefficient-worth&rdquo; volumes is the one that limits the reaction. (No need to re-derive it here &mdash; it is the same accounting you already did with moles.)</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">No molar masses, no Avogadro's number, no grams &mdash; just volumes multiplied by the coefficient ratio. That is the gift Avogadro's law gives you: when every substance in the problem is a gas at the same conditions, a balanced equation is a recipe in liters as readily as in moles.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In 2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O, how many liters of H<sub>2</sub> react with 5.0 L of O<sub>2</sub> at the same temperature and pressure?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The H<sub>2</sub> : O<sub>2</sub> ratio is <strong>2 : 1</strong>, so 5.0 L O<sub>2</sub> &times; (2 L H<sub>2</sub> &divide; 1 L O<sub>2</sub>) = <strong>10.0 L H<sub>2</sub></strong>. The volumes obey the coefficients exactly, because equal volumes mean equal moles.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MOLAR VOLUME AT STP: 22.4 LITERS PER MOLE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Avogadro's law tells you that one mole of <em>any</em> gas takes up the same volume as one mole of any other gas, as long as the temperature and pressure are fixed. So chemists agreed on a single reference point &mdash; a set of <strong>standard conditions</strong>, called <strong>STP</strong> (standard temperature and pressure): <strong>273 K (0&nbsp;&deg;C) and 1 atm</strong>. At STP, that shared volume has a measured value worth memorizing:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">MOLAR VOLUME AT STP</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>1 mole of any gas = 22.4 L</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">at 273 K and 1 atm</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is the <strong>molar volume</strong>, and it is a third conversion factor to set beside the two you already own. In Module 4, molar mass linked grams and moles, and Avogadro's number linked moles and particles. Now, for gases at STP, <strong>22.4 L/mol links moles and volume.</strong> One mole of helium is 22.4 L; one mole of carbon dioxide is 22.4 L; one mole of water vapor is 22.4 L. Same volume, wildly different masses &mdash; exactly what Avogadro's law promised.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>The new link:</strong> for a gas at STP, &nbsp; volume (L) = moles &times; 22.4 L/mol, &nbsp; and &nbsp; moles = volume (L) &divide; 22.4 L/mol.<br>
+            2.0 mol gas &rarr; <strong>44.8 L</strong> &nbsp;&middot;&nbsp; 0.50 mol gas &rarr; <strong>11.2 L</strong> &nbsp;&middot;&nbsp; 22.4 L gas &rarr; <strong>1.00 mol</strong>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The Italian scientist <strong>Amedeo Avogadro</strong> proposed his hypothesis &mdash; equal volumes of gases hold equal numbers of molecules &mdash; in the early nineteenth century, before anyone could count a single molecule. He could not measure the number; the instruments of his day simply could not reach it. His idea was largely set aside for roughly half a century, until other chemists realized how much confusion it cleared up about reacting gas volumes. It is a quiet lesson in <em>self-government</em>, the discipline of the quantitative: a careful, patient claim about how nature must add up &mdash; even one you can't yet verify &mdash; can wait decades for the evidence to catch up, and still turn out right.</div>
+        </div>
+
+        <!-- ow-select: avogadro / molar volume classify -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE?</div>
+          <div class="widget-question">Each statement is about Avogadro's law or molar volume. Decide whether it is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; at the same temperature and pressure, equal volumes hold equal numbers of molecules, whatever the gas. The masses differ; the counts do not." data-hint="Does Avogadro's law care which gas it is, as long as T and P match?">
+            <div class="widget-row-prompt">1. At the same temperature and pressure, 1 L of helium and 1 L of carbon dioxide contain the same number of molecules.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; they do NOT have the same mass. Equal volumes mean equal moles, but a mole of CO&#8322; (44.01 g) is far heavier than a mole of He (4.00 g). Same count, different mass." data-hint="Same count, yes &mdash; but is a mole of CO&#8322; the same mass as a mole of helium?">
+            <div class="widget-row-prompt">2. Because they have the same volume, 1 L of helium and 1 L of carbon dioxide (same T, P) have the same mass.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; at STP one mole of ANY ideal gas occupies 22.4 L. That single number turns moles of a gas into a volume and back again." data-hint="What volume does one mole of any gas fill at STP?">
+            <div class="widget-row-prompt">3. At STP, one mole of any ideal gas occupies about 22.4 liters.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; CROSSING THE BRIDGE: MASS &harr; MOLES &harr; GAS VOLUME</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Volume-to-volume problems are the easy case, because both sides are gases at the same conditions. But many reactions mix phases &mdash; a solid reactant releasing a gas, for instance. There the volume shortcut does not apply directly, and you fall back on the dependable mole bridge from Module 4, now extended one stop further to include gas volume. The hub is always moles.</p>
+
+        <!-- bridge visual -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; align-items:center; justify-content:center;">
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 18px; text-align:center; min-width:120px;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>MASS</strong></div>
+                <div style="font-size:12px; color:#666;">grams</div>
+            </div>
+            <div style="text-align:center; min-width:90px;">
+                <div style="font-size:24px; color:#C7922C;">&harr;</div>
+                <div style="font-size:11px; color:#1a2340;">&divide; or &times;<br>molar mass</div>
+            </div>
+            <div style="background:#0E1C42; border-radius:8px; padding:14px 18px; text-align:center; min-width:120px;">
+                <div style="font-size:18px; color:#ffffff;"><strong>MOLES</strong></div>
+                <div style="font-size:12px; color:#55C8E8;">mol</div>
+            </div>
+            <div style="text-align:center; min-width:90px;">
+                <div style="font-size:24px; color:#C7922C;">&harr;</div>
+                <div style="font-size:11px; color:#1a2340;">&times; or &divide;<br>22.4 L/mol (STP)</div>
+            </div>
+            <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-top:3px solid #55C8E8; border-radius:8px; padding:14px 18px; text-align:center; min-width:120px;">
+                <div style="font-size:18px; color:#0E1C42;"><strong>GAS VOLUME</strong></div>
+                <div style="font-size:12px; color:#666;">liters at STP</div>
+            </div>
+        </div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 10px 0; text-align:center; font-style:italic;">Same bridge as Module 4 &mdash; molar mass still links mass and moles &mdash; with one new on-ramp: molar volume links moles and gas volume.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked all the way through: limestone gives off carbon dioxide</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Heating limestone (calcium carbonate) drives off carbon dioxide gas: <strong>CaCO<sub>3</sub> &rarr; CaO + CO<sub>2</sub></strong>. If you decompose <strong>10.0 g of CaCO<sub>3</sub></strong>, what volume of CO<sub>2</sub> is released, measured at STP? You can't go from grams of a solid straight to liters of a gas &mdash; you cross the bridge through moles.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Step 1 &mdash; grams CaCO<sub>3</sub> &rarr; moles CaCO<sub>3</sub></strong> (divide by molar mass, 100.09 g/mol):<br>
+            10.0 g &divide; 100.09 g/mol = <strong>0.0999 mol CaCO<sub>3</sub></strong><br><br>
+            <strong>Step 2 &mdash; moles CaCO<sub>3</sub> &rarr; moles CO<sub>2</sub></strong> (mole ratio from the equation is 1 : 1):<br>
+            0.0999 mol CaCO<sub>3</sub> &times; (1 mol CO<sub>2</sub> &divide; 1 mol CaCO<sub>3</sub>) = <strong>0.0999 mol CO<sub>2</sub></strong><br><br>
+            <strong>Step 3 &mdash; moles CO<sub>2</sub> &rarr; volume at STP</strong> (multiply by 22.4 L/mol):<br>
+            0.0999 mol &times; 22.4 L/mol = <strong>2.24 L CO<sub>2</sub> at STP</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So a small lump of limestone &mdash; ten grams &mdash; releases more than two liters of carbon dioxide gas. Notice the path: mass &rarr; moles (molar mass), moles &rarr; moles (the balanced equation), moles &rarr; volume (molar volume). Every step cancels its units cleanly, and the answer carries three significant figures. That careful accounting &mdash; never skipping the moles in the middle, always checking that grams cancel grams and moles cancel moles &mdash; is the self-government the quantitative side of chemistry asks of you.</p>
+
+        <!-- CUSTOM WIDGET: gas-stoichiometry checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; GAS-STOICHIOMETRY CHECKER</div>
+          <div class="widget-question">Pick a problem, type <strong>your</strong> answer (in the unit shown), and check it. The tool tells you if you're too high or too low and reminds you which factor to use &mdash; but <em>you</em> do the calculation. (A checker can verify a number; it can't walk the bridge for you. That's your job.)</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="gs-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O: 5.0 L O&#8322; makes how many L H&#8322;O? (same T, P)</option>
+                <option value="B">2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O: 6.0 L H&#8322; makes how many L H&#8322;O? (same T, P)</option>
+                <option value="C">1.00 mol of any gas at STP is how many liters?</option>
+                <option value="D">CaCO&#8323; &rarr; CaO + CO&#8322;: 10.0 g CaCO&#8323; gives how many L CO&#8322; at STP?</option>
+                <option value="E">44.01 g CO&#8322; at STP is how many liters?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="gs-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="gs-check">Check my answer</button>
+            <button class="widget-reset" id="gs-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="gs-out"></div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Hand an AI tool a gas-stoichiometry problem and it will return a volume in seconds &mdash; and the checker above will happily verify a number you type, too. Treat both like any instrument: useful, not to be trusted blindly. An AI can drop a factor of 22.4, use the wrong mole ratio, or forget that the volume shortcut only works when everything is a gas. The reliable move is the one this lesson trains: walk the bridge yourself &mdash; grams &rarr; moles (molar mass), moles &rarr; moles (the coefficients), moles &rarr; volume (22.4 L/mol) &mdash; confirm your units cancel, and let the tool <em>confirm your number</em>, not produce it. Your own arithmetic is the evidence; the tool is a second opinion.</div>
+        </div>
+    </div>
+
+    <!-- Then -> Now -> Future (week box): gas stoichiometry -> Haber / hydrogen storage -->
+    <div style="background: #FDF6E3; border-left: 5px solid #C7922C; border-top: 3px solid #E0B043; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &rarr; NOW &rarr; FUTURE &middot; COUNTING GASES AT INDUSTRIAL SCALE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;"><strong>Then:</strong> once chemists accepted that reacting gas volumes come in simple whole-number ratios, they could predict how much of one gas would consume another &mdash; volume became a way to count molecules. <strong>Now:</strong> the same gas stoichiometry runs one of the most important reactions on Earth, the <strong>Haber process</strong>, which combines nitrogen and hydrogen gas to make the ammonia behind most modern fertilizer. Because the reaction never converts every molecule on one pass, engineers track its <strong>percent yield</strong> &mdash; actual product versus the amount the stoichiometry predicts &mdash; and recycle the leftover gases to push the yield higher. That same accounting drives research into <strong>hydrogen storage</strong>, where the question is how to pack the most H<sub>2</sub> molecules into the smallest, safest volume. <strong>Future:</strong> chemists are still chasing <em>low-energy nitrogen fixation</em> (making ammonia without the enormous heat and pressure the Haber process demands) and better <em>clean-hydrogen storage</em> &mdash; both problems where the winner will be measured, ultimately, in molecules counted per liter.</div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you continue your module-long project in OptimaXR &mdash; the <strong>Gas &amp; Energy Lab</strong>, which you add to every week and narrate on camera at the end. This is <strong>Build 2 of 4</strong>. Beside the gas-law apparatus you built last week, you'll add a <strong>gas-stoichiometry station</strong> that shows whole-number volumes reacting in ratio &mdash; for example, two volumes of H<sub>2</sub> plus one volume of O<sub>2</sub> making two volumes of H<sub>2</sub>O &mdash; making Avogadro's law something you can literally see and walk around. (Next lesson adds a partial-pressure jar to the same station.) The big idea to put on a sticky note: <em>equal volumes mean equal counts, so a volume ratio IS a mole ratio.</em></div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on Avogadro's law, molar volume, and gas stoichiometry. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 5.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">What happens when several gases share one container? You'll meet Dalton's law of partial pressures and learn why a gas collected over water needs a correction.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Gas &amp; Energy Lab (Build 2 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a gas-stoichiometry / measured-amounts station and a partial-pressure jar beside your apparatus in OptimaXR. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Avogadro's law says equal volumes of gases at the same temperature and pressure hold equal numbers of molecules &mdash; so for gases, a volume ratio is a mole ratio, and you can do stoichiometry straight from volumes. At STP, one mole of any gas fills 22.4 L, giving you a third conversion factor that turns moles into volume. Hang the new factor on the Module 4 mole bridge and any gas problem &mdash; volume-to-volume or mass-to-volume &mdash; becomes a walk across the same bridge, with moles always at the center. <em>The space a gas takes up is no longer just a reading; it is a count of molecules waiting to be measured.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.03 &middot; Stoichiometry of Gaseous Substances</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom gas-stoichiometry checker =====
+  var GS = {
+    A: { val:10.0, tol:0.2, unit:'L', factor:'The O₂ : H₂O volume ratio is 1 : 2, so 5.0 L O₂ × (2 ÷ 1) = 10.0 L H₂O. Equal volumes mean equal moles, so volumes obey the coefficients.' },
+    B: { val:6.0, tol:0.2, unit:'L', factor:'The H₂ : H₂O volume ratio is 2 : 2 = 1 : 1, so 6.0 L H₂ makes 6.0 L H₂O at the same temperature and pressure.' },
+    C: { val:22.4, tol:0.2, unit:'L', factor:'At STP one mole of any gas occupies 22.4 L. That is the molar volume — your moles-to-volume factor.' },
+    D: { val:2.24, tol:0.05, unit:'L', factor:'Three steps: 10.0 g ÷ 100.09 g/mol = 0.0999 mol CaCO₃; the CaCO₃ : CO₂ ratio is 1 : 1, so 0.0999 mol CO₂; then × 22.4 L/mol = 2.24 L at STP.' },
+    E: { val:22.4, tol:0.2, unit:'L', factor:'First 44.01 g ÷ 44.01 g/mol = 1.00 mol CO₂; then × 22.4 L/mol = 22.4 L at STP.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var gsBtn = document.getElementById('gs-check');
+  if (gsBtn) {
+    gsBtn.addEventListener('click', function () {
+      var out = document.getElementById('gs-out');
+      var key = document.getElementById('gs-prob').value;
+      var raw = document.getElementById('gs-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number (the answer is in liters for every problem here).'; return; }
+      var d = GS[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Now confirm your units cancel: that is how you know each factor was placed the right way.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.factor + ' Re-check which factor (mole ratio or 22.4 L/mol) you used, and whether you multiplied or divided.';
+      }
+    });
+  }
+  var gsReset = document.getElementById('gs-reset');
+  if (gsReset) {
+    gsReset.addEventListener('click', function () {
+      document.getElementById('gs-prob').value = '';
+      document.getElementById('gs-ans').value = '';
+      var out = document.getElementById('gs-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

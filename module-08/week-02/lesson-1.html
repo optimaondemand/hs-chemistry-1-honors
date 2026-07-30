@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.03</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (cell-potential calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.03</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Electrode &amp; Cell Potentials</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.03</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Electrode &amp; Cell Potentials</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Drop a strip of zinc and a strip of copper into the right solutions, wire them together, and a voltmeter reads about <strong>1.1 volts</strong> &mdash; every time. Swap the metals for a different pair and the number changes. Where does that exact voltage come from, and why does each pair of metals have its own?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last week you built a galvanic cell and watched a spontaneous redox reaction push electrons through a wire. Now we put a number on that push. Every cell has a <strong>cell potential</strong> &mdash; a voltage that measures how hard its reaction drives electrons. This lesson shows where that voltage comes from: each half-reaction has its own measured tendency to grab electrons, captured in a table of <strong>standard reduction potentials</strong>, and the cell's voltage is the <em>difference</em> between the two halves. By the end you'll read that table, identify which electrode is the cathode and which is the anode, calculate the cell potential, and judge from its sign whether the cell will run on its own.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why electrode potentials are all measured against the standard hydrogen electrode (SHE), defined as exactly 0.00 V, and read a standard reduction potential (E&deg;) from a table.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use the table to decide which half-reaction is the cathode and which is the anode, and identify the stronger oxidizing agent.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the standard cell potential with E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub> and use its sign to decide whether the cell is spontaneous (galvanic).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Week 1 notes on galvanic cells &mdash; anode, cathode, salt bridge, and electron flow from anode to cathode. We build straight on them today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; VOLTAGE IS THE PUSH BEHIND THE ELECTRONS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A zinc&ndash;copper cell reads about 1.1 V. Replace the copper with silver and the voltage <em>rises</em>; replace it with a metal that holds onto electrons more weakly and the voltage <em>falls</em>. Before you read on &mdash; what do you think the cell's voltage is really measuring? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's the heart of it. The voltage measures the DIFFERENCE in how strongly the two electrodes pull on electrons. Each half-reaction has its own pull (its reduction potential); the cell voltage is the gap between them. A bigger gap means a bigger push, so swapping in a metal with a very different pull changes the reading.">&#9889; The difference in how strongly each metal pulls on electrons</button>
+            <button data-response="Close, but it's not the strength of just one electrode &mdash; you can never measure a single electrode alone. The voltage is the GAP between the two half-reactions' pulls on electrons. That's why changing either metal changes the reading: you've changed one side of the difference.">&#129516; How strongly one single metal grabs electrons by itself</button>
+            <button data-response="Amount of metal sets how LONG the cell can run, not its voltage. Voltage comes from the DIFFERENCE in the two electrodes' pull on electrons &mdash; an intensive quantity that doesn't depend on how big the strips are. Swapping metals changes that difference, which is why the reading shifts.">&#128207; The total amount of metal in each strip</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A galvanic cell turns a spontaneous redox reaction into a current of electrons. The strength of that current's &ldquo;push&rdquo; &mdash; the electrical force driving electrons from one electrode to the other &mdash; is the <strong>cell potential</strong>, written E&deg;<sub>cell</sub> and measured in <strong>volts (V)</strong>. (The small degree sign means <em>standard conditions</em>: 1 M solutions, 1 atm gases, 25&nbsp;&deg;C.) A larger cell potential means a stronger drive. The zinc&ndash;copper cell you met last week reads about 1.1 V; other metal pairs read more or less, and today's goal is to predict that number rather than just measure it.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the snag that shaped the whole subject: <strong>you cannot measure a single electrode's potential by itself</strong>. A voltmeter always needs two terminals &mdash; it can only read a <em>difference</em>. So chemists agreed on a common reference point and measured everything against it. That reference is the <strong>standard hydrogen electrode (SHE)</strong>, the half-reaction</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.7; text-align:center;">
+            2 H<sup>+</sup>(aq, 1 M) + 2 e<sup>&minus;</sup> &#8652; H<sub>2</sub>(g, 1 atm) &nbsp;&nbsp;at 25&nbsp;&deg;C, &nbsp;assigned <strong>E&deg; = 0.00 V</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The SHE isn't truly &ldquo;zero volts&rdquo; in some absolute sense &mdash; it's a chosen zero, exactly like sea level is the chosen zero for altitude. Every other half-reaction's potential is then reported relative to it. That single agreement turns a tangle of cells into one clean, comparable table.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>A voltmeter reads a <em>difference</em>, never one electrode alone</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">so all potentials are measured against the SHE, defined as exactly 0.00 V</div>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The idea that a chemical reaction could be a source of steady electricity began around 1800, when the Italian physicist <strong>Alessandro Volta</strong> stacked alternating discs of two different metals separated by brine-soaked cloth and produced a continuous current &mdash; the first battery, the &ldquo;voltaic pile.&rdquo; What he had stumbled onto was exactly the difference between two metals' pull on electrons. The unit of electrical potential, the <em>volt</em>, still carries his name. The careful comparison of one metal against another against a common reference grew into the reduction-potential table you'll use today.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why did chemists have to invent a reference electrode at all? Couldn't they just measure each metal's potential directly?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No &mdash; a voltmeter has two terminals and can only report the <em>difference</em> in potential between them. There is no way to dip one probe into a half-cell and read its potential against &ldquo;nothing.&rdquo; By agreeing that one specific half-reaction (the SHE) is exactly 0.00 V, chemists gave every other half-reaction a fixed point to be measured against, the way sea level fixes the zero for measuring altitude. The numbers are relative, but because they all share the same zero, they can be compared and combined.</div>
+        </details>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #EEF6FA; border: 1px solid #C5DCE5; border-left: 5px solid #1B6A94; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; NATURE OF SCIENCE &middot; HOW DO WE KNOW?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice something about <em>every</em> E&deg; value in this course: not one of them is an absolute measurement. Each is reported <strong>relative to a reference the scientific community agreed to fix at zero</strong> &mdash; the standard hydrogen electrode. That choice is a convention, not a discovery; chemists could have pinned the zero somewhere else and every number in the table would shift, yet every <em>difference</em> between two half-reactions &mdash; and therefore every cell voltage you predict &mdash; would come out exactly the same. Many scientific scales work this way (sea level for altitude, the freezing point of water for the Celsius scale). <strong>Think about it:</strong> if the numbers depend on a chosen reference, in what sense are they still objective &mdash; and why does agreeing on a shared reference make the whole table trustworthy rather than arbitrary?</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; READING THE STANDARD REDUCTION POTENTIAL TABLE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Every half-reaction in the table is written as a <strong>reduction</strong> &mdash; a species gaining electrons &mdash; and given a <strong>standard reduction potential, E&deg;</strong>, measured against the SHE. The number tells you how badly that species &ldquo;wants&rdquo; the electrons:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; A <strong>more positive E&deg;</strong> means the species is <strong>more easily reduced</strong> &mdash; it pulls electrons strongly &mdash; so it is a <strong>stronger oxidizing agent</strong>.<br>
+            &bull; A <strong>more negative E&deg;</strong> means the species resists being reduced and is instead <strong>more easily oxidized</strong> &mdash; a <strong>stronger reducing agent</strong>.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is a short slice of the table, ordered from the strongest electron-puller at the top to the weakest at the bottom:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:520px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Reduction half-reaction</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">E&deg; (V)</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Tendency</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Ag<sup>+</sup> + e<sup>&minus;</sup> &rarr; Ag</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1A6B3D;"><strong>+0.80</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">strongest electron-puller here</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Cu<sup>2+</sup> + 2 e<sup>&minus;</sup> &rarr; Cu</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>+0.34</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">pulls electrons fairly well</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">2 H<sup>+</sup> + 2 e<sup>&minus;</sup> &rarr; H<sub>2</sub></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>0.00</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">the reference (SHE)</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Zn<sup>2+</sup> + 2 e<sup>&minus;</sup> &rarr; Zn</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#8A1F16;"><strong>&minus;0.76</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">resists reduction; gives up electrons</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">Read down the E&deg; column: silver ions (+0.80 V) grab electrons most eagerly, so Ag<sup>+</sup> is the strongest oxidizing agent in this list. Zinc sits at the bottom (&minus;0.76 V); it would rather <em>give up</em> electrons than gain them, which makes zinc metal a good reducing agent. When you pair two half-reactions in a cell, the one higher in the table (more positive E&deg;) wins the tug-of-war and runs as a reduction; the lower one is forced to run backward, as an oxidation.</p>
+
+        <div style="background:#FDF3E3; border-left:5px solid #C7922C; border-radius:6px; padding:14px 20px; margin:16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; ONE EASY-TO-MISS RULE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">E&deg; is an <strong>intensive</strong> property &mdash; it does <em>not</em> change when you multiply a half-reaction by a coefficient to balance electrons. If a half-reaction needs to be doubled (say, 2 Ag<sup>+</sup> + 2 e<sup>&minus;</sup> &rarr; 2 Ag), its E&deg; is still +0.80 V, not +1.60 V. Voltage is a &ldquo;push per electron,&rdquo; not a total you add up. You never multiply E&deg; by the balancing coefficient.</div>
+        </div>
+
+        <!-- History vignette: Nernst -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">A table of numbers like this one needed a firm theoretical footing, and the German physical chemist <strong>Walther Nernst</strong> supplied much of it. Around 1889 he derived the equation that still bears his name &mdash; the <strong>Nernst equation</strong> &mdash; showing exactly how an electrode's potential shifts as the concentrations of the dissolved species change. That result tied electrode potentials directly to thermodynamics, turning the reduction-potential table from a bare list of measurements into a predictive tool: given the conditions, you can calculate the voltage. Nernst went on to win the Nobel Prize in Chemistry (1920) for his broader work on the thermodynamics of chemical reactions. In this course we work at standard conditions (1 M, 1 atm, 25&nbsp;&deg;C), where the corrections Nernst added drop out and the table values apply directly &mdash; but the deeper lesson is his: a measured voltage is a window onto the energy of a reaction.</div>
+        </div>
+
+        <!-- ow-flip: stronger oxidizing/reducing agent cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; READ THE TABLE</div>
+          <div class="widget-question">Predict the answer from the E&deg; values above, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Which is the stronger oxidizing agent, Ag<sup>+</sup> or Cu<sup>2+</sup>? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Ag<sup>+</sup>.</strong> Its E&deg; (+0.80 V) is more positive than Cu<sup>2+</sup> (+0.34 V), so Ag<sup>+</sup> pulls electrons harder &mdash; the stronger oxidizing agent.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">In a Zn&ndash;Cu cell, which metal is oxidized? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Zinc.</strong> Zn<sup>2+</sup>/Zn has the lower (more negative) E&deg;, so it can't win the electron tug-of-war &mdash; it runs in reverse and zinc metal is oxidized.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">If you double 2&times; a half-reaction, does its E&deg; double? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>No.</strong> E&deg; is intensive &mdash; a push per electron. Doubling the half-reaction leaves E&deg; unchanged.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Which metal would rather give up electrons, Zn or Ag? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Zinc.</strong> Its very negative E&deg; (&minus;0.76 V) means Zn resists reduction and readily gives up electrons &mdash; the stronger reducing agent.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; CALCULATING THE CELL POTENTIAL</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now we put the two halves together. The cell potential is the gap between the two electrodes' reduction potentials, and there is one equation to remember:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CELL POTENTIAL EQUATION</div>
+            <div style="font-size:28px; color:#ffffff;"><strong>E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:8px;">both values taken straight from the reduction-potential table</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The recipe is always the same. First, pick which half-reaction is the <strong>cathode</strong>: the one with the <em>higher</em> (more positive) E&deg; &mdash; that's where reduction happens. The other, with the lower E&deg;, is the <strong>anode</strong>, where oxidation happens (it runs in reverse). Then subtract: cathode value minus anode value. <strong>Both numbers come from the table as written</strong> &mdash; do not flip the sign of the anode's table value yourself; the subtraction already handles the reversal.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked calculation &mdash; the Daniell (Zn&ndash;Cu) cell</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Build a cell from Zn<sup>2+</sup>/Zn (E&deg; = &minus;0.76 V) and Cu<sup>2+</sup>/Cu (E&deg; = +0.34 V). Find E&deg;<sub>cell</sub> and decide if it is spontaneous.<br><br>
+            <strong>Step 1 &mdash; pick the cathode.</strong> Higher E&deg; wins: Cu<sup>2+</sup>/Cu (+0.34 V) &gt; Zn<sup>2+</sup>/Zn (&minus;0.76 V), so <strong>copper is the cathode</strong> (reduction) and <strong>zinc is the anode</strong> (oxidation).<br><br>
+            <strong>Step 2 &mdash; subtract, using table values as written.</strong><br>
+            &nbsp;&nbsp;E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub> = (+0.34 V) &minus; (&minus;0.76 V)<br>
+            &nbsp;&nbsp;E&deg;<sub>cell</sub> = 0.34 + 0.76 = <strong>+1.10 V</strong><br><br>
+            <strong>Verdict:</strong> E&deg;<sub>cell</sub> is <strong>positive</strong>, so the reaction is <strong>spontaneous</strong> &mdash; this is a galvanic cell. And +1.10 V matches the &ldquo;about 1.1 volts&rdquo; from the opening puzzle. The number wasn't magic; it's the gap between copper's and zinc's pull on electrons.
+        </div>
+
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; THE #1 MISTAKE &mdash; THE DOUBLE-NEGATIVE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Subtracting a negative number trips up almost everyone. E&deg;<sub>cell</sub> = (+0.34) &minus; (&minus;0.76) becomes (+0.34) <strong>+</strong> (0.76) = +1.10 V, not &minus;0.42 V. Two negatives make a plus. If your cell potential comes out negative when you expected a working cell, check this subtraction first &mdash; and confirm you put the <em>higher</em>-E&deg; half-reaction in the cathode slot.</div>
+        </div>
+
+        <!-- Custom .aam-widget: cell-potential calculator -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; CELL-POTENTIAL CALCULATOR</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick two half-reactions. The tool finds the cathode (higher E&deg;) and anode (lower E&deg;), computes E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub>, and reports whether the cell is spontaneous. Reason out your own answer first, then check.</div>
+          <div class="aam-row">
+            <label for="cp-a">Electrode 1:&nbsp;</label>
+            <select id="cp-a">
+              <option value="">&mdash; choose &mdash;</option>
+              <option value="ag">Ag&#8314; + e&#8315; &rarr; Ag (E&deg; = +0.80 V)</option>
+              <option value="cu">Cu&#178;&#8314; + 2e&#8315; &rarr; Cu (E&deg; = +0.34 V)</option>
+              <option value="she">2H&#8314; + 2e&#8315; &rarr; H&#8322; (E&deg; = 0.00 V)</option>
+              <option value="zn">Zn&#178;&#8314; + 2e&#8315; &rarr; Zn (E&deg; = &minus;0.76 V)</option>
+            </select>
+          </div>
+          <div class="aam-row">
+            <label for="cp-b">Electrode 2:&nbsp;</label>
+            <select id="cp-b">
+              <option value="">&mdash; choose &mdash;</option>
+              <option value="ag">Ag&#8314; + e&#8315; &rarr; Ag (E&deg; = +0.80 V)</option>
+              <option value="cu">Cu&#178;&#8314; + 2e&#8315; &rarr; Cu (E&deg; = +0.34 V)</option>
+              <option value="she">2H&#8314; + 2e&#8315; &rarr; H&#8322; (E&deg; = 0.00 V)</option>
+              <option value="zn">Zn&#178;&#8314; + 2e&#8315; &rarr; Zn (E&deg; = &minus;0.76 V)</option>
+            </select>
+            <button class="aam-btn" id="cp-go">Compute E&deg;<sub>cell</sub></button>
+          </div>
+          <div class="aam-result" id="cp-out"></div>
+          <button class="widget-reset" id="cp-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument note at the calculator -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 16px; color: #8A1F16; line-height: 1.6;">This calculator follows one fixed rule &mdash; it always puts the higher-E&deg; half-reaction at the cathode. A general-purpose <strong>AI chatbot often does not</strong>: asked for a cell potential, it frequently <strong>flips the cathode&minus;anode subtraction</strong> (putting the wrong half-reaction at the cathode) or mishandles the &minus;0.76 V double negative, and reports the wrong sign. Treat any AI answer as a <em>claim to verify</em>, not a result to trust: confirm the higher-E&deg; half-reaction is the cathode, then re-derive E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub> by hand and check the sign. The reasoning is the skill; the tool is only an instrument.</div>
+        </div>
+
+        <!-- Then -> Now -> Future callout (gold highlight) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; THEN &rarr; NOW &rarr; FUTURE &middot; CELL POTENTIAL IN THE WORLD</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> the reduction-potential table was assembled slowly, one metal pair at a time, each measured against the SHE. <strong>Now:</strong> the same arithmetic &mdash; pairing two half-reactions and asking how big a voltage their difference produces &mdash; sits at the center of modern <strong>battery and fuel-cell research</strong>. Scientists are currently exploring electrode pairs and chemistries that push the cell potential higher and store more energy per gram: lithium-based and beyond-lithium designs for <strong>electric-vehicle (EV) batteries</strong> and grid storage, and <strong>hydrogen fuel cells</strong> that turn a spontaneous redox reaction straight into electric power. Every candidate is judged, in part, by the very calculation you just did: find the gap between two potentials and ask whether it gives a large, useful, spontaneous voltage. <strong>Future:</strong> which chemistry will win is genuinely unsettled &mdash; researchers are still hunting for pairs that are cheaper, safer, longer-lived, and higher-voltage, and the reduction-potential table remains the map they read.</div>
+        </div>
+
+        <!-- ow-select: cell-potential true-false / MC -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CHECK YOUR UNDERSTANDING</div>
+          <div class="widget-question">Use the table and E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub>. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. You can only measure a DIFFERENCE between two electrodes; a single electrode's potential can't be read alone. That's exactly why the SHE was defined as 0.00 V to serve as a reference." data-hint="How many terminals does a voltmeter need to read anything?">
+            <div class="widget-row-prompt">1. A voltmeter can measure the potential of one electrode all by itself.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; the half-reaction with the MORE POSITIVE E&deg; becomes the cathode (reduction). Cu&#178;&#8314;/Cu at +0.34 V beats Zn&#178;&#8314;/Zn at &minus;0.76 V, so copper is the cathode." data-hint="Which sign of E&deg; pulls electrons harder, more positive or more negative?">
+            <div class="widget-row-prompt">2. In a Zn&ndash;Cu cell, the electrode with the higher (more positive) E&deg; is the cathode.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; E&deg;cell = (+0.80) &minus; (+0.34) = +0.46 V. Silver (higher E&deg;) is the cathode, copper the anode; the positive result means it's spontaneous." data-hint="Cathode is the higher E&deg; (Ag, +0.80). Subtract the copper value (+0.34).">
+            <div class="widget-row-prompt">3. For a cell built from Ag<sup>+</sup>/Ag (+0.80 V) and Cu<sup>2+</sup>/Cu (+0.34 V), E&deg;<sub>cell</sub> = &hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">+1.14 V</button>
+              <button data-choice="1">&minus;0.46 V</button>
+              <button data-choice="2">+0.46 V</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a POSITIVE E&deg;cell means the reaction is spontaneous as written, so the cell is galvanic and will run on its own." data-hint="What sign of E&deg;cell goes with a spontaneous, working cell?">
+            <div class="widget-row-prompt">4. A cell with E&deg;<sub>cell</sub> = +0.46 V is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">nonspontaneous</button>
+              <button data-choice="1">spontaneous (galvanic)</button>
+              <button data-choice="2">at equilibrium</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Pair Ag<sup>+</sup>/Ag (+0.80 V) with Zn<sup>2+</sup>/Zn (&minus;0.76 V). Which is the cathode, what is E<sup>&deg;</sup><sub>cell</sub>, and is it spontaneous?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Silver is the cathode</strong> (higher E&deg;, +0.80 V); zinc is the anode (&minus;0.76 V). Then E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub> = (+0.80) &minus; (&minus;0.76) = 0.80 + 0.76 = <strong>+1.56 V</strong>. Positive, so the cell is <strong>spontaneous (galvanic)</strong>. Notice this is a bigger gap than the Zn&ndash;Cu cell's +1.10 V &mdash; silver pulls electrons harder than copper, so pairing it against zinc opens a wider voltage.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you continue your module-long project in OptimaXR &mdash; the <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; with <strong>Build 2 of 4: the Cell Potential Panel</strong>. Return to the <em>same</em> persistent bench, where last week's galvanic cell is waiting. You'll add a <strong>voltmeter</strong> reading the cell's E&deg;<sub>cell</sub> (+1.10 V for Zn&ndash;Cu) and a <strong>standard-reduction-potential ranking strip</strong>, placing several half-reactions from most-positive at the top (strongest oxidizer / cathode) to most-negative at the bottom. Label the rule <strong>E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub></strong> and sign a sticky note with the module's through-line: &ldquo;E&deg;<sub>cell</sub> &gt; 0 &rarr; spontaneous &rarr; &Delta;G&deg; = &minus;nFE&deg; &lt; 0.&rdquo; Leave room on the bench &mdash; real cells &amp; electrolysis come in Week 3, and a rate &amp; catalysis demo in Week 4.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.03</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the SHE, reading the reduction-potential table, identifying cathode and anode, and the E&deg;<sub>cell</sub> calculation. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 8.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can compute a cell potential, you'll connect it to two ideas from Module 7 &mdash; Gibbs free energy and the equilibrium constant &mdash; through &Delta;G&deg; = &minus;nFE&deg;, the bridge that ties voltage, energy, and equilibrium into one picture.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Cell Potential Panel (Build 2 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a voltmeter and a reduction-potential ranking strip to your cell. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A cell's voltage, the <strong>cell potential E&deg;<sub>cell</sub></strong>, measures how hard its redox reaction drives electrons. Because a voltmeter reads only a <em>difference</em>, every half-reaction's <strong>standard reduction potential (E&deg;)</strong> is measured against the <strong>SHE, defined as exactly 0.00 V</strong> &mdash; a more positive E&deg; means a stronger pull on electrons (a stronger oxidizing agent). To find a cell's voltage, put the higher-E&deg; half-reaction at the cathode, the lower at the anode, and compute <strong>E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub></strong> (the Zn&ndash;Cu cell gives +1.10 V). A <em>positive</em> E&deg;<sub>cell</sub> means the cell is spontaneous &mdash; galvanic. Hold onto that sign: next lesson it becomes the key linking voltage to free energy and equilibrium through &Delta;G&deg; = &minus;nFE&deg;.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.03 &middot; Electrode &amp; Cell Potentials</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== cell-potential calculator (.aam-widget) ===== */
+  var cpGo = document.getElementById('cp-go');
+  if (cpGo) {
+    var cpData = {
+      ag:  { name: 'Ag⁺/Ag', e: 0.80 },
+      cu:  { name: 'Cu²⁺/Cu', e: 0.34 },
+      she: { name: '2H⁺/H₂ (SHE)', e: 0.00 },
+      zn:  { name: 'Zn²⁺/Zn', e: -0.76 }
+    };
+    cpGo.addEventListener('click', function () {
+      var a = document.getElementById('cp-a').value;
+      var b = document.getElementById('cp-b').value;
+      var out = document.getElementById('cp-out');
+      if (!a || !b) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a half-reaction in both boxes first.'; return; }
+      if (a === b) { out.className = 'aam-result show warn'; out.innerHTML = 'Pick two <em>different</em> half-reactions &mdash; a cell needs two electrodes.'; return; }
+      var A = cpData[a], B = cpData[b];
+      var cath = (A.e >= B.e) ? A : B;   // higher E° = cathode
+      var an   = (A.e >= B.e) ? B : A;   // lower E° = anode
+      var eCell = cath.e - an.e;
+      var rounded = Math.round(eCell * 100) / 100;
+      var spont = eCell > 0;
+      out.className = 'aam-result show ' + (spont ? 'good' : 'warn');
+      out.innerHTML =
+        '<strong>Cathode</strong> (higher E&deg;, reduction): ' + cath.name + ' = ' + cath.e.toFixed(2) + ' V<br>' +
+        '<strong>Anode</strong> (lower E&deg;, oxidation): ' + an.name + ' = ' + an.e.toFixed(2) + ' V<br>' +
+        'E&deg;<sub>cell</sub> = E&deg;<sub>cathode</sub> &minus; E&deg;<sub>anode</sub> = (' + cath.e.toFixed(2) + ') &minus; (' + an.e.toFixed(2) + ') = <strong>' + (rounded > 0 ? '+' : '') + rounded.toFixed(2) + ' V</strong>.<br>' +
+        (spont
+          ? 'Positive E&deg;<sub>cell</sub> &rarr; the reaction is <strong>spontaneous</strong> &mdash; a galvanic cell.'
+          : 'This pairing gives a non-positive E&deg;<sub>cell</sub>, so as written it is <strong>not spontaneous</strong>.');
+    });
+    document.getElementById('cp-reset').addEventListener('click', function () {
+      document.getElementById('cp-a').value = '';
+      document.getElementById('cp-b').value = '';
+      var out = document.getElementById('cp-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

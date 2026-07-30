@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom partial-pressure checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Gas Mixtures &amp; Dalton's Partial Pressures</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Gas Mixtures &amp; Dalton's Partial Pressures</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">The air around you is not one gas but a crowd of them &mdash; nitrogen, oxygen, argon, carbon dioxide, water vapor &mdash; all pressing on you at once. When you read a single pressure on a gauge, whose pressure are you reading?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">So far you have treated a gas as if the container held just one substance. But most real gas samples are <em>mixtures</em>. The breath you just took, the bubbles in a soda, a gas collected in the lab over water &mdash; all are blends. This lesson answers a measurement question: if several gases share a container, how does each one contribute to the total pressure, and how do you pull the part you care about out of the whole? The answer, first stated two centuries ago, is beautifully simple &mdash; and it has a practical payoff for any gas you collect in a real experiment.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state Dalton's law of partial pressures &mdash; that the total pressure of a gas mixture is the sum of the partial pressures of its components &mdash; and use it to find a missing pressure.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate the mole fraction of a gas in a mixture and relate it to that gas's share of the total pressure.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> correct for water vapor when a gas is collected over water by subtracting the water's vapor pressure from the total.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your pressure-unit conversions from Lesson 5.01 (1 atm = 760 mmHg) &mdash; you'll switch between atm and mmHg here.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; DALTON'S LAW: PRESSURES SIMPLY ADD</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Imagine a rigid sealed tank holding nitrogen alone that reads 0.60 atm on a gauge. Now you pump oxygen into the same tank until the oxygen, by itself, would read 0.40 atm. What does the gauge read with both gases inside? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right &mdash; and this is Dalton's whole law in one move. Each gas pushes as if it were alone, and the total is just the sum: 0.60 + 0.40 = 1.00 atm. Gas molecules are so far apart that one gas barely notices the other; the pressures simply add.">&#10133; 1.00 atm &mdash; the two pressures add together</button>
+            <button data-response="A reasonable instinct &mdash; it feels like a mix might 'split the difference.' But pressure comes from molecules striking the walls, and adding more molecules adds more strikes. The total is the SUM of what each gas contributes alone: 0.60 + 0.40 = 1.00 atm, not the average.">&#9878;&#65039; 0.50 atm &mdash; the average of the two</button>
+            <button data-response="Close thinking about which gas 'wins,' but neither one dominates. Each gas exerts its own pressure independently, and the gauge reads the total of all of them: 0.60 + 0.40 = 1.00 atm. The bigger number doesn't replace the smaller; they add.">&#11014;&#65039; 0.60 atm &mdash; the larger pressure takes over</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">When two or more gases share a container and don't react, each one behaves as if it were alone &mdash; spreading to fill the whole space and striking the walls on its own schedule. The pressure a single gas in a mixture would exert if it occupied the container by itself is called that gas's <strong>partial pressure</strong>. Two centuries ago, John Dalton noticed the tidy consequence: <strong>the total pressure of a mixture is just the sum of the partial pressures of all the gases in it.</strong> This is <strong>Dalton's law of partial pressures.</strong></p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">DALTON'S LAW OF PARTIAL PRESSURES</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>P<sub>total</sub> = P<sub>1</sub> + P<sub>2</sub> + P<sub>3</sub> + &hellip;</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">each gas contributes its own pressure, independently</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why should pressures add so simply? Because, as you saw in the kinetic picture of gases, the molecules of a gas are mostly far-apart specks moving through empty space. One gas hardly notices another sharing the room; each just keeps bouncing off the walls at its own rate. The wall feels the strikes from <em>all</em> the gases at once, so the total push is the sum of every gas's individual push.</p>
+
+        <!-- Nature of Science note: measured regularity vs the theory that explains it -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; HOW SCIENTISTS KNOW &middot; THE LAW YOU MEASURE vs. THE MODEL THAT EXPLAINS IT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Dalton's law &mdash; partial pressures simply <em>add</em> &mdash; is something chemists <strong>measured</strong>. Mix known gases, read the gauge, and the total comes out equal to the sum every time; that reproducible result is the law, and it stands on the measurement alone. The paragraph above is a different thing: a <strong>model</strong> (particles as far-apart specks that ignore one another) offered to explain <em>why</em> the pressures add rather than average. Ask yourself which is which. The additivity is the evidence you can check on any gauge; the &ldquo;far-apart specks&rdquo; picture is the theory earning its keep by making sense of that evidence &mdash; and, later, by predicting where it should break down when gases are crowded together.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: nitrogen and oxygen in a tank</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A tank holds nitrogen at a partial pressure of <strong>0.60 atm</strong> and oxygen at a partial pressure of <strong>0.40 atm</strong>, with nothing else inside. The total pressure is simply their sum:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.9;">
+            P<sub>total</sub> = P<sub>N&#8322;</sub> + P<sub>O&#8322;</sub> = 0.60 atm + 0.40 atm = <strong>1.00 atm</strong>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The law also runs in reverse, which is often the more useful direction. If you measured the total at 1.00 atm and knew oxygen contributed 0.40 atm, you could find nitrogen's share by subtraction: 1.00 &minus; 0.40 = 0.60 atm. That subtraction trick &mdash; <em>total minus the part you know</em> &mdash; is the heart of every partial-pressure problem you'll meet, including the lab correction at the end of this lesson.</p>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MOLE FRACTION: EACH GAS'S SHARE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">There is a second way to describe a gas's role in a mixture, and it ties straight back to Avogadro's law from the last lesson. The <strong>mole fraction</strong> of a gas is the fraction of all the molecules in the mixture that belong to that gas: its moles divided by the total moles. We write it with the letter <strong>x</strong>.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:20px; color:#0e1c42; text-align:center;">
+            x<sub>A</sub> = <span style="display:inline-block; text-align:center; vertical-align:middle; margin:0 6px;"><span style="display:block; border-bottom:2px solid #0e1c42; padding:0 8px;">moles of gas A</span><span style="display:block; padding:0 8px;">total moles of gas</span></span>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Here is the elegant part. Because equal numbers of gas molecules take up pressure in the same proportion (Avogadro's law again), a gas's mole fraction is <em>also</em> its share of the total pressure. So the partial pressure of any gas equals its mole fraction times the total pressure: <strong>P<sub>A</sub> = x<sub>A</sub> &times; P<sub>total</sub></strong>. A gas that is 60% of the molecules supplies 60% of the pressure.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: the same nitrogen&ndash;oxygen tank</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Return to the tank where nitrogen contributes 0.60 atm and oxygen 0.40 atm, for a total of 1.00 atm. The mole fraction of nitrogen is its share of the pressure:</p>
+        <div style="background:#F4F6FA; border:1px solid #D0D9E8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            x<sub>N&#8322;</sub> = P<sub>N&#8322;</sub> &divide; P<sub>total</sub> = 0.60 atm &divide; 1.00 atm = <strong>0.60</strong><br>
+            <span style="font-size:15px; color:#666;">check: x<sub>O&#8322;</sub> = 0.40 &divide; 1.00 = 0.40, and 0.60 + 0.40 = 1.00 &#10003; (mole fractions in a mixture always add to 1)</span>
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Nitrogen makes up 60% of the molecules in that tank, so it supplies 60% of the pressure. Note the built-in honesty check: the mole fractions of all the gases must add up to exactly 1, because together they account for <em>every</em> molecule. If your fractions don't sum to 1, you've made an error &mdash; the accounting hasn't balanced.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In the early nineteenth century the English chemist <strong>John Dalton</strong> &mdash; the same Dalton who revived the atomic theory you met in Module 2 &mdash; studied the behavior of the atmosphere and the gases dissolved in it. From careful measurements he reasoned that each gas in a mixture acts independently of the others, so their pressures simply add. It is the same instinct that made his atomic theory powerful: treat matter as separate particles that keep their own identities. His law let chemists finally make sense of gases collected in the laboratory, where the gas you want is almost never alone.</div>
+        </div>
+
+        <!-- Flip cards: three ideas -->
+        <p style="font-size: 16px; color: #0E1C42; margin: 16px 0 8px 0;">Tap each card to lock in the three tools of this lesson:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Dalton's law &mdash; P<sub>total</sub> = P<sub>1</sub> + P<sub>2</sub> + &hellip;</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">The total pressure is the sum of every gas's partial pressure. To find one gas's pressure, subtract the others from the total. Each gas acts as if it were alone.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Mole fraction &mdash; x<sub>A</sub> = mol A / total mol</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">A gas's share of the molecules is also its share of the pressure: P<sub>A</sub> = x<sub>A</sub> &times; P<sub>total</sub>. All the mole fractions in a mixture add to 1.</div>
+              </div>
+            </div>
+            <div class="optima-widget" style="flex:1; min-width:240px;">
+              <div class="widget-kicker">&#9889; TAP TO REVEAL</div>
+              <div class="ow-flip" tabindex="0">
+                <div class="ow-flip-front" style="font-size:17px;color:#0E1C42;">Collecting over water &mdash; subtract the water vapor</div>
+                <div class="ow-flip-back" style="font-size:15px;line-height:1.55;">A gas bubbled through water picks up water vapor. P<sub>dry gas</sub> = P<sub>total</sub> &minus; P<sub>water vapor</sub>. At 25 &deg;C, the water vapor pressure is 23.8 mmHg.</div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; COLLECTING A GAS OVER WATER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now the payoff that makes Dalton's law a working lab tool. A common way to capture a gas produced in a reaction is to bubble it up through water into an inverted, water-filled container &mdash; the gas displaces the water and collects at the top. It is cheap and simple, but it comes with a catch: as the gas bubbles through, it picks up <strong>water vapor</strong>. What you collect is never the pure gas; it's the gas <em>plus</em> some evaporated water sharing the same space.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">By Dalton's law, the total pressure you measure is the sum of two partial pressures &mdash; the dry gas you want, plus the water vapor:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:16px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:20px; color:#ffffff;"><strong>P<sub>total</sub> = P<sub>dry gas</sub> + P<sub>water vapor</sub></strong></div>
+            <div style="font-size:15px; color:#55C8E8; margin-top:8px;">so &nbsp; P<sub>dry gas</sub> = P<sub>total</sub> &minus; P<sub>water vapor</sub></div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The water's contribution &mdash; its <strong>vapor pressure</strong> &mdash; depends only on the temperature, and chemists look it up in a table. At <strong>25 &deg;C, the vapor pressure of water is 23.8 mmHg.</strong> To find the pressure of the dry gas alone, you subtract that water-vapor pressure from the total. It's the same &ldquo;total minus the part you know&rdquo; move from Part 1, now doing real work.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked all the way through: a gas collected at 25 &deg;C</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">You collect a gas over water at <strong>25 &deg;C</strong>, and when the levels are matched the total pressure inside equals the room pressure, <strong>760 mmHg</strong> (1 atm). What is the pressure of the dry gas you actually produced?</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>Step 1 &mdash; identify the two partial pressures:</strong> the dry gas (unknown) and water vapor at 25 &deg;C (23.8 mmHg).<br><br>
+            <strong>Step 2 &mdash; subtract the water vapor from the total:</strong><br>
+            P<sub>dry gas</sub> = P<sub>total</sub> &minus; P<sub>water vapor</sub> = 760 mmHg &minus; 23.8 mmHg = <strong>736.2 mmHg</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">So the dry gas you produced exerts <strong>736.2 mmHg</strong>, not the full 760 &mdash; the missing 23.8 mmHg belongs to water vapor that rode along. Skip this correction and you would overstate how much gas you made by counting water as if it were your product. This is exactly the kind of honest accounting that <em>self-government</em> in measurement demands: report what you actually made, not what the raw gauge reading seemed to say.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A gas is collected over water at 25 &deg;C and the total pressure is 745.0 mmHg. What is the pressure of the dry gas?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Subtract the water-vapor pressure at 25 &deg;C: 745.0 &minus; 23.8 = <strong>721.2 mmHg</strong> of dry gas. Same move every time &mdash; total minus the water vapor.</div>
+        </details>
+
+        <!-- CUSTOM WIDGET: partial-pressure checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; PARTIAL-PRESSURE CHECKER</div>
+          <div class="widget-question">Pick a problem, type <strong>your</strong> answer (in the unit shown), and check it. The tool flags too-high or too-low and reminds you which move to make &mdash; but <em>you</em> do the arithmetic. (The tool confirms; the reasoning is yours.)</div>
+          <div class="aam-row">
+            <label>Problem:
+              <select id="pp-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">N&#8322; at 0.60 atm + O&#8322; at 0.40 atm: total pressure (atm)?</option>
+                <option value="B">In that tank, what is the mole fraction of N&#8322;?</option>
+                <option value="C">Gas over water at 25 &deg;C, total 760 mmHg: dry-gas pressure (mmHg)?</option>
+                <option value="D">Gas over water at 25 &deg;C, total 745.0 mmHg: dry-gas pressure (mmHg)?</option>
+                <option value="E">Total 1.00 atm, O&#8322; partial pressure 0.40 atm: N&#8322; partial pressure (atm)?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="pp-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="pp-check">Check my answer</button>
+            <button class="widget-reset" id="pp-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="pp-out"></div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Hand an AI tool a table of gas-collection data and it will happily report partial pressures, mole fractions, and corrected volumes in seconds. Useful &mdash; and exactly why you treat it like any instrument reading: worth having, not worth trusting blindly. An AI can grab the wrong water-vapor value, mix up mmHg and atm, or forget the over-water correction entirely. The reliable move is the one you just practiced: subtract the water vapor and check that the mole fractions sum to 1 <em>yourself</em>, then let the tool confirm your number. The arithmetic is the evidence; the tool is only a second opinion.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Your <strong>Gas &amp; Energy Lab</strong> build this week (<strong>Build 2 of 4</strong>) has two parts, one for each lesson. Alongside the gas-stoichiometry station from Lesson 5.03, you'll add a <strong>partial-pressure jar</strong>: two gases mixed in one container, each labeled with its own partial pressure, and a sticky note showing that the two add up to the total &mdash; Dalton's law you can walk around. Pick clean numbers like the ones above (for example, 0.60 atm + 0.40 atm = 1.00 atm). The big idea to record on the jar: <em>each gas pushes as if it were alone, and the total is the sum.</em></div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.04</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on Dalton's law, mole fraction, and collecting gas over water. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Process a set of gas-stoichiometry and partial-pressure trials in a spreadsheet &mdash; converting to volumes at STP and computing total and partial pressures across several rows.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Checkpoint &amp; VR Build 2 of 4</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">After this week, a short checkpoint covers Lessons 5.01&ndash;5.04. Finish your Gas &amp; Energy Lab build (stoichiometry station + partial-pressure jar) in OptimaXR, or the non-VR pathway.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">In a mixture, each gas acts as if it were alone, so the total pressure is the sum of the partial pressures &mdash; Dalton's law. A gas's mole fraction is its share of the molecules and therefore its share of the pressure (P<sub>A</sub> = x<sub>A</sub> &times; P<sub>total</sub>), and all the mole fractions add to 1. The practical reward is the over-water correction: when you collect a gas through water, subtract the water's vapor pressure (23.8 mmHg at 25 &deg;C) to get the dry gas alone. <em>A single gauge reading hides a crowd &mdash; honest measurement means separating each gas's true contribution from the whole.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.04 &middot; Gas Mixtures &amp; Dalton's Partial Pressures</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom partial-pressure checker =====
+  var PP = {
+    A: { val:1.00, tol:0.02, unit:'atm', factor:'Dalton’s law: P_total = 0.60 atm + 0.40 atm = 1.00 atm. Partial pressures simply add.' },
+    B: { val:0.60, tol:0.02, unit:'(mole fraction)', factor:'Mole fraction = that gas’s pressure share: x(N₂) = 0.60 atm ÷ 1.00 atm = 0.60. (And x(O₂) = 0.40, summing to 1.)' },
+    C: { val:736.2, tol:0.5, unit:'mmHg', factor:'Subtract the water vapor at 25 °C: 760 mmHg − 23.8 mmHg = 736.2 mmHg of dry gas.' },
+    D: { val:721.2, tol:0.5, unit:'mmHg', factor:'Subtract the water vapor at 25 °C: 745.0 mmHg − 23.8 mmHg = 721.2 mmHg of dry gas.' },
+    E: { val:0.60, tol:0.02, unit:'atm', factor:'Total minus the part you know: 1.00 atm − 0.40 atm = 0.60 atm for N₂.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var ppBtn = document.getElementById('pp-check');
+  if (ppBtn) {
+    ppBtn.addEventListener('click', function () {
+      var out = document.getElementById('pp-out');
+      var key = document.getElementById('pp-prob').value;
+      var raw = document.getElementById('pp-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a problem from the menu first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number. Watch the unit shown in the menu (atm vs mmHg).'; return; }
+      var d = PP[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Always check your units match (atm with atm, mmHg with mmHg) and that mole fractions sum to 1.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.factor + ' Re-check whether you should add, subtract, or divide, and whether your units agree.';
+      }
+    });
+  }
+  var ppReset = document.getElementById('pp-reset');
+  if (ppReset) {
+    ppReset.addEventListener('click', function () {
+      document.getElementById('pp-prob').value = '';
+      document.getElementById('pp-ans').value = '';
+      var out = document.getElementById('pp-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

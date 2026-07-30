@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.08</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (USED on 7.08: pH / pOH calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.08</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">pH &amp; pOH</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.08</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">pH &amp; pOH</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A bottle of lemon juice has a hydronium concentration of about 0.005 M; household ammonia has about 0.0000000000003 M. Comparing acids by numbers like these is awkward at best. Is there a simpler scale that turns these unwieldy figures into easy, everyday numbers?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you learned that every aqueous solution has a hydronium concentration [H<sub>3</sub>O<sup>+</sup>], and that it is tied to [OH<sup>&minus;</sup>] through K<sub>w</sub>. Those concentrations are real and useful &mdash; but they span an enormous range and are clumsy to write and compare. Chemists tamed them with a clever compression called the <strong>pH scale</strong>, the same 0-to-14 scale you've seen on pool kits and soil tests. This lesson shows what pH actually <em>is</em>, how to convert between concentration and pH in both directions, and how pH and its partner pOH always add to a fixed total. You'll also use a calculator widget to check your conversions.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> calculate pH from [H<sub>3</sub>O<sup>+</sup>] and pOH from [OH<sup>&minus;</sup>], and recover a concentration from a pH using [H<sub>3</sub>O<sup>+</sup>] = 10<sup>&minus;pH</sup>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> use pH + pOH = 14.00 at 25&nbsp;&deg;C to move between pH and pOH.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> classify a solution as acidic, basic, or neutral from its pH (neutral 7, acidic below 7, basic above 7 at 25&nbsp;&deg;C).</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator with a <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">log</code> button (and a <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">10<sup>x</sup></code> button).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Lesson 7.07's K<sub>w</sub> = 1.0 &times; 10<sup>&minus;14</sup> relationship &mdash; we lean on it today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT pH ACTUALLY IS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A strong acid has [H<sub>3</sub>O<sup>+</sup>] = 0.01 M and a neutral solution has [H<sub>3</sub>O<sup>+</sup>] = 0.0000001 M. If we want a scale where the acid gets a small whole number and the neutral one a middling whole number, what mathematical trick would tame numbers spread across so many powers of ten? (Just commit a guess.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the right idea. A logarithm turns powers of ten into simple counts of zeros. 0.01 is 10&#8315;&#178; and 0.0000001 is 10&#8315;&#8311;; their logs are &minus;2 and &minus;7. Flip the sign and you get 2 and 7 &mdash; tidy whole numbers. That is precisely how pH is built.">Take a logarithm (count the powers of ten)</button>
+            <button data-response="Rounding would lose almost all the information &mdash; 0.01 and 0.0000001 would both round to 0. The real trick is a logarithm, which counts powers of ten: it turns 10&#8315;&#178; and 10&#8315;&#8311; into the clean numbers 2 and 7. Watch for it below.">Just round the tiny numbers to zero</button>
+            <button data-response="Multiplying by a big constant still leaves you comparing awkward numbers across many powers of ten. The elegant fix is a logarithm: it converts 10&#8315;&#178; and 10&#8315;&#8311; into 2 and 7. That is the heart of the pH scale.">Multiply everything by a million</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>logarithm</strong> answers the question "ten to what power gives this number?" Since hydronium concentrations are almost always small powers of ten (like 10<sup>&minus;3</sup> or 10<sup>&minus;9</sup>), taking the log gives a negative number that is easy to read. Chemists flip the sign to make it positive and define <strong>pH</strong> as:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE DEFINITION OF pH</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>pH = &minus;log[H<sub>3</sub>O<sup>+</sup>]</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">a small pH means a large [H<sub>3</sub>O<sup>+</sup>] &mdash; the more acidic the solution</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0 10px 0;">The minus sign means the scale runs "backwards" from what you might expect: <strong>lower pH means more acidic</strong> (more hydronium). And because each whole pH unit is one power of ten, a solution at pH 3 has ten times the hydronium of pH 4, and a hundred times that of pH 5. The pH scale is logarithmic &mdash; small steps in pH hide large jumps in concentration.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Worked example &mdash; concentration to pH.</strong> A solution has [H<sub>3</sub>O<sup>+</sup>] = 1.0 &times; 10<sup>&minus;3</sup> M. Then pH = &minus;log(1.0 &times; 10<sup>&minus;3</sup>) = &minus;(&minus;3.00) = <strong>3.00</strong>. Because 3.00 is below 7, the solution is <strong>acidic</strong> &mdash; which makes sense, since 10<sup>&minus;3</sup> is far larger than the 10<sup>&minus;7</sup> of neutral water.
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Acidic, basic, or neutral</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In pure, neutral water at 25&nbsp;&deg;C, [H<sub>3</sub>O<sup>+</sup>] = 1.0 &times; 10<sup>&minus;7</sup> M, so pH = &minus;log(10<sup>&minus;7</sup>) = <strong>7.00</strong>. That fixes the landmarks of the scale:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:420px; margin:10px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">If the pH is&hellip;</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">[H<sub>3</sub>O<sup>+</sup>] vs. [OH<sup>&minus;</sup>]</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">The solution is&hellip;</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">less than 7</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">[H<sub>3</sub>O<sup>+</sup>] &gt; [OH<sup>&minus;</sup>]</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>acidic</strong></td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">exactly 7</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">[H<sub>3</sub>O<sup>+</sup>] = [OH<sup>&minus;</sup>]</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>neutral</strong></td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">greater than 7</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">[H<sub>3</sub>O<sup>+</sup>] &lt; [OH<sup>&minus;</sup>]</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;"><strong>basic</strong></td></tr>
+        </table>
+        </div>
+
+        <!-- M7-03 Vignette: S. P. L. Sørensen (blue helpful-info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; WHO INVENTED THE pH SCALE?</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The scale you're learning was not handed down from the beginning of chemistry &mdash; a person invented it, and fairly recently. In <strong>1909</strong>, the Danish chemist <strong>S. P. L. S&oslash;rensen</strong>, working at the Carlsberg Laboratory in Copenhagen, needed a practical way to describe how acidic a solution was. His research centered on how enzymes and proteins behave, and that behavior turned out to be exquisitely sensitive to the hydrogen-ion concentration &mdash; but those concentrations were tiny numbers spread across many powers of ten, clumsy to record and compare. S&oslash;rensen's fix was to report the <em>negative logarithm</em> of the hydrogen-ion concentration instead, compressing that enormous range into simple, readable numbers. He named the quantity &ldquo;pH.&rdquo; The idea caught on quickly because it made careful, quantitative chemistry so much easier &mdash; and more than a century later you still reach for the very same scale on a pool test strip or a garden soil kit. It is a good reminder that even the tools that feel timeless were once somebody's clever solution to a real, stubborn problem.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; pOH AND THE TWO DIRECTIONS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The hydroxide concentration gets the same treatment. <strong>pOH = &minus;log[OH<sup>&minus;</sup>]</strong>. And because [H<sub>3</sub>O<sup>+</sup>][OH<sup>&minus;</sup>] = K<sub>w</sub> = 1.0 &times; 10<sup>&minus;14</sup> at 25&nbsp;&deg;C, taking &minus;log of both sides gives a wonderfully simple partnership:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">pH AND pOH ALWAYS ADD UP</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>pH + pOH = 14.00</strong> &nbsp;(at 25&nbsp;&deg;C)</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">know either one and you instantly know the other</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Going backwards: pH to concentration</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To undo a logarithm you raise 10 to the power. So from a pH you recover the hydronium concentration with <strong>[H<sub>3</sub>O<sup>+</sup>] = 10<sup>&minus;pH</sup></strong>. Here is the full round trip:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Worked example &mdash; pH to everything else.</strong> A solution has pH = 9.00.<br>
+            &bull; <strong>pOH</strong> = 14.00 &minus; 9.00 = <strong>5.00</strong>.<br>
+            &bull; <strong>[H<sub>3</sub>O<sup>+</sup>]</strong> = 10<sup>&minus;9</sup> = <strong>1.0 &times; 10<sup>&minus;9</sup> M</strong>.<br>
+            &bull; <strong>[OH<sup>&minus;</sup>]</strong> = 10<sup>&minus;pOH</sup> = 10<sup>&minus;5</sup> = <strong>1.0 &times; 10<sup>&minus;5</sup> M</strong>.<br>
+            Since pH 9.00 is above 7, the solution is <strong>basic</strong> &mdash; and indeed [OH<sup>&minus;</sup>] (10<sup>&minus;5</sup>) is greater than [H<sub>3</sub>O<sup>+</sup>] (10<sup>&minus;9</sup>), as it must be.
+        </div>
+
+        <!-- ===== CUSTOM aam-widget: pH / pOH calculator/checker ===== -->
+        <div class="aam-widget" id="phcalc">
+          <div class="widget-kicker">&#129518; CHECK YOUR WORK &middot; pH / pOH CALCULATOR</div>
+          <div class="widget-question">Pick what you want to find, type the value you're starting from, and enter the answer you computed by hand. The checker will confirm it (and show the correct value if you're off). Round pH/pOH to two decimals.</div>
+
+          <div class="aam-row">
+            <label for="phmode">I want to compute:</label>
+            <select id="phmode">
+              <option value="ph_from_h">pH from [H&#8323;O&#8314;]</option>
+              <option value="h_from_ph">[H&#8323;O&#8314;] from pH</option>
+              <option value="poh_from_oh">pOH from [OH&#8315;]</option>
+              <option value="poh_from_ph">pOH from pH (using pH + pOH = 14)</option>
+            </select>
+          </div>
+          <div class="aam-row">
+            <label id="phinlabel" for="phinput">Starting [H&#8323;O&#8314;] (mol/L):</label>
+            <input id="phinput" type="text" placeholder="e.g. 1.0e-3" />
+          </div>
+          <div class="aam-row">
+            <label id="phanslabel" for="phanswer">Your computed pH:</label>
+            <input id="phanswer" type="text" placeholder="e.g. 3.00" />
+          </div>
+          <button class="aam-btn" id="phcheck">Check my answer</button>
+          <button class="widget-reset" id="phreset" style="margin-left:8px;">Reset</button>
+          <div class="aam-result" id="phresult"></div>
+          <div style="font-size:13px; color:#1B6A94; margin-top:10px; line-height:1.5;">Tip: write small concentrations in scientific notation as <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">1.0e-3</code> for 1.0 &times; 10<sup>&minus;3</sup>. Everything assumes 25&nbsp;&deg;C.</div>
+        </div>
+
+        <!-- AI-as-Instrument red callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">If you ask an AI chatbot to "find the pH," it will hand you a confident number &mdash; but AI tools sometimes <strong>drop the minus sign</strong> in pH = &minus;log[H<sub>3</sub>O<sup>+</sup>] and report a negative pH, or mix up pH and pOH. A negative pH for ordinary lemon juice is a tell-tale error. Treat any AI answer as a draft to be <em>checked against the rules you just learned</em>: recompute by hand, confirm the sign, and make sure acidic solutions land below 7. The calculator above is a verification tool, not a substitute for understanding.</div>
+        </div>
+
+        <!-- ow-select: classify / interpret -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; READ THE pH SCALE</div>
+          <div class="widget-question">Choose the best answer for each. You'll get instant feedback.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; pH = &minus;log(1.0 &times; 10&#8315;&#8309;) = 5.00. Because 5.00 is below 7, the solution is acidic." data-hint="Take &minus;log of 10 to the &minus;5.">
+            <div class="widget-row-prompt">1. A solution has [H<sub>3</sub>O<sup>+</sup>] = 1.0 &times; 10<sup>&minus;5</sup> M. Its pH is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">9.00, basic</button>
+              <button data-choice="1">5.00, acidic</button>
+              <button data-choice="2">5.00, basic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Yes &mdash; if pH = 11.00 then pOH = 14.00 &minus; 11.00 = 3.00, and pH above 7 means the solution is basic." data-hint="Subtract the pH from 14.00 to get pOH; is pH above or below 7?">
+            <div class="widget-row-prompt">2. A solution has pH = 11.00. Its pOH and classification are&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">pOH = 11.00, acidic</button>
+              <button data-choice="1">pOH = 3.00, acidic</button>
+              <button data-choice="2">pOH = 3.00, basic</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Right &mdash; lower pH means MORE hydronium, so pH 2 is far more acidic than pH 6. Each unit is a factor of ten, so pH 2 has 10,000 times the hydronium of pH 6." data-hint="Does a smaller pH mean more or less hydronium?">
+            <div class="widget-row-prompt">3. Which is the more acidic solution?</div>
+            <div class="widget-options">
+              <button data-choice="0">pH 2</button>
+              <button data-choice="1">pH 6</button>
+              <button data-choice="2">They are equally acidic</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A cleaning solution has [OH<sup>&minus;</sup>] = 1.0 &times; 10<sup>&minus;2</sup> M. Find its pOH, pH, and say whether it is acidic or basic.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>pOH</strong> = &minus;log(1.0 &times; 10<sup>&minus;2</sup>) = <strong>2.00</strong>. Then <strong>pH</strong> = 14.00 &minus; 2.00 = <strong>12.00</strong>. Since pH 12.00 is well above 7, the solution is <strong>basic</strong> &mdash; consistent with a high hydroxide concentration. (Check: [H<sub>3</sub>O<sup>+</sup>] = 10<sup>&minus;12</sup> M, far below [OH<sup>&minus;</sup>] = 10<sup>&minus;2</sup> M.)</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week's <strong>Build 4 of 5</strong> &mdash; the <strong>pH &amp; Indicator Station</strong> &mdash; is the physical home of everything in this lesson. As you build the 0-to-14 pH scale and place solutions on it, you'll label the neutral point at 7, the acidic side below 7, and the basic side above 7, and add a note for <strong>pH + pOH = 14</strong>. The calculator skills here are exactly what let you decide <em>where</em> each solution sits.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the pH/pOH definitions, the pH + pOH = 14 rule, and classifying solutions. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You'll see why some acids drive pH far lower than others &mdash; the difference between strong and weak acids and bases, measured by K<sub>a</sub> and K<sub>b</sub>.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: pH &amp; Indicator Station (Build 4 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the labeled 0-to-14 pH scale and indicator swatches. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">pH is just a logarithm that compresses huge ranges of hydronium concentration into easy numbers: <strong>pH = &minus;log[H<sub>3</sub>O<sup>+</sup>]</strong>, with lower pH meaning more acidic. Its partner is <strong>pOH = &minus;log[OH<sup>&minus;</sup>]</strong>, and the two always satisfy <strong>pH + pOH = 14.00</strong> at 25&nbsp;&deg;C. To go backwards, raise 10 to the power: <strong>[H<sub>3</sub>O<sup>+</sup>] = 10<sup>&minus;pH</sup></strong>. Neutral is 7, acidic is below 7, basic is above 7. Carry this fluency forward &mdash; next you'll ask <em>why</em> different acids reach such different pH values.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.08 &middot; pH &amp; pOH</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  // ----- shared runtime (ow-reflect / ow-select / ow-flip / reset) -----
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ----- custom pH / pOH calculator-checker (.aam-widget) -----
+  var mode = document.getElementById('phmode');
+  var inLabel = document.getElementById('phinlabel');
+  var ansLabel = document.getElementById('phanslabel');
+  var inField = document.getElementById('phinput');
+  var ansField = document.getElementById('phanswer');
+  var checkBtn = document.getElementById('phcheck');
+  var resetBtn = document.getElementById('phreset');
+  var resultBox = document.getElementById('phresult');
+
+  if (mode && checkBtn) {
+    var LABELS = {
+      ph_from_h:   { inp: 'Starting [H₃O⁺] (mol/L):',  ans: 'Your computed pH:',        inPH: 'e.g. 1.0e-3', ansPH: 'e.g. 3.00' },
+      h_from_ph:   { inp: 'Starting pH:',                          ans: 'Your computed [H₃O⁺] (mol/L):', inPH: 'e.g. 9.00', ansPH: 'e.g. 1.0e-9' },
+      poh_from_oh: { inp: 'Starting [OH⁻] (mol/L):',          ans: 'Your computed pOH:',       inPH: 'e.g. 1.0e-5', ansPH: 'e.g. 5.00' },
+      poh_from_ph: { inp: 'Starting pH:',                          ans: 'Your computed pOH:',       inPH: 'e.g. 9.00', ansPH: 'e.g. 5.00' }
+    };
+
+    function refreshLabels() {
+      var L = LABELS[mode.value];
+      inLabel.textContent = L.inp;
+      ansLabel.textContent = L.ans;
+      inField.placeholder = L.inPH;
+      ansField.placeholder = L.ansPH;
+    }
+    mode.addEventListener('change', function () { refreshLabels(); resultBox.classList.remove('show', 'good', 'warn'); });
+    refreshLabels();
+
+    function show(cls, html) {
+      resultBox.className = 'aam-result show ' + cls;
+      resultBox.innerHTML = html;
+    }
+
+    function classify(ph) {
+      if (Math.abs(ph - 7) < 0.005) return 'neutral';
+      return ph < 7 ? 'acidic' : 'basic';
+    }
+
+    checkBtn.addEventListener('click', function () {
+      var inRaw = (inField.value || '').trim();
+      var ansRaw = (ansField.value || '').trim();
+      var x = parseFloat(inRaw);
+      var your = parseFloat(ansRaw);
+      if (inRaw === '' || isNaN(x)) { show('warn', 'Enter a numeric starting value (use a form like <code>1.0e-3</code> for concentrations).'); return; }
+      if (ansRaw === '' || isNaN(your)) { show('warn', 'Enter the answer you computed by hand so the checker can compare it.'); return; }
+
+      var correct, unitNote = '', extra = '';
+      if (mode.value === 'ph_from_h') {
+        if (x <= 0) { show('warn', 'A concentration must be a positive number.'); return; }
+        correct = -Math.log10(x);
+        extra = ' This solution is <strong>' + classify(correct) + '</strong>.';
+      } else if (mode.value === 'poh_from_oh') {
+        if (x <= 0) { show('warn', 'A concentration must be a positive number.'); return; }
+        correct = -Math.log10(x);
+      } else if (mode.value === 'h_from_ph') {
+        correct = Math.pow(10, -x);
+        unitNote = ' mol/L';
+      } else { // poh_from_ph
+        correct = 14.00 - x;
+      }
+
+      // tolerance: concentrations compared in relative terms, pH/pOH absolute
+      var ok;
+      if (mode.value === 'h_from_ph') {
+        ok = Math.abs(your - correct) <= Math.abs(correct) * 0.05 || Math.abs(your - correct) < 1e-15;
+      } else {
+        ok = Math.abs(your - correct) <= 0.02;
+      }
+
+      var corrStr = (mode.value === 'h_from_ph') ? correct.toExponential(1) : correct.toFixed(2);
+      if (ok) {
+        show('good', '✓ Correct! The answer is <strong>' + corrStr + unitNote + '</strong>.' + extra);
+      } else {
+        show('warn', 'Not quite. The correct value is <strong>' + corrStr + unitNote + '</strong>. Recheck your sign and your log/10ˣ step, then try again.' + extra);
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      inField.value = '';
+      ansField.value = '';
+      resultBox.classList.remove('show', 'good', 'warn');
+      resultBox.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

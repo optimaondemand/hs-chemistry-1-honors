@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (oxidation-number / redox-role checker) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Review of Redox &amp; Balancing Redox Reactions</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Review of Redox &amp; Balancing Redox Reactions</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A log burning in a campfire, an apple slice browning on the counter, iron fence rusting in the rain, the battery in your phone, and the breath you just took &mdash; what could these possibly have in common? In every one, electrons are quietly moving from one substance to another.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">This is the opening lesson of the final module, and it returns to an idea you first met back in Module 4 as one type of reaction: <strong>oxidation&ndash;reduction</strong>, or <strong>redox</strong>. Now we develop it fully, because redox turns out to be one of the great unifying processes of nature. It powers <strong>living systems</strong> &mdash; photosynthesis stores the Sun's energy by reducing carbon dioxide into sugar, and cellular respiration releases that energy by oxidizing it back &mdash; and it drives <strong>non-living systems</strong> too: combustion, corrosion, bleaching, and the batteries you'll study all module. The thread that ties them together is the transfer of electrons. This lesson sharpens your tools for tracking that transfer &mdash; oxidation numbers, the language of agents, and the half-reaction method for balancing &mdash; so that next lesson you can build a device that turns electron transfer into usable electricity.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> assign oxidation numbers using the standard rules, and use them to identify what is oxidized and what is reduced in a reaction.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify the oxidizing agent and the reducing agent in a redox reaction, and explain why oxidation and reduction always occur together.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> balance a simple redox reaction in acidic solution using the half-reaction (ion-electron) method, checking both atoms and charge.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 4 notes on classifying reactions and balancing equations &mdash; redox was introduced there as a reaction type, and we build directly on it today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; LOSS, GAIN, AND WHY THEY ALWAYS TRAVEL TOGETHER</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Leave an iron nail outside and it slowly rusts; light a campfire and the wood burns; bite into an apple and the cut surface browns. All three are the <em>same kind</em> of change at the atomic level. What do you think is actually moving from one substance to another in all of them? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson builds on. The common thread is the transfer of ELECTRONS. In rusting, burning, and browning, one substance loses electrons (it is oxidized) while another gains them (it is reduced). Tracking that electron transfer &mdash; with oxidation numbers &mdash; is the whole skill of this lesson.">&#9889; Electrons moving from one substance to another</button>
+            <button data-response="It's tempting to point at oxygen, and oxygen IS involved in rusting and burning &mdash; but it's not the deepest answer. What oxygen is really doing is PULLING ELECTRONS away from the iron or the wood. The true common thread is the transfer of electrons; oxygen is just one common electron-grabber. That's why the modern definition of oxidation is about electrons, not oxygen.">&#129482; Oxygen atoms attaching to the metal or the wood</button>
+            <button data-response="Heat shows up in burning, but the apple browns at room temperature and the nail rusts slowly in the cold &mdash; so heat can't be the shared cause. What every one of these changes has in common is that electrons are transferred from one substance to another. That electron transfer is the definition of a redox reaction.">&#128293; Heat energy flowing into the substance</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">An <strong>oxidation&ndash;reduction reaction</strong> &mdash; a <strong>redox</strong> reaction &mdash; is any reaction in which electrons are transferred from one substance to another. The names are old, but the modern meaning is precise:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            &bull; <strong>Oxidation</strong> is the <strong>LOSS</strong> of electrons. When a substance is oxidized, its oxidation number <em>increases</em>.<br>
+            &bull; <strong>Reduction</strong> is the <strong>GAIN</strong> of electrons. When a substance is reduced, its oxidation number <em>decreases</em>.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two mnemonics carry generations of chemistry students through this: <strong>OIL RIG</strong> &mdash; <em>Oxidation Is Loss, Reduction Is Gain</em> &mdash; and <strong>LEO the lion says GER</strong> &mdash; <em>Loss of Electrons is Oxidation, Gain of Electrons is Reduction</em>. Pick whichever sticks; you will lean on it all module.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is the idea that trips up almost everyone, so hold onto it: <strong>oxidation and reduction always happen together.</strong> Electrons cannot simply vanish &mdash; if one substance loses them, another must gain them in the same reaction. There is no oxidation without a matching reduction. This is why we always have <em>two halves</em> of the story to track.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Oxidation and reduction are two halves of one electron transfer</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">whatever one substance loses, another gains &mdash; always together</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In photosynthesis, plants build glucose from CO<sub>2</sub>. Is the carbon being oxidized or reduced &mdash; and how can you tell without doing any arithmetic?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The carbon is <strong>reduced</strong>. The clue is that the plant is using up energy (sunlight) to build a fuel &mdash; and the carbon goes from CO<sub>2</sub>, where it is bonded to electron-hungry oxygen, into glucose, where it is bonded to hydrogen. Gaining electron density from those new C&ndash;H bonds means the carbon's oxidation number goes <em>down</em>: reduction. (In cellular respiration the reverse happens &mdash; glucose is oxidized back to CO<sub>2</sub>, releasing the stored energy. Photosynthesis and respiration are a redox pair that runs the living world.)</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; OXIDATION NUMBERS AND THE LANGUAGE OF AGENTS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To track electrons precisely, chemists assign each atom an <strong>oxidation number</strong> &mdash; a bookkeeping charge that tells you how electron-rich or electron-poor an atom is. A handful of rules, applied in order, let you assign them to almost any compound:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.85;">
+            &bull; A <strong>free element</strong> (uncombined, like Fe, O<sub>2</sub>, or Cu) has an oxidation number of <strong>0</strong>.<br>
+            &bull; A <strong>monatomic ion</strong> has an oxidation number equal to <strong>its charge</strong> (Na<sup>+</sup> is +1; Cl<sup>&minus;</sup> is &minus;1).<br>
+            &bull; <strong>Group 1</strong> metals are <strong>+1</strong>; <strong>Group 2</strong> metals are <strong>+2</strong>.<br>
+            &bull; <strong>Fluorine</strong> is always <strong>&minus;1</strong> in compounds.<br>
+            &bull; <strong>Oxygen</strong> is usually <strong>&minus;2</strong> (but <strong>&minus;1</strong> in peroxides).<br>
+            &bull; <strong>Hydrogen</strong> is usually <strong>+1</strong> (but <strong>&minus;1</strong> in metal hydrides).<br>
+            &bull; The <strong>sum</strong> of all oxidation numbers equals the <strong>overall charge</strong> of the molecule or ion (zero for a neutral compound).
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Once you can assign oxidation numbers, identifying oxidation and reduction is just a matter of watching them change. An atom whose oxidation number goes <em>up</em> lost electrons &mdash; it was oxidized. An atom whose oxidation number goes <em>down</em> gained electrons &mdash; it was reduced.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Oxidizing agent, reducing agent &mdash; the part everyone reverses</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Now the vocabulary that catches the most students. The substance that is <strong>oxidized</strong> is the <strong>reducing agent</strong> &mdash; by giving its electrons away, it causes something else to be reduced. The substance that is <strong>reduced</strong> is the <strong>oxidizing agent</strong> &mdash; by taking electrons, it causes something else to be oxidized. The name describes what it does to its <em>partner</em>, not to itself.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            The species <strong>oxidized</strong> (loses e<sup>&minus;</sup>, ox. number up) &rarr; is the <strong>reducing agent</strong>.<br>
+            The species <strong>reduced</strong> (gains e<sup>&minus;</sup>, ox. number down) &rarr; is the <strong>oxidizing agent</strong>.<br>
+            <span style="font-size:15px; color:#555;">An agent is named for what it does to the <em>other</em> substance &mdash; the reducing agent reduces its partner by handing over electrons.</span>
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The word <em>oxidation</em> literally means &ldquo;combining with oxygen,&rdquo; and that is exactly how it was first understood. In the late 1700s the French chemist <strong>Antoine Lavoisier</strong> showed that burning and rusting were not the loss of a mysterious substance but the <em>gain</em> of oxygen from the air &mdash; careful weighing proved the burned material got heavier, not lighter. It took another century for chemists to realize that the deeper story was about <em>electrons</em>: a substance could be &ldquo;oxidized&rdquo; even with no oxygen present, as long as it lost electrons. The name stuck, but the meaning grew &mdash; a good reminder that scientific ideas are refined as new evidence arrives.</div>
+        </div>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128300; NATURE OF SCIENCE &middot; THINK ABOUT IT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">For about a century, &ldquo;oxidation&rdquo; meant <em>combining with oxygen</em> &mdash; and that definition worked, because it matched all the evidence chemists had. Then new evidence (substances being &ldquo;oxidized&rdquo; with no oxygen anywhere in sight) showed the idea was too narrow, and the definition was widened to <em>loss of electrons</em>. <strong>What does that tell you about scientific definitions &mdash; are they &ldquo;wrong&rdquo; when they change, or is being open to revision part of what makes science trustworthy?</strong></div>
+            <details style="margin-top: 10px;">
+                <summary style="font-size: 15px; color: #1B6A94; cursor: pointer; list-style: none;"><span style="color:#1B6A94;">&#9654;</span>&nbsp; One way to think about it</summary>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.6; margin-top: 8px;">The old definition was not &ldquo;wrong&rdquo; &mdash; it correctly described every case chemists had seen. It was <em>incomplete</em>. Strong scientific ideas are <strong>durable</strong> (the oxygen cases still count) yet <strong>revisable</strong> (the electron view explains those cases <em>and</em> many more). A definition that bends to fit new evidence is not weak science; it is exactly what keeps science trustworthy.</div>
+            </details>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked identification</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            Consider: <strong>Zn(s) + Cu<sup>2+</sup>(aq) &rarr; Zn<sup>2+</sup>(aq) + Cu(s)</strong><br><br>
+            <strong>Track the oxidation numbers:</strong><br>
+            &bull; <strong>Zn</strong>: 0 &rarr; +2. It <em>rose</em>, so zinc was <strong>oxidized</strong> &rarr; zinc is the <strong>reducing agent</strong>.<br>
+            &bull; <strong>Cu</strong>: +2 &rarr; 0. It <em>fell</em>, so copper(II) was <strong>reduced</strong> &rarr; Cu<sup>2+</sup> is the <strong>oxidizing agent</strong>.<br><br>
+            Zinc handed two electrons to the copper(II) ion. One went up, one went down &mdash; two halves of a single electron transfer.
+        </div>
+
+        <!-- ow-flip: oxidized or reduced cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; OXIDIZED OR REDUCED?</div>
+          <div class="widget-question">For each atom, predict whether it is oxidized (loses e<sup>&minus;</sup>, number up) or reduced (gains e<sup>&minus;</sup>, number down), then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9881;&#65039; Fe goes from 0 to +3 &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Oxidized.</strong> The oxidation number rose (0 &rarr; +3), so iron LOST electrons. It is the reducing agent.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129514; Cl goes from 0 to &minus;1 &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Reduced.</strong> The oxidation number fell (0 &rarr; &minus;1), so chlorine GAINED electrons. It is the oxidizing agent.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9889; Mn goes from +7 to +2 &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Reduced.</strong> The oxidation number fell (+7 &rarr; +2), so manganese GAINED electrons. MnO<sub>4</sub><sup>&minus;</sup> is the oxidizing agent.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127807; C in glucose burned to CO<sub>2</sub> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Oxidized.</strong> Respiration raises carbon's oxidation number as glucose becomes CO<sub>2</sub>, releasing stored energy &mdash; carbon LOST electrons.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; BALANCING REDOX BY THE HALF-REACTION METHOD</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Many redox reactions are too lopsided to balance by inspection &mdash; especially in water, where H<sup>+</sup>, H<sub>2</sub>O, and electrons all get involved. The <strong>half-reaction (ion-electron) method</strong> tames them by splitting the reaction into its two halves &mdash; one for oxidation, one for reduction &mdash; balancing each separately, then recombining. In <strong>acidic solution</strong> the steps run in order:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.85;">
+            <strong>1.</strong> Split the reaction into an <strong>oxidation</strong> half and a <strong>reduction</strong> half.<br>
+            <strong>2.</strong> Balance all atoms <em>except</em> O and H.<br>
+            <strong>3.</strong> Balance <strong>O</strong> by adding <strong>H<sub>2</sub>O</strong>.<br>
+            <strong>4.</strong> Balance <strong>H</strong> by adding <strong>H<sup>+</sup></strong>.<br>
+            <strong>5.</strong> Balance the <strong>charge</strong> by adding <strong>electrons (e<sup>&minus;</sup>)</strong>.<br>
+            <strong>6.</strong> Multiply each half so the electrons are equal, then add the halves and cancel.<br>
+            <span style="font-size:15px; color:#555;">(In <strong>basic</strong> solution, do all of this, then add OH<sup>&minus;</sup> to both sides to neutralize the H<sup>+</sup> into H<sub>2</sub>O.)</span>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked example (acidic): permanganate oxidizes iron(II)</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:16px; color:#0e1c42; line-height:1.8;">
+            The deep-purple permanganate ion MnO<sub>4</sub><sup>&minus;</sup> oxidizes Fe<sup>2+</sup> to Fe<sup>3+</sup> and is itself reduced to the nearly colorless Mn<sup>2+</sup>.<br><br>
+            <strong>Reduction half</strong> (Mn: +7 &rarr; +2, gains 5 e<sup>&minus;</sup>):<br>
+            MnO<sub>4</sub><sup>&minus;</sup> + 8 H<sup>+</sup> + 5 e<sup>&minus;</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O<br><br>
+            <strong>Oxidation half</strong> (Fe: +2 &rarr; +3, loses 1 e<sup>&minus;</sup>), multiplied by 5 to match electrons:<br>
+            5 &times; ( Fe<sup>2+</sup> &rarr; Fe<sup>3+</sup> + e<sup>&minus;</sup> )<br><br>
+            <strong>Add and cancel the 5 electrons:</strong><br>
+            <strong>MnO<sub>4</sub><sup>&minus;</sup> + 5 Fe<sup>2+</sup> + 8 H<sup>+</sup> &rarr; Mn<sup>2+</sup> + 5 Fe<sup>3+</sup> + 4 H<sub>2</sub>O</strong><br><br>
+            <strong>Check the charge</strong> (this is the step that catches errors):<br>
+            &bull; Left: (&minus;1) + 5(+2) + 8(+1) = &minus;1 + 10 + 8 = <strong>+17</strong><br>
+            &bull; Right: (+2) + 5(+3) + 0 = +2 + 15 = <strong>+17</strong> &check;<br>
+            Atoms balance and charge balances &mdash; the equation is correct.
+        </div>
+
+        <!-- Custom .aam-widget: oxidation-number / redox-role checker -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; OXIDATION-NUMBER &amp; REDOX-ROLE CHECKER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick a species from the Zn + Cu<sup>2+</sup> &rarr; Zn<sup>2+</sup> + Cu reaction. The tool reports its oxidation number and its role &mdash; but predict the answer yourself <em>first</em>, then check.</div>
+          <div class="aam-row">
+            <label for="orc-sel">Species:&nbsp;</label>
+            <select id="orc-sel">
+              <option value="">&mdash; choose a species &mdash;</option>
+              <option value="zn0">Zn (solid metal, reactant side)</option>
+              <option value="cu2">Cu<sup>2+</sup> (ion, reactant side)</option>
+              <option value="zn2">Zn<sup>2+</sup> (ion, product side)</option>
+              <option value="cu0">Cu (solid metal, product side)</option>
+            </select>
+            <button class="aam-btn" id="orc-go">Check role</button>
+          </div>
+          <div class="aam-result" id="orc-out"></div>
+          <button class="widget-reset" id="orc-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument note (at the oxidation-number checker) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 12px 18px; margin: 12px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 6px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 15px; color: #8A1F16; line-height: 1.55;">A checker like this one &mdash; or an AI chatbot &mdash; can hand you an oxidation number in a heartbeat, but AI tools regularly <strong>misassign one</strong>, especially in trickier species (peroxides, or an element that has several common states). Treat any tool's answer as a <em>claim to verify</em>, not the final word: run the oxidation-number rules by hand (oxygen is usually &minus;2; the sum equals the overall charge) and confirm it yourself. The reasoning is the skill &mdash; the tool is only an instrument.</div>
+        </div>
+
+        <!-- Modern-Research thread: Then -> Now -> Future (gold highlight, hedged) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; THEN &rarr; NOW &rarr; FUTURE &middot; REDOX AND GRID-SCALE ENERGY STORAGE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> the first batteries were simple stacks of two metals that turned a spontaneous redox reaction into a trickle of current. <strong>Now:</strong> the same electron bookkeeping you just practiced sits at the center of the clean-energy effort &mdash; every <strong>battery</strong>, from the one in your phone to the pack in an electric car to the <strong>grid-scale storage</strong> that lets a city run on solar power overnight, is a controlled redox reaction, with engineers counting electrons exactly as you did. <strong>Future:</strong> researchers are currently exploring electrode chemistries that may store far more charge, charge in minutes, and rely on more abundant, less harmful materials &mdash; but how to store enough energy to run a whole grid cheaply and safely for decades is still an open question. You'll build the device that captures this electron flow &mdash; a galvanic cell &mdash; in the very next lesson.</div>
+        </div>
+
+        <!-- ow-select: redox true/false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT REDOX</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; this is TRUE. Electrons cannot disappear: if one substance loses them, another must gain them in the same reaction. Oxidation and reduction always occur together." data-hint="Can electrons that one atom loses simply vanish, or must they go somewhere?">
+            <div class="widget-row-prompt">1. Oxidation and reduction always occur together in a redox reaction.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. It is reversed. The species that is OXIDIZED (loses electrons) is the REDUCING agent, because it hands electrons to its partner and reduces it. An agent is named for what it does to the other substance." data-hint="The reducing agent reduces its partner &mdash; so does it give electrons away, or take them?">
+            <div class="widget-row-prompt">2. The substance that is oxidized is the oxidizing agent.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; when an oxidation number INCREASES, the atom lost electrons, which is the definition of being oxidized (OIL RIG: Oxidation Is Loss)." data-hint="Losing electrons means losing negative charge &mdash; does the oxidation number go up or down?">
+            <div class="widget-row-prompt">3. If an atom's oxidation number increases, it was oxidized.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A free, uncombined element (such as Fe, Cu, or O&#8322;) always has an oxidation number of 0, not its group number." data-hint="What is the oxidation-number rule for an element that is not combined with anything?">
+            <div class="widget-row-prompt">4. A free element such as solid copper has an oxidation number equal to its charge as an ion.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal balancing check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In the reduction half MnO<sub>4</sub><sup>&minus;</sup> + 8 H<sup>+</sup> + 5 e<sup>&minus;</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O, why exactly 5 electrons and 8 H<sup>+</sup>?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>The 5 electrons come from the oxidation-number change:</strong> manganese drops from +7 (in MnO<sub>4</sub><sup>&minus;</sup>) to +2, a fall of 5, so it must gain 5 electrons. <strong>The 8 H<sup>+</sup> come from balancing oxygen and hydrogen:</strong> the four O atoms in MnO<sub>4</sub><sup>&minus;</sup> become 4 H<sub>2</sub>O (balancing O with water), and those 4 waters hold 8 H atoms, which must be supplied as 8 H<sup>+</sup> on the left. Then check charge: left = &minus;1 + 8 &minus; 5 = +2; right = +2. Balanced. Every number traces back to a rule &mdash; nothing is guessed.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your module-long project in OptimaXR &mdash; the <strong>Electrochemical Cell &amp; Rate Build</strong>, which you'll add to every week and narrate on camera at the end. This is <strong>Build 1 of 4: the Galvanic Cell Foundation</strong>. You'll build a galvanic cell &mdash; two electrodes in two half-cells, joined by a salt bridge and an external wire &mdash; and label the <strong>anode (oxidation, &minus;)</strong> and <strong>cathode (reduction, +)</strong>, drawing the electron flow from anode to cathode. An anchor sticky note will sit at the heart of the build: &ldquo;Galvanic cell: a spontaneous redox reaction makes electricity; electrons flow anode &rarr; cathode.&rdquo; The electron-transfer reasoning you practiced above is exactly what your cell puts to work. Leave plenty of room on the bench &mdash; you'll add a cell-potential panel, real cells &amp; electrolysis, and a rate &amp; catalysis demo in the weeks ahead.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on oxidation numbers, the agent vocabulary, and the half-reaction balancing steps. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On: Redox Balancing Set</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Assign oxidation numbers, name the oxidizing and reducing agents, and balance simple half-reactions in acidic solution &mdash; with a worked example and a self-check answer key.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 8.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can track electron transfer, you'll build the device that puts it to work &mdash; the galvanic (voltaic) cell, which turns a spontaneous redox reaction into electric current.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Electrochemical Cell &amp; Rate Build (Build 1 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build a galvanic cell foundation and label the electron flow. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A <strong>redox</strong> reaction is the transfer of electrons from one substance to another, and it underlies an astonishing range of change &mdash; from photosynthesis and respiration in living things to combustion, corrosion, and batteries in the non-living world. <strong>Oxidation is loss</strong> of electrons (oxidation number up); <strong>reduction is gain</strong> (oxidation number down); and the two <em>always</em> travel together (<strong>OIL RIG</strong>). The species oxidized is the <strong>reducing agent</strong>; the species reduced is the <strong>oxidizing agent</strong> &mdash; each named for what it does to its partner. To balance the messier reactions, split them into half-reactions, balance atoms then charge with H<sub>2</sub>O, H<sup>+</sup>, and e<sup>&minus;</sup>, and equalize the electrons. Hold onto this: <em>once you can follow electrons through a reaction, you can build a machine that puts them to work &mdash; which is exactly the galvanic cell waiting in the next lesson.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.01 &middot; Review of Redox &amp; Balancing Redox Reactions</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== oxidation-number / redox-role checker (.aam-widget) ===== */
+  var orcGo = document.getElementById('orc-go');
+  if (orcGo) {
+    var orcMsg = {
+      zn0: ['good', '<strong>Zn (solid metal):</strong> oxidation number = <strong>0</strong> (free element). Across the reaction it rises to +2, so zinc is <strong>oxidized</strong> &mdash; it is the <strong>reducing agent</strong>.'],
+      cu2: ['warn', '<strong>Cu<sup>2+</sup> (ion):</strong> oxidation number = <strong>+2</strong> (equal to its charge). Across the reaction it falls to 0, so copper(II) is <strong>reduced</strong> &mdash; it is the <strong>oxidizing agent</strong>.'],
+      zn2: ['good', '<strong>Zn<sup>2+</sup> (ion):</strong> oxidation number = <strong>+2</strong>. This is zinc <em>after</em> it has been oxidized (it started at 0 and rose to +2). Zinc was the reducing agent.'],
+      cu0: ['warn', '<strong>Cu (solid metal):</strong> oxidation number = <strong>0</strong> (free element). This is copper <em>after</em> it has been reduced (it started at +2 and fell to 0). Cu<sup>2+</sup> was the oxidizing agent.']
+    };
+    orcGo.addEventListener('click', function () {
+      var sel = document.getElementById('orc-sel').value;
+      var out = document.getElementById('orc-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a species first.'; return; }
+      var m = orcMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('orc-reset').addEventListener('click', function () {
+      document.getElementById('orc-sel').value = '';
+      var out = document.getElementById('orc-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

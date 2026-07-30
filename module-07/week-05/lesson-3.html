@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.12</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.12; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+    /* ===== titration-curve visual (static CSS/SVG; decorative + referential) ===== */
+    .tc-fig { background:#FFFFFF; border:1px solid #D0D9E8; border-radius:8px; padding:14px; margin:14px 0; }
+    .tc-fig svg { width:100%; height:auto; display:block; }
+    .tc-caption { font-size:13px; color:#666; font-style:italic; margin-top:8px; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.12</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Acid-Base Titrations</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.12</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Acid-Base Titrations</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">You're handed a beaker of acid and told only that it is hydrochloric acid &mdash; but no one knows how concentrated it is. With nothing but a base of known concentration, a buret, and a single drop of indicator, how could you pin down the unknown concentration to three significant figures?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">This is the question that closes Module 7 and ties the whole acid-base story together. The answer is the <strong>titration</strong> &mdash; one of the oldest and most exact tools in chemistry. By adding a measured volume of a known solution until the reaction is exactly complete, a chemist converts an invisible quantity into a number on a buret. This lesson defines the equivalence point, gives you the equation that solves a strong-acid / strong-base titration, shows how an indicator and the titration curve announce when you've arrived, and walks through a full worked calculation. It is chemistry as careful accounting &mdash; the discipline of the quantitative.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe a titration and the equivalence point, and use M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub> to find an unknown concentration in a monoprotic strong&ndash;strong titration.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict the equivalence-point pH from the strengths of the acid and base, and explain the role of an indicator such as phenolphthalein.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> read a titration curve &mdash; pH versus volume of titrant &mdash; and locate the equivalence point in its steep vertical region.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your notes on molarity (M = mol/L) from Module 4, plus the strong/weak and salt-hydrolysis ideas from 7.09&ndash;7.10.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 25&ndash;30 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE TITRATION AND THE EQUIVALENCE POINT</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">You drip a base, drop by drop, into an acid that has one drop of indicator in it. For a long time nothing seems to happen &mdash; then, suddenly, a single extra drop turns the whole flask pink and it stays. What does that sudden, lasting color change mark? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly. The lasting color change marks the moment the added base has exactly neutralized the acid &mdash; the EQUIVALENCE POINT, where moles of base = moles of acid. Up to that point every drop of base was consumed; the very next drop has nothing left to react with, so free base appears and the indicator flips. That instant is what makes the whole measurement possible.">&#127801; The moment the base has exactly used up all the acid</button>
+            <button data-response="Close, but the color doesn't track concentration smoothly &mdash; it stays put almost the whole time and then flips all at once. That sudden, lasting flip marks the EQUIVALENCE POINT: the moment the moles of added base exactly equal the moles of acid. That's the instant you read off the buret.">&#127777;&#65039; That the solution is getting steadily more concentrated</button>
+            <button data-response="It does feel sudden, but it isn't random &mdash; the flip happens at one precise, reproducible moment: the EQUIVALENCE POINT, where moles of base exactly equal moles of acid. Before it, every drop is consumed; after it, free base remains and the indicator changes for good. That precision is the whole point of a titration.">&#127922; A random point with no special meaning</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>titration</strong> is a method for finding the unknown concentration of a solution by reacting it with a solution of <em>known</em> concentration, called the <strong>titrant</strong>, added in carefully measured volumes from a buret. You add titrant until the reaction is exactly complete &mdash; the moment when the moles of added base equal the moles of acid present (or vice versa). That stoichiometric meeting point is the <strong>equivalence point</strong>. Because you know the titrant's concentration and can read the exact volume delivered, you can work backward to the moles &mdash; and then to the concentration &mdash; of the unknown.</p>
+
+        <!-- Titration-history vignette (blue/teal helpful info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; HELPFUL TO KNOW &middot; WHERE &ldquo;TITRATION&rdquo; COMES FROM</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The word <em>titration</em> traces back to the French <strong>titre</strong> &mdash; a term that once described the fineness or standard of gold, the proportion of pure metal in an alloy. It carried the idea of measuring a substance <em>against a known standard</em>, which is exactly what a titration does with concentration. The technique grew up in the late 1700s and 1800s as chemists developed <strong>volumetric analysis</strong>: instead of weighing a product, they measured the <em>volume</em> of a standard solution needed to complete a reaction. The French chemist <strong>Joseph Louis Gay-Lussac</strong> was among those who refined these volumetric methods in the early nineteenth century, building the careful glassware and standard solutions that made a buret reading trustworthy. Long before pH meters and sensors existed, a chemist armed with a standard solution, a graduated tube, and a color-changing indicator could pin down an unknown concentration to remarkable precision &mdash; the same disciplined accounting you will practice this week.</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">For the simplest case &mdash; a <strong>monoprotic strong acid titrated with a monoprotic strong base</strong> &mdash; the acid and base react one-to-one, so at the equivalence point the moles are equal. Since moles = molarity &times; volume (M &times; V), this gives a compact working equation:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE EQUIVALENCE-POINT EQUATION (1:1 STRONG&ndash;STRONG)</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">moles of acid = moles of base at the equivalence point</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>At the equivalence point, is the acid &ldquo;gone&rdquo;? What exactly is equal there?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">At the equivalence point, the <em>moles of added base exactly equal the moles of acid</em> that were originally present &mdash; they have reacted in stoichiometric proportion. The acid hasn't vanished into nothing; it has been converted to water and a salt. Whether the resulting solution is neutral, basic, or acidic depends on that salt (Lesson 7.10!), which is why the equivalence-point pH isn't always 7.</div>
+        </details>
+
+        <!-- Nature of Science prompt -->
+        <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #0E1C42; margin-bottom: 8px;">&#129504; HOW SCIENTISTS KNOW &middot; NATURE OF SCIENCE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">You cannot see the exact instant when moles of base equal moles of acid &mdash; the equivalence point is not observed directly, it is <strong>inferred from evidence</strong>. The color flip of an indicator and the steep jump on a titration curve are the observable <em>signals</em>; the equivalence point is the conclusion a chemist draws from them. That is why careful scientists distinguish the <em>endpoint</em> (where the indicator actually changes) from the true <em>equivalence point</em>, and why they choose an indicator whose color change falls as close to it as possible. <strong>Think it through:</strong> if two students got slightly different volumes because their indicator flipped at slightly different moments, does that mean chemistry is imprecise &mdash; or that every measurement carries uncertainty that good technique works to shrink?</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; A WORKED TITRATION CALCULATION</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Return to the opening puzzle. You have <strong>25.0 mL of HCl</strong> of unknown concentration, and you titrate it with <strong>0.100 M NaOH</strong>. The indicator turns at the equivalence point after you have added <strong>30.0 mL</strong> of the base. Find the concentration of the HCl.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Step 1 &mdash; moles of base added:</strong> mol NaOH = M &times; V = 0.100 mol/L &times; 0.0300 L = <strong>0.00300 mol</strong>.<br>
+            <strong>Step 2 &mdash; use the 1:1 ratio:</strong> HCl + NaOH react one-to-one, so mol HCl = mol NaOH = <strong>0.00300 mol</strong>.<br>
+            <strong>Step 3 &mdash; divide by the acid's volume:</strong> M<sub>HCl</sub> = mol / V = 0.00300 mol / 0.0250 L = <strong>0.120 M</strong>.<br><br>
+            <strong>Check with M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>:</strong> M<sub>a</sub> = (M<sub>b</sub>V<sub>b</sub>) / V<sub>a</sub> = (0.100 &times; 30.0) / 25.0 = 3.00 / 25.0 = <strong>0.120 M.</strong> &#10003; Same answer.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the unit care: convert milliliters to liters before multiplying, and keep three significant figures throughout. The whole result &mdash; 0.120 M &mdash; rests on a single accurately read buret volume. This is why titration glassware is calibrated so finely.</p>
+
+        <!-- AI as instrument callout (red) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Hand an AI tool a titration problem and it will usually set it up well &mdash; but watch for two classic slips: forgetting to convert milliliters to liters (giving an answer off by a factor of 1000), and ignoring reaction stoichiometry when the acid or base is <em>not</em> 1:1 (for a diprotic acid like H<sub>2</sub>SO<sub>4</sub>, you need twice as much base per mole of acid). Treat the AI like any instrument: have it show every step, then recompute by hand and confirm the units cancel to mol/L. The buret reading is the evidence; the AI is a second opinion to verify, not the judge.</div>
+        </div>
+
+        <!-- ow-flip: equivalence-point pH by type -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHAT'S THE pH AT THE EQUIVALENCE POINT?</div>
+          <div class="widget-question">Predict the equivalence-point pH for each titration type, then tap to flip and check. (Hint: think about the salt that forms &mdash; Lesson 7.10.)</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9878;&#65039; <strong>strong acid + strong base</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH = 7.</strong> The salt formed (e.g., NaCl) has only spectator ions, so the solution is neutral at the equivalence point.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129514; <strong>weak acid + strong base</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH &gt; 7 (basic).</strong> The salt's anion is the conjugate base of a weak acid, so it hydrolyzes and leaves the solution basic.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129482; <strong>strong acid + weak base</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>pH &lt; 7 (acidic).</strong> The salt's cation is the conjugate acid of a weak base, so it hydrolyzes and leaves the solution acidic.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#127801; <strong>phenolphthalein</strong> &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Colorless in acid, pink in base</strong> (turns around pH 8.2&ndash;10). A common indicator, well suited to titrations ending near or above pH 7.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; READING THE TITRATION CURVE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">If you record the pH after every addition of titrant and plot <strong>pH (vertical axis) against volume of titrant added (horizontal axis)</strong>, you get the <strong>titration curve</strong>. For a strong acid titrated with a strong base, the curve starts low (acidic), rises only gently at first, then <strong>shoots up almost vertically</strong> through a narrow band of added volume, and finally levels off high (basic). That steep vertical region is the signature of the equivalence point: a single drop near the end changes the pH by several units, because so little acid remains to absorb the added base. The <strong>midpoint of the steep jump brackets the equivalence point</strong> &mdash; for a strong&ndash;strong titration it crosses pH 7. Study the curve below before the questions.</p>
+
+        <!-- Static CSS/SVG titration curve (decorative + referential) -->
+        <div class="tc-fig">
+          <svg viewBox="0 0 520 360" role="img" aria-label="A titration curve for a strong acid titrated with a strong base: pH on the vertical axis and volume of base added on the horizontal axis, rising gently, then steeply through the equivalence point near pH 7, then leveling off high.">
+            <!-- plot background -->
+            <rect x="70" y="30" width="380" height="270" fill="#F7FAFD" />
+            <!-- gridlines (horizontal) -->
+            <line x1="70" y1="165" x2="450" y2="165" stroke="#E1E8F2" stroke-width="1" stroke-dasharray="4 4" />
+            <!-- equivalence-volume guide (vertical) -->
+            <line x1="285" y1="30" x2="285" y2="300" stroke="#E1E8F2" stroke-width="1" stroke-dasharray="4 4" />
+            <!-- axes -->
+            <line x1="70" y1="30" x2="70" y2="300" stroke="#0E1C42" stroke-width="2.5" />
+            <line x1="70" y1="300" x2="450" y2="300" stroke="#0E1C42" stroke-width="2.5" />
+            <!-- arrowheads -->
+            <polygon points="70,24 66,36 74,36" fill="#0E1C42" />
+            <polygon points="456,300 444,296 444,304" fill="#0E1C42" />
+            <!-- titration curve (strong acid + strong base): gentle, steep jump, level -->
+            <path d="M 85,275 C 150,268 220,255 265,235 C 280,225 283,160 287,95 C 320,72 380,62 440,57" fill="none" stroke="#2196D0" stroke-width="3" />
+            <!-- steep-region highlight band -->
+            <rect x="270" y="30" width="32" height="270" fill="#2196D0" opacity="0.07" />
+            <!-- equivalence point (mid-jump, pH 7) -->
+            <circle cx="285" cy="165" r="5.5" fill="#C0392B" />
+            <!-- pH 7 marker on y-axis -->
+            <text x="40" y="170" font-size="12" fill="#C0392B" font-family="Segoe UI, sans-serif">7</text>
+            <text x="50" y="44" font-size="12" fill="#0E1C42" font-family="Segoe UI, sans-serif">14</text>
+            <text x="54" y="298" font-size="12" fill="#0E1C42" font-family="Segoe UI, sans-serif">0</text>
+            <!-- labels -->
+            <text x="300" y="158" font-size="12" fill="#C0392B" font-family="Segoe UI, sans-serif">equivalence point</text>
+            <text x="305" y="115" font-size="12" fill="#1B6A94" font-family="Segoe UI, sans-serif">steep region</text>
+            <!-- axis titles -->
+            <text x="20" y="180" font-size="14" fill="#0E1C42" font-family="Segoe UI, sans-serif" transform="rotate(-90 20,180)">pH</text>
+            <text x="150" y="335" font-size="14" fill="#0E1C42" font-family="Segoe UI, sans-serif">Volume of base added (mL) &rarr;</text>
+          </svg>
+          <div class="tc-caption">A strong-acid / strong-base titration curve. The blue curve is gentle at first, then jumps steeply; the red dot is the equivalence point, here at pH 7. (Generic shape, not drawn to scale for any one titration.)</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A well-chosen <strong>indicator</strong> changes color within that steep region, so its color change pinpoints the equivalence point. <strong>Phenolphthalein</strong> &mdash; colorless in acid, pink in base, switching around pH 8.2&ndash;10 &mdash; is a classic choice for titrations that end near or above neutral, which is why a strong&ndash;strong or weak-acid / strong-base titration so often ends with a faint, lasting pink. (For a weak acid titrated with a strong base, the equivalence point lands above 7, and the steep region centers higher; phenolphthalein still works well.)</p>
+
+        <!-- Then -> Now -> Future callout (gold highlight, hedged) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9728;&#65039; THEN &rarr; NOW &rarr; FUTURE &middot; TITRATION IN MEDICINE AND MEDICINE-MAKING</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> nineteenth-century chemists used titration and the buffer chemistry of the last two lessons to measure the acidity of blood, water, and foods &mdash; some of the first exact chemical tests of the human body and its environment. <strong>Now:</strong> the same techniques are woven through modern <strong>pharmaceutical quality control</strong>. Before a batch of medicine reaches a pharmacy, analysts commonly run titrations to confirm the concentration of an active ingredient, and they formulate many drugs as <em>buffered</em> solutions so the product holds a safe, stable pH &mdash; an eye drop or an IV fluid must sit near the pH of the tissue it touches. Clinicians, in turn, monitor a patient's blood pH, which the carbonic-acid / bicarbonate buffer holds near 7.4, as a window into health. <strong>Future:</strong> researchers are working to make this measurement faster and more automated &mdash; miniaturized sensors, lab-on-a-chip devices, and continuous pH monitoring that could one day track a patient's or a reaction's acid-base balance in real time. The details will keep changing, but the core idea you're learning &mdash; find the equivalence point, hold the pH steady &mdash; is likely to remain at the heart of it.</div>
+        </div>
+
+        <!-- ow-select: read the titration curve -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; READ THE CURVE &middot; USE THE FIGURE ABOVE</div>
+          <div class="widget-question">Use the titration curve above to answer each question. Instant feedback on every item.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; the equivalence point sits in the middle of the steep vertical jump (the red dot). That's where a single drop changes the pH by several units." data-hint="Where does one drop change the pH the most &mdash; the flat parts or the near-vertical stretch?">
+            <div class="widget-row-prompt">1. On the curve, the equivalence point is found&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">at the far left, where pH is lowest</button>
+              <button data-choice="1">in the middle of the steep vertical jump</button>
+              <button data-choice="2">at the far right, where the curve is flat and high</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; this is a strong acid titrated with a strong base, so the salt is neutral and the equivalence point crosses pH 7." data-hint="Strong acid + strong base makes a neutral salt. So the equivalence-point pH is&hellip;?">
+            <div class="widget-row-prompt">2. For this strong-acid / strong-base titration, the equivalence-point pH is about&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">2</button>
+              <button data-choice="1">12</button>
+              <button data-choice="2">7</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; before any base is added the flask holds only acid, so the curve starts at its lowest (most acidic) pH on the far left." data-hint="At zero volume of base, the flask is pure acid. Is that a high or low pH?">
+            <div class="widget-row-prompt">3. The far-left start of the curve (little or no base added yet) represents a solution that is&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">most acidic (lowest pH)</button>
+              <button data-choice="1">neutral</button>
+              <button data-choice="2">most basic (highest pH)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a good indicator changes color within the steep region so its color flip marks the equivalence point. Phenolphthalein (colorless &rarr; pink near pH 8.2&ndash;10) is the classic choice." data-hint="You want the color to flip exactly where one drop swings the pH the most. Which region is that?">
+            <div class="widget-row-prompt">4. An indicator such as phenolphthalein is useful because it changes color&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">at the very start of the titration</button>
+              <button data-choice="1">within the steep region, near the equivalence point</button>
+              <button data-choice="2">only after the curve has fully leveled off</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- worked-calc commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>It takes 20.0 mL of 0.150 M NaOH to titrate 40.0 mL of HCl to the equivalence point. What is the HCl concentration?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>0.0750 M.</strong> Using M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>: M<sub>a</sub> = (M<sub>b</sub>V<sub>b</sub>)/V<sub>a</sub> = (0.150 &times; 20.0)/40.0 = 3.00/40.0 = 0.0750 M. (Or: mol NaOH = 0.150 &times; 0.0200 = 0.00300 mol = mol HCl; M = 0.00300/0.0400 = 0.0750 M.) The acid is more dilute than the base because it took less base to reach equivalence.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This lesson is the direct blueprint for your final VR build. In OptimaXR you'll complete <strong>Build 5 of 5: the Titration Station</strong> &mdash; a buret, flask, and indicator, with the equivalence point clearly marked &mdash; and then <strong>record the full walkthrough video</strong> of your whole <strong>Equilibrium &amp; Acid-Base Station</strong> for the graded module project. As you narrate the titration setup, use today's vocabulary: titrant, equivalence point, M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>, the indicator color change, and the steep region of the curve.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.12</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the equivalence point, M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>, indicators, and reading the titration curve. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Complete the Week 5 Hands-On (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">&ldquo;Titration-Curve Analysis&rdquo; &mdash; plot a real pH-vs-volume dataset, locate the equivalence-point volume from the steep region, and compute the unknown acid concentration with M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 5 of 5 &mdash; Titration Station (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish your Equilibrium &amp; Acid-Base Station and record the module-project walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A titration measures an unknown concentration by adding a known titrant to the equivalence point, where moles of acid equal moles of base &mdash; and for a 1:1 strong&ndash;strong titration, M<sub>a</sub>V<sub>a</sub> = M<sub>b</sub>V<sub>b</sub>. The equivalence-point pH is 7 for strong&ndash;strong, above 7 for weak acid + strong base, and below 7 for strong acid + weak base, set by the salt that forms. An indicator like phenolphthalein and the steep region of the titration curve both announce the equivalence point. Hold onto this: <em>this single technique unites stoichiometry, molarity, equilibrium, and salt hydrolysis &mdash; the whole module &mdash; into one precise, repeatable measurement.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.12 &middot; Acid-Base Titrations</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 7.05</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (unused on 7.05; kept for shared identity) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 12px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 7.05</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Le Ch&acirc;telier's Principle</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 7.05</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Le Ch&acirc;telier's Principle</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A reaction has settled into equilibrium &mdash; concentrations holding steady, both directions running at equal rates. Now you reach in and disturb it: add more of one substance, squeeze the container smaller, or turn up the heat. Can you predict which way the equilibrium will move <em>before</em> you measure it?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Last lesson you saw that a reaction at equilibrium is not asleep &mdash; it is running forward and backward at the same rate, holding its concentrations constant. Today you learn what happens when you <strong>disturb</strong> such a system. In <strong>1884</strong> the French chemist Henri-Louis Le Ch&acirc;telier put the answer into a single, powerful rule: a system at equilibrium, when stressed, shifts in the direction that <em>partially counteracts</em> the stress. That one idea lets you predict the response to a change in concentration, in pressure or volume, or in temperature &mdash; without solving a single equation. It is also the principle that lets chemical engineers <em>steer</em> reactions toward the products they want, as you'll see when we meet the process that feeds much of the world.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> state Le Ch&acirc;telier's principle and use it to predict the direction an equilibrium shifts when a concentration is changed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict how a change in pressure/volume or in temperature shifts a gaseous equilibrium, treating heat as a reactant or product.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain why a catalyst does <em>not</em> shift an equilibrium, and apply these ideas to the industrial Haber process.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 7.04 notes on dynamic equilibrium and the equilibrium constant K &mdash; we build directly on them today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; A SYSTEM THAT PUSHES BACK</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A reaction sits at equilibrium in a sealed flask: A + B &#8652; C. You pour in extra A. A friend says, &ldquo;Now there's more A, so there must be more A at equilibrium too &mdash; it just piles up.&rdquo; Another says, &ldquo;No, the system will <em>use up</em> some of that added A.&rdquo; Which is closer to right? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Good instinct. Adding A is a stress, and the system responds by running the forward reaction faster for a while &mdash; consuming some of the added A and making more C &mdash; until it settles into a NEW equilibrium. It doesn't undo the change completely (there's still a bit more A than before), but it partially &lsquo;uses up&rsquo; what you added. That &lsquo;partially counteract the stress&rsquo; behavior is exactly Le Ch&acirc;telier's principle, today's whole story.">&#9851;&#65039; The system uses up some of the added A and shifts toward C</button>
+            <button data-response="Not quite. The added A doesn't just sit there. It is a stress on the equilibrium, and the system responds by shifting forward &mdash; consuming some of the extra A and making more C &mdash; until it reaches a new balance. The system &lsquo;pushes back&rsquo; against the change. That push-back is Le Ch&acirc;telier's principle.">&#11014;&#65039; The extra A simply piles up; nothing else changes</button>
+            <button data-response="It might feel like everything must stay frozen, but equilibrium is dynamic, not stuck. Disturb it and it moves: adding A drives the forward reaction faster, consuming some of the added A and producing more C, until a new equilibrium is reached. The system partially counteracts your change &mdash; the heart of Le Ch&acirc;telier's principle.">&#128274; Nothing can change &mdash; it's at equilibrium</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Observation-first particle panel (reach the principle through observation, before the formula) -->
+        <div style="background:#FFFFFF; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:14px 0;">
+          <div style="font-size:11px; color:#1B6A94; margin-bottom:8px;">&#128300; OBSERVE FIRST &middot; WATCH THE PARTICLES, THEN NAME THE RULE</div>
+          <div style="font-size:17px; color:#1a2340; line-height:1.6; margin-bottom:10px;">Before any rule, just watch. Picture the reaction <strong>A + B &#8652; C</strong> as a sealed box of jostling particles. At equilibrium the <em>forward</em> events (an A meeting a B to form C) and the <em>reverse</em> events (a C breaking back into A and B) happen at the same rate, so the counts hold steady &mdash; say roughly <strong>20 A, 20 B, 20 C</strong>, frame after frame. Now you inject a burst of extra A, and the box suddenly holds <strong>40 A</strong>. Don't calculate anything &mdash; picture the collisions. With twice as many A particles bouncing around, A&ndash;B encounters become <em>more frequent</em>, so for a while the forward events outpace the reverse ones.</div>
+          <details style="background: #F4F9FC; border: 1px solid #C5DCE5; border-radius: 6px; padding: 12px 18px; margin: 6px 0 0 0;">
+              <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #2196D0;">&#9654;</span>&nbsp; Predict first: over the next many frames, which way do the counts drift &mdash; and where does the box settle?</summary>
+              <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #D6E7EF;">You would <em>observe</em> C climbing and A falling back from its spike: the more frequent forward collisions consume some of the added A and build more C. As C accumulates, reverse events grow more frequent too, and the drift slows &mdash; stopping once the forward and reverse rates match again. The box settles into a <strong>new</strong> equilibrium: a bit more C than before, and the added A only <em>partly</em> used up. You just watched a system counteract a disturbance without solving a single equation. The rule you're about to read simply <em>names</em> what you observed.</div>
+          </details>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Recall the key picture from last lesson: at <strong>dynamic equilibrium</strong> the forward and reverse reactions run at equal rates, so the macroscopic concentrations stay constant &mdash; not because the reaction has stopped, but because the two directions cancel. Now imagine you disturb that balance. Le Ch&acirc;telier's principle tells you what happens next, and it is remarkably simple:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">LE CH&Acirc;TELIER'S PRINCIPLE</div>
+            <div style="font-size:23px; color:#ffffff;"><strong>When a system at equilibrium is stressed, it shifts in the direction that partially counteracts the stress.</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">add something, it consumes some of it; take something away, it makes more of it</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A &ldquo;stress&rdquo; is any change you impose on a system at equilibrium. There are three kinds we will predict: a change in the <strong>concentration</strong> of a reactant or product, a change in <strong>pressure or volume</strong> (for gases), and a change in <strong>temperature</strong>. For each, you ask the same question: <em>which direction relieves the stress?</em> The system shifts that way. Note the word <em>partially</em> &mdash; the system never fully undoes your change; it moves part-way toward a new equilibrium.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>What does the word &ldquo;shift&rdquo; actually mean here &mdash; does the value of K change?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">A &ldquo;shift&rdquo; means the reaction runs net-forward (toward products, &ldquo;right&rdquo;) or net-reverse (toward reactants, &ldquo;left&rdquo;) for a while, until the concentrations settle into a <em>new</em> equilibrium. For a concentration or pressure change, the value of <strong>K stays the same</strong> &mdash; the concentrations rearrange so the ratio still equals K. Temperature is the one exception: changing temperature actually <em>changes the value of K</em>, which is why heat behaves like a reactant or product. We'll get to that in Part 3.</div>
+        </details>
+
+        <!-- History-of-science vignette (helpful-info) -->
+        <div style="background:#E8F6FB; border:1px solid #C5DCE5; border-left:5px solid #2196D0; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#1B6A94; margin-bottom:8px;">&#128300; THEN &middot; THE CHEMIST BEHIND THE PRINCIPLE</div>
+            <div style="font-size:17px; color:#1a2340; line-height:1.6;">Henri-Louis Le Ch&acirc;telier (1850&ndash;1936) was a French chemist and engineer trained at the &Eacute;cole Polytechnique and the &Eacute;cole des Mines. Much of his career was spent on the hard, practical problems of industry &mdash; cements and ceramics, metallurgy, and the behavior of flames and gas explosions in coal mines, work that grew partly out of concern for miners' safety. That engineer's habit of asking <em>&ldquo;how do I push this process where I want it to go?&rdquo;</em> shaped his most famous contribution. In <strong>1884</strong> he published a compact generalization: a system in balance, when disturbed, responds so as to partially relieve the disturbance. He did not derive it from a grand theory; he distilled it from patterns seen again and again across many different chemical systems. The German physicist <strong>Karl Ferdinand Braun</strong> arrived at a similar statement independently a few years later, which is why you'll sometimes see it called the Le Ch&acirc;telier&ndash;Braun principle. What began as a working rule for steering industrial reactions is still, well over a century later, one of the first tools a chemist reaches for.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; CONCENTRATION AND PRESSURE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Changing a concentration</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is the most intuitive stress. <strong>Add</strong> a substance and the system shifts <em>away</em> from it, consuming some of what you added; <strong>remove</strong> a substance and the system shifts <em>toward</em> it, making more to replace it.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            For the equilibrium <strong>N<sub>2</sub> + 3H<sub>2</sub> &#8652; 2NH<sub>3</sub></strong>:<br>
+            &bull; <strong>Add a reactant</strong> (more N<sub>2</sub> or H<sub>2</sub>) &rarr; shifts <strong>right</strong> (toward NH<sub>3</sub>), consuming the added reactant.<br>
+            &bull; <strong>Add the product</strong> (more NH<sub>3</sub>) &rarr; shifts <strong>left</strong> (back toward N<sub>2</sub> and H<sub>2</sub>).<br>
+            &bull; <strong>Remove the product</strong> (pull NH<sub>3</sub> out as it forms) &rarr; shifts <strong>right</strong>, making more NH<sub>3</sub> to replace it.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0 10px 0;">That last move &mdash; continuously removing a product so the equilibrium keeps marching right &mdash; is a favorite trick of industrial chemists. If you can drain off the product you want, you can keep a reaction producing it far past where it would otherwise stall.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Changing pressure or volume (gases)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Squeezing a gas equilibrium into a smaller volume <em>raises</em> the pressure &mdash; that is the stress. The system relieves it by shifting toward the side with <strong>fewer moles of gas</strong>, because fewer gas molecules exert less pressure. Expanding the container (lowering pressure) does the opposite: the system shifts toward the side with <em>more</em> moles of gas.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            <strong>Count the gas moles.</strong> In N<sub>2</sub> + 3H<sub>2</sub> &#8652; 2NH<sub>3</sub>, the left side has <strong>4</strong> moles of gas (1 + 3) and the right side has <strong>2</strong>. So <strong>increasing the pressure shifts this equilibrium right</strong> &mdash; toward the 2-mole side, toward more NH<sub>3</sub>.<br>
+            <span style="font-size:15px; color:#555;">If both sides have the same number of gas moles, a pressure change has no effect on the position of equilibrium.</span>
+        </div>
+
+        <!-- ow-flip: which way does it shift? -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHICH WAY DOES IT SHIFT?</div>
+          <div class="widget-question">For each stress on a system at equilibrium, predict the direction of the shift &mdash; then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#10133; <strong>Add H<sub>2</sub></strong> to N<sub>2</sub> + 3H<sub>2</sub> &#8652; 2NH<sub>3</sub> &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Shifts right.</strong> H<sub>2</sub> is a reactant; adding it drives the forward reaction, consuming some H<sub>2</sub> and making more NH<sub>3</sub>.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#10134; <strong>Remove NH<sub>3</sub></strong> as it forms &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Shifts right.</strong> Removing a product makes the system replace it, so it keeps producing NH<sub>3</sub>. The industrial trick.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128314; <strong>Increase pressure</strong> (smaller volume) &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Shifts right.</strong> Toward the side with fewer gas moles: 4 mol (left) &rarr; 2 mol (right). Fewer molecules, less pressure.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129518; <strong>Add an inert gas</strong> at constant volume &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>No shift.</strong> Adding a gas that isn't in the reaction (at fixed volume) doesn't change the concentrations of the reacting gases, so the equilibrium position is unchanged.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; TEMPERATURE, AND WHY A CATALYST DOESN'T SHIFT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Temperature is the trickiest stress, but there's a clean trick for it: <strong>treat heat as if it were a reactant or a product.</strong> Then adding or removing heat works exactly like adding or removing a substance.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.9;">
+            &bull; An <strong>exothermic</strong> reaction releases heat, so write heat as a <em>product</em>:<br>
+            &nbsp;&nbsp;&nbsp;reactants &#8652; products + heat. &nbsp;<em>Raising</em> the temperature adds heat (a product), so it shifts <strong>left</strong>; <em>lowering</em> it shifts <strong>right</strong>.<br>
+            &bull; An <strong>endothermic</strong> reaction absorbs heat, so write heat as a <em>reactant</em>:<br>
+            &nbsp;&nbsp;&nbsp;heat + reactants &#8652; products. &nbsp;<em>Raising</em> the temperature adds heat (a reactant), so it shifts <strong>right</strong>; <em>lowering</em> it shifts <strong>left</strong>.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 6px 0 10px 0;">Temperature is special in one more way: unlike concentration or pressure changes, changing the temperature actually <strong>changes the value of K</strong>. Heating an exothermic reaction doesn't just move the position &mdash; it lowers K, genuinely favoring reactants. That's why temperature gives chemical engineers a real lever, and also a real headache, as we're about to see.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A catalyst changes the speed, not the position</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>catalyst speeds the forward and reverse reactions equally</strong>, so it lets a system <em>reach</em> equilibrium faster &mdash; but it does <strong>not</strong> shift the equilibrium or change K. The same final concentrations are reached, just sooner. This is a common trap: a catalyst is enormously useful industrially (you don't want to wait years for a reaction to settle), but it never changes <em>how much</em> product you get at equilibrium &mdash; only <em>how fast</em> you get there.</p>
+
+        <!-- Current-research gold callout: Haber process -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#10024; THEN &rarr; NOW &rarr; FUTURE &middot; LE CH&Acirc;TELIER AT WORLD SCALE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then &amp; now:</strong> Almost half the nitrogen atoms in your body passed through one reaction: <strong>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) &#8652; 2NH<sub>3</sub>(g)</strong>, the synthesis of ammonia from air and hydrogen. Ammonia becomes fertilizer, and fertilizer feeds much of the world. But the reaction fights back. It is <strong>exothermic</strong> (&Delta;H = &minus;92&nbsp;kJ/mol), so by Le Ch&acirc;telier a <em>low</em> temperature would favor more NH<sub>3</sub> &mdash; yet at low temperature the reaction is hopelessly slow. And it goes from <strong>4 moles of gas to 2</strong>, so <em>high</em> pressure favors NH<sub>3</sub>. Industry's answer is a compromise read straight off Le Ch&acirc;telier's principle: run it at <strong>high pressure (~150&ndash;300 atm)</strong> to push toward ammonia, at a <strong>moderate temperature (~400&ndash;450&nbsp;&deg;C)</strong> &mdash; high enough to be fast, low enough to keep yield reasonable &mdash; over an <strong>iron catalyst</strong> that speeds the approach to equilibrium without changing the yield. Ammonia is also drained off as it forms, pulling the equilibrium right. The chemist <strong>Fritz Haber</strong> worked out the synthesis (1918 Nobel Prize in Chemistry), and <strong>Carl Bosch</strong> engineered it to industrial scale.<br><br><strong>Future:</strong> The same equilibrium-steering logic is guiding today's research. Scientists are currently exploring catalysts that could make ammonia at far lower pressures and temperatures to cut its large energy footprint, and engineers designing <strong>carbon-capture</strong> systems are studying how shifts in pressure, temperature, and concentration can coax carbon dioxide out of exhaust gases or even the open air and hold it in a captured form. These are active, unfinished problems &mdash; but the rule Le Ch&acirc;telier distilled in 1884 is still where the reasoning starts.</div>
+        </div>
+
+        <!-- AI red callout (AI-as-Instrument) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT, NOT AN ORACLE</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Ask an AI assistant &ldquo;which way does increasing temperature shift the Haber equilibrium?&rdquo; and it will sometimes answer backwards &mdash; saying heat pushes toward ammonia when in fact, because the reaction is exothermic, heat pushes the equilibrium <em>away</em> from ammonia. Don't take the answer on faith. <strong>Verify it against the principle yourself:</strong> write heat where it belongs (a product, since the reaction is exothermic), then reason out the shift. An AI is a fast assistant, but you are the one who checks its reasoning against the evidence.</div>
+        </div>
+
+        <!-- ow-select: Le Chatelier true/false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT SHIFTS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A catalyst speeds the forward and reverse reactions EQUALLY, so it only helps the system reach equilibrium faster. It does not shift the position or change how much product forms." data-hint="Does a catalyst change how MUCH product you get, or just how FAST you get there?">
+            <div class="widget-row-prompt">1. Adding a catalyst shifts an equilibrium toward the products.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; increasing pressure shifts a gas equilibrium toward the side with FEWER moles of gas, because fewer gas molecules exert less pressure, which relieves the stress." data-hint="Which side relieves a pressure increase &mdash; more gas molecules or fewer?">
+            <div class="widget-row-prompt">2. Increasing the pressure on a gas equilibrium shifts it toward the side with fewer moles of gas.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; continuously removing a product makes the system replace it, so it keeps shifting toward products. This is how industry drives a reaction past where it would otherwise stall." data-hint="If you take a product away, which direction does the system move to replace it?">
+            <div class="widget-row-prompt">3. Removing a product as it forms drives the equilibrium toward more product.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. The Haber reaction is exothermic, so heat is a PRODUCT. Raising the temperature adds a product and shifts the equilibrium LEFT, away from ammonia &mdash; which is why industry can't simply crank up the heat." data-hint="For an exothermic reaction, heat is a product. What does adding more of a product do?">
+            <div class="widget-row-prompt">4. For the exothermic Haber reaction, raising the temperature shifts the equilibrium toward more ammonia.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal: worked shift -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>For the endothermic reaction heat + 2SO<sub>3</sub> &#8652; 2SO<sub>2</sub> + O<sub>2</sub>, predict the shift for (a) raising the temperature and (b) increasing the pressure.</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>(a) Raising the temperature &rarr; shifts right.</strong> The reaction is endothermic, so heat is a reactant; adding heat (a reactant) drives the system toward products (more SO<sub>2</sub> and O<sub>2</sub>). <strong>(b) Increasing the pressure &rarr; shifts left.</strong> Count the gas moles: 2 on the left (2 SO<sub>3</sub>) versus 3 on the right (2 SO<sub>2</sub> + 1 O<sub>2</sub>). Higher pressure favors the side with fewer gas moles &mdash; the left. Notice the two stresses push in opposite directions; each is judged on its own.</div>
+        </details>
+
+        <!-- Nature of Science: a law that describes vs a model that explains -->
+        <div style="background:#EEF1F8; border:1px solid #D0D9E8; border-left:5px solid #0E1C42; border-radius:8px; padding:16px 20px; margin:16px 0 0 0;">
+            <div style="font-size:11px; color:#0E1C42; margin-bottom:8px;">&#128302; NATURE OF SCIENCE &middot; A LAW THAT DESCRIBES vs A MODEL THAT EXPLAINS</div>
+            <div style="font-size:17px; color:#1a2340; line-height:1.6;">Notice what kind of knowledge Le Ch&acirc;telier's principle is. It is a <strong>law</strong> &mdash; a compact statement of a regularity that chemists observed over and over, across many different systems. Like other scientific laws, it tells you reliably <em>what</em> happens (the equilibrium shifts to partially counteract the stress) but not <em>why</em>. The <em>why</em> came from the particle picture you started with at the top of this lesson: a <strong>model</strong> of colliding molecules and competing forward-and-reverse rates. Add a reactant and collisions become more frequent, speeding the forward reaction until the reverse rate catches up at a new balance. The law is the pattern; the model is the mechanism proposed to explain it.</div>
+            <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 18px; margin: 10px 0 0 0;">
+                <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #0E1C42;">&#9654;</span>&nbsp; Think first: if a careful new experiment gave a surprising result, would you expect scientists to revise the <em>law</em> or the <em>model</em> first &mdash; and why?</summary>
+                <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Usually the <strong>model</strong> is revised first. A well-tested law summarizes a huge body of observations, so a single surprise is more likely to mean our <em>explanation</em> of the mechanism is incomplete than that the observed pattern is wrong. But laws are not sacred either: if reliable evidence kept contradicting a law, scientists would refine its scope or replace it. That willingness to hold both law and model open to evidence &mdash; trusting them while testing them &mdash; is exactly how scientific understanding grows.</div>
+            </details>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is <strong>Build 3 of 5</strong> of your module-long <strong>Equilibrium &amp; Acid-Base Station</strong> in OptimaXR &mdash; <strong>Le Ch&acirc;telier Shift Narration</strong>. You'll return to the reversible-reaction demo you built last week and add a <strong>stress panel</strong>: show the equilibrium shifting to counteract an <em>added reactant</em>, a <em>pressure change</em>, and a <em>temperature change</em>, labeling each shift direction. It's the exact reasoning you practiced today, made big enough to point at and narrate. Keep building in the same persistent Session so your station keeps growing toward the final recorded walkthrough.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 7.05</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on predicting shifts from concentration, pressure, and temperature changes &mdash; and the catalyst trap. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 7.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">You've predicted the <em>direction</em> of a shift; next you'll calculate the <em>amounts</em>. Lesson 7.06 introduces the ICE table &mdash; the bookkeeping method for solving equilibrium problems.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Le Ch&acirc;telier Shift Narration (Build 3 of 5)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add a stress panel to your equilibrium demo and narrate three shifts. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A system at equilibrium pushes back. Stress it &mdash; change a concentration, the pressure, or the temperature &mdash; and it shifts in the direction that <em>partially counteracts</em> the stress. Add a substance and it's consumed; remove one and it's replaced; raise the pressure and the system moves to fewer gas moles; change the temperature by treating heat as a reactant (endothermic) or product (exothermic). A catalyst speeds the approach but never moves the position. These rules are not just exam tricks &mdash; they are exactly how engineers coax the Haber reaction into feeding the world, and they are the basis of your module writing assignment. Hold onto them: <em>predicting how an equilibrium responds to a stress is one of the most useful predictions in all of chemistry.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 7.05 &middot; Le Ch&acirc;telier's Principle</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

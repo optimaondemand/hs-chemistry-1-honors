@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 9.06</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (.aam-widget) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 12px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 9.06</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Biological Effects of Radiation</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 9.06</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Biological Effects of Radiation</div>
+        <div style="font-size: 16px; color: #666;">Lesson &middot; the final content lesson of the course</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Last lesson, radiation was a tool. This lesson asks the harder question every responsible person eventually has to answer: <strong>how does radiation actually affect living tissue, how do we measure that effect, and how do we decide when its benefits are worth its risks?</strong></div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You'll learn what <em>ionizing radiation</em> does to molecules and DNA, the two key units that quantify a dose (the <strong>gray</strong> and the <strong>sievert</strong>), why the same particle can be nearly harmless from outside the body and dangerous inside it, and where the radiation we all receive every day comes from. Then we close the way a scientist should: by weighing <strong>benefit against risk with evidence</strong> &mdash; the Responsibility that runs through this whole quarter. This is the last content lesson of the year, so it also brings the course full circle.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain how ionizing radiation damages molecules and DNA, and the harm that can follow (cell death, mutation, cancer).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> distinguish absorbed dose (gray) from equivalent/effective dose (sievert), and explain why an alpha source's hazard depends on whether it is internal or external.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> weigh the benefits and risks of a nuclear application using evidence, taking a defensible position on responsible use.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 9.02 notes on radiation types and penetrating power (&alpha; &lt; &beta; &lt; &gamma;), and Lesson 9.05's uses of radioisotopes.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;40 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT IONIZING RADIATION DOES TO LIVING THINGS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A tiny speck of an alpha-emitting material is harmless taped to the back of your hand, but genuinely dangerous if you breathe it in. Before you read on &mdash; what do you think explains that difference? Commit to a guess.</div>
+          <div class="widget-options">
+            <button data-response="Exactly right, and it's the key safety idea of this lesson. Alpha particles can't penetrate skin from outside &mdash; your dead outer skin layer stops them &mdash; but if an alpha emitter is inhaled or swallowed, it sits right against living cells with no shielding, where its very high ionizing power does serious damage. Hazard depends on radiation type AND whether the source is inside or outside.">&#129489; Alpha can't get through skin, but inside there's no shield</button>
+            <button data-response="Close to the truth, but it's not that the alpha gets 'stronger' inside &mdash; it's about what it can reach. From outside, alpha can't penetrate skin. Inhaled, it sits directly against living tissue with no barrier, and its very high ionizing power then does real harm. Same particle, totally different exposure.">&#9889; Breathing somehow makes the radiation stronger</button>
+            <button data-response="Honest! Here's the answer: alpha particles barely penetrate &mdash; skin alone stops them from outside. But inhaled, the source is right up against living cells with nothing in between, and alpha's high ionizing power is very damaging there. The lesson: a source's danger depends on the radiation type AND on internal-vs-external exposure.">&#129335; Not sure &mdash; isn't all radiation equally dangerous?</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">The word that matters is <strong>ionizing</strong>. Alpha, beta, gamma, and X-rays all carry enough energy to <strong>knock electrons off atoms and molecules</strong> as they pass through matter. In living tissue, that means <strong>breaking chemical bonds</strong>. When the molecule that gets broken is <strong>DNA</strong> &mdash; the cell's instruction set &mdash; the consequences can be serious: the cell may die, it may survive with a <em>mutation</em>, or, over time, that damage can contribute to <em>cancer</em>. Radiation can also strike the water that fills cells, creating <strong>reactive chemical species</strong> that go on to damage other molecules. So the biological danger of radiation is, at heart, a <em>chemistry</em> story &mdash; bonds broken where they shouldn't be.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two things shape how much harm results: <strong>how the exposure is delivered</strong>, and <strong>how much energy is deposited</strong>. A single large dose all at once &mdash; <strong>acute</strong> exposure &mdash; can cause radiation sickness. Many small doses spread over years &mdash; <strong>chronic</strong> exposure &mdash; mainly raises long-term cancer risk. And critically, <em>where</em> the source sits matters enormously, as your check-in just explored.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Why is "damage to DNA" singled out as the most serious biological effect of radiation?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">DNA carries the instructions a cell uses to function and to divide. Breaking a random bond in one ordinary molecule is usually no big deal &mdash; the cell has many copies. But damaged DNA can be <em>copied</em> into every daughter cell, so a single mutation can persist and spread. That's why DNA damage can lead not just to a cell dying, but to mutation and, over time, cancer &mdash; the effect outlasts the original exposure.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; MEASURING A DOSE, AND WHERE THE HAZARD LIES</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To make sensible decisions about radiation, you have to be able to <em>measure</em> it &mdash; and there are two different questions, so there are two different units.</p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Gray (Gy) &mdash; absorbed dose</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">How much <em>energy</em> the tissue soaked up: <strong>1 Gy = 1 joule absorbed per kilogram</strong>. (Older unit: the <strong>rad</strong>; <strong>1 Gy = 100 rad</strong>.) This counts energy &mdash; it does not yet account for how <em>damaging</em> that radiation type is.</div>
+            </div>
+            <div style="flex: 1; min-width: 240px; background: #F4F6FA; border: 1px solid #D0D9E8; border-top: 3px solid #55C8E8; border-radius: 8px; padding: 14px 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Sievert (Sv) &mdash; equivalent / effective dose</strong></div>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.55;">The gray <em>weighted</em> by how biologically harmful the radiation is: <strong>Sv = Gy &times; a quality factor</strong>. (Older unit: the <strong>rem</strong>; <strong>1 Sv = 100 rem</strong>.) The sievert is the number that tells you the real <em>biological</em> risk.</div>
+            </div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 8px 0 10px 0;">Why two units? Because the same number of absorbed joules is <em>not</em> equally harmful from every kind of radiation. <strong>Alpha</strong> particles are intensely ionizing &mdash; they deposit their energy in a tiny region &mdash; so alpha gets a large <strong>quality factor (about 20)</strong>. The same 1 gray delivered as alpha is reckoned roughly 20 times as biologically damaging as 1 gray of gamma. That's the whole reason for the sievert: gray counts energy; sievert counts <em>harm</em>.</p>
+
+        <!-- History-of-science THEN callout (blue/teal helpful-info) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128220; THEN &middot; LEARNING TO MEASURE THE INVISIBLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">When X-rays and radioactivity were discovered in the 1890s, no one knew how to measure a &ldquo;dose&rdquo; &mdash; or how dangerous these invisible rays were. Early researchers and physicians handled radium and X-ray tubes with bare hands and suffered burns and worse; and in the 1920s a group of factory workers who painted glowing radium dials, pointing their brushes with their lips, became gravely ill &mdash; a hard early lesson that a source taken <em>inside</em> the body is a different kind of hazard. Out of this grew a whole science of measuring and limiting radiation. The two units you just met carry the names of its pioneers: the <strong>gray</strong> honors L. H. Gray and the <strong>sievert</strong> honors <strong>Rolf Sievert</strong>, both of whom helped turn radiation safety from guesswork into measurement. Our careful dose units were written, in part, in other people's harm &mdash; which is exactly why using them responsibly matters.</div>
+        </div>
+
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#9888;&#65039; THE HAZARD-DEPENDS-ON-LOCATION TRAP</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">It's tempting to rank radiation as simply "alpha = safest, gamma = most dangerous," but that's only half the story. From <em>outside</em> the body, alpha is the least dangerous &mdash; skin stops it &mdash; while <strong>gamma and X-rays</strong> penetrate deeply and are the real external hazard. But if an alpha emitter gets <em>inside</em> (inhaled or swallowed), there's no shielding between it and living cells, and its huge ionizing power makes it very dangerous. <strong>Danger depends on the radiation type AND on whether the source is internal or external.</strong> Same particle, opposite verdict.</div>
+        </div>
+
+        <!-- ow-select: Gy vs Sv; internal vs external; acute vs chronic -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; DOSE, HAZARD, AND EXPOSURE</div>
+          <div class="widget-question">Use the two units and the internal-vs-external idea. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; the gray measures absorbed energy: 1 Gy = 1 joule absorbed per kilogram of tissue. The sievert is the gray weighted for biological harm." data-hint="Which unit is defined as joules of energy absorbed per kilogram?">
+            <div class="widget-row-prompt">1. Which unit measures the <em>energy</em> absorbed per kilogram of tissue (1 J/kg)?</div>
+            <div class="widget-options">
+              <button data-choice="0">Sievert (Sv)</button>
+              <button data-choice="1">Gray (Gy)</button>
+              <button data-choice="2">Becquerel (Bq)</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Correct &mdash; the sievert weights the absorbed dose by a quality factor (Sv = Gy &times; QF), so it reflects how biologically damaging the radiation actually is." data-hint="Which unit accounts for HOW damaging the radiation type is, not just the energy?">
+            <div class="widget-row-prompt">2. To compare the actual <em>biological risk</em> of two exposures, you'd use&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">the gray, since it counts joules</button>
+              <button data-choice="1">the rad, since it is the oldest unit</button>
+              <button data-choice="2">the sievert, since it weights for how damaging the radiation is</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; from outside the body, gamma and X-rays are the bigger hazard because they penetrate; alpha is stopped by skin. Inhaled, the verdict flips." data-hint="Which radiation penetrates deeply enough to harm you from an external source?">
+            <div class="widget-row-prompt">3. From a source <em>outside</em> the body, the greater hazard usually comes from&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">gamma rays / X-rays (they penetrate)</button>
+              <button data-choice="1">alpha particles (skin stops them)</button>
+              <button data-choice="2">neither &mdash; external sources are always safe</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Correct &mdash; a single large dose in a short time is acute (can cause radiation sickness); many small doses over years is chronic (mainly raises long-term cancer risk)." data-hint="Which word means many small doses spread over a long time?">
+            <div class="widget-row-prompt">4. Many small radiation doses received over years is best described as&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">acute exposure</button>
+              <button data-choice="1">chronic exposure</button>
+              <button data-choice="2">background-free exposure</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument red callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; AI AS A SCIENTIFIC INSTRUMENT &middot; VERIFY THE NUMBER</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Dose figures and risk claims are exactly the kind of thing an AI will state <em>confidently and sometimes wrongly</em> &mdash; it may give you a sievert value, a "safe limit," or a cancer-risk percentage in a fluent sentence that sounds authoritative but is off, outdated, or mixing up gray and sievert. Radiation safety is a place where a wrong number genuinely matters. Treat any AI dose or risk claim the way you'd treat any instrument reading: useful as a starting point, but <strong>verified against primary evidence</strong> &mdash; a reliable reference, a measured value, your own unit reasoning &mdash; before you trust it. The same caution applies to a technology's <em>maturity</em>: ask about <strong>fusion power</strong> or a new reactor design and AI may make it sound closer to reality than it is, so verify how <em>proven</em> a technology actually is, not just its numbers. AI proposes; <em>your</em> reasoning verifies. That is the difference between using an instrument and being fooled by one.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; BACKGROUND RADIATION AND THE WEIGHING OF RISK</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Here is a fact that surprises most people: <strong>you are being irradiated right now, and always have been.</strong> Everyone on Earth receives a steady dose of <strong>background radiation</strong> from natural sources &mdash; <em>radon</em> gas seeping from the ground, <em>cosmic rays</em> from space, radioactive isotopes in <em>rocks and soil</em>, even small amounts in <em>food</em> &mdash; plus radiation from medical procedures like X-rays and CT scans. Radiation isn't an exotic intruder; it's part of the natural world. The question is never "zero or some" &mdash; it's "how much, and is it worth it?"</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Which brings us to the most grown-up idea in this course: <strong>cost&ndash;benefit reasoning</strong>. Almost every real decision about radiation requires weighing genuine benefits against genuine risks, <em>using evidence rather than fear or wishful thinking</em>:</p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0;">
+            <div style="flex: 1; min-width: 260px; background: #EEF1F8; border-radius: 8px; padding: 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>A diagnostic scan</strong></div>
+                <div style="font-size: 14px; color: #1a2340; line-height: 1.55;"><em>Risk:</em> a small radiation dose. <em>Benefit:</em> information that can catch a disease early or rule one out. For a sick patient, the information usually far outweighs the small dose &mdash; but it's still a real trade, weighed case by case.</div>
+            </div>
+            <div style="flex: 1; min-width: 260px; background: #EEF1F8; border-radius: 8px; padding: 16px;">
+                <div style="font-size: 16px; color: #0E1C42; margin-bottom: 6px;"><strong>Nuclear power</strong></div>
+                <div style="font-size: 14px; color: #1a2340; line-height: 1.55;"><em>Benefit:</em> large amounts of electricity with very low carbon emissions. <em>Risk:</em> long-lived radioactive waste that must be stored safely, and the (rare but serious) possibility of an accident. Reasonable people weigh this differently &mdash; with evidence.</div>
+            </div>
+        </div>
+
+        <!-- Current research / NOW callout -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; NOW &amp; NEXT &middot; RADIATION SAFETY AND RESPONSIBLE USE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Radiation protection is itself an evolving field. Scientists and engineers are currently working to lower the doses delivered by medical imaging while keeping images sharp, to design safer long-term storage for nuclear waste, and to monitor environmental radiation more precisely. The guiding principle in broad strokes is to keep exposures <em>as low as reasonably achievable</em> while still capturing the benefit &mdash; a constant, evidence-based balancing act rather than a fixed rulebook. Much of this remains active work, so expect the specifics to keep being refined. <strong>Looking ahead</strong>, the open questions &mdash; how low a dose is genuinely safe, and how to store long-lived waste securely for thousands of years &mdash; remain unsettled, which is exactly why this stays a field of active, evidence-based debate.</div>
+        </div>
+
+        <!-- ow-flip: dose & responsibility cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; DOSE, HAZARD, AND JUDGMENT</div>
+          <div class="widget-question">Predict each answer, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Gray vs. sievert &mdash; which tells you biological <em>risk</em>? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Sievert.</strong> Gray counts energy absorbed (J/kg). Sievert = gray &times; quality factor, so it weights for how damaging the radiation type is &mdash; that's the risk number.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Name three sources of everyday background radiation. &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Any of:</strong> radon gas, cosmic rays, rocks/soil, food &mdash; plus medical procedures (X-rays, CT). It's natural and unavoidable; the question is "how much," not "zero or some."</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Is an alpha emitter more dangerous held in your hand or inhaled? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Inhaled.</strong> Skin stops alpha from outside, but inhaled it sits against living cells with no shield, where its high ionizing power does serious damage. Internal vs. external decides it.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">What makes a radiation decision <em>responsible</em>? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Weighing benefit against risk with evidence</strong> &mdash; not fear, not wishful thinking. The honest scientist follows the evidence to a defensible position, and stays open to revising it.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Course-closing / full-circle callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; THE COURSE COMES FULL CIRCLE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the <strong>last content lesson of the year</strong>, and it's worth pausing on how far you've come. The course opened with a question humans couldn't answer for 2,500 years: <em>what is matter made of?</em> In Modules 1&ndash;2 you met an atom no one could see and learned how scientists came to know it anyway. By the end you were looking <strong>inside the nucleus</strong> that early atomic theory left untouched &mdash; and now, in this lesson, you're deciding how to use that knowledge <em>responsibly</em>, weighing its power against its risks. That arc &mdash; from the invisible atom, to the structure within it, to the wisdom to use it well &mdash; is the whole answer to our Grand Question: <strong>How do humans investigate, understand, and explain the behavior of matter?</strong> They observe, they reason from evidence, they revise when the evidence changes, and they take responsibility for what their knowledge makes possible.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A patient is afraid of "any radiation at all" from a recommended diagnostic scan. Using cost&ndash;benefit reasoning, how would you frame the decision honestly?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Honestly &mdash; not by pretending there's no risk, and not by amplifying it. You'd note that we all receive background radiation constantly, so "zero" was never the baseline; the scan adds a <em>small</em> dose. Then you'd weigh that small, real risk against the <em>benefit</em>: the information the scan provides (catching or ruling out a serious problem). For a medically indicated scan, the benefit usually outweighs the dose &mdash; but it's a genuine trade made with evidence, case by case, not a slogan. That evidence-over-fear stance is exactly the Responsibility this course has been building toward.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you <strong>finish Build 3 of 3</strong> of your Nuclear Decay &amp; Applications Exhibit and then <strong>record your walkthrough</strong>. Add a <strong>cost&ndash;benefit &amp; radiation-safety note</strong> to your applications exhibit &mdash; the exact reasoning from this lesson (benefit weighed against risk, internal vs. external hazard) &mdash; then save your final snapshot and capture the narrated video that is your module VR project. This is the capstone of the build you've grown all module; let your narration show how the chemistry connects from decay, to half-life, to use, to responsible use.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 9.06</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on ionizing radiation and DNA, gray vs. sievert, internal vs. external hazard, background radiation, and cost&ndash;benefit reasoning.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On &amp; the Module Deliverables</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish the radioisotope-application analysis, then complete the two teacher-reviewed module pieces: the <strong>Nuclear Case Study</strong> writing assignment and your recorded <strong>VR project walkthrough</strong>.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>The Final Review &amp; Exam</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">With the content of the course complete, you'll move into the cumulative <strong>Final Review &amp; Exam</strong> &mdash; a chance to pull the whole year's story of matter together.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Ionizing radiation harms living things by <strong>breaking chemical bonds and damaging DNA</strong>. We measure it two ways: the <strong>gray</strong> (energy absorbed, 1 J/kg; 1 Gy = 100 rad) and the <strong>sievert</strong> (gray weighted by a quality factor for biological harm; 1 Sv = 100 rem) &mdash; gray counts energy, sievert counts risk. A source's danger depends on <em>both</em> the radiation type and whether it's <strong>internal or external</strong> (alpha: harmless held, dangerous inhaled). We all live with <strong>background radiation</strong>, so responsible use is never "zero risk" &mdash; it's <strong>weighing benefit against risk with evidence</strong>. That is the Responsibility this quarter has been about, and a fitting close to the year's question: <em>how do humans investigate, understand, and explain the behavior of matter &mdash; and use what they learn well?</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 9.06 &middot; Biological Effects of Radiation</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.08</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (rate-factor predictor) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.08</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Reaction Rates &amp; Factors</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.08</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Reaction Rates &amp; Factors Affecting Rate</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Touch a flame to a tuft of steel wool and it flares and burns out in seconds. Leave an iron beam in the rain and it rusts over years. Iron reacting with oxygen, both times &mdash; so why does one happen in a heartbeat and the other take a lifetime?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Earlier this quarter you learned to ask whether a change <em>can</em> happen &mdash; whether it is spontaneous. That question, thermodynamics, tells you the <strong>direction</strong> nature favors. But it says nothing about <strong>how fast</strong>. A spontaneous reaction can be explosively quick or imperceptibly slow. This new field is <strong>kinetics</strong>: the study of reaction speed. Today you'll learn what a <strong>reaction rate</strong> actually measures &mdash; the change in concentration per unit time &mdash; and the five levers a chemist can pull to speed a reaction up or slow it down. By the end you'll understand why steel wool and an iron beam, doing the same chemistry, live on completely different clocks.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> define reaction rate as the change in concentration of a reactant or product per unit time, and distinguish kinetics (speed) from thermodynamics (direction).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> list the five factors that change a reaction's rate &mdash; concentration, temperature, surface area, a catalyst, and the nature of the reactants.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> predict whether a given change will speed up or slow down a reaction, and explain why in terms of collisions between particles.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Module 7 idea of spontaneity (a change favored by direction) and your Module 4 sense of molarity &mdash; concentration in mol/L. We lean on both today.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; SPEED IS A SEPARATE QUESTION FROM DIRECTION</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A diamond is, ever so slowly, turning into graphite &mdash; the change is spontaneous (nature favors it). Yet diamonds last for ages. Burning steel wool is also spontaneous, but it's over in seconds. What do those two facts together tell you about &ldquo;spontaneous&rdquo;? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly the instinct this lesson is built on. &lsquo;Spontaneous&rsquo; tells you only the DIRECTION nature favors, not the SPEED. Diamond &rarr; graphite is favored but glacially slow; steel wool burning is favored and fast. Speed is a brand-new question &mdash; kinetics &mdash; and it depends on how often, how hard, and how well-aimed the particle collisions are.">&#9201;&#65039; Spontaneous tells you which way, not how fast</button>
+            <button data-response="It's a natural guess, but it can't be right: diamond turning to graphite is spontaneous AND extremely slow, while steel wool burning is spontaneous AND fast. So &lsquo;spontaneous&rsquo; clearly does not mean fast. It only names the direction nature favors. The speed is a separate question &mdash; kinetics &mdash; which is what today is about.">&#128293; A spontaneous reaction must be a fast reaction</button>
+            <button data-response="Energy is part of the story, but it isn't the whole answer. Both changes are spontaneous, yet one is fast and one is glacial &mdash; so the difference isn't whether nature favors them. The difference is kinetics: how readily the particles collide with enough energy and the right aim. That's exactly what this lesson unpacks.">&#129514; The faster one must release more energy</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">In the last module you learned to judge whether a change is <strong>spontaneous</strong> &mdash; whether nature favors it running forward. That is the question of <em>direction</em>, and it belongs to thermodynamics. But knowing a reaction <em>can</em> happen tells you nothing about <em>when</em>. Gasoline and air will spontaneously react to form carbon dioxide and water, releasing energy &mdash; yet a puddle of gasoline sits in the open air for a long time without bursting into flame, until a spark sets it off. The reaction is favored; it is simply <strong>slow</strong> to get going.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The study of how fast reactions go &mdash; and what we can do to change that speed &mdash; is called <strong>kinetics</strong>. It is a genuinely separate question from spontaneity. Steel wool and an iron beam both react with oxygen to make iron oxide (rust); the chemistry is the same and both are spontaneous. The difference is entirely kinetic: the wispy threads of steel wool, with enormous surface exposed to air, burn in seconds, while the solid beam, with little surface relative to its bulk, takes years.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:24px; color:#ffffff;"><strong>Thermodynamics gives <em>direction</em>; kinetics gives <em>speed</em></strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">a reaction can be spontaneous and still be far too slow to see</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>reaction rate</strong> measures how quickly the reaction proceeds: it is the <strong>change in concentration per unit time</strong>. As a reaction runs, reactants are used up and products build up, so we can track the rate by watching either &mdash; how fast a reactant's concentration falls, or how fast a product's rises. Written out:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:18px; color:#0e1c42; line-height:1.8; text-align:center;">
+            rate = &minus;&Delta;[reactant] / &Delta;t &nbsp;&nbsp;=&nbsp;&nbsp; +&Delta;[product] / &Delta;t
+        </div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The minus sign on the reactant side simply keeps the rate positive: a reactant's concentration is <em>decreasing</em>, so &Delta;[reactant] is negative, and the minus sign flips it. Concentration is measured in molarity (mol/L, or <strong>M</strong>), and time usually in seconds, so a rate normally carries units of <strong>M/s</strong> (mol&middot;L<sup>&minus;1</sup>&middot;s<sup>&minus;1</sup>). When a reaction's coefficients differ, each concentration's rate is divided by its coefficient so they all agree on one rate for the reaction.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction is known to be spontaneous, yet nothing seems to be happening in the flask after an hour. Has thermodynamics been broken?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No &mdash; nothing is broken. Spontaneity (thermodynamics) only says the reaction is favored to run forward; it never promised a speed. The reaction may simply have a very slow rate, like diamond converting to graphite or iron rusting. To explain why it crawls &mdash; and how to make it go faster &mdash; you need kinetics, which is exactly today's subject. Keep the two ideas in separate boxes: <em>direction</em> = thermodynamics, <em>speed</em> = kinetics.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE FIVE LEVERS THAT CHANGE A RATE</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Reactions happen when particles <strong>collide</strong>. Anything that makes collisions <em>more frequent</em> or <em>more effective</em> speeds the reaction up. Five factors do exactly that, and you can reason out each one from the picture of jostling particles.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            A reaction generally goes <strong>faster</strong> when&hellip;<br>
+            &bull; <strong>Concentration</strong> of reactants rises &mdash; more particles packed in a volume means more frequent collisions.<br>
+            &bull; <strong>Temperature</strong> rises &mdash; particles move faster, so they collide more often <em>and</em> hit harder.<br>
+            &bull; <strong>Surface area</strong> of a solid increases (grinding it to powder) &mdash; more of the solid is exposed for contact.<br>
+            &bull; A <strong>catalyst</strong> is added &mdash; it lowers the energy barrier, so more collisions succeed (you'll meet this in detail in Lesson 8.10).<br>
+            &bull; The <strong>nature of the reactants</strong> favors it &mdash; some substances are simply more reactive than others.
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each lever traces back to collisions. A log burns slowly, but the same wood as fine sawdust can ignite explosively &mdash; surface area. Food spoils in days on the counter but lasts weeks in the refrigerator &mdash; temperature. A glowing splint barely smolders in ordinary air but bursts into flame in pure oxygen &mdash; concentration. In every case you are changing how often, or how hard, the particles meet.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The careful study of reaction speed grew out of nineteenth-century chemistry, when investigators began timing reactions instead of merely identifying their products. The Swedish chemist <strong>Svante Arrhenius</strong> &mdash; whose name returns in the next lesson &mdash; found in the late 1800s that raising the temperature speeds reactions far more sharply than the simple increase in collision frequency alone would suggest. That clue, that temperature has an outsized effect, pointed to the idea of an energy barrier that collisions must clear &mdash; the foundation of modern kinetics.</div>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">A worked walk-through</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.8;">
+            A piece of zinc metal is dropped into hydrochloric acid and fizzes as it produces hydrogen gas. Name <em>three</em> separate changes that would make it fizz faster, and say why each works.<br><br>
+            <strong>1. Use more concentrated acid.</strong> More H&#8314; ions per liter means more collisions with the zinc surface each second.<br>
+            <strong>2. Warm the acid.</strong> Hotter particles move faster, colliding more often and with more energy.<br>
+            <strong>3. Use powdered zinc instead of a solid lump.</strong> Powder exposes far more surface area, so far more zinc atoms are in contact with the acid at once.<br><br>
+            <strong>All three increase the rate &mdash; each by making collisions more frequent or more energetic.</strong>
+        </div>
+
+        <!-- ow-flip: speed up or slow down cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; SPEED UP OR SLOW DOWN?</div>
+          <div class="widget-question">Predict whether each change makes the reaction go faster or slower, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#129704; A solid antacid tablet vs. the same tablet crushed to powder &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Powder reacts FASTER.</strong> Crushing raises the surface area, exposing far more of the solid for contact &mdash; more collisions per second.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#10052;&#65039; Storing milk in the refrigerator instead of on the counter &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>SLOWER.</strong> Lowering the temperature slows the particles, so the spoilage reactions collide less often and with less energy &mdash; the milk lasts longer.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#128293; A splint glowing in air vs. plunged into pure oxygen &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>FASTER in pure oxygen.</strong> Higher O&#8322; concentration means more oxygen molecules colliding with the wood each second &mdash; it bursts into flame.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&#9881;&#65039; Adding a catalyst to the reaction &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>FASTER.</strong> A catalyst lowers the energy barrier so a larger fraction of collisions succeed &mdash; and it isn't used up (more in Lesson 8.10).</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PUTTING THE LEVERS TO WORK</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Once you can name the five factors, you can both <em>explain</em> everyday observations and <em>control</em> reactions on purpose. Industry leans on this constantly: a chemical plant might run a reaction hot and at high pressure (raising temperature and concentration) and over a finely divided solid catalyst (raising surface area and lowering the barrier) so the reaction finishes in minutes rather than days. The same reasoning explains why we refrigerate food, why a campfire is built from kindling rather than whole logs, and why pure-oxygen environments demand extra fire precautions.</p>
+
+        <!-- Custom .aam-widget: rate-factor predictor -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; RATE-FACTOR PREDICTOR</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick a change you make to a reaction, and the tool reports whether the rate goes up or down &mdash; then reason out <em>why</em> before you read the explanation.</div>
+          <div class="aam-row">
+            <label for="rfp-sel">Change:&nbsp;</label>
+            <select id="rfp-sel">
+              <option value="">&mdash; choose a change &mdash;</option>
+              <option value="up">Raise the temperature</option>
+              <option value="up2">Increase the concentration of a reactant</option>
+              <option value="up3">Grind a solid reactant into powder</option>
+              <option value="down">Lower the temperature</option>
+              <option value="down2">Remove the catalyst</option>
+            </select>
+            <button class="aam-btn" id="rfp-go">Predict the rate</button>
+          </div>
+          <div class="aam-result" id="rfp-out"></div>
+          <button class="widget-reset" id="rfp-reset">Reset</button>
+        </div>
+
+        <!-- Current-research callout (gold highlight) NOW -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; NOW &middot; WHY THIS QUESTION STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Controlling reaction rate is at the heart of <strong>green chemistry</strong> &mdash; the effort to make industrial chemistry cleaner and less wasteful. If chemists can speed a reaction with a clever catalyst or finer surface instead of brute-force heat, they save enormous amounts of energy. Scientists are currently exploring ways to run essential reactions at lower temperatures and milder conditions, cutting the fuel burned and the waste produced. The five levers you met today are the very dials these researchers are learning to turn more gently.</div>
+        </div>
+
+        <!-- ow-select: rate factors true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT REACTION RATES</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Spontaneity is about direction, not speed. A spontaneous reaction can be extremely slow (diamond &rarr; graphite, iron rusting). To know the speed you need kinetics, a separate question." data-hint="Does 'spontaneous' promise anything about how FAST a reaction goes?">
+            <div class="widget-row-prompt">1. If a reaction is spontaneous, it must be fast.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; raising the temperature makes particles move faster, so they collide more often and with more energy. Both effects speed the reaction up." data-hint="What happens to how often and how hard particles collide when you heat them?">
+            <div class="widget-row-prompt">2. Raising the temperature generally increases a reaction's rate.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; grinding a solid into powder exposes far more surface area, so far more of the solid is in contact with the other reactant at once &mdash; more collisions, faster reaction." data-hint="Does a powder have more or less exposed surface than a single lump of the same mass?">
+            <div class="widget-row-prompt">3. Grinding a solid reactant into a fine powder speeds up its reaction.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Reaction rate is the change in CONCENTRATION per unit time (M/s), not the energy released. Energy released is a thermodynamic quantity and is a separate matter entirely." data-hint="A rate measures change per unit time of WHICH quantity &mdash; concentration, or energy?">
+            <div class="widget-row-prompt">4. A reaction's rate is measured by the amount of energy it releases.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Steel wool burns in seconds; an iron beam rusts over years. Both are iron + oxygen. Which factor best explains the difference?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Surface area.</strong> Steel wool is a tangle of ultra-thin threads, so an enormous fraction of its iron atoms are exposed to oxygen at once &mdash; collisions are everywhere, and it flares in seconds. The beam, by contrast, hides nearly all of its iron deep inside; only the thin outer skin meets the air, so it rusts slowly over years. Same reaction, same direction &mdash; wildly different rate, set by how much surface meets the oxygen.</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the final week of your module-long OptimaXR project, the <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; this week is <strong>Build 4 of 4: the Reaction-Rate &amp; Catalysis Demo</strong>. Returning to the same persistent bench beside your electrochemistry stations, you'll add an <strong>energy-profile diagram</strong> showing the activation-energy barrier (and a lower one with a catalyst), a <strong>factors-affecting-rate panel</strong> (concentration, temperature, surface area, catalyst), and a small <strong>collision-theory demo</strong>. The five levers you sorted above are exactly what your rate panel will display. After you finish, you'll be ready to record the full project walkthrough video &mdash; submitted to the separate Module VR Project assignment.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.08</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on reaction rate, kinetics vs. thermodynamics, and the five factors. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 8.09</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can name what changes a rate, you'll meet the <em>rate law</em> &mdash; the equation that says exactly how concentration controls speed &mdash; and the collision theory behind it.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 4 of 4 &mdash; Reaction-Rate &amp; Catalysis Demo (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish your Electrochemical Cell &amp; Rate Build and prepare to record the project walkthrough. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Spontaneity tells you a reaction's <em>direction</em>; <strong>kinetics</strong> tells you its <em>speed</em>, and the two are separate questions. A <strong>reaction rate</strong> is the change in concentration per unit time (M/s). Because reactions happen through particle collisions, anything that makes collisions more frequent or more effective speeds the reaction up: higher <strong>concentration</strong>, higher <strong>temperature</strong>, greater <strong>surface area</strong>, a <strong>catalyst</strong>, and the <strong>nature of the reactants</strong>. Hold onto this: <em>next lesson we turn the concentration lever into a precise equation &mdash; the rate law &mdash; and uncover the collision theory that explains why these levers work at all.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.08 &middot; Reaction Rates &amp; Factors Affecting Rate</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== rate-factor predictor (.aam-widget) ===== */
+  var rfpGo = document.getElementById('rfp-go');
+  if (rfpGo) {
+    var rfpMsg = {
+      up:  ['good', 'Rate INCREASES. Hotter particles move faster, so they collide more often AND hit harder &mdash; both effects speed the reaction.'],
+      up2: ['good', 'Rate INCREASES. More reactant particles packed into the same volume means more frequent collisions each second.'],
+      up3: ['good', 'Rate INCREASES. Powder exposes far more surface area, so much more of the solid is in contact and colliding at once.'],
+      down:  ['warn', 'Rate DECREASES. Cooler particles move slower, so they collide less often and with less energy &mdash; the reaction slows.'],
+      down2: ['warn', 'Rate DECREASES. Without the catalyst, the energy barrier returns to its full height, so fewer collisions succeed and the reaction slows.']
+    };
+    rfpGo.addEventListener('click', function () {
+      var sel = document.getElementById('rfp-sel').value;
+      var out = document.getElementById('rfp-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a change first.'; return; }
+      var m = rfpMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('rfp-reset').addEventListener('click', function () {
+      document.getElementById('rfp-sel').value = '';
+      var out = document.getElementById('rfp-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

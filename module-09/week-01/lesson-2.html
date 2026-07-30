@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 9.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom numeric checker (&Delta;G&deg; from E&deg;cell calculator) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 12px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 9.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Nuclear Equations &amp; Decay Types</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 9.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Nuclear Equations &amp; Decay Types</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Last lesson you learned which nuclei are unstable. Now the question becomes: when an unstable nucleus finally lets go, <strong>what actually comes out &mdash; and what is it left behind as?</strong></div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A radioactive nucleus reaches stability by ejecting particles or energy &mdash; and it leaves behind a <em>different</em> nucleus, often a different element entirely. This lesson gives you the small toolkit chemists use to track exactly what happens: two simple conservation rules, the handful of decay types (alpha, beta, positron, electron capture, gamma), and how to write a balanced <strong>nuclear equation</strong> for each. You'll also meet the scientists &mdash; Becquerel and the Curies and Rutherford &mdash; who first dragged this hidden world into the light.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> balance a nuclear equation by conserving total mass number (A) and total atomic number (Z) on both sides.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify alpha, beta-minus, positron, electron-capture, and gamma decay and state how each changes (or doesn't change) A and Z.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> rank the penetrating power of alpha, beta, and gamma radiation and explain why ionizing power runs the opposite way.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a periodic table.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 9.01 notes (nuclide notation, the band of stability and which way unstable nuclei decay).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; TWO RULES THAT NEVER BREAK</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">In Module 4 you balanced chemical equations by making sure every <em>atom</em> appears on both sides. A nuclear reaction turns one element into another &mdash; atoms aren't conserved at all. So what do you think <em>stays the same</em> on both sides of a nuclear equation? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right, and beautifully simple. Two running totals are conserved: the sum of the MASS NUMBERS (A) and the sum of the ATOMIC NUMBERS (Z). Get those two totals to match on both sides and your nuclear equation is balanced &mdash; even though the elements themselves change.">&#128290; The totals of mass number and atomic number</button>
+            <button data-response="A natural carry-over from Module 4 &mdash; but in nuclear chemistry the ELEMENTS do change (that's the whole point: transmutation). What's conserved instead is the total mass number A and the total atomic number Z. Hold that thought; it's the master key to this lesson.">&#9883;&#65039; The kinds of atoms, just like a chemical equation</button>
+            <button data-response="Energy IS released &mdash; but that's not the bookkeeping rule we balance with. Nuclear equations balance two whole-number totals: the sum of mass numbers (A) and the sum of atomic numbers (Z) on each side. Energy comes along for the ride; A and Z are what we track.">&#9889; Only the energy stays the same</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A <strong>nuclear equation</strong> looks a lot like a chemical equation, but it tracks <em>nuclei and nuclear particles</em> instead of whole atoms and molecules. Balancing one comes down to two rules that never break:</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE TWO CONSERVATION RULES</div>
+            <div style="font-size:22px; color:#ffffff; line-height:1.5;"><strong>Sum of mass numbers (A)</strong> is equal on both sides<br><strong>Sum of atomic numbers (Z)</strong> is equal on both sides</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.78); margin-top:8px;">balance the top row (A) and the bottom row (Z), and the equation is balanced</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">To use the rules you need the nuclide notation for the small particles too. Each is written with its own A (top) and Z (bottom), where for these particles &ldquo;Z&rdquo; really just means the charge:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:540px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Particle</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Symbol</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">A (top)</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Z (bottom)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Alpha particle (helium nucleus)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><sup>4</sup><sub>2</sub>He</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">2</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Beta particle (electron)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><sup>&nbsp;0</sup><sub>&minus;1</sub>e</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">&minus;1</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Positron</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><sup>&nbsp;0</sup><sub>+1</sub>e</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">+1</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">Gamma ray (photon)</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><sup>0</sup><sub>0</sub>&gamma;</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">0</td></tr>
+        </table>
+        </div>
+
+        <!-- History callout (THEN) -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; THE DISCOVERY OF RADIOACTIVITY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">No one went looking for radioactivity &mdash; it was stumbled upon. In <strong>1896</strong>, the French physicist <strong>Henri Becquerel</strong> left uranium salts resting on a wrapped photographic plate in a dark drawer and later found the plate fogged, as if exposed to light. The uranium was giving off its own invisible rays, with no sunlight involved. <strong>Marie and Pierre Curie</strong> took up the mystery; Marie Curie coined the word <em>radioactivity</em>, and together they isolated two new radioactive elements, <strong>polonium and radium</strong>, in <strong>1898</strong> &mdash; painstaking work with tons of ore. Marie Curie went on to win Nobel Prizes in <strong>Physics (1903, shared with Pierre Curie and Becquerel)</strong> and <strong>Chemistry (1911)</strong>, becoming the first person to win Nobels in two different sciences. Meanwhile <strong>Ernest Rutherford</strong> sorted the radiation into types, naming the <strong>alpha</strong> and <strong>beta</strong> rays and showing that an alpha particle is simply a helium nucleus; the French physicist <strong>Paul Villard</strong> identified the even more penetrating <strong>gamma</strong> rays a few years later, in <strong>1900</strong>. Their evidence did something profound: it showed that the atom &mdash; long imagined as the <em>indivisible, unchangeable</em> building block of matter, an idea that had stood since the ancient Greeks &mdash; can break apart and transform on its own. That overturned model is also what opened the door to <strong>modern nuclear medicine</strong>, where controlled decay now lets doctors see inside a living body. The vocabulary you're about to use is theirs.</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A nucleus emits one alpha particle (<sup>4</sup><sub>2</sub>He). Using only the two conservation rules, how must the parent's A and Z change to make the equation balance?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The alpha particle carries away A = 4 and Z = 2. For both totals to stay equal, the daughter nucleus must have <strong>A reduced by 4</strong> and <strong>Z reduced by 2</strong>. (Check: parent A = daughter A + 4; parent Z = daughter Z + 2.) That's all alpha decay is &mdash; the two rules in action.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE FIVE WAYS A NUCLEUS DECAYS</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each decay type is the band-of-stability story from Lesson 9.01 playing out. A nucleus shifts its neutron-to-proton balance toward the band &mdash; and the conservation rules tell us exactly what it emits and what it becomes.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Alpha (&alpha;) decay &mdash; A &minus; 4, Z &minus; 2</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A heavy nucleus ejects an <strong>alpha particle</strong>, a helium-4 nucleus (<sup>4</sup><sub>2</sub>He). The daughter loses 4 from its mass number and 2 from its atomic number. This is how very heavy nuclei (Z &gt; 83) shed bulk:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; text-align:center; font-size:20px; color:#0e1c42;"><sup>238</sup><sub>&nbsp;92</sub>U &rarr; <sup>234</sup><sub>&nbsp;90</sub>Th + <sup>4</sup><sub>2</sub>He</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 10px 0; text-align:center;"><em>Check: top 238 = 234 + 4. Bottom 92 = 90 + 2. Balanced.</em></p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Beta-minus (&beta;<sup>&minus;</sup>) decay &mdash; A unchanged, Z + 1</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A nucleus with <em>too many neutrons</em> (above the band) converts a neutron into a proton, ejecting a fast electron, the <strong>beta particle</strong> (<sup>&nbsp;0</sup><sub>&minus;1</sub>e). The mass number doesn't change (a neutron became a proton &mdash; still one nucleon), but the atomic number rises by 1, so it becomes the next element up:</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; text-align:center; font-size:20px; color:#0e1c42;"><sup>14</sup><sub>&nbsp;6</sub>C &rarr; <sup>14</sup><sub>&nbsp;7</sub>N + <sup>&nbsp;0</sup><sub>&minus;1</sub>e</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.55; margin: 0 0 10px 0; text-align:center;"><em>Check: top 14 = 14 + 0. Bottom 6 = 7 + (&minus;1). Balanced.</em></p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Positron emission &amp; electron capture &mdash; Z &minus; 1</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A nucleus with <em>too few neutrons</em> (below the band) does the reverse: it turns a proton into a neutron. It can do this two ways. In <strong>positron emission</strong>, it ejects a positron (<sup>&nbsp;0</sup><sub>+1</sub>e), an antimatter twin of the electron, e.g. <sup>18</sup><sub>&nbsp;9</sub>F &rarr; <sup>18</sup><sub>&nbsp;8</sub>O + <sup>&nbsp;0</sup><sub>+1</sub>e. In <strong>electron capture</strong>, the nucleus instead pulls in one of its own inner-shell electrons. Both routes leave A unchanged and lower Z by 1 &mdash; the same net change.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Gamma (&gamma;) emission &mdash; no change in A or Z</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">After one of the above, a nucleus is often left &ldquo;jittery&rdquo; with excess energy. It settles by releasing a <strong>gamma ray</strong> (<sup>0</sup><sub>0</sub>&gamma;), a high-energy photon. Because the photon has no mass number and no charge, <em>neither A nor Z changes</em> &mdash; the nucleus is the same nuclide, just calmer. Gamma usually accompanies another decay rather than happening alone.</p>
+
+        <!-- ow-select multi-row check -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; CLASSIFY THE DECAY</div>
+          <div class="widget-question">Use the A,Z changes for each decay type. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; alpha decay removes a helium-4 nucleus, so A drops by 4 and Z drops by 2." data-hint="An alpha particle is a helium-4 nucleus: A = 4, Z = 2.">
+            <div class="widget-row-prompt">1. A nucleus undergoes alpha decay. How do A and Z change?</div>
+            <div class="widget-options">
+              <button data-choice="0">A unchanged, Z + 1</button>
+              <button data-choice="1">A + 4, Z + 2</button>
+              <button data-choice="2">A &minus; 4, Z &minus; 2</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; in &beta;&minus; decay a neutron becomes a proton: A stays the same and Z goes up by 1." data-hint="A neutron turns into a proton. Does the nucleon count change?">
+            <div class="widget-row-prompt">2. Carbon-14 is a beta-minus emitter. The daughter has&hellip;</div>
+            <div class="widget-options">
+              <button data-choice="0">the same A, and Z one higher (nitrogen)</button>
+              <button data-choice="1">the same A, and Z one lower</button>
+              <button data-choice="2">A two lower, Z two lower</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Yes &mdash; a gamma ray carries no mass number and no charge, so A and Z are both unchanged." data-hint="A gamma ray is <sup>0</sup><sub>0</sub>&gamma; — what are its A and Z?">
+            <div class="widget-row-prompt">3. Which emission leaves both A and Z completely unchanged?</div>
+            <div class="widget-options">
+              <button data-choice="0">Alpha</button>
+              <button data-choice="1">Gamma</button>
+              <button data-choice="2">Positron</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="2" data-fb="Right &mdash; both positron emission and electron capture turn a proton into a neutron, leaving A unchanged and lowering Z by 1." data-hint="Both happen below the band (too few neutrons); a proton becomes a neutron.">
+            <div class="widget-row-prompt">4. Positron emission and electron capture both produce the same net change:</div>
+            <div class="widget-options">
+              <button data-choice="0">A &minus; 4, Z &minus; 2</button>
+              <button data-choice="1">A unchanged, Z + 1</button>
+              <button data-choice="2">A unchanged, Z &minus; 1</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Custom .aam-widget: Nuclear-Equation Balancer -->
+        <div class="aam-widget" id="neb-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#129518; TRY IT &middot; NUCLEAR-EQUATION BALANCER</div>
+          <div class="widget-question" style="font-size:16px;">Choose a decay type and enter the parent nuclide's mass number A and atomic number Z. The tool applies the two conservation rules and reports the daughter's A and Z plus the emitted particle. Try the <sup>238</sup><sub>&nbsp;92</sub>U alpha example (A = 238, Z = 92) first.</div>
+          <div class="aam-row">
+            <label for="neb-type">Decay type:</label>
+            <select id="neb-type">
+              <option value="">&mdash; choose &mdash;</option>
+              <option value="alpha">Alpha (&alpha;)</option>
+              <option value="beta">Beta-minus (&beta;&minus;)</option>
+              <option value="positron">Positron (&beta;+)</option>
+              <option value="gamma">Gamma (&gamma;)</option>
+            </select>
+            <label style="margin-left:8px;" for="neb-a">A =</label><input id="neb-a" type="number" step="1" placeholder="238" />
+            <label for="neb-z">Z =</label><input id="neb-z" type="number" step="1" placeholder="92" />
+            <button class="aam-btn" id="neb-go">Find daughter</button>
+          </div>
+          <div class="aam-result" id="neb-out"></div>
+          <button class="widget-reset" id="neb-reset">Reset</button>
+        </div>
+
+        <!-- AI-as-Instrument callout (at the balancer) -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; WORTH KNOWING &middot; AI AS A SCIENTIFIC INSTRUMENT</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The balancer above applies the two rules mechanically &mdash; but if you ask a general AI chatbot to balance a nuclear equation, treat its answer with care. AI tools can quietly <strong>miscount</strong>: dropping or adding one to A or Z, or pairing the right numbers with the <em>wrong</em> element symbol. You are the verifier. For every equation, confirm by hand that the mass numbers (A) sum equally on both sides and the atomic numbers (Z) do too, then check the symbol against a periodic table. Conservation of A and Z is the primary evidence; the AI is only a second opinion you check, never the authority.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; HOW FAR DOES THE RADIATION GO?</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The three classic radiations behave very differently once they leave the nucleus, and the difference matters enormously for safety (the subject of Lesson 9.06). Their <strong>penetrating power</strong> &mdash; how far they travel through matter before being stopped &mdash; runs in this order:</p>
+
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:540px; margin:8px 0;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Radiation</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Penetrating power</th>
+                <th style="padding:10px 12px; color:#fff; text-align:left; border:1px solid #334;">Stopped by</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Alpha (&alpha;)</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">least penetrating</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">a sheet of paper, skin, or clothing</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Beta (&beta;)</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">moderate</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">a few mm of aluminum or plastic</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>Gamma (&gamma;)</strong></td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">most penetrating</td><td style="padding:9px 12px; border:1px solid #D0D9E8; color:#1a2340;">thick lead or concrete</td></tr>
+        </table>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 10px 0;">So <strong>alpha &lt; beta &lt; gamma</strong> in how far they reach. But here's the twist: their <strong>ionizing power</strong> &mdash; how strongly they tear electrons off the atoms they pass &mdash; runs the <em>opposite</em> way. The big, heavy, doubly charged alpha particle is the <em>most</em> ionizing precisely because it interacts so strongly with matter, which is also why it stops so quickly. This is why an alpha source is fairly harmless outside the body (paper or skin stops it) but dangerous if a source is swallowed or inhaled, where it can do concentrated damage. You'll build on this idea directly in Lesson 9.06.</p>
+
+        <!-- ow-flip cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; DECAY &amp; PENETRATION</div>
+          <div class="widget-question">Predict each answer, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Rank alpha, beta, gamma by penetrating power, least to most. &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Alpha &lt; beta &lt; gamma.</strong> Paper stops alpha; a few mm of aluminum stops beta; thick lead/concrete is needed for gamma.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;"><sup>222</sup><sub>&nbsp;86</sub>Rn emits an alpha. What's the daughter's A and Z? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>A = 218, Z = 84</strong> (polonium). Alpha removes A = 4 and Z = 2: 222 &minus; 4, 86 &minus; 2.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Who first named the alpha and beta rays? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>Ernest Rutherford</strong> &mdash; and he showed an alpha particle is a helium nucleus. Becquerel discovered radioactivity (1896); the Curies isolated polonium and radium (1898).</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">Why is an alpha source dangerous if inhaled but not from across the room? &mdash; tap</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;">Alpha is the <strong>most ionizing</strong> but <strong>least penetrating</strong>: skin/clothing stop it outside, but inside the body it deposits all that ionizing damage in one place.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Then -> Now -> Future callout (nuclear medicine) -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #8a6d1d; margin-bottom: 8px;">&#11088; THEN &rarr; NOW &rarr; FUTURE &middot; DECAY BECOMES MEDICINE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;"><strong>Then:</strong> Becquerel, the Curies, and Rutherford revealed that unstable nuclei emit particles and rays entirely on their own. <strong>Now:</strong> that same decay has become one of medicine's most powerful tools. Doctors introduce tiny, carefully chosen amounts of a radioactive nuclide and let the radiation it emits map the body from the inside. <strong>Technetium-99m</strong>, a gamma emitter, is currently the most widely used isotope in diagnostic imaging, and <strong>fluorine-18</strong>, a positron emitter, is what makes a <strong>PET</strong> (positron-emission tomography) scan possible &mdash; the very gamma and positron decays you balanced a moment ago. <strong>Future:</strong> researchers are actively exploring &ldquo;theranostic&rdquo; isotopes that might both find <em>and</em> treat disease, and shorter-lived tracers that could lower the dose a patient receives. The hidden world Becquerel stumbled onto in 1896 is still opening up.</div>
+        </div>
+
+        <!-- Cross-module callout -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128279; CONNECTING ACROSS THE COURSE &middot; HOW SCIENTISTS KNOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Notice how this discovery story echoes the <strong>nature of science</strong> you've met all year. Becquerel did not predict radioactivity &mdash; an unexpected fogged plate forced a new question, and the Curies and Rutherford followed the evidence wherever it led, even when it meant the atom was <em>not</em> the indivisible, unchangeable thing earlier scientists had assumed. That is the same model-change pattern you saw in <strong>Module 2</strong>, when new evidence redrew the atom itself: durable scientific knowledge is not fixed &mdash; it is revisable when the evidence demands. The same balancing discipline you learned for chemical equations in <strong>Module 4</strong> reappears here, just with new conserved quantities (A and Z). <strong>Worth pausing on:</strong> the old atomic model didn't simply collapse &mdash; it was <em>revised</em>. Which parts of the Module 2 atom survived this discovery, and which parts did the new evidence overturn?</div>
+        </div>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Fill the blank: <sup>234</sup><sub>&nbsp;90</sub>Th &rarr; ___ + <sup>&nbsp;0</sup><sub>&minus;1</sub>e. What is the daughter nuclide?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">This is beta-minus decay (a <sup>&nbsp;0</sup><sub>&minus;1</sub>e is emitted). Balance the rules: top, 234 = A + 0, so <strong>A = 234</strong>. Bottom, 90 = Z + (&minus;1), so <strong>Z = 91</strong>. Element 91 is protactinium, so the daughter is <strong><sup>234</sup><sub>&nbsp;91</sub>Pa</strong>. (Beta-minus: A unchanged, Z up by one &mdash; exactly the rule.)</div>
+        </details>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Continue <strong>Build 1 of 3: the Decay &amp; Stability Model</strong> in the same persistent <strong>Nuclear Science Lab</strong> Session where you started your nuclide model and band-of-stability chart in Lesson 9.01. This week you complete the <strong>decay-type station</strong>: post the actual decay equations &mdash; alpha (A&minus;4, Z&minus;2), beta-minus (Z+1), and gamma (no change) &mdash; each shown as a balanced equation with its A and Z changes labeled, and a signed sticky note tying each back to where the nucleus sits relative to the band of stability. The conservation rules you practiced today are exactly what your station must display correctly.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 9.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on the conservation rules, the decay types, penetrating power, and the discovery of radioactivity. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>This Week's Hands-On: Balancing Nuclear Equations</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Balance a set of nuclear equations (alpha, beta-minus, positron, gamma), classify decays from their A,Z changes, and reason from the band of stability.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Decay &amp; Stability Model (Build 1 of 3)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Add the decay-type station &mdash; alpha, beta, and gamma as balanced equations &mdash; to your exhibit. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Every nuclear equation balances two totals: the <strong>mass number A</strong> and the <strong>atomic number Z</strong>. From those two rules, every decay type follows &mdash; <strong>alpha</strong> (A&minus;4, Z&minus;2), <strong>beta-minus</strong> (A same, Z+1), <strong>positron / electron capture</strong> (A same, Z&minus;1), and <strong>gamma</strong> (no change). The three classic radiations rank <strong>alpha &lt; beta &lt; gamma</strong> in penetrating power and the reverse in ionizing power &mdash; a fact with real safety stakes. This whole vocabulary was won by Becquerel, the Curies, and Rutherford following unexpected evidence. Next: how <em>quickly</em> a nucleus decays &mdash; the idea of half-life.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 9.02 &middot; Nuclear Equations &amp; Decay Types</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== Nuclear-Equation Balancer (.aam-widget) ===== */
+  var ELEM = ['n','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm','Md','No','Lr'];
+  function sym(z){ return (z >= 0 && z < ELEM.length) ? ELEM[z] : ('Z=' + z); }
+  document.addEventListener('click', function (e) {
+    var w = document.getElementById('neb-widget');
+    if (!w) return;
+    if (e.target.id === 'neb-reset') {
+      document.getElementById('neb-type').value = '';
+      document.getElementById('neb-a').value = '';
+      document.getElementById('neb-z').value = '';
+      var o0 = document.getElementById('neb-out'); o0.className = 'aam-result'; o0.innerHTML = '';
+      return;
+    }
+    if (e.target.id !== 'neb-go') return;
+    var type = document.getElementById('neb-type').value;
+    var a = parseInt(document.getElementById('neb-a').value, 10);
+    var z = parseInt(document.getElementById('neb-z').value, 10);
+    var out = document.getElementById('neb-out');
+    if (!type || isNaN(a) || isNaN(z)) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Choose a decay type and enter whole-number values for both A and Z.';
+      return;
+    }
+    if (a < 1 || z < 0) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'Enter a positive mass number A and a non-negative atomic number Z.';
+      return;
+    }
+    var dA, dZ, particle, note;
+    if (type === 'alpha')      { dA = a - 4; dZ = z - 2; particle = '<sup>4</sup><sub>2</sub>He'; note = 'A &minus; 4, Z &minus; 2'; }
+    else if (type === 'beta')  { dA = a;     dZ = z + 1; particle = '<sup>&nbsp;0</sup><sub>&minus;1</sub>e'; note = 'A unchanged, Z + 1'; }
+    else if (type === 'positron'){ dA = a;   dZ = z - 1; particle = '<sup>&nbsp;0</sup><sub>+1</sub>e'; note = 'A unchanged, Z &minus; 1'; }
+    else                       { dA = a;     dZ = z;     particle = '<sup>0</sup><sub>0</sub>&gamma;'; note = 'no change in A or Z'; }
+    if (dZ < 0) {
+      out.className = 'aam-result show warn';
+      out.innerHTML = 'That decay would drive Z below zero &mdash; not physical. Check your parent values.';
+      return;
+    }
+    out.className = 'aam-result show good';
+    out.innerHTML =
+      'Parent: <sup>' + a + '</sup><sub>' + z + '</sub>' + sym(z) + ' &nbsp;&rarr;&nbsp; ' +
+      'Daughter: <strong><sup>' + dA + '</sup><sub>' + dZ + '</sub>' + sym(dZ) + '</strong> + ' + particle + '<br>' +
+      'Change: <strong>' + note + '</strong>.<br>' +
+      'Check the rules &mdash; mass numbers: ' + a + ' = ' + dA + ' + ' + (a - dA) + '; atomic numbers: ' + z + ' = ' + dZ + ' + ' + (z - dZ) + '. Balanced.';
+  });
+})();
+</script>
+
+</body>
+</html>

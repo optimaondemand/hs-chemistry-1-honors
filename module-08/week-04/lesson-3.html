@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 8.10</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom checker (mechanism-term matcher) ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 8.10</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Mechanisms &amp; Catalysis</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">How does chemistry shape our world?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 8.10</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Reaction Mechanisms &amp; Catalysis</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">A balanced equation reads like a single clean step: reactants in, products out. But most reactions don't happen in one leap &mdash; they happen as a hidden sequence of tiny steps. If the equation is the &ldquo;what,&rdquo; what is the &ldquo;how&rdquo; &mdash; and why does adding a pinch of the right substance, used up by nothing, make the whole thing race?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">This is the final lesson of the kinetics arc, and it lifts the hood on the reaction itself. A balanced equation summarizes the start and finish, but the <strong>mechanism</strong> is the actual step-by-step path the molecules take to get there. Understanding the steps reveals which one sets the pace &mdash; the slowest, rate-determining step &mdash; and it explains the most useful trick in all of chemistry: the <strong>catalyst</strong>, a substance that opens a lower-energy path and so speeds a reaction without ever being consumed. From enzymes in your body to the catalytic converter in a car, catalysts run the chemistry of life and industry alike.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> describe a reaction mechanism as a sequence of elementary steps that add up to the overall equation, and identify the rate-determining (slowest) step.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> identify an intermediate (made then consumed) and describe the molecularity of an elementary step (unimolecular or bimolecular).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain that a catalyst speeds a reaction by lowering the activation energy, is not consumed, and does not change &Delta;G or the equilibrium position &mdash; and tell homogeneous from heterogeneous catalysts.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your Lesson 8.09 notes on activation energy (E<sub>a</sub>) and collision theory &mdash; today's catalyst story rests on the energy barrier you met there.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 30&ndash;35 minutes of focused reading and interaction.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE MECHANISM &mdash; HOW A REACTION REALLY HAPPENS</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">A reaction's overall equation shows three molecules turning into two. A chemist tells you it &ldquo;actually happens in two steps,&rdquo; and that one step is much slower than the other. Which step do you think controls how fast the overall reaction goes? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="Exactly right &mdash; and it's the key idea of mechanisms. The overall rate is set by the SLOWEST step, called the rate-determining step. Think of an assembly line: the whole line can only move as fast as its slowest worker. No matter how quick the other step is, the reaction can't outrun its bottleneck.">&#128012; The slowest step &mdash; it's the bottleneck</button>
+            <button data-response="It's a reasonable guess, but it's the slowest step, not the fastest, that controls the pace. Picture an assembly line: speeding up the fast worker does nothing if everyone waits on the slow one. The slowest elementary step &mdash; the rate-determining step &mdash; sets the overall rate.">&#9889; The fastest step &mdash; it pulls the rest along</button>
+            <button data-response="Close thinking, but the two steps don't simply average out. A reaction can only proceed as fast as its slowest step allows &mdash; the rate-determining step. Like an assembly line limited by its slowest station, the overall pace is set by that single bottleneck, not by a blend of the two.">&#9878;&#65039; They average out to set the rate</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">A balanced equation is an accountant's summary: it tells you what goes in and what comes out, with the atoms balanced. But it usually does <em>not</em> tell you how the reaction happens moment to moment. The real path is the <strong>reaction mechanism</strong> &mdash; the step-by-step sequence of simple events, called <strong>elementary steps</strong>, by which reactants become products. Each elementary step is a single molecular event (often one collision), and the steps add up to the overall balanced equation.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Among the steps, one is usually slower than the rest. That step is the <strong>rate-determining step</strong>, and it controls the speed of the whole reaction &mdash; just as the slowest worker on an assembly line sets the pace of the entire line. No matter how fast the other steps run, the reaction cannot finish quicker than its slowest step allows.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE CENTRAL IDEA</div>
+            <div style="font-size:23px; color:#ffffff;"><strong>The slowest step &mdash; the rate-determining step &mdash; sets the overall rate</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">the equation is the &ldquo;what&rdquo;; the mechanism is the &ldquo;how&rdquo;</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two more terms make the picture precise. An <strong>intermediate</strong> is a species that is <em>produced</em> in one step and <em>consumed</em> in a later step; because it is made and then used up, it never appears in the overall balanced equation. And the <strong>molecularity</strong> of an elementary step is simply how many particles take part in it: a <strong>unimolecular</strong> step involves one particle (it falls apart or rearranges on its own), while a <strong>bimolecular</strong> step involves two particles colliding.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>In a two-step mechanism, a molecule of N<sub>2</sub>O<sub>2</sub> is formed in step 1 and used up in step 2. Will N<sub>2</sub>O<sub>2</sub> appear in the overall balanced equation?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">No. Because N<sub>2</sub>O<sub>2</sub> is made in one step and then consumed in a later step, it is an <strong>intermediate</strong>. When you add the elementary steps together to get the overall equation, the intermediate cancels out &mdash; it appears on the product side of one step and the reactant side of another. So it is real and important to the mechanism, but it is invisible in the overall balanced equation.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; CATALYSTS &mdash; A LOWER ROAD OVER THE MOUNTAIN</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>catalyst</strong> is a substance that speeds up a reaction by providing an <strong>alternate pathway with a lower activation energy (E<sub>a</sub>)</strong>. Picture the reaction as a journey over a mountain: the activation energy is the height of the pass that the particles must climb. A catalyst doesn't flatten the mountain &mdash; it opens a lower mountain pass. With a smaller barrier to clear, a far larger fraction of collisions carry enough energy to succeed, so the reaction runs faster.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The defining feature of a catalyst is that it is <strong>not consumed</strong>. It takes part in the mechanism &mdash; it may be used in an early step &mdash; but it is <em>regenerated</em> by the end, so you finish with as much catalyst as you started. And here is what a catalyst does <em>not</em> do, which is just as important:</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            A catalyst <strong>changes only the rate</strong>. It does <strong>not</strong>&hellip;<br>
+            &bull; change &Delta;G or whether the reaction is spontaneous;<br>
+            &bull; change the equilibrium position or the amount of product at equilibrium;<br>
+            &bull; change the identity of the products.<br>
+            <span style="font-size:15px; color:#555;">Because it lowers the barrier for the forward and reverse directions <em>equally</em>, it simply lets the reaction <em>reach</em> its destination sooner &mdash; it never changes the destination.</span>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Catalysts come in two kinds. A <strong>homogeneous catalyst</strong> is in the <em>same</em> phase as the reactants (for instance, a dissolved catalyst in a liquid reaction). A <strong>heterogeneous catalyst</strong> is in a <em>different</em> phase &mdash; most commonly a solid catalyst acting on gas or liquid reactants. A car's <strong>catalytic converter</strong> is the classic example: solid precious-metal surfaces convert harmful exhaust gases into safer ones as the gases flow past. And the <strong>enzymes</strong> in your body are biological catalysts &mdash; protein molecules that speed the reactions of life, each one lowering the barrier for a specific reaction.</p>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">The word <strong>catalysis</strong> was coined in 1835 by the Swedish chemist <strong>J&ouml;ns Jacob Berzelius</strong>, who noticed that certain substances sped up reactions without being consumed and gathered these scattered oddities under a single new name &mdash; a &ldquo;catalytic&rdquo; power, as he described it. Naming the phenomenon let chemists study it as one idea rather than a pile of unrelated curiosities. Decades later the French chemist <strong>Paul Sabatier</strong> worked out how solid catalysts act on gases &mdash; <em>heterogeneous</em> catalysis &mdash; showing, for example, how finely divided nickel could add hydrogen to other molecules at its surface. His work earned a share of the Nobel Prize in Chemistry in 1912 and laid groundwork for the industrial catalysts and the catalytic converters in use today. From a puzzling name to the machinery of modern industry, catalysis grew by the very habit you are practicing: watch carefully, name the pattern, then explain it.</div>
+        </div>
+
+        <!-- ow-flip: catalyst true/false cards -->
+        <div class="optima-widget">
+          <div class="widget-kicker">&#9889; FLIP CARDS &middot; WHAT A CATALYST DOES (AND DOESN'T)</div>
+          <div class="widget-question">Decide whether each statement about a catalyst is true or false, then tap to flip and check.</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&ldquo;A catalyst lowers the activation energy.&rdquo; &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>TRUE.</strong> It opens an alternate pathway with a lower E<sub>a</sub>, so more collisions succeed and the rate rises.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&ldquo;A catalyst is used up in the reaction.&rdquo; &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>FALSE.</strong> A catalyst is regenerated &mdash; you end with as much as you began. That's what makes a tiny amount go a long way.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&ldquo;A catalyst shifts the equilibrium to make more product.&rdquo; &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>FALSE.</strong> A catalyst changes only the rate, not the equilibrium position or the final amount of product. It speeds forward and reverse equally.</div>
+            </div>
+            <div class="ow-flip">
+              <div class="ow-flip-front" style="font-size:16px; color:#0E1C42;">&ldquo;An enzyme is a biological catalyst.&rdquo; &mdash; tap to reveal</div>
+              <div class="ow-flip-back" style="font-size:15px; line-height:1.5;"><strong>TRUE.</strong> Enzymes are protein catalysts that lower the barrier for specific reactions in living things &mdash; without being consumed.</div>
+            </div>
+          </div>
+          <button class="widget-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PUTTING THE VOCABULARY TOGETHER</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Kinetics has given you a small, powerful vocabulary &mdash; mechanism, elementary step, rate-determining step, intermediate, catalyst. Used together, they let you tell a complete story about how a reaction unfolds and how to control it: identify the steps, find the slow one that paces everything, spot the intermediates that flicker in and out, and recognize a catalyst as the substance that quietly lowers the barrier and walks away unchanged.</p>
+
+        <!-- Custom .aam-widget: mechanism-term matcher -->
+        <div class="aam-widget">
+          <div class="widget-kicker" style="color:#1B6A94;">&#9889; TRY IT &middot; MECHANISM-TERM MATCHER</div>
+          <div class="widget-question" style="margin-bottom:10px;">Pick a kinetics term and the tool gives its definition &mdash; try to state the definition yourself first, then check.</div>
+          <div class="aam-row">
+            <label for="mtm-sel">Term:&nbsp;</label>
+            <select id="mtm-sel">
+              <option value="">&mdash; choose a term &mdash;</option>
+              <option value="elem">Elementary step</option>
+              <option value="rds">Rate-determining step</option>
+              <option value="inter">Intermediate</option>
+              <option value="cat">Catalyst</option>
+            </select>
+            <button class="aam-btn" id="mtm-go">Show definition</button>
+          </div>
+          <div class="aam-result" id="mtm-out"></div>
+          <button class="widget-reset" id="mtm-reset">Reset</button>
+        </div>
+
+        <!-- Current-research callout (gold highlight) NOW -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128302; NOW &middot; WHY THIS QUESTION STILL MATTERS</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Catalysis sits at the center of <strong>green chemistry</strong>. Because a catalyst lets a reaction run at a lower temperature with less energy and less waste, catalysts are among the most powerful tools for cleaner industry &mdash; the catalytic converter alone has cut enormous amounts of harmful exhaust from the air. A major frontier today is the cost of catalysts: many of the best ones rely on rare, expensive precious metals, so scientists are currently working to develop cheaper, <em>earth-abundant</em> catalysts that could do the same work. Designing chemistry that does more with less is part of using this knowledge <em>responsibly</em> &mdash; the quiet question running under this whole quarter.</div>
+        </div>
+
+        <!-- ow-select: mechanisms & catalysis true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; TRUE OR FALSE ABOUT MECHANISMS &amp; CATALYSTS</div>
+          <div class="widget-question">Decide whether each statement is true or false. You'll get instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; the overall rate is set by the slowest elementary step, the rate-determining step. Like an assembly line, the reaction can't run faster than its slowest station." data-hint="Think of an assembly line: which worker sets the pace &mdash; the fastest or the slowest?">
+            <div class="widget-row-prompt">1. The slowest elementary step (the rate-determining step) controls the overall reaction rate.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A catalyst is NOT consumed; it is regenerated and recovered unchanged. That is exactly why a small amount can keep working." data-hint="Do you have less catalyst at the end, or the same amount you started with?">
+            <div class="widget-row-prompt">2. A catalyst is gradually used up as the reaction proceeds.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; an intermediate is produced in one step and consumed in a later one, so it cancels out and never shows up in the overall balanced equation." data-hint="What happens to a species that is made in step 1 and used up in step 2 when you add the steps?">
+            <div class="widget-row-prompt">3. An intermediate is made in one step and consumed in a later step, so it does not appear in the overall equation.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. A catalyst changes only the rate. It does NOT change &Delta;G, the equilibrium position, or the products &mdash; it lowers the barrier for forward and reverse equally, so it only gets you to the same destination sooner." data-hint="Does a catalyst change WHERE the reaction ends up, or just how FAST it gets there?">
+            <div class="widget-row-prompt">4. A catalyst makes a reaction more spontaneous and shifts its equilibrium to favor more product.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- commit-then-reveal -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>A reaction is spontaneous but painfully slow. A friend says &ldquo;just add a catalyst to make it release more energy.&rdquo; What's right and what's wrong in that advice?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Right:</strong> a catalyst is a great way to speed up a slow-but-spontaneous reaction &mdash; it lowers the activation energy so the reaction reaches its products much faster. <strong>Wrong:</strong> a catalyst does <em>not</em> change how much energy the reaction releases, nor &Delta;G, nor the equilibrium position. The energy released and the spontaneity are fixed by thermodynamics; the catalyst only changes the <em>speed</em>, getting you to the same destination sooner.</div>
+        </details>
+
+        <!-- Modern Research Thread: Then -> Now -> Future -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 16px 22px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 10px;">&#128302; MODERN RESEARCH THREAD &middot; THEN &rarr; NOW &rarr; FUTURE</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.65;">
+                <strong>Then.</strong> Catalysis began as Berzelius's puzzling name for reactions that sped up on their own, and grew through Sabatier's discovery of how solid surfaces catalyze gas reactions.<br><br>
+                <strong>Now.</strong> Catalysts are everywhere: the <strong>catalytic converter</strong> turns harmful exhaust into safer gases, and <strong>green chemistry</strong> leans on catalysts to run industrial reactions at lower temperatures with less energy and less waste.<br><br>
+                <strong>Future.</strong> Scientists are currently exploring <strong>engineered enzymes</strong> &mdash; biological catalysts redesigned in the lab to speed reactions nature never evolved &mdash; and cheaper, <strong>earth-abundant</strong> catalysts to replace scarce precious metals. If these efforts succeed, they could let us make everything from fuels to medicines with far less energy and pollution. The quarter's grand question &mdash; <em>how does chemistry shape our world?</em> &mdash; may be answered, in part, by learning to catalyze the reactions we need <em>responsibly</em>.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This is the final week of your module-long OptimaXR project, the <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; <strong>Build 4 of 4: the Reaction-Rate &amp; Catalysis Demo</strong>. Today's lesson is the heart of it: your <strong>energy-profile diagram</strong> will show a second, lower curve for the catalyzed path, and a sticky note will carry the line &ldquo;A catalyst lowers E<sub>a</sub> and speeds the reaction without being used up.&rdquo; Once this final station is built, you'll record the narrated walkthrough of your whole exhibit &mdash; galvanic cell, cell potential, real cells &amp; electrolysis, and this rate/catalysis demo &mdash; and submit it to the separate, graded Module VR Project.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 8.10</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on mechanisms, the rate-determining step, intermediates, and what a catalyst does. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Weekly Hands-On &mdash; Rate-Law Determination (Excel)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Take a set of initial-rate data into Excel, determine the reaction orders by comparing trials, write the rate law, and compute k &mdash; the method from Lesson 8.09 put to work.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Build 4 of 4 &mdash; Reaction-Rate &amp; Catalysis Demo (+ record)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Finish your Electrochemical Cell &amp; Rate Build and record the project walkthrough video. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A balanced equation tells you the <em>what</em>; the <strong>mechanism</strong> &mdash; a sequence of elementary steps &mdash; tells you the <em>how</em>. Its <strong>slowest step</strong>, the rate-determining step, paces the whole reaction, and any <strong>intermediate</strong> (made then consumed) never shows in the overall equation. A <strong>catalyst</strong> speeds a reaction by opening a lower-activation-energy path; it is <em>not</em> consumed and does <em>not</em> change &Delta;G, the equilibrium, or the products &mdash; only the rate. From catalytic converters to the enzymes in your cells, catalysts run the chemistry of the world. <em>This closes the kinetics arc &mdash; and with it, Module 8: you can now reason about whether a reaction happens, how much, and how fast.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 8.10 &middot; Reaction Mechanisms &amp; Catalysis</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  /* ===== mechanism-term matcher (.aam-widget) ===== */
+  var mtmGo = document.getElementById('mtm-go');
+  if (mtmGo) {
+    var mtmMsg = {
+      elem:  ['good', '<strong>Elementary step:</strong> a single molecular event (often one collision) in a mechanism. The elementary steps add up to the overall balanced equation.'],
+      rds:   ['good', '<strong>Rate-determining step:</strong> the SLOWEST elementary step. It sets the overall reaction rate &mdash; the bottleneck, like the slowest worker on an assembly line.'],
+      inter: ['good', '<strong>Intermediate:</strong> a species produced in one step and consumed in a later step. Because it cancels out, it does NOT appear in the overall equation.'],
+      cat:   ['good', '<strong>Catalyst:</strong> a substance that speeds a reaction by providing a lower-activation-energy path. It is NOT consumed and does not change &Delta;G, the equilibrium, or the products.']
+    };
+    mtmGo.addEventListener('click', function () {
+      var sel = document.getElementById('mtm-sel').value;
+      var out = document.getElementById('mtm-out');
+      if (!sel) { out.className = 'aam-result show warn'; out.innerHTML = 'Choose a term first.'; return; }
+      var m = mtmMsg[sel];
+      out.className = 'aam-result show ' + m[0];
+      out.innerHTML = m[1];
+    });
+    document.getElementById('mtm-reset').addEventListener('click', function () {
+      document.getElementById('mtm-sel').value = '';
+      var out = document.getElementById('mtm-out'); out.className = 'aam-result'; out.innerHTML = '';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

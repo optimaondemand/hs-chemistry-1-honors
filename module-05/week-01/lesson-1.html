@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry I Honors &mdash; Lesson 5.01</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .preview-banner { background: #fff3cd; border-bottom: 2px solid #c7922c; padding: 10px 24px; font-size: 13px; color: #6b4f1d; }
+    .preview-banner strong { color: #0e1c42; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-scale .widget-options { justify-content: space-between; }
+    .ow-scale .widget-options button { flex: 1; text-align: center; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+    /* ===== custom pressure-unit / gas-law numeric checker ===== */
+    .aam-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .aam-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#FFFFFF; border:1px solid #D0D9E8; border-radius:6px; padding:10px 12px; margin-bottom:10px; }
+    .aam-row label { font-size:14px; color:#0E1C42; }
+    .aam-row select, .aam-row input { font-size:15px; padding:6px 8px; border:1.5px solid #D0D9E8; border-radius:6px; font-family:inherit; }
+    .aam-row input { width:120px; }
+    .aam-row select:focus, .aam-row input:focus { outline:none; border-color:#55C8E8; }
+    .aam-btn { background:#0E1C42; color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .aam-btn:hover { background:#13265a; }
+    .aam-result { background:#FFFFFF; border-left:3px solid #C7922C; padding:10px 14px; font-size:15px; color:#1a2340; line-height:1.55; margin-top:10px; border-radius:4px; display:none; }
+    .aam-result.show { display:block; }
+    .aam-result.warn { border-left-color:#C0392B; color:#8A1F16; }
+    .aam-result.good { border-left-color:#2A9D5C; color:#1A6B3D; }
+</style>
+</head>
+<body>
+
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 12px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 5.01</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Gas Pressure &amp; Measurement</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grand Question</div>
+        <div style="font-size: 16px; color: #0e1c42;">Can chemistry be measured?</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 5.01</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Gas Pressure &amp; Measurement</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Right now, a column of air dozens of kilometers tall is pressing down on you &mdash; and on every surface around you &mdash; yet you feel nothing unusual. How could anyone <em>measure</em> the weight of something as thin and invisible as air?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You have spent two quarters learning what matter is and how it bonds and reacts. Now we turn to a state of matter that hides its workings in plain sight: <strong>gases</strong>. A single driving question runs beneath this whole module: <strong>why do gases behave so differently from the solids and liquids you already know</strong> &mdash; filling any container they are put in, shrinking under a push, swelling when warmed? Answering that takes measurement, and measurement of a gas begins with pressure. A gas has no shape of its own and seems to weigh almost nothing, yet it pushes &mdash; on the walls of its container, on a piston, on the mercury in a tube. That push, spread over an area, is <strong>pressure</strong>, and learning to measure it is the first move in making the behavior of gases <em>quantitative</em>. This lesson defines pressure precisely, tells the story of the instrument that first captured it, and gives you the unit conversions every gas-law calculation in this module depends on. By the end you'll be able to read a pressure in any of five units and convert cleanly among them.</div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; BY THE END OF THIS LESSON YOU WILL BE ABLE TO&hellip;</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> explain pressure as force divided by area, and describe how a barometer uses a column of liquid to measure the pressure of the atmosphere.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> name the common units of pressure and state their equivalences (1 atm = 760 mmHg = 760 torr = 101.3 kPa = 14.7 psi).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>I will be able to</strong> convert a pressure measurement from one unit to another using these equivalences as conversion factors.</div>
+        </div>
+    </div>
+
+    <!-- Materials -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128203; WHAT YOU NEED FOR THIS LESSON</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Your digital science notebook and a calculator.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">About 35&ndash;40 minutes of focused reading and interaction (this lesson includes a pressure-unit conversion tool).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 1 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHAT PRESSURE IS: FORCE SPREAD OVER AREA</div>
+
+        <!-- Reflective predict-first check-in -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#9889; QUICK CHECK-IN &middot; PREDICT FIRST</div>
+          <div class="widget-question">Press your thumb flat against a wall, then press the sharp point of a pencil against the same wall with the same push. The point digs in; your thumb does not. Same force &mdash; so what changed? (No wrong answer &mdash; just commit.)</div>
+          <div class="widget-options">
+            <button data-response="That's exactly it. The same force concentrated onto a tiny area produces a much larger pressure. Pressure is force divided by area, so shrinking the area &mdash; the pencil point &mdash; sends the pressure way up. This is the whole definition in one observation.">&#128290; The pencil presses on a much smaller area</button>
+            <button data-response="Not quite &mdash; you applied the same force in both cases, by design. What differed was the area that force was spread over. The pencil point concentrates the force onto a tiny patch, and pressure = force &divide; area, so the pressure under the point is enormous.">&#128170; The pencil somehow carries more force</button>
+            <button data-response="It feels that way, but the wall isn't softer for the pencil &mdash; it's the same wall. The real difference is area: the pencil point spreads the same force over a far smaller area, and that is what drives pressure up.">&#129704; The wall is weaker where the pencil hits</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 14px 0 10px 0;">Pressure is one of the cleanest ideas in chemistry: it is simply a <strong>force</strong> divided by the <strong>area</strong> over which that force acts.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">THE DEFINITION OF PRESSURE</div>
+            <div style="font-size:26px; color:#ffffff;"><strong>Pressure = Force &divide; Area</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px;">the same push, spread thin or concentrated, gives a small or a large pressure</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is why a sharp knife cuts and a dull one does not, why snowshoes keep you on top of soft snow, and why a thumbtack pushes into a board with the gentle pressure of a finger. In each case the <em>force</em> is ordinary; it's the <em>area</em> that does the work. For a gas, the force comes from countless molecules striking a surface and bouncing off. Each tiny collision is a push; added up over a whole wall, those pushes become a steady, measurable pressure. The molecules of the air around you are doing this constantly &mdash; against your skin, against the ceiling, against the inside of a balloon. We don't notice because the air <em>inside</em> us pushes back with equal force. But the push is real, and it is large.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">How large? The column of air stretching from the ground to the edge of space has weight, and that weight, divided by the area it rests on, is <strong>atmospheric pressure</strong>. At sea level it amounts to roughly <strong>10 newtons of force on every square centimeter</strong> &mdash; about the weight of a small car spread across a tabletop. The trouble for early scientists was not believing that air had weight; it was finding an instrument that could capture the number.</p>
+
+        <!-- commit-then-reveal self check -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Think first, then check: <em>Two boxes weigh the same, but one rests on a small foot and one on a wide base. Which one presses on the floor with greater pressure?</em></summary>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">The box on the <strong>small foot</strong>. Same force (their weights are equal), but the smaller contact area means a larger force-per-area &mdash; a higher pressure. Pressure depends just as much on <em>where</em> the force lands as on how big it is.</div>
+        </details>
+    </div>
+
+    <!-- ===== PART 2 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; THE BAROMETER: WEIGHING THE AIR</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The instrument that solved the problem is the <strong>barometer</strong>, and the idea behind it is beautifully simple. Take a long glass tube, seal one end, fill it completely with liquid mercury, and turn it upside down into an open dish of mercury without letting any air in. The mercury in the tube starts to fall &mdash; but it does not all run out. It stops, leaving a tall column standing in the tube with an empty space (a vacuum) above it.</p>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Why does the column stop falling? Because the <strong>atmosphere is pushing down on the mercury in the open dish</strong>, and that push holds the column up. The weight of the standing mercury column exactly balances the weight of the air pressing on the dish. So the <em>height</em> of the column becomes a direct measure of atmospheric pressure: when the air pushes harder, the column rises; when the air pushes less &mdash; on a stormy day, or high on a mountain &mdash; the column falls. At sea level, the mercury settles at a height of about <strong>760 millimeters</strong>. That single number is the anchor of every pressure unit you are about to meet.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.7;">
+            <strong>The key picture:</strong> the air's push on the dish &equiv; the weight of a 760-mm mercury column.<br>
+            More air push &rarr; taller column &middot; less air push &rarr; shorter column. The barometer turns an invisible force into a height you can read with a ruler.
+        </div>
+
+        <!-- History callout THEN -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-top: 3px solid #55C8E8; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#128161; THEN &middot; A MOMENT IN HISTORY</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">In <strong>1643</strong>, the Italian physicist <strong>Evangelista Torricelli</strong> &mdash; once an assistant to Galileo &mdash; built the first barometer to settle a stubborn puzzle: water pumps of the day could not lift water higher than about ten meters, no matter how good the pump. Torricelli suspected the limit had nothing to do with the pump and everything to do with the <em>air</em> pushing the water up from below. To test it with a shorter, more manageable instrument, he used mercury, which is about fourteen times denser than water, so its column would stand only about three-quarters of a meter tall. When the mercury stopped at roughly 760&nbsp;mm and left a vacuum above it, he had done two remarkable things at once: he had measured the pressure of the atmosphere, and he had produced one of the first sustained vacuums ever made. He reportedly wrote that we live &ldquo;submerged at the bottom of an ocean of air&rdquo; &mdash; a phrase that captures the whole insight. The unit <em>torr</em> is named in his honor.</div>
+        </div>
+
+        <!-- Nature-of-Science prompt: measure vs explain -->
+        <div class="optima-widget ow-reflect">
+          <div class="widget-kicker">&#128300; NATURE OF SCIENCE &middot; MEASURE vs EXPLAIN</div>
+          <div class="widget-question">Torricelli's barometer <em>measures</em> the atmosphere's push to the millimeter, and gives a reliable, repeatable number. Does that measured number, by itself, tell you <em>why</em> the air pushes at all? (No wrong answer &mdash; commit, then read the responses.)</div>
+          <div class="widget-options">
+            <button data-response="Right &mdash; and this is a distinction worth keeping all module. A measurement (and, soon, an empirical gas LAW built from measurements) faithfully DESCRIBES what happens: the column stands at 760 mm, pressure falls with altitude. But describing is not explaining. The 'why' &mdash; countless air molecules colliding with the mercury &mdash; comes from a THEORY (the kinetic-molecular theory, Lesson 5.05). A law tells you what; a theory tells you why.">&#128290; No &mdash; it tells me how hard, not why</button>
+            <button data-response="Not quite. The reading is a precise measurement of HOW HARD the air pushes, but a number on a scale doesn't contain its own explanation. Why the air pushes &mdash; molecular collisions &mdash; is supplied later by a THEORY (kinetic-molecular theory), not by the measurement itself. Measurements and empirical laws describe; theories explain.">&#129504; Yes &mdash; the number explains the cause</button>
+            <button data-response="Careful &mdash; a barometer is a measuring instrument, not an explanation. It captures the size of the push very reliably, but the reason air pushes (molecules in constant motion striking surfaces) is a THEORETICAL account developed separately. Holding 'what we measure' apart from 'why it happens' is one of this module's running Nature-of-Science threads.">&#9878;&#65039; It measures and explains equally</button>
+          </div>
+          <div class="widget-feedback"></div>
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- ow-select: barometer / pressure true-false -->
+        <div class="optima-widget ow-select">
+          <div class="widget-kicker">&#9889; TRY IT &middot; HOW DOES A BAROMETER BEHAVE?</div>
+          <div class="widget-question">Each statement is about pressure and the barometer. Decide whether it is true or false. Instant feedback on each.</div>
+
+          <div class="widget-row" data-correct="0" data-fb="Correct &mdash; the atmosphere pushing down on the open dish is exactly what holds the mercury column up. Remove that push (or reduce it) and the column drops." data-hint="What is pushing UP on the mercury column to keep it from falling out of the tube?">
+            <div class="widget-row-prompt">1. The mercury column in a barometer is held up by the pressure of the atmosphere pressing on the mercury in the open dish.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="1" data-fb="Right &mdash; this is FALSE. Higher up a mountain there is less air above you, so the atmosphere pushes LESS, and the mercury column falls. Lower pressure means a shorter column, not a taller one." data-hint="At high altitude there is less air overhead. Does that push the mercury higher or lower?">
+            <div class="widget-row-prompt">2. Carrying a barometer up a tall mountain makes the mercury column rise higher than it was at sea level.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <div class="widget-row" data-correct="0" data-fb="Yes &mdash; pressure is force per unit area, so the same force concentrated onto a smaller area gives a larger pressure. That single relationship is the definition." data-hint="Pressure = force &divide; area. If area shrinks while force stays the same, what happens to pressure?">
+            <div class="widget-row-prompt">3. Spreading the same force over a smaller area increases the pressure.</div>
+            <div class="widget-options">
+              <button data-choice="0">True</button>
+              <button data-choice="1">False</button>
+            </div>
+          </div>
+
+          <button class="widget-reset">Reset</button>
+        </div>
+
+        <!-- Then / Now / Future -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#127775; THEN &middot; NOW &middot; FUTURE &mdash; THE BAROMETER'S LONG REACH</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.65;"><strong>Then:</strong> Torricelli's mercury column (1643) first turned the invisible weight of air into a number a person could read off a ruler. <strong>Now:</strong> that same measurement is the backbone of weather and climate monitoring &mdash; electronic pressure sensors in ground stations, balloon-borne radiosondes, aircraft, and satellites report atmospheric pressure continuously, and falling or rising pressure is one of the strongest signals forecasters use to track storms and fronts. Long records of these readings help scientists study how the atmosphere is changing over time. <strong>Future:</strong> researchers are still working to model the atmosphere well enough to predict extreme weather further ahead and to untangle the feedbacks that drive long-term climate &mdash; open problems where better and denser pressure data keep mattering. A measurement first made with a glass tube of mercury is still being refined nearly four centuries later.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART 3 ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; THE UNITS OF PRESSURE &mdash; AND HOW TO CONVERT</div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Because pressure was first measured with mercury columns, with barometers, and later with industrial gauges, several units grew up side by side &mdash; and a chemist needs to move among them fluently. The good news: they are all just different ways of writing <em>the same sea-level pressure</em>. One standard atmosphere is the reference point, and everything else is measured against it.</p>
+
+        <div style="background:#0E1C42; border-radius:8px; padding:18px 22px; margin:14px 0; text-align:center;">
+            <div style="font-size:13px; color:#55C8E8; margin-bottom:8px;">ONE STANDARD ATMOSPHERE, FIVE WAYS</div>
+            <div style="font-size:22px; color:#ffffff; line-height:1.6;"><strong>1 atm = 760 mmHg = 760 torr = 101.3 kPa = 14.7 psi</strong></div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.75); margin-top:8px;">(mmHg and torr are the same thing; kPa is the SI unit; psi is the everyday pressure-gauge unit)</div>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Each unit has a home. <strong>mmHg</strong> ("millimeters of mercury") comes straight from the barometer's column height. <strong>torr</strong> is identical to mmHg, renamed for Torricelli. The <strong>kilopascal (kPa)</strong> is the SI unit, built on force per area (a pascal is one newton per square meter). <strong>psi</strong> ("pounds per square inch") is what you read on a tire gauge. Converting between them is pure dimensional analysis &mdash; exactly the unit-cancelling habit you built with the mole in the last module. Write the equivalence as a fraction, arrange it so the unit you start with cancels, and multiply.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked once: 2.0 atm into mmHg and into kPa</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            <strong>To mmHg</strong> (use 1 atm = 760 mmHg):<br>
+            2.0 atm &times; (760 mmHg / 1 atm) = <strong>1520 mmHg</strong> &nbsp;<span style="color:#666;">(atm cancels, leaving mmHg)</span><br><br>
+            <strong>To kPa</strong> (use 1 atm = 101.3 kPa):<br>
+            2.0 atm &times; (101.3 kPa / 1 atm) = <strong>202.6 kPa</strong>
+        </div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Worked the other direction: 380 mmHg into atm</h3>
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 18px; margin:10px 0; font-size:17px; color:#0e1c42; line-height:1.85;">
+            Use the same equivalence, flipped so mmHg cancels:<br>
+            380 mmHg &times; (1 atm / 760 mmHg) = <strong>0.50 atm</strong>
+        </div>
+
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Notice the discipline at work: in every case the starting unit cancels and the unit you want is left standing. If your units don't cancel, the conversion factor is upside down &mdash; flip it. This careful accounting of units is the same <em>self-government</em> the quantitative side of chemistry always asks for: watch every unit, and the arithmetic takes care of itself.</p>
+
+        <!-- CUSTOM WIDGET: pressure-unit converter -->
+        <div class="aam-widget">
+          <div class="widget-kicker">&#9889; TRY IT &middot; PRESSURE-UNIT CONVERTER &middot; CHECK YOUR OWN ANSWER</div>
+          <div class="widget-question">Pick a conversion, work it out <strong>yourself</strong> with the equivalences above, type your answer, and check it. The tool tells you whether you're too high or too low and reminds you which factor to use &mdash; but <em>you</em> set up the conversion. (A checker can confirm a number; it can't choose the right factor for you.)</div>
+          <div class="aam-row">
+            <label>Conversion:
+              <select id="pc-prob">
+                <option value="">&mdash; choose &mdash;</option>
+                <option value="A">2.0 atm &rarr; how many mmHg?</option>
+                <option value="B">2.0 atm &rarr; how many kPa?</option>
+                <option value="C">380 mmHg &rarr; how many atm?</option>
+                <option value="D">1.5 atm &rarr; how many psi?</option>
+                <option value="E">202.6 kPa &rarr; how many atm?</option>
+              </select>
+            </label>
+            <label>Your answer: <input type="text" id="pc-ans" placeholder="number" /></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="aam-btn" id="pc-check">Check my answer</button>
+            <button class="widget-reset" id="pc-reset">Reset</button>
+          </div>
+          <div class="aam-result" id="pc-out"></div>
+        </div>
+
+        <!-- AI as instrument callout -->
+        <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; NOW</div>
+            <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">Ask an AI tool to convert a pressure and it will answer instantly &mdash; convenient, and exactly why you should treat it like any instrument: useful, but to be verified. Pressure conversions are a place where a tool can quietly use a slightly different value (some sources round 1 atm to 760.0&nbsp;mmHg, others carry more digits; kPa is sometimes given as 101.325 instead of 101.3). The reliable move is to set up the conversion yourself, watch your units cancel, and use the tool only to <em>confirm</em> your number. The unit-cancelling is the evidence; the tool is a second opinion, not the judge.</div>
+        </div>
+    </div>
+
+    <!-- Your VR This Week -->
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 10px;">&#129496; YOUR VR THIS WEEK</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This week you begin your module-long project in OptimaXR &mdash; the <strong>Gas Behavior &amp; Energy Lab</strong>, which you'll add to every week and narrate on camera at the end. This is <strong>Build 1 of 4</strong>. You'll build the <strong>gas-law apparatus</strong>: a piston/cylinder with a movable plunger and gauges for pressure (P), volume (V), and temperature (T). Then you'll demonstrate the core relationship of this module &mdash; push the plunger in and watch the pressure gauge climb as the volume shrinks &mdash; and label one matching pressure&ndash;volume pair right on the apparatus. The instrument you build is the same idea you read about today: pressure is a real, measurable push, and now you'll have a tool that lets you watch it change. Leave room on the bench &mdash; you'll add a measured-amounts station, particle annotations, and a calorimetry setup in the weeks ahead.</div>
+    </div>
+
+    <!-- What You'll Do Next -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO NEXT</div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Reading Check 5.01</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short auto-graded quiz on pressure, the barometer, and pressure-unit conversions. Easy points &mdash; take it right after you read.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Continue to Lesson 5.02</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Now that you can measure pressure, how does it trade off against volume and temperature? You'll meet the gas laws and the single equation that ties them together: PV = nRT.</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="min-width: 34px; height: 34px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div>
+                <div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>VR: Begin Your Gas Behavior &amp; Energy Lab (Build 1 of 4)</strong></div>
+                <div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Build the piston/cylinder gas-law apparatus with P, V, and T gauges and demonstrate the pressure&ndash;volume trade-off. A non-VR pathway is provided for the same objectives.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; THE BIG IDEA TO CARRY FORWARD</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Pressure is force spread over area, and a gas exerts it through the endless collisions of its molecules. Torricelli's barometer turned that invisible push into a height you can read, fixing the standard atmosphere at a 760-mm mercury column. From that one anchor flow all the units &mdash; 1 atm = 760 mmHg = 760 torr = 101.3 kPa = 14.7 psi &mdash; and converting among them is just careful, unit-cancelling arithmetic. Hold onto this: <em>pressure is the first measurable handle on a gas, and every gas law in this module begins with a pressure you can name and convert.</em></p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 5.01 &middot; Gas Pressure &amp; Measurement</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset && !reset.closest('.aam-widget')) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button, .ow-scale .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite — try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+
+  // ===== custom pressure-unit converter =====
+  var PC = {
+    A: { val:1520, tol:5, unit:'mmHg', factor:'Multiply by 760 mmHg / 1 atm: 2.0 atm × 760 mmHg/atm = 1520 mmHg.' },
+    B: { val:202.6, tol:1, unit:'kPa', factor:'Multiply by 101.3 kPa / 1 atm: 2.0 atm × 101.3 kPa/atm = 202.6 kPa.' },
+    C: { val:0.50, tol:0.02, unit:'atm', factor:'Multiply by 1 atm / 760 mmHg: 380 mmHg × (1 atm / 760 mmHg) = 0.50 atm.' },
+    D: { val:22.05, tol:0.4, unit:'psi', factor:'Multiply by 14.7 psi / 1 atm: 1.5 atm × 14.7 psi/atm = 22.05 psi (about 22 psi).' },
+    E: { val:2.0, tol:0.05, unit:'atm', factor:'Multiply by 1 atm / 101.3 kPa: 202.6 kPa × (1 atm / 101.3 kPa) = 2.0 atm.' }
+  };
+  function parseNum(s) {
+    if (s == null) return NaN;
+    s = ('' + s).trim().toLowerCase().replace(/,/g,'').replace(/\s+/g,'');
+    s = s.replace('×','x').replace('·','x');
+    var m = s.match(/^([0-9.]+)x10\^?([+-]?[0-9]+)$/);
+    if (m) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2],10));
+    return parseFloat(s);
+  }
+  var pcBtn = document.getElementById('pc-check');
+  if (pcBtn) {
+    pcBtn.addEventListener('click', function () {
+      var out = document.getElementById('pc-out');
+      var key = document.getElementById('pc-prob').value;
+      var raw = document.getElementById('pc-ans').value;
+      out.className = 'aam-result show';
+      if (!key) { out.classList.add('warn'); out.textContent = 'Pick a conversion from the menu first.'; return; }
+      var guess = parseNum(raw);
+      if (isNaN(guess)) { out.classList.add('warn'); out.textContent = 'Type a number (for example 1520 or 0.50).'; return; }
+      var d = PC[key];
+      if (Math.abs(guess - d.val) <= d.tol) {
+        out.classList.add('good');
+        out.textContent = '✓ Correct — ' + d.factor + ' Now confirm your starting unit cancelled: that is how you know the factor was the right way up.';
+      } else {
+        out.classList.add('warn');
+        var hi = guess > d.val ? 'too high' : 'too low';
+        out.textContent = 'Not yet — your answer is ' + hi + '. Hint: ' + d.factor + ' Re-check whether you multiplied or divided, and whether the starting unit cancels.';
+      }
+    });
+  }
+  var pcReset = document.getElementById('pc-reset');
+  if (pcReset) {
+    pcReset.addEventListener('click', function () {
+      document.getElementById('pc-prob').value = '';
+      document.getElementById('pc-ans').value = '';
+      var out = document.getElementById('pc-out'); out.className='aam-result'; out.textContent='';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
