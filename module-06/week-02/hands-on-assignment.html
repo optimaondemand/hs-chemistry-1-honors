@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 6 · Week 2 — Hands-On: Solubility Curves &amp; Solid Types / Electrolytes</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 13px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 2</div>
+        <div style="font-size: 13px; color: #666;">Lessons 6.04&ndash;6.05</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Reasoning &amp; data reading &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 2 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Solubility Curves &amp; Solid Types / Electrolytes</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> classifying solids by type and predicting their properties (6.04), and explaining dissolution, &ldquo;like dissolves like,&rdquo; and sorting electrolytes (6.05). You'll also practice <strong>reading a solubility curve</strong> &mdash; given as a small data table here &mdash; to decide whether a solution is unsaturated, saturated, or supersaturated, and to compare how solids and gases respond to temperature.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work &mdash; reasoning and data-reading, no calculator required for most items.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">How does the way a substance is put together &mdash; the bonding in a solid, the polarity of a molecule, whether it breaks into ions &mdash; let you predict, before any experiment, how it will melt, dissolve, and conduct?</div>
+    </div>
+
+    <!-- Directions overview -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128203; HOW TO WORK THIS ASSIGNMENT</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Work all four parts in your <strong>digital science notebook</strong> (no spreadsheet needed this week). Write a short answer or fill the requested value for each item. When you finish a part, open its <strong>answer key</strong> to check yourself &mdash; correct anything you missed, since the point is to learn the reasoning, not to be perfect on the first try.</div>
+    </div>
+
+    <!-- PART A — classify solids -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART A &middot; CLASSIFY THE SOLID &amp; PREDICT PROPERTIES (6.04)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">For each substance, name its solid type (<strong>ionic, molecular, covalent network,</strong> or <strong>metallic</strong>) and give the property described.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>1.</strong> <strong>Iron</strong> &mdash; can be hammered into shape and conducts electricity as a solid. Name its solid type, and state <em>why</em> it bends instead of shattering.<br>
+            <strong>2.</strong> <strong>Quartz (SiO<sub>2</sub>)</strong> &mdash; extremely hard, melts only at a very high temperature, does not conduct. Name its solid type.<br>
+            <strong>3.</strong> <strong>Sugar (sucrose)</strong> &mdash; a soft solid that melts at a low temperature and does not conduct. Name its solid type and the kind of force holding its particles together.<br>
+            <strong>4.</strong> <strong>Potassium iodide (KI)</strong> &mdash; high-melting, hard but brittle. Name its solid type, and predict whether it will conduct electricity (a) as a solid and (b) when dissolved in water.
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part A answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>1. Metallic.</strong> Iron is a metal &mdash; cations in a sea of delocalized electrons. It bends instead of shattering because layers of cations can slide past one another while the electron sea keeps holding them together; nothing snaps.<br>
+                <strong>2. Covalent network.</strong> Quartz is a continuous covalent web of silicon and oxygen atoms, so melting it means breaking real covalent bonds &mdash; hence very hard and very high-melting, and nonconducting.<br>
+                <strong>3. Molecular solid</strong>, held together by <strong>intermolecular forces</strong> (for sucrose, including hydrogen bonding). Weak forces between separate molecules give a low melting point, softness, and no conduction.<br>
+                <strong>4. Ionic.</strong> KI is a soluble ionic salt. (a) As a solid it does <strong>not</strong> conduct (ions are locked in the lattice). (b) When <strong>dissolved</strong> it conducts, because the freed K&#8314; and I&#8315; ions can move.
+            </div>
+        </details>
+    </div>
+
+    <!-- PART B — solubility curve data + reading -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART B &middot; READ THE SOLUBILITY CURVE (data provided)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">The table below is a solubility curve written out as numbers: the maximum mass of solute that dissolves in <strong>100 g of water</strong> at each temperature. A point <em>on</em> the curve is exactly saturated; <em>below</em> the line is unsaturated (more can still dissolve); <em>above</em> the line is supersaturated (more is dissolved than equilibrium allows &mdash; unstable). Use it to answer the questions.</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:520px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Solute</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">0 &deg;C</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">20 &deg;C</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">40 &deg;C</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">60 &deg;C</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">80 &deg;C</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>KNO<sub>3</sub></strong> (g / 100 g water)</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">13</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">32</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">64</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">110</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">169</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#0e1c42;"><strong>NaCl</strong> (g / 100 g water)</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">36</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">36</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">37</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">37</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">38</td></tr>
+        </table>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42; margin-top:14px;">
+            <strong>5.</strong> Which solute's solubility changes far more steeply as temperature rises &mdash; KNO<sub>3</sub> or NaCl? What does that tell you about choosing a temperature to dissolve a lot of KNO<sub>3</sub>?<br>
+            <strong>6.</strong> A beaker holds <strong>60 g of KNO<sub>3</sub> dissolved in 100 g of water at 40 &deg;C.</strong> Using the table, is this solution <em>unsaturated, saturated,</em> or <em>supersaturated</em>? Explain.<br>
+            <strong>7.</strong> You have <strong>100 g of KNO<sub>3</sub> dissolved in 100 g of water at 60 &deg;C</strong> (still fully dissolved). You cool it slowly to <strong>40 &deg;C</strong> with no disturbance, and it all stays in solution. What kind of solution is it now, and roughly how many grams of KNO<sub>3</sub> would crystallize out if a seed crystal were dropped in?<br>
+            <strong>8.</strong> <strong>Gases vs solids:</strong> a sealed bottle of soda goes flat faster when left out warm, and a warm pond holds less dissolved oxygen than a cold one. Does gas solubility <em>increase</em> or <em>decrease</em> as temperature rises &mdash; and is that the same direction as KNO<sub>3</sub> or the opposite?
+        </div>
+
+        <!-- Reason-in-words-first + data-analysis writing (honors reasoning step) -->
+        <div style="background:#FFFFFF; border:1px dashed #C7922C; border-radius:8px; padding:14px 18px; margin-top:14px;">
+            <div style="font-size:11px; color:#c7922c; margin-bottom:8px;">&#9997;&#65039; REASON IN WORDS FIRST &mdash; THEN WRITE A SHORT DATA-ANALYSIS PARAGRAPH</div>
+            <div style="font-size:16px; color:#0e1c42; line-height:1.85;">
+                <strong>9. Explain before you calculate.</strong> Before doing any arithmetic for question 7, write one or two sentences <em>in plain words</em>: what does it mean that the cooled solution is &ldquo;supersaturated,&rdquo; and how will you use the numbers at 60&nbsp;&deg;C and 40&nbsp;&deg;C to find how much KNO<sub>3</sub> crystallizes out? Describe what the calculation will do and <em>why</em> &mdash; do not compute yet.<br>
+                <strong>10. Data-analysis paragraph.</strong> In 3&ndash;4 sentences, describe the pattern in the solubility table: compare how KNO<sub>3</sub> and NaCl each respond to rising temperature, then explain what that difference means for someone trying to <em>purify</em> a solid by dissolving it in hot water and cooling it &mdash; which of the two solids would this technique work well for, and why?
+            </div>
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part B answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>5.</strong> <strong>KNO<sub>3</sub></strong> changes far more steeply (13 &rarr; 169 g across the range), while NaCl is nearly flat (36 &rarr; 38 g). To dissolve a lot of KNO<sub>3</sub>, use <em>hot</em> water &mdash; raising the temperature dramatically increases how much will dissolve. (Heating barely helps with NaCl.)<br>
+                <strong>6.</strong> <strong>Unsaturated.</strong> At 40 &deg;C the saturation limit is 64 g per 100 g water; 60 g is <em>below</em> the line, so more KNO<sub>3</sub> could still dissolve.<br>
+                <strong>7.</strong> <strong>Supersaturated.</strong> At 40 &deg;C the limit is 64 g, but 100 g is still dissolved &mdash; more than equilibrium allows, an unstable state. A seed crystal would trigger crystallization of about <strong>100 &minus; 64 = 36 g</strong> of KNO<sub>3</sub>, leaving a saturated solution (~64 g dissolved).<br>
+                <strong>8.</strong> Gas solubility <strong>decreases</strong> as temperature rises (warm soda goes flat; warm water holds less O<sub>2</sub>). This is the <em>opposite</em> direction from KNO<sub>3</sub>, whose solubility increases with temperature.<br>
+                <strong>9. (reason-first, sample):</strong> &ldquo;Supersaturated means the water is holding <em>more</em> KNO<sub>3</sub> than it can normally hold at 40&nbsp;&deg;C, so it is unstable and the extra will drop out as crystals once something triggers it. To find how much, I&rsquo;ll take the amount dissolved (what fit at 60&nbsp;&deg;C) and subtract the most that can stay dissolved at 40&nbsp;&deg;C &mdash; the difference must crystallize.&rdquo; (The arithmetic in #7 then gives 100 &minus; 64 = 36 g.) Any answer that states the subtraction <em>in words</em> before computing earns credit.<br>
+                <strong>10. (data-analysis paragraph, sample):</strong> KNO<sub>3</sub>&rsquo;s solubility climbs steeply with temperature (13 g at 0&nbsp;&deg;C up to 169 g at 80&nbsp;&deg;C), while NaCl barely moves (36&ndash;38 g across the whole range). Purifying by dissolving hot and then cooling (recrystallization) works well only when a lot of solid comes back out on cooling &mdash; so it works well for <strong>KNO<sub>3</sub></strong>: dissolve a large amount in hot water, cool it, and most of the KNO<sub>3</sub> crystallizes back as pure solid while impurities stay behind in solution. It would <em>not</em> work for NaCl, because cooling barely changes how much stays dissolved, so almost nothing would crystallize out.
+            </div>
+        </details>
+    </div>
+
+    <!-- PART C — like dissolves like -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART C &middot; &ldquo;LIKE DISSOLVES LIKE&rdquo; PREDICTIONS (6.05)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Predict whether each pair will mix/dissolve well, and give the one-line reason. (Water and table salt are polar/ionic; oil and grease are nonpolar.)</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>9.</strong> <strong>Table salt (NaCl) in water.</strong> Will it dissolve well? Why?<br>
+            <strong>10.</strong> <strong>Cooking oil in water.</strong> Will it dissolve well? Why?<br>
+            <strong>11.</strong> <strong>Grease (nonpolar) in a nonpolar degreasing solvent.</strong> Will it dissolve well? Why?
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part C answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>9. Yes.</strong> NaCl is ionic and water is polar &mdash; &ldquo;like dissolves like.&rdquo; Water's charged ends form strong ion&ndash;dipole attractions that pull the ions out of the lattice (hydration).<br>
+                <strong>10. No.</strong> Oil is nonpolar and water is polar &mdash; not &ldquo;like.&rdquo; Water's hydrogen bonds cling to each other and exclude the nonpolar oil, so the two separate into layers.<br>
+                <strong>11. Yes.</strong> Both grease and the solvent are nonpolar &mdash; &ldquo;like dissolves like.&rdquo; Comparable (London dispersion) attractions let the grease mix in. (This is why nonpolar solvents clean grease that water can't.)
+            </div>
+        </details>
+    </div>
+
+    <!-- PART D — electrolytes -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART D &middot; CLASSIFY THE ELECTROLYTE (6.05)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">For each substance dissolved in water, classify it as a <strong>strong electrolyte, weak electrolyte,</strong> or <strong>nonelectrolyte</strong>, and say whether a bulb-and-battery tester would glow <em>brightly, dimly,</em> or <em>not at all</em>.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>12.</strong> Hydrochloric acid (HCl), a strong acid.<br>
+            <strong>13.</strong> Ethanol (a molecular alcohol).<br>
+            <strong>14.</strong> Ammonia (NH<sub>3</sub>), a weak base.<br>
+            <strong>15.</strong> Sodium hydroxide (NaOH), a soluble strong base.<br>
+            <strong>16. Tie it together:</strong> two clear glasses both contain a dissolved solid and look identical, but one lights the bulb and the other doesn't. What single thing must be different about what happened when each solid dissolved?
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part D answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>12.</strong> <strong>Strong electrolyte</strong> &mdash; HCl is a strong acid that ionizes essentially completely &mdash; bulb glows <strong>brightly</strong>.<br>
+                <strong>13.</strong> <strong>Nonelectrolyte</strong> &mdash; ethanol dissolves as whole, neutral molecules and forms no ions &mdash; bulb <strong>does not glow</strong>.<br>
+                <strong>14.</strong> <strong>Weak electrolyte</strong> &mdash; ammonia only partially ionizes &mdash; bulb glows <strong>dimly</strong>.<br>
+                <strong>15.</strong> <strong>Strong electrolyte</strong> &mdash; NaOH is a soluble strong base that dissociates completely into Na&#8314; and OH&#8315; &mdash; bulb glows <strong>brightly</strong>.<br>
+                <strong>16.</strong> One solid broke into <strong>ions</strong> when it dissolved (an electrolyte &mdash; free charges can carry a current, so the bulb lights), while the other dissolved as whole, <strong>neutral molecules</strong> (a nonelectrolyte &mdash; no free charges, so the bulb stays dark). Dissolving and conducting are two different questions.
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part A: all four solids classified by type with the requested property reasoning.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part B: solubility-curve items answered &mdash; saturated/unsaturated/supersaturated identified, the cooled-solution amount estimated, and the gas-vs-solid temperature trend stated.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 9&ndash;10: the reasoning for the crystallization estimate is written <em>in words before</em> calculating, and a short data-analysis paragraph compares KNO<sub>3</sub> and NaCl and draws a purification conclusion.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part C: three &ldquo;like dissolves like&rdquo; predictions with reasons; Part D: four electrolytes classified plus the tie-it-together answer.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Each part checked against its answer key, with anything missed corrected.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part A &mdash; solid types<br /><span style="font-size: 12px; color: #777;">5 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All four solids classified with sound property reasoning.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some items missing or unclassified.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">5</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part B &mdash; solubility curve<br /><span style="font-size: 12px; color: #777;">5 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Saturation states, the crystallization estimate, and the gas-vs-solid trend all answered from the data.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some curve items missing or misread.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">5</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning &amp; data-analysis writing<br /><span style="font-size: 12px; color: #777;">3 pts &middot; items 9&ndash;10</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">The reason-in-words-first answer (#9) is written before calculating, and the data-analysis paragraph (#10) compares the two solutes and draws a purification conclusion.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning written only after calculating, or the paragraph is missing/one-line.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">3</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Parts C &amp; D &mdash; dissolving &amp; electrolytes<br /><span style="font-size: 12px; color: #777;">5 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Three like-dissolves-like predictions and four electrolyte classifications, plus the tie-it-together answer.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some predictions or classifications missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">5</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Self-check<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Each part checked against its key and corrections noted.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some parts left unchecked.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer keys let you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M6 W2 Hands-On &mdash; Solubility Curves &amp; Solid Types / Electrolytes</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Submit a photo or scan of your notebook pages, or type your answers directly into the Canvas text box.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a question stumps you, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Liquids, Solids, Solutions &amp; Colloids</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 2 Hands-On &middot; Solubility Curves &amp; Solid Types / Electrolytes</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

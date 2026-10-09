@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 8 · Week 1 — VR Non-VR Alternate: Galvanic Cell Foundation — No-Headset Pathway</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 13px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 1</div>
+        <div style="font-size: 13px; color: #666;">Non-VR alternate</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Project</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Electrochemical Cell &amp; Rate Build</div>
+        <div style="font-size: 13px; color: #666;">Build 1 of 4</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 1 &middot; No-Headset Pathway</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Galvanic Cell Foundation</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; ~35&ndash;45 min</div>
+    </div>
+
+    <div style="background: #E9F7EF; border-left: 5px solid #2A9D5C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1A6B3D; margin-bottom: 8px;">&#10004;&#65039; THIS IS THE ALTERNATE</div>
+        <div style="font-size: 17px; color: #0E1C42; line-height: 1.6;">This pathway earns the same credit and meets the same objectives as the OptimaXR version. <strong>Complete this OR the VR assignment &mdash; not both.</strong></div>
+    </div>
+
+    <!-- What you're doing -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128218; WHAT YOU'RE DOING</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You'll build an <strong>Electrochemical Cell &amp; Rate Build</strong> &mdash; a project built up across four weeks that you'll explain at the end of the module &mdash; using a PowerPoint deck <em>or</em> a hand-drawn poster. This week you build the foundation: a labeled diagram of a <strong>galvanic (voltaic) cell</strong>. You'll draw <strong>two half-cells</strong> (beakers, each with an electrode), connect them with a <strong>salt bridge</strong> and an <strong>external wire</strong>, label the <strong>anode (oxidation, &minus;)</strong> and <strong>cathode (reduction, +)</strong>, and draw an arrow showing the electron flow <strong>anode &rarr; cathode</strong>, with one anchor statement: &ldquo;Galvanic cell: a spontaneous redox reaction makes electricity; electrons flow anode &rarr; cathode.&rdquo; In later weeks you'll add a cell-potential panel (Week 2), real cells &amp; electrolysis (Week 3), and a reaction-rate &amp; catalysis section (Week 4), then record a short narrated walkthrough.</div>
+    </div>
+
+    <!-- Choose your format -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#127912; CHOOSE ONE FORMAT</div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:14px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Option A &mdash; Digital (PowerPoint)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">Make a 3-slide deck: a title slide; a slide with a labeled galvanic-cell diagram (two half-cells, electrodes, salt bridge, wire, anode/cathode labels with signs, and the electron-flow arrow); and a closing slide stating the anchor rule and listing each part's job.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#EEF1F8; border-radius:8px; padding:14px;">
+                <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Option B &mdash; Hands-on (poster)</strong></div>
+                <div style="font-size:14px; color:#1a2340; line-height:1.55;">On paper, draw the galvanic cell: two beakers with electrodes, a salt bridge, and a connecting wire. Label the anode (oxidation, &minus;) and cathode (reduction, +), draw the electron-flow arrow anode &rarr; cathode, add the anchor rule, and photograph the poster into one document.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Directions (Observe -> Question -> Predict -> Investigate -> Analyze -> Defend -> Extend) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128221; WHAT TO DO, IN ORDER</div>
+        <div style="font-size: 14px; color: #666; font-style: italic; margin-bottom: 16px;">This build follows an investigation arc: <strong>Observe &rarr; Question &rarr; Predict &rarr; Investigate &rarr; Analyze &rarr; Defend &rarr; Extend</strong>. Don't skip the prediction &mdash; commit to it before you draw.</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>OBSERVE.</strong> Recall from Lesson 8.01 that when zinc and copper(II) touch directly in one beaker the reaction is spontaneous but wastes its energy as heat &mdash; no current. Title your project <strong>Electrochemical Cell &amp; Rate Build</strong> and note the anchor rule: <strong>&ldquo;a spontaneous redox reaction makes electricity; electrons flow anode &rarr; cathode.&rdquo;</strong> Leave room &mdash; you'll add more sections in Weeks 2&ndash;4.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>QUESTION.</strong> Write the driving question this build answers: <em>&ldquo;How can I force this spontaneous redox reaction to send its electrons through a wire so they do useful work?&rdquo;</em></div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>PREDICT &mdash; commit before you draw.</strong> Write a committed prediction: in a zinc&ndash;copper (Daniell) cell, which metal will be the <strong>anode</strong>, which the <strong>cathode</strong>, and which way electrons will travel through the wire. Commit to it &mdash; you'll test it against your finished diagram in Step 6.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>INVESTIGATE &mdash; build.</strong> Draw <strong>two half-cells</strong> (two beakers) and stand an <strong>electrode</strong> in each (model the Daniell cell: a <em>zinc</em> electrode in one, a <em>copper</em> electrode in the other). Connect the half-cells with a <strong>salt bridge</strong> and an <strong>external wire</strong>; label the salt bridge <em>&ldquo;carries ions &mdash; keeps each side neutral&rdquo;</em> and the wire <em>&ldquo;carries electrons.&rdquo;</em></div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>INVESTIGATE &mdash; label.</strong> Label the electrodes: one is the <em>&ldquo;Anode &mdash; oxidation (&minus;)&rdquo;</em> and the other the <em>&ldquo;Cathode &mdash; reduction (+).&rdquo;</em> Then draw an <strong>arrow along the wire</strong> showing electron flow <strong>from anode to cathode</strong>, labeled <em>&ldquo;e<sup>&minus;</sup> flow: anode &rarr; cathode.&rdquo;</em></div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">6</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>ANALYZE.</strong> Compare your finished diagram to your Step 3 prediction. Was your anode/cathode and electron-flow call correct? If you missed one, note what tipped you off (<em>&ldquo;An Ox, Red Cat&rdquo;</em>). Add the <strong>anchor statement</strong> at the center and <strong>sign your name</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">7</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>DEFEND.</strong> Get ready to make your case with a short <strong>Claim&ndash;Evidence&ndash;Reasoning (CER)</strong>: which electrode is the anode and which the cathode, and which way electrons flow (Claim); what in your diagram shows it (Evidence); and why the chemistry makes it so (Reasoning). You'll submit this in the next section &mdash; a template and self-check model are provided there.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">8</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>EXTEND.</strong> Save your finished file (deck or photo document) &mdash; you'll add the cell-potential, electrolysis, and reaction-rate sections in Weeks 2&ndash;4. Then look ahead: next week you'll measure <em>how hard</em> this cell pushes its electrons (cell potential) and add a potential panel to your project.</div>
+        </div>
+    </div>
+
+    <!-- M365 reminder (Band C 9-10) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128193; M365 REMINDER</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Build Option A in <strong>Microsoft PowerPoint</strong> from your school M365 account. Name your file <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_GalvanicCell_CHEM1H</code>, save it to your <strong>Optima &rarr; Science</strong> OneDrive course folder, and submit through Canvas. New here? See the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide&rdquo;</strong> page in this module.</div>
+        <div style="font-size: 14px; color: #8a6d1d; margin-top: 8px;"><em>M365 Skill You're Practicing: building a labeled diagram on a slide (PowerPoint shapes, connectors, arrows &amp; text boxes).</em></div>
+    </div>
+
+    <!-- What to submit -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; WHAT TO SUBMIT</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>1.</strong> Upload your file (PowerPoint <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">.pptx</code>, or a document/PDF of your poster photos) to this Canvas assignment.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 12px;"><strong>2. CER reflection.</strong> In the comment box (or on your final slide/poster), write three sentences defending your cell &mdash; a <strong>Claim</strong> (which electrode is your anode and which is your cathode, and which way electrons flow), the <strong>Evidence</strong> (what in your diagram shows it), and the <strong>Reasoning</strong> (why the chemistry makes it so). Also note whether your Step 3 prediction matched your finished diagram.</div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 0;">
+            <summary style="font-size: 15px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Self-check: a model CER (open after you've written your own)</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;"><strong>Claim:</strong> The zinc electrode is the anode and the copper electrode is the cathode; electrons flow through the wire from the zinc anode to the copper cathode. <strong>Evidence:</strong> In my diagram the zinc electrode is labeled &ldquo;oxidation (&minus;)&rdquo; and the copper &ldquo;reduction (+),&rdquo; and my arrow runs along the wire from zinc to copper. <strong>Reasoning:</strong> Zinc is oxidized (Zn &rarr; Zn<sup>2+</sup> + 2 e<sup>&minus;</sup>), and oxidation happens at the anode (&ldquo;An Ox&rdquo;), which produces electrons and makes it the negative terminal; those electrons are pulled to the copper cathode, where Cu<sup>2+</sup> is reduced (&ldquo;Red Cat&rdquo;). Because electrons are made at the anode and used at the cathode, they must travel anode &rarr; cathode.</div>
+        </details>
+    </div>
+
+    <!-- Success criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA (COMPLETION-BASED)</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Two half-cells (beakers with electrodes) are drawn and joined by a labeled salt bridge and external wire.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The anode is labeled <em>oxidation (&minus;)</em> and the cathode <em>reduction (+)</em>, with an arrow showing electron flow <strong>anode &rarr; cathode</strong>.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">A committed prediction was written <em>before</em> drawing, then compared to the finished diagram.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The signed anchor statement &mdash; &ldquo;a spontaneous redox reaction makes electricity; electrons flow anode &rarr; cathode&rdquo; &mdash; is included.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">File uploaded and named correctly, and a three-sentence <strong>CER reflection</strong> (Claim&ndash;Evidence&ndash;Reasoning) written, then compared to the self-check model.</div></div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Electrochemistry, Redox &amp; Kinetics</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 1 &middot; Electrochemical Cell &amp; Rate Build &mdash; Non-VR Alternate (Build 1 of 4)</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

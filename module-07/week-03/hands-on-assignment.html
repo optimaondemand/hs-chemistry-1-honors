@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 7 · Week 3 — Hands-On: ICE-Table Calculations</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 7</div>
+        <div style="font-size: 13px; color: #666;">Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 3</div>
+        <div style="font-size: 13px; color: #666;">Lessons 7.05&ndash;7.06</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Calculation set &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 3 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">ICE-Table Calculations &amp; Le Ch&acirc;telier Shifts</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> Le Ch&acirc;telier's principle (7.05) &mdash; predicting the direction an equilibrium shifts under a concentration, pressure, or temperature stress &mdash; and the ICE-table method (7.06) for computing K or an unknown equilibrium concentration. This set puts both to work: you'll predict shifts <em>and</em> run the numbers.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work, and the Le Ch&acirc;telier reasoning here is exactly what your module CER writing assignment will draw on.</div>
+    </div>
+
+    <!-- Assignment Overview -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128203; ASSIGNMENT OVERVIEW</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Work the <strong>seven problems</strong> and the <strong>reasoning question (Problem 8)</strong> below in your <strong>notebook</strong> (no spreadsheet needed this week). Show your ICE tables and the arithmetic for the calculations, and write out your reasoning for Problem 8 in full sentences &mdash; the thinking is the point. When you finish, open the answer keys to check yourself and correct anything you missed.</div>
+    </div>
+
+    <!-- Reference -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 16px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#128290; REMINDERS YOU'LL NEED</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.8;">
+            &bull; <strong>Le Ch&acirc;telier:</strong> a stressed equilibrium shifts to partially counteract the stress. Add &rarr; shift away; remove &rarr; shift toward. Higher pressure &rarr; toward fewer gas moles. For temperature, treat heat as a reactant (endothermic) or product (exothermic). A catalyst does not shift the position.<br>
+            &bull; <strong>ICE table:</strong> Initial / Change / Equilibrium; the Change row uses the balanced coefficients (reactants &minus;, products +).<br>
+            &bull; <strong>K expression:</strong> K = [products]<sup>coeffs</sup> / [reactants]<sup>coeffs</sup>.
+        </div>
+    </div>
+
+    <!-- The problems -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; THE PROBLEMS (work all seven, plus the reasoning question, in your notebook)</div>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:16px 20px; line-height:1.85; font-size:16px; color:#0e1c42;">
+            <strong>Part A &mdash; Predict the Le Ch&acirc;telier shift (left, right, or no shift):</strong><br><br>
+            <strong>1.</strong> For 2SO<sub>2</sub>(g) + O<sub>2</sub>(g) &#8652; 2SO<sub>3</sub>(g), which way does the equilibrium shift if you (a) add more O<sub>2</sub>, and (b) remove SO<sub>3</sub> as it forms?<br><br>
+            <strong>2.</strong> For N<sub>2</sub>O<sub>4</sub>(g) &#8652; 2NO<sub>2</sub>(g) (1 mol gas &#8652; 2 mol gas), which way does the equilibrium shift if you (a) increase the pressure by shrinking the container, and (b) add a catalyst?<br><br>
+            <strong>3.</strong> The reaction CO(g) + 2H<sub>2</sub>(g) &#8652; CH<sub>3</sub>OH(g) is exothermic. Which way does it shift if you (a) raise the temperature, and (b) lower the temperature?<br><br>
+            <strong>Part B &mdash; Set up an ICE table and solve:</strong><br><br>
+            <strong>4.</strong> For H<sub>2</sub>(g) + I<sub>2</sub>(g) &#8652; 2HI(g), a flask starts with 0.80 M H<sub>2</sub> and 0.80 M I<sub>2</sub> (no HI). At equilibrium [HI] = 1.20 M. Build the ICE table, find x, and report the equilibrium [H<sub>2</sub>] and [I<sub>2</sub>].<br><br>
+            <strong>5.</strong> Using your results from Problem 4, calculate K<sub>c</sub> = [HI]&sup2; / ([H<sub>2</sub>][I<sub>2</sub>]).<br><br>
+            <strong>6.</strong> For N<sub>2</sub>O<sub>4</sub>(g) &#8652; 2NO<sub>2</sub>(g), a flask starts with 1.00 M N<sub>2</sub>O<sub>4</sub> and no NO<sub>2</sub>. At equilibrium [NO<sub>2</sub>] = 0.40 M. Build the ICE table (Change: &minus;x for N<sub>2</sub>O<sub>4</sub>, +2x for NO<sub>2</sub>), find x, and report the equilibrium [N<sub>2</sub>O<sub>4</sub>]. Then compute K<sub>c</sub> = [NO<sub>2</sub>]&sup2; / [N<sub>2</sub>O<sub>4</sub>].<br><br>
+            <strong>7.</strong> For the reaction A(g) &#8652; B(g) with K<sub>c</sub> = 4.0, a flask starts with 1.00 M A and no B. Let x be the amount of A that reacts. Set up the ICE table, write K<sub>c</sub> = x / (1.00 &minus; x), and solve for x to find the equilibrium [A] and [B].<br><br>
+            <strong>Part C &mdash; Explain your reasoning (write 2&ndash;3 sentences):</strong><br><br>
+            <strong>8.</strong> A classmate says, &ldquo;If we add an iron catalyst to the reaction in Problem 6, we'll get more NO<sub>2</sub> at equilibrium.&rdquo; In your own words, explain whether they are right, and <em>why</em> &mdash; connect your answer to what a catalyst does to the forward and reverse reactions. Then check yourself against the model response below.
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 16px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your work &mdash; answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.75; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>Part A &mdash; shifts:</strong><br>
+                <strong>1.</strong> (a) Adding O<sub>2</sub> (a reactant) &rarr; shifts <strong>right</strong>. (b) Removing SO<sub>3</sub> (a product) &rarr; shifts <strong>right</strong> to replace it.<br>
+                <strong>2.</strong> (a) Increasing pressure &rarr; shifts toward fewer gas moles: 1 mol (left) vs. 2 mol (right), so shifts <strong>left</strong> (toward N<sub>2</sub>O<sub>4</sub>). (b) A catalyst &rarr; <strong>no shift</strong> (it only speeds the approach to equilibrium).<br>
+                <strong>3.</strong> The reaction is exothermic, so heat is a product. (a) Raising T adds a product &rarr; shifts <strong>left</strong>. (b) Lowering T removes a product &rarr; shifts <strong>right</strong> (toward methanol).<br><br>
+                <strong>Part B &mdash; calculations:</strong><br>
+                <strong>4.</strong> Change: &minus;x, &minus;x, +2x. [HI] = 2x = 1.20 &rarr; <strong>x = 0.60</strong>. [H<sub>2</sub>] = 0.80 &minus; 0.60 = <strong>0.20 M</strong>; [I<sub>2</sub>] = <strong>0.20 M</strong>.<br>
+                <strong>5.</strong> K<sub>c</sub> = (1.20)&sup2; / (0.20 &times; 0.20) = 1.44 / 0.04 = <strong>36</strong>.<br>
+                <strong>6.</strong> Change: &minus;x, +2x. [NO<sub>2</sub>] = 2x = 0.40 &rarr; <strong>x = 0.20</strong>. [N<sub>2</sub>O<sub>4</sub>] = 1.00 &minus; 0.20 = <strong>0.80 M</strong>. K<sub>c</sub> = (0.40)&sup2; / 0.80 = 0.16 / 0.80 = <strong>0.20</strong>.<br>
+                <strong>7.</strong> ICE: A = 1.00 &minus; x, B = x. K<sub>c</sub> = x / (1.00 &minus; x) = 4.0 &rarr; x = 4.0(1.00 &minus; x) = 4.0 &minus; 4.0x &rarr; 5.0x = 4.0 &rarr; <strong>x = 0.80</strong>. So [A] = 1.00 &minus; 0.80 = <strong>0.20 M</strong> and [B] = <strong>0.80 M</strong>. (Check: 0.80 / 0.20 = 4.0 &#10003;.)
+            </div>
+        </details>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 12px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your reasoning &mdash; model response to Problem 8</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.75; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>The classmate is wrong.</strong> A catalyst speeds up the forward <em>and</em> the reverse reactions by the same amount, so the system reaches equilibrium <em>faster</em> but arrives at the exact same balance point &mdash; the same equilibrium concentrations and the same value of K<sub>c</sub>. Because it does not favor one direction over the other, a catalyst never changes <em>how much</em> product forms; it only changes <em>how soon</em> you get there. To actually increase NO<sub>2</sub> at equilibrium you would need a real stress, such as raising the temperature (this reaction is endothermic) or lowering the pressure. Your wording can differ &mdash; look for these ideas: (1) catalyst speeds both directions equally, (2) equilibrium position / K is unchanged, (3) only the <em>rate</em> of reaching equilibrium changes.
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All three Part A shift predictions are answered with a direction (left / right / no shift) and a brief reason.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Each Part B problem shows a labeled <strong>ICE table</strong>, the value of <strong>x</strong>, and the requested concentrations or K value.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Problem 8 is answered in 2&ndash;3 sentences explaining <em>why</em> a catalyst does or does not change the amount of product at equilibrium.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Work and reasoning checked against the answer keys and corrections noted where needed.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part A shifts<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All three problems answered with direction and reason.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some parts missing or no reason given.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part B ICE &amp; K work<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All four problems show an ICE table, x, and the requested results with work.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some problems missing tables/work or answers only.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning &amp; self-check<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Problem 8 reasoning written in full sentences; all work compared to the answer keys and corrected.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Not checked, or corrections not shown.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer key lets you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M7 W3 Hands-On &mdash; ICE-Table Calculations &amp; Le Ch&acirc;telier Shifts</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Upload a clear photo or scan of your notebook pages (or a typed document) showing your ICE tables and work for all seven problems.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a problem gives a result you don't trust, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Thermodynamics, Equilibrium &amp; Acid-Base Chemistry</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 3 Hands-On &middot; ICE-Table Calculations &amp; Le Ch&acirc;telier Shifts</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

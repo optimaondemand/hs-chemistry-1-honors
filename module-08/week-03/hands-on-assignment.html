@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 8 · Week 3 — Hands-On: Cells, Electrodes &amp; Faraday's Law</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 13px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 3</div>
+        <div style="font-size: 13px; color: #666;">Lessons 8.05&ndash;8.07</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Problem set &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 3 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Cells, Electrodes &amp; Faraday's Law</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> batteries as packaged galvanic cells &mdash; primary vs. secondary (8.05); corrosion as unwanted oxidation (8.06); and electrolysis &mdash; the galvanic-vs-electrolytic contrast and <strong>Faraday's law</strong>: Q = I&middot;t, mol e<sup>&minus;</sup> = Q/F, then the half-reaction's electron ratio to mass (8.07). Here you'll <em>classify</em> cells, <em>identify</em> electrodes, and <em>run</em> a plating calculation by hand &mdash; watching the two traps that snare almost everyone.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work. Do it on paper or in your notebook &mdash; no spreadsheet needed this week.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">A galvanic cell makes electricity; an electrolytic cell spends it. Some batteries recharge and some don't. And a measured current deposits an exact mass of metal. How do you read each device correctly &mdash; and count the electrons to predict what it makes?</div>
+    </div>
+
+    <!-- Toolbox -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 16px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#129520; YOUR TOOLBOX</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.85; margin-bottom: 12px;">
+            <strong>Galvanic</strong> = spontaneous (E&deg;<sub>cell</sub> &gt; 0), makes electricity &middot;&nbsp; <strong>Electrolytic</strong> = driven (E&deg;<sub>cell</sub> &lt; 0), uses electricity.<br>
+            <strong>Primary</strong> = single-use &middot;&nbsp; <strong>Secondary</strong> = rechargeable. &nbsp;In both cell types: <strong>anode = oxidation, cathode = reduction</strong>.<br>
+            <strong>Faraday's law:</strong> Q = I &middot; t (amps &times; <strong>seconds</strong> = coulombs) &rarr; mol e<sup>&minus;</sup> = Q &divide; <strong>F</strong>, F = <strong>96,485 C/mol</strong> &rarr; mol metal (use half-reaction) &rarr; mass.
+        </div>
+        <!-- the two traps, featured -->
+        <div style="background:#FDECEC; border-left:5px solid #C0392B; border-radius:6px; padding:12px 16px;">
+            <div style="font-size:12px; color:#8A1F16; margin-bottom:6px;">&#9888;&#65039; THE TWO TRAPS &mdash; READ THIS TWICE</div>
+            <div style="font-size:16px; color:#8A1F16; line-height:1.6;"><strong>Trap 1 &mdash; seconds.</strong> Time MUST be in seconds before you compute Q. Minutes &times; 60, hours &times; 3600. Leaving time in minutes makes Q (and your answer) far too small.<br><strong>Trap 2 &mdash; electrons per atom.</strong> Read the half-reaction. Cu<sup>2+</sup> + 2e<sup>&minus;</sup> &rarr; Cu needs <em>two</em> electrons per atom, so you DIVIDE moles of electrons by 2. Ag<sup>+</sup> + e<sup>&minus;</sup> &rarr; Ag needs only one &mdash; no dividing. Forgetting this gives an answer that's off by a whole factor.</div>
+        </div>
+    </div>
+
+    <!-- PART A: classify cells -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128221; PART A &middot; CLASSIFY THE CELLS (items 1&ndash;3)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">For each device, state whether it is <strong>galvanic or electrolytic</strong>, and (where it applies) <strong>primary or secondary</strong>. Give a one-line reason.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>1.</strong> An alkaline AA battery powering a flashlight.<br>
+            <strong>2.</strong> A cell splitting water into H<sub>2</sub> and O<sub>2</sub> using a plugged-in power supply.<br>
+            <strong>3.</strong> The lithium-ion battery in a phone that is recharged each night.
+        </div>
+    </div>
+
+    <!-- PART B: identify electrodes -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART B &middot; IDENTIFY THE ELECTRODES (items 4&ndash;5)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Remember: in <em>every</em> cell, the anode is where oxidation happens and the cathode is where reduction happens. Only the terminal sign changes between cell types.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>4.</strong> In an alkaline battery, <strong>zinc</strong> is oxidized and <strong>manganese dioxide (MnO<sub>2</sub>)</strong> is reduced. Which is the anode and which is the cathode?<br>
+            <strong>5.</strong> In an <em>electrolytic</em> cell, name which electrode is the anode and which is the cathode by their reactions, and state the <strong>sign</strong> (+ or &minus;) of each. (Hint: the signs are opposite to a galvanic cell.)
+        </div>
+    </div>
+
+    <!-- PART C: Faraday's law -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129518; PART C &middot; FARADAY'S LAW (items 6&ndash;8)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Use Q = I&middot;t, then mol e<sup>&minus;</sup> = Q &divide; 96,485, then the half-reaction. <strong>Put time in seconds first, and divide by the electrons per atom.</strong> Show Q, mol e<sup>&minus;</sup>, mol metal, and mass.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>6.</strong> A current of <strong>2.00 A</strong> flows for <strong>1.00 hour</strong> through a copper(II) solution. Cu<sup>2+</sup> + 2e<sup>&minus;</sup> &rarr; Cu (Cu = 63.55 g/mol). Find the mass of copper deposited. <span style="color:#8A1F16;">(This is the worked example &mdash; follow the method.)</span><br>
+            <strong>7.</strong> A current of <strong>1.50 A</strong> flows for <strong>20.0 minutes</strong> through a silver solution. Ag<sup>+</sup> + e<sup>&minus;</sup> &rarr; Ag (Ag = 107.87 g/mol). Find the mass of silver deposited. <span style="color:#8A1F16;">(Watch Trap 1 &mdash; and note silver needs only one electron.)</span><br>
+            <strong>8.</strong> A current of <strong>3.00 A</strong> flows for <strong>30.0 minutes</strong> through a copper(II) solution. Find the mass of copper deposited, then compare to item 6 &mdash; what changed, and why is the mass different?
+        </div>
+
+        <!-- worked example for item 6, featured -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128161; WORKED EXAMPLE (the method for item 6)</div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.7;">
+                2.00 A for 1.00 hour, Cu<sup>2+</sup> + 2e<sup>&minus;</sup> &rarr; Cu, Cu = 63.55 g/mol.<br>
+                <strong>Step 1 &mdash; time in seconds:</strong> 1.00 h = <strong>3600 s</strong>.<br>
+                <strong>Step 2 &mdash; charge Q = I&middot;t:</strong> 2.00 A &times; 3600 s = <strong>7200 C</strong>.<br>
+                <strong>Step 3 &mdash; moles of electrons:</strong> 7200 &divide; 96,485 = <strong>0.0746 mol e<sup>&minus;</sup></strong>.<br>
+                <strong>Step 4 &mdash; moles of Cu:</strong> 2 e<sup>&minus;</sup> per Cu, so 0.0746 &divide; 2 = <strong>0.0373 mol Cu</strong>.<br>
+                <strong>Step 5 &mdash; mass:</strong> 0.0373 &times; 63.55 &asymp; <strong>2.37 g Cu</strong>.<br>
+                <strong>Answer: about 2.37 g of copper.</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- PART D: written reasoning (self-check) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9997;&#65039; PART D &middot; EXPLAIN YOUR REASONING (item 9 &mdash; self-check)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Write <strong>3&ndash;4 sentences</strong> in your notebook, then open the model answer to compare. There is no single &ldquo;right&rdquo; wording &mdash; check that your reasoning uses <em>evidence</em>, not preference.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.7; font-size:16px; color:#0e1c42;">
+            <strong>9.</strong> A hydrogen&ndash;oxygen fuel cell can keep making electricity indefinitely, while an ordinary battery eventually dies. (a) Explain <em>why</em>, in terms of where each device gets its reactants. (b) Then name <strong>one real trade-off</strong> &mdash; cost, materials, or environmental impact &mdash; that a decision-maker should weigh before choosing a fuel cell over a battery for a given job.
+        </div>
+
+        <!-- self-check model answer -->
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Model answer &mdash; open after you've written yours</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>(a)</strong> A battery carries its reactants <em>sealed inside</em>, so once they are consumed the reaction stops and the battery is dead. A fuel cell is fed a <em>continuous flow</em> of reactants (hydrogen and oxygen) from outside, so it keeps producing electricity &mdash; with water as its only product &mdash; for as long as the fuel keeps arriving. The difference is the <em>source</em> of the reactants, not the underlying galvanic chemistry.<br><br>
+                <strong>(b)</strong> Any one well-reasoned trade-off, backed by evidence rather than preference, earns full credit &mdash; for example: <em>cost</em> (fuel cells and their catalysts can be expensive to build); <em>materials</em> (producing and storing hydrogen fuel, and the catalysts a fuel cell needs, require resources that must be sourced responsibly); or <em>environmental impact</em> (a fuel cell is only truly &ldquo;clean&rdquo; if the hydrogen is made cleanly &mdash; hydrogen produced from fossil fuels carries a carbon cost, so the whole life cycle must be weighed against the benefit). The point is that &ldquo;best&rdquo; depends on the job and the evidence.
+            </div>
+        </details>
+    </div>
+
+    <!-- AI-as-instrument red callout -->
+    <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+        <div style="font-size: 16px; color: #8A1F16; line-height: 1.6;">If you ask an AI tool to do a Faraday's-law problem, it commonly leaves the time in minutes or hours instead of converting to seconds, or forgets to divide by the electrons per atom (the &ldquo;&divide; 2&rdquo; for Cu<sup>2+</sup>). Treat any AI result as a <em>claim to verify</em>, not an answer: redo Q = I&middot;t with time in seconds, divide by 96,485, then divide by the electrons in the half-reaction &mdash; and sanity-check that a small current over a few minutes plates a fraction of a gram, not kilograms. Reasoning through the chain yourself is the skill; the calculator is just an instrument.</div>
+    </div>
+
+    <!-- Answer key -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128273; CHECK YOUR WORK</div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Answer key &mdash; open after you've tried all eight</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>Part A &mdash; classify the cells:</strong><br>
+                <strong>1.</strong> <strong>Galvanic</strong> (it produces electricity from a spontaneous reaction) and <strong>primary</strong> (single-use &mdash; an alkaline cell isn't rechargeable).<br>
+                <strong>2.</strong> <strong>Electrolytic</strong> &mdash; it needs an external power supply to drive a non-spontaneous reaction (splitting water has E&deg;<sub>cell</sub> &lt; 0). Primary/secondary doesn't apply (it's not a battery).<br>
+                <strong>3.</strong> <strong>Galvanic</strong> while discharging (it powers the phone) and <strong>secondary</strong> (rechargeable &mdash; the charger reverses the reaction).<br><br>
+
+                <strong>Part B &mdash; identify the electrodes:</strong><br>
+                <strong>4.</strong> <strong>Zinc is the anode</strong> (it is oxidized); <strong>MnO<sub>2</sub> is the cathode</strong> (it is reduced). Anode = oxidation, cathode = reduction &mdash; always.<br>
+                <strong>5.</strong> In an electrolytic cell the <strong>anode</strong> is still where <strong>oxidation</strong> happens and the <strong>cathode</strong> still where <strong>reduction</strong> happens &mdash; but the signs are <strong>anode = + (positive)</strong> and <strong>cathode = &minus; (negative)</strong>, opposite a galvanic cell, because the external power source forces the polarity.<br><br>
+
+                <strong>Part C &mdash; Faraday's law:</strong><br>
+                <strong>6.</strong> Q = 2.00 &times; 3600 = 7200 C; mol e<sup>&minus;</sup> = 7200 &divide; 96,485 = 0.0746; mol Cu = 0.0746 &divide; 2 = 0.0373; mass = 0.0373 &times; 63.55 = <strong>2.37 g Cu</strong>.<br>
+                <strong>7.</strong> 20.0 min = 1200 s; Q = 1.50 &times; 1200 = 1800 C; mol e<sup>&minus;</sup> = 1800 &divide; 96,485 = 0.01866; silver needs only 1 e<sup>&minus;</sup> per atom, so mol Ag = 0.01866; mass = 0.01866 &times; 107.87 = <strong>2.01 g Ag</strong>. (No &ldquo;&divide;&nbsp;by&nbsp;electrons&rdquo; step beyond &divide; 1.)<br>
+                <strong>8.</strong> 30.0 min = 1800 s; Q = 3.00 &times; 1800 = 5400 C; mol e<sup>&minus;</sup> = 5400 &divide; 96,485 = 0.05597; mol Cu = 0.05597 &divide; 2 = 0.02799; mass = 0.02799 &times; 63.55 = <strong>1.78 g Cu</strong>. Compared to item 6 (2.37 g): the charge passed here is smaller (5400 C vs. 7200 C) even though the current is larger, because the time is shorter &mdash; less total charge means less copper. Faraday's law depends on the <em>charge</em> Q = I&middot;t, not on current alone.<br><br>
+                <strong>Trap check:</strong> if an answer came out tiny (item 7 near 0.03 g) you may have left the time in minutes &mdash; convert to seconds and redo. If a copper answer came out about double (item 6 near 4.7 g) you forgot to divide by 2 for Cu<sup>2+</sup>.
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 1&ndash;3: each device classified (galvanic/electrolytic, and primary/secondary where it applies) <strong>with a one-line reason</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 4&ndash;5: anode and cathode named by their reactions, and the electrolytic-cell signs (anode +, cathode &minus;) stated correctly.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 6&ndash;8: time converted to seconds, Q and mol e<sup>&minus;</sup> shown, divided by the right number of electrons, and a final mass with units.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Item 9: a 3&ndash;4 sentence written explanation (why a fuel cell doesn't run down, plus one evidence-based trade-off), compared against the model answer.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All work checked against the answer key, with both traps confirmed handled.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Classify cells (items 1&ndash;3)<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All three classified correctly with a one-line reason each.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some classifications missing or reasons absent.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Identify electrodes (items 4&ndash;5)<br /><span style="font-size: 12px; color: #777;">4 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Anode/cathode named by reaction and electrolytic signs correct.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">One part missing or a sign reversed.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">4</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Faraday's law (items 6&ndash;8)<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All three computed with time in seconds, Q and mol e<sup>&minus;</sup> shown, correct electron ratio, mass with units.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some steps missing, or a trap (seconds / electron ratio) skipped.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Self-check + written reasoning (item 9)<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Items 1&ndash;8 compared to the answer key with corrections noted, and item 9 reasoning written and checked against the model answer.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Not checked, or item 9 reasoning missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer key lets you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M8 W3 Hands-On &mdash; Cells, Electrodes &amp; Faraday's Law</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Work the eight items in your notebook or on paper, then upload a clear photo or scan (or type your answers directly into the Canvas text box).</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a calculation gives a result you don't trust, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Electrochemistry, Redox &amp; Kinetics</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 3 Hands-On &middot; Cells, Electrodes &amp; Faraday's Law</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

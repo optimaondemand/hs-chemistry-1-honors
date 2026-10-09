@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 8 · Week 1 — Hands-On: Redox Balancing — Numbers, Agents &amp; Half-Reactions</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 13px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 1</div>
+        <div style="font-size: 13px; color: #666;">Lessons 8.01&ndash;8.02</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Problem set &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 1 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Redox Balancing &mdash; Numbers, Agents &amp; Half-Reactions</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> the oxidation-number rules and the <strong>OIL RIG</strong> definitions (8.01), the oxidizing-agent / reducing-agent vocabulary, and the <strong>half-reaction method</strong> for balancing redox in acidic solution. Here you'll assign oxidation numbers, name what is oxidized and reduced (and which is each agent), and balance simple half-reactions step by step &mdash; checking both atoms and charge by hand.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work. Do it on paper or in your notebook &mdash; no spreadsheet needed this week.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">Electrons can't appear or disappear &mdash; whatever one substance loses, another gains. How do oxidation numbers let you <em>track</em> that transfer, and how do you balance an equation so that the electrons, the atoms, and the charge all account perfectly?</div>
+    </div>
+
+    <!-- Toolbox -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 16px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#129520; YOUR TOOLBOX</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.85; margin-bottom: 12px;">
+            <strong>OIL RIG</strong> &mdash; Oxidation Is Loss (number up), Reduction Is Gain (number down). &middot;&nbsp; Oxidized species = <strong>reducing agent</strong>; reduced species = <strong>oxidizing agent</strong>.<br>
+            <strong>Oxidation-number rules:</strong> free element = 0 &middot; monatomic ion = its charge &middot; Group 1 = +1, Group 2 = +2 &middot; F = &minus;1 &middot; O usually &minus;2 &middot; H usually +1 &middot; sum = overall charge.<br>
+            <strong>Half-reaction method (acidic):</strong> balance atoms &rarr; balance O with H<sub>2</sub>O &rarr; balance H with H<sup>+</sup> &rarr; balance charge with e<sup>&minus;</sup>.
+        </div>
+        <!-- the key habit, featured -->
+        <div style="background:#FDECEC; border-left:5px solid #C0392B; border-radius:6px; padding:12px 16px;">
+            <div style="font-size:12px; color:#8A1F16; margin-bottom:6px;">&#9888;&#65039; THE HABIT THAT CATCHES ERRORS &mdash; READ THIS TWICE</div>
+            <div style="font-size:16px; color:#8A1F16; line-height:1.6;">It is easy to <em>reverse</em> the agents: the species that is oxidized is the <strong>reducing</strong> agent, and the species that is reduced is the <strong>oxidizing</strong> agent &mdash; each is named for what it does to its <em>partner</em>. And a half-reaction is not finished until the <strong>charge</strong> matches on both sides, not just the atoms. Always close by adding up the charge on each side &mdash; if they don't match, your electrons are wrong.</div>
+        </div>
+    </div>
+
+    <!-- PART A: oxidation numbers -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128221; PART A &middot; ASSIGN OXIDATION NUMBERS (items 1&ndash;3)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Give the oxidation number of the <strong>bold</strong> element in each, and name the rule(s) you used.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>1.</strong> Sulfur in <strong>SO<sub>2</sub></strong> &nbsp;(O is &minus;2; molecule is neutral).<br>
+            <strong>2.</strong> Nitrogen in the nitrate ion <strong>NO<sub>3</sub><sup>&minus;</sup></strong> &nbsp;(O is &minus;2; ion charge is &minus;1).<br>
+            <strong>3.</strong> Chromium in the dichromate ion <strong>Cr<sub>2</sub>O<sub>7</sub><sup>2&minus;</sup></strong> &nbsp;(O is &minus;2; ion charge is &minus;2).
+        </div>
+    </div>
+
+    <!-- PART B: identify oxidized/reduced and agents -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART B &middot; OXIDIZED / REDUCED &amp; THE AGENTS (items 4&ndash;5)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">For each reaction, state which element is <strong>oxidized</strong> and which is <strong>reduced</strong> (track the oxidation numbers), then name the <strong>oxidizing agent</strong> and the <strong>reducing agent</strong>.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>4.</strong> Mg(s) + 2 HCl(aq) &rarr; MgCl<sub>2</sub>(aq) + H<sub>2</sub>(g)<br>
+            <strong>5.</strong> 2 Al(s) + 3 Cu<sup>2+</sup>(aq) &rarr; 2 Al<sup>3+</sup>(aq) + 3 Cu(s)
+        </div>
+    </div>
+
+    <!-- PART C: balance half-reactions in acid -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129518; PART C &middot; BALANCE HALF-REACTIONS IN ACIDIC SOLUTION (items 6&ndash;8)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Balance each half-reaction in <strong>acidic</strong> solution. Balance atoms first, then O with H<sub>2</sub>O, then H with H<sup>+</sup>, then charge with e<sup>&minus;</sup>. Show each step, and finish by stating whether the half is oxidation or reduction. <strong>Check the charge on both sides.</strong></p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.9; font-size:16px; color:#0e1c42;">
+            <strong>6.</strong> Fe<sup>2+</sup> &rarr; Fe<sup>3+</sup> &nbsp;(the simplest case &mdash; no O or H to balance).<br>
+            <strong>7.</strong> Cr<sub>2</sub>O<sub>7</sub><sup>2&minus;</sup> &rarr; Cr<sup>3+</sup> &nbsp;(balance Cr, then O with H<sub>2</sub>O, then H with H<sup>+</sup>, then charge with e<sup>&minus;</sup>).<br>
+            <strong>8.</strong> Using your answers to items 6 and 7, combine the two halves into one balanced overall equation (the dichromate&ndash;iron(II) reaction). <span style="color:#8A1F16;">(Multiply to equalize the electrons first.)</span>
+        </div>
+
+        <!-- worked example, featured -->
+        <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin: 16px 0;">
+            <div style="font-size: 11px; color: #C7922C; margin-bottom: 8px;">&#128161; WORKED EXAMPLE (the method, on a different half-reaction)</div>
+            <div style="font-size: 16px; color: #0E1C42; line-height: 1.7;">
+                Balance MnO<sub>4</sub><sup>&minus;</sup> &rarr; Mn<sup>2+</sup> in acidic solution.<br>
+                <strong>Step 1 &mdash; balance atoms other than O, H:</strong> Mn is already 1 : 1. &check;<br>
+                <strong>Step 2 &mdash; balance O with H<sub>2</sub>O:</strong> 4 O on the left, so add 4 H<sub>2</sub>O on the right: MnO<sub>4</sub><sup>&minus;</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O.<br>
+                <strong>Step 3 &mdash; balance H with H<sup>+</sup>:</strong> 8 H on the right (from 4 H<sub>2</sub>O), so add 8 H<sup>+</sup> on the left: MnO<sub>4</sub><sup>&minus;</sup> + 8 H<sup>+</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O.<br>
+                <strong>Step 4 &mdash; balance charge with e<sup>&minus;</sup>:</strong> left charge = &minus;1 + 8 = +7; right charge = +2. Add 5 e<sup>&minus;</sup> to the left to bring it to +2: <strong>MnO<sub>4</sub><sup>&minus;</sup> + 8 H<sup>+</sup> + 5 e<sup>&minus;</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O</strong>.<br>
+                <strong>Type:</strong> electrons are <em>gained</em>, so this is a <strong>reduction</strong> half (Mn: +7 &rarr; +2). Charge check: left +2, right +2. &check;
+            </div>
+        </div>
+    </div>
+
+    <!-- PART D: written reasoning (self-check) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9997;&#65039; PART D &middot; EXPLAIN YOUR REASONING (SELF-CHECK)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">In two or three sentences, answer in your own words &mdash; this is the reasoning behind the whole set: <strong>Why must every oxidation be matched by a reduction, and how does the charge check on a balanced half-reaction prove your electron count is right?</strong> Write your answer <em>before</em> you open the model response below.</p>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Model answer &mdash; open after you've written yours</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">Electrons cannot be created or destroyed, so any electrons one substance loses (oxidation) must be gained by another (reduction) in the same reaction &mdash; that is why the two halves always occur together, and why the electrons must cancel exactly when you add the halves. The <strong>charge check</strong> is the proof: because charge is conserved, a correctly balanced half-reaction has equal total charge on both sides. If the two sides do not match, you added the wrong number of electrons &mdash; the size of the mismatch is the size of the error. Matching charge (together with matching atoms) is what tells you the electron bookkeeping is correct.</div>
+        </details>
+    </div>
+
+    <!-- AI-as-instrument red callout -->
+    <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#129302; AI IS AN INSTRUMENT, NOT AN ORACLE</div>
+        <div style="font-size: 16px; color: #8A1F16; line-height: 1.6;">If you ask an AI tool to do these, it will often <strong>mislabel the oxidizing agent</strong> (calling the oxidized species the &ldquo;oxidizing&rdquo; agent &mdash; it's reversed) or <strong>miscount the electrons</strong> in a half-reaction so the charge doesn't balance. Treat any AI answer as a <em>claim to verify</em>, not the answer: re-apply <strong>OIL RIG</strong> by hand (the oxidized species is the reducing agent), and add up the <strong>charge on both sides</strong> &mdash; if they don't match, the electron count is wrong. Reasoning from the rules and the charge balance is the skill; the tool is just an instrument.</div>
+    </div>
+
+    <!-- Answer key -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128273; CHECK YOUR WORK</div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Answer key &mdash; open after you've tried all eight</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>Part A &mdash; oxidation numbers:</strong><br>
+                <strong>1.</strong> S in SO<sub>2</sub> = <strong>+4</strong>. Two O give 2(&minus;2) = &minus;4; for the neutral molecule, S + (&minus;4) = 0, so S = +4.<br>
+                <strong>2.</strong> N in NO<sub>3</sub><sup>&minus;</sup> = <strong>+5</strong>. Three O give &minus;6; for an ion of charge &minus;1, N + (&minus;6) = &minus;1, so N = +5.<br>
+                <strong>3.</strong> Cr in Cr<sub>2</sub>O<sub>7</sub><sup>2&minus;</sup> = <strong>+6</strong>. Seven O give &minus;14; for charge &minus;2, 2Cr + (&minus;14) = &minus;2, so 2Cr = +12, Cr = +6 each.<br><br>
+
+                <strong>Part B &mdash; oxidized / reduced &amp; agents:</strong><br>
+                <strong>4.</strong> Mg: 0 &rarr; +2 (<strong>oxidized</strong> &rarr; Mg is the <strong>reducing agent</strong>). H: +1 &rarr; 0 in H<sub>2</sub> (<strong>reduced</strong> &rarr; HCl / H<sup>+</sup> is the <strong>oxidizing agent</strong>). Chlorine stays &minus;1 throughout (spectator). <em>(Hand-check the H: it goes from +1 in HCl to 0 in H<sub>2</sub> gas.)</em><br>
+                <strong>5.</strong> Al: 0 &rarr; +3 (<strong>oxidized</strong> &rarr; Al is the <strong>reducing agent</strong>). Cu: +2 &rarr; 0 (<strong>reduced</strong> &rarr; Cu<sup>2+</sup> is the <strong>oxidizing agent</strong>).<br><br>
+
+                <strong>Part C &mdash; half-reactions in acid:</strong><br>
+                <strong>6.</strong> Fe<sup>2+</sup> &rarr; Fe<sup>3+</sup> + e<sup>&minus;</sup>. (Atoms balance; charge: left +2, right +3 + (&minus;1) = +2. &check;) Electrons are <em>lost</em> &rarr; <strong>oxidation</strong> half.<br>
+                <strong>7.</strong> Cr<sub>2</sub>O<sub>7</sub><sup>2&minus;</sup> + 14 H<sup>+</sup> + 6 e<sup>&minus;</sup> &rarr; 2 Cr<sup>3+</sup> + 7 H<sub>2</sub>O.<br>
+                &nbsp;&nbsp;&bull; Balance Cr: 2 Cr<sup>3+</sup> on the right.<br>
+                &nbsp;&nbsp;&bull; Balance O: 7 O on the left &rarr; 7 H<sub>2</sub>O on the right.<br>
+                &nbsp;&nbsp;&bull; Balance H: 14 H on the right &rarr; 14 H<sup>+</sup> on the left.<br>
+                &nbsp;&nbsp;&bull; Balance charge: left = &minus;2 + 14 = +12; right = 2(+3) = +6; add 6 e<sup>&minus;</sup> to the left &rarr; +12 &minus; 6 = +6. &check; Electrons are <em>gained</em> &rarr; <strong>reduction</strong> half (Cr: +6 &rarr; +3).<br>
+                <strong>8.</strong> The Fe half loses 1 e<sup>&minus;</sup>; the dichromate half gains 6 e<sup>&minus;</sup>. Multiply the Fe half by 6, then add and cancel the 6 electrons:<br>
+                &nbsp;&nbsp;<strong>Cr<sub>2</sub>O<sub>7</sub><sup>2&minus;</sup> + 14 H<sup>+</sup> + 6 Fe<sup>2+</sup> &rarr; 2 Cr<sup>3+</sup> + 6 Fe<sup>3+</sup> + 7 H<sub>2</sub>O</strong>.<br>
+                &nbsp;&nbsp;Charge check: left = &minus;2 + 14 + 6(+2) = &minus;2 + 14 + 12 = <strong>+24</strong>; right = 2(+3) + 6(+3) + 0 = 6 + 18 = <strong>+24</strong>. &check;<br><br>
+                <strong>Agent-direction check:</strong> if you wrote that an <em>oxidized</em> species (like Mg or Al) was the &ldquo;oxidizing&rdquo; agent, flip it &mdash; the oxidized species is always the <em>reducing</em> agent. <strong>Charge check:</strong> if any half-reaction's two sides don't have equal total charge, your electron count is off &mdash; recount and redo.
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 1&ndash;3: each oxidation number given <strong>with the rule(s)</strong> used to find it.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 4&ndash;5: oxidized and reduced elements identified, and the oxidizing &amp; reducing agents named <strong>in the correct direction</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Items 6&ndash;8: half-reactions balanced for atoms <em>and</em> charge, electrons shown, each labeled oxidation or reduction, and the overall equation combined correctly.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All work checked against the answer key, with the agent direction and the charge balance confirmed.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part D: the written-reasoning explanation completed in your own words, then compared to the model answer.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Oxidation numbers (items 1&ndash;3)<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All three numbers correct with the rule(s) shown.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some numbers missing or rules absent.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Oxidized/reduced &amp; agents (items 4&ndash;5)<br /><span style="font-size: 12px; color: #777;">4 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Both reactions: oxidized/reduced correct and agents named in the right direction.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Agents reversed or one reaction missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">4</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Balanced half-reactions (items 6&ndash;8)<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All balanced for atoms and charge, electrons shown, overall equation combined.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some steps missing, or charge not checked.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Self-check &amp; reasoning (Part D)<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Work compared to the answer key, corrections noted, and the Part D reasoning written in your own words.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Not checked, or Part D reasoning missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer key lets you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M8 W1 Hands-On &mdash; Redox Balancing (Numbers, Agents &amp; Half-Reactions)</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Work the eight items in your notebook or on paper, then upload a clear photo or scan (or type your answers directly into the Canvas text box).</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a half-reaction's charge won't balance no matter what you try, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Electrochemistry, Redox &amp; Kinetics</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 1 Hands-On &middot; Redox Balancing &mdash; Numbers, Agents &amp; Half-Reactions</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

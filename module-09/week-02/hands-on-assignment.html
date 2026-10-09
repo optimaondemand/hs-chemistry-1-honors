@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 9 · Week 2 — Hands-On: Half-Life &amp; Decay Calculations</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 13px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 2</div>
+        <div style="font-size: 13px; color: #666;">Lessons 9.03&ndash;9.04</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On [Excel]</div>
+        <div style="font-size: 13px; color: #666;">Doing chemistry &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 2 &middot; Hands-On [Excel]</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Half-Life &amp; Decay Calculations</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> radioactive decay as first-order kinetics, the constant half-life, the fraction-remaining pattern (1/2)<sup>n</sup>, carbon-14 dating (t&frac12; &asymp; 5730 yr), and the iron-peak energy story behind fission and fusion.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work. Two parts: a set of half-life problems you reason through by hand, and an <strong>Excel</strong> decay table + line graph that lets you <em>see</em> the exponential curve.</div>
+    </div>
+
+    <!-- Assignment Overview -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128203; ASSIGNMENT OVERVIEW</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Half-life math rests on one move done carefully: <strong>count the half-lives first</strong> (n = elapsed time &divide; t&frac12;), then apply <strong>(1/2)<sup>n</sup></strong>. In <strong>Part A</strong> you'll work five problems &mdash; mass and fraction remaining, finding elapsed time from a fraction, and a carbon-14 dating age. In <strong>Part B</strong> you'll build a decay table in <strong>Excel</strong> and graph it, watching the exponential shape appear. Work each Part A item <em>before</em> you open the matching <strong>&#9654; Check your thinking</strong> box.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">How much of a radioactive sample is left after a given time &mdash; and how can the amount remaining tell me how old something is?</div>
+    </div>
+
+    <!-- AI-as-Instrument red callout -->
+    <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; AI AS AN INSTRUMENT &mdash; VERIFY BEFORE YOU TRUST</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">If you ask an AI tool to do these half-life problems, watch it carefully. AI commonly <strong>miscounts half-lives</strong> (subtracting halves linearly instead of dividing time by t&frac12;) or <strong>mixes up the time units</strong> (days vs. years), then states a confident, wrong answer. Treat its result as an instrument reading, not the truth: re-derive n = time &divide; t&frac12; and (1/2)<sup>n</sup> by hand and confirm the numbers yourself.</div>
+    </div>
+
+    <!-- Directions -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; STUDENT DIRECTIONS</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part A:</strong> Work all five problems on paper or in your notebook. Show your work: state n, then (1/2)<sup>n</sup>, then the answer with units. Check each against its answer key.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part B:</strong> Build the decay table and line graph in <strong>Excel</strong> (see the M365 reminder below). Save the file with the required name.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Submit:</strong> upload your Excel file <em>and</em> type your Part A answers into the Canvas text-entry box (or include them on a sheet in the workbook).</div>
+        </div>
+    </div>
+
+    <!-- ===== PART A ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129518; PART A &middot; HALF-LIFE PROBLEMS (show your work)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">For each: find <strong>n = elapsed time &divide; t&frac12;</strong>, then use <strong>fraction = (1/2)<sup>n</sup></strong> and <strong>mass = initial &times; (1/2)<sup>n</sup></strong>.</p>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>A1.</strong> A sample begins with <strong>240 g</strong> of a nuclide with a half-life of <strong>6 hours</strong> (like technetium-99m). How much remains after <strong>24 hours</strong>?</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>A2.</strong> Iodine-131 has a half-life of <strong>8 days</strong>. What <em>fraction</em> of an iodine-131 sample remains after <strong>40 days</strong>?</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>A3.</strong> Cobalt-60 has a half-life of about <strong>5.27 years</strong>. A medical source has decayed to <strong>1/8</strong> of its original amount. About how many years have passed?</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>A4.</strong> A wooden artifact is found to contain <strong>1/4</strong> of the carbon-14 that a living tree of the same size would have. Using t&frac12; &asymp; <strong>5730 years</strong>, about how old is the artifact?</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:14px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>A5.</strong> A bone is dated to about <strong>17,190 years</strong> old. Using carbon-14 (t&frac12; &asymp; 5730 yr), how many half-lives is that, and what fraction of the original carbon-14 remains?</div>
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part A worked answers</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>A1.</strong> n = 24 h &divide; 6 h = 4 half-lives. Fraction = (1/2)<sup>4</sup> = 1/16. Mass = 240 g &times; 1/16 = <strong>15 g</strong>. (Halve four times: 240 &rarr; 120 &rarr; 60 &rarr; 30 &rarr; 15.)<br><br>
+                <strong>A2.</strong> n = 40 days &divide; 8 days = 5 half-lives. Fraction = (1/2)<sup>5</sup> = <strong>1/32</strong> (&asymp; 0.03125, about 3.1%).<br><br>
+                <strong>A3.</strong> 1/8 = (1/2)<sup>3</sup>, so 3 half-lives have passed. Time = 3 &times; 5.27 yr &asymp; <strong>15.8 years</strong>.<br><br>
+                <strong>A4.</strong> 1/4 = (1/2)<sup>2</sup>, so 2 half-lives have passed. Age = 2 &times; 5730 yr &asymp; <strong>11,460 years</strong>.<br><br>
+                <strong>A5.</strong> n = 17,190 yr &divide; 5730 yr = 3 half-lives. Fraction remaining = (1/2)<sup>3</sup> = <strong>1/8</strong> (&asymp; 12.5%).
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART B ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART B &middot; BUILD A DECAY TABLE &amp; GRAPH IN EXCEL</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">A table of numbers becomes a story when you graph it. Start a sample at <strong>100 g</strong> and watch it decay over six half-lives.</p>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Make three columns: <strong>Time (half-lives)</strong> with rows <strong>0, 1, 2, 3, 4, 5, 6</strong>; <strong>Amount remaining (g)</strong>; and <strong>Percent remaining (%)</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Fill the amount column using a formula. Start with <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=100</code> at n = 0, then in each next row use a formula that halves the row above (for example, <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=B2/2</code>). For percent, use <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=B2/100*100</code> or simply the amount &divide; starting amount.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Select the Time and Amount columns and insert a <strong>line chart</strong> (or scatter-with-lines). Title it &ldquo;Radioactive Decay&rdquo; and label the axes (x = half-lives, y = amount in grams).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">In a cell below the chart, write <strong>one sentence</strong>: describe the <em>shape</em> of the curve and why it never reaches zero.</div>
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 12px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part B expected table &amp; curve</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                Your table should read:<br>
+                n = 0 &rarr; <strong>100 g</strong> (100%)<br>
+                n = 1 &rarr; <strong>50 g</strong> (50%)<br>
+                n = 2 &rarr; <strong>25 g</strong> (25%)<br>
+                n = 3 &rarr; <strong>12.5 g</strong> (12.5%)<br>
+                n = 4 &rarr; <strong>6.25 g</strong> (6.25%)<br>
+                n = 5 &rarr; <strong>3.125 g</strong> (3.125%)<br>
+                n = 6 &rarr; <strong>1.5625 g</strong> (1.5625%)<br><br>
+                The curve drops steeply at first, then flattens as it approaches &mdash; but never touches &mdash; the x-axis. This is <strong>exponential decay</strong>: each step removes half of what <em>remains</em>, so the amount keeps getting smaller without ever reaching exactly zero. (A correct one-sentence note captures this idea.)
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART C ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9998;&#65039; PART C &middot; REASON IT OUT (WRITTEN SELF-CHECK)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Answer both prompts in <strong>2&ndash;3 sentences each</strong> (in your notebook or the Canvas text box), in your own words &mdash; <em>then</em> open the model answer and compare. This is part of your honest self-check: no extra points, just a chance to be sure the ideas are solid, not only the arithmetic.</p>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>C1.</strong> In the (1/2)<sup>n</sup> model, explain <em>why</em> a radioactive sample never reaches exactly zero, even after many half-lives.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:14px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>C2.</strong> Two students have the same nuclide but different amounts &mdash; one starts with 10 g, the other with 500 g. Will their samples share the same half-life? Explain why or why not.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part C model answer</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>C1.</strong> Each half-life removes half of what <em>currently</em> remains, not a fixed amount, so you keep halving a smaller and smaller number. Halving never lands on exactly zero &mdash; it just shrinks without limit. (A real sample is a finite number of atoms and does eventually run out, but the (1/2)<sup>n</sup> model treats the amount as continuous and approaches zero without touching it.)<br><br>
+                <strong>C2.</strong> Yes &mdash; both share the same half-life. Half-life is a fixed property of the nuclide and does <strong>not</strong> depend on how much you start with (or on temperature or chemical form). The 500 g sample undergoes more decays per second because it has more nuclei, but each sample still loses <em>half of itself</em> in the same span of time.
+            </div>
+        </details>
+    </div>
+
+    <!-- M365 reminder (Band C 9-10) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128193; M365 REMINDER</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Build Part B in <strong>Microsoft Excel</strong> from your school M365 account. Name your file <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_HalfLifeDecay_CHEM1H</code>, save it to your <strong>Optima &rarr; Science</strong> OneDrive course folder, and submit through Canvas. New here? See the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide&rdquo;</strong> page in this module.</div>
+        <div style="font-size: 14px; color: #8a6d1d; margin-top: 8px;"><em>M365 Skill You're Practicing: building a data table and inserting a line chart in Excel.</em></div>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All 5 Part A problems show work (n, fraction, answer) with correct units.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The Excel decay table covers half-lives 0&ndash;6 with amount and percent remaining.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">A titled, axis-labeled line graph and a one-sentence note on the exponential shape.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Both Part C reasoning prompts answered in your own words before opening the model answer.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">File named correctly, and you attempted each item before checking the keys.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part A complete<br /><span style="font-size: 12px; color: #777;">10 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All 5 problems show work and answers with units.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Work or units missing on one or more.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">10</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part B Excel<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Table 0&ndash;6, line graph with title/labels, shape note.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Table or chart incomplete, or note missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Honest self-check<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Attempted before checking; Part C reasoning answered in own words; corrections noted; file named correctly.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Little evidence of an honest first attempt.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer keys above let you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M9 W2 Hands-On &mdash; Half-Life &amp; Decay Calculations</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Upload your <strong>Excel file</strong> (<code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_HalfLifeDecay_CHEM1H</code>) and type your Part A answers into the Canvas text-entry box (or include them on a sheet in the workbook).</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Due:</strong> By the end of Week 2.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If you get stuck, submit what you have with a note on where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Nuclear Chemistry &amp; Its Applications</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 2 Hands-On &middot; Half-Life &amp; Decay Calculations [Excel]</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

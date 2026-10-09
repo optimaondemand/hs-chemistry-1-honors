@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 9 — Writing Assignment: Marie Curie &amp; the Atom Within: A Nuclear Case Study</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 9</div>
+        <div style="font-size: 13px; color: #666;">Nuclear Chemistry &amp; Its Applications</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Course Capstone &mdash; Case Study &amp; Argument</div>
+        <div style="font-size: 13px; color: #666;">Microsoft Word (.docx)</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Grading</div>
+        <div style="font-size: 18px; color: #0e1c42;">Teacher-reviewed</div>
+        <div style="font-size: 13px; color: #666;">Rubric (Tier 3)</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">100 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Module 9 Writing Assignment &middot; Course Capstone</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Marie Curie &amp; the Atom Within &mdash; A Nuclear Case Study</div>
+        <div style="font-size: 15px; color: #666;">Word (.docx) &middot; 100 pts &middot; teacher-reviewed &middot; course-closing synthesis</div>
+    </div>
+
+    <!-- The task -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128218; THE TASK</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">More than a century ago, a young scientist named <strong>Marie Curie</strong> chased a strange glow that no one understood &mdash; and in doing so helped prove that the atom, long thought to be the smallest, indivisible piece of matter, had a turbulent world inside it. This is your <strong>course-closing capstone</strong> &mdash; the last piece of writing in Chemistry I Honors, and your chance to pull the whole year's habits together: investigate a real problem, trace its history, weigh the evidence, and argue responsibly. You will <strong>investigate one contemporary nuclear application</strong> (nuclear energy, or medical isotopes), <strong>trace its scientific development</strong> from Becquerel and the Curies to today, <strong>evaluate the evidence</strong>, <strong>connect it to current research</strong>, and <strong>present a Claim&ndash;Evidence&ndash;Reasoning (CER) conclusion</strong> about its responsible use.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">It is a <strong>case study joined to a scientific argument</strong>: a careful look at the history, then a claim defended with evidence and reasoning and accountable to the trade-offs. Choose <strong>one</strong> application below to investigate and argue about.</div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:6px;">
+            <div style="flex:1; min-width:240px; background:#0E1C42; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">APPLICATION A &middot; NUCLEAR ENERGY</div>
+                <div style="font-size:15px; color:#ffffff; line-height:1.55;">Defend a position on the <strong>responsible use of nuclear power</strong> &mdash; fission reactors today, and/or the pursuit of fusion energy. Ground it in the chemistry: the decay/reaction type, the energy released through <strong>E = mc<sup>2</sup></strong>, and the contrast of fission and fusion. Weigh low-carbon power against waste, accident risk, and the difficulty of fusion.</div>
+            </div>
+            <div style="flex:1; min-width:240px; background:#0E1C42; border-radius:8px; padding:16px 18px;">
+                <div style="font-size:13px; color:#55C8E8; margin-bottom:6px;">APPLICATION B &middot; MEDICAL ISOTOPES</div>
+                <div style="font-size:15px; color:#ffffff; line-height:1.55;">Defend a position on the <strong>responsible use of medical radioisotopes</strong> &mdash; imaging and therapy. Ground it in the chemistry: the decay type, the half-life that suits the job (e.g., a short half-life and gamma for imaging), and why a given tissue concentrates an isotope. Weigh real diagnostic and life-saving benefit against radiation dose and risk.</div>
+            </div>
+        </div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-top:12px;">You'll write it in <strong>Microsoft Word</strong>, organized into the sections listed further down.</div>
+    </div>
+
+    <!-- Why this matters -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#11088; WHY THIS MATTERS</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">This case study is <strong>one of only two teacher-reviewed pieces in Module 9</strong> (the other is your Nuclear Decay &amp; Applications Exhibit VR project), and it is the <strong>final assignment of the course</strong> &mdash; the capstone that asks you to use every habit Chemistry I Honors has built: empirical questioning, evidence over preference, and honest reasoning about how science shapes the world. Your teacher reads it personally and responds to your reasoning &mdash; so make it your careful best, and <em>ground the history, the science, and the argument in evidence, not in a guess.</em> This is exactly Quarter 4's question in action: <em>how does chemistry shape our world?</em> &mdash; and its virtue, <em>Responsibility</em>: nuclear chemistry's power comes with real risks as well as real goods.</div>
+    </div>
+
+    <!-- Toolkit -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#129518; YOUR TOOLKIT (USE THESE EXACT IDEAS &amp; VALUES)</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.8;">
+            <strong>The discovery of radioactivity:</strong> <em>Henri Becquerel</em> discovered radioactivity in <strong>1896</strong> (uranium salts fogged a photographic plate with no sunlight). <em>Marie and Pierre Curie</em> investigated it; Marie Curie coined the term <em>radioactivity</em> and, with Pierre, isolated two new radioactive elements, <strong>polonium and radium, in 1898</strong>. Marie Curie won the Nobel Prize in <strong>Physics (1903)</strong> and in <strong>Chemistry (1911)</strong> &mdash; the first person to win Nobel Prizes in two sciences.<br>
+            <strong>What it changed:</strong> radioactivity is a property of the <em>atom's nucleus</em>, not of its chemistry &mdash; evidence that the atom is <strong>not</strong> an indivisible, unchanging ball. This is the Nature-of-Science idea: <em>models change when the evidence changes.</em><br>
+            <strong>Decay types &amp; conservation:</strong> in a balanced nuclear equation, <strong>mass number (A) and atomic number (Z) are each conserved</strong>. <em>Alpha (&alpha;)</em> emits a <sup>4</sup><sub>2</sub>He nucleus (A&minus;4, Z&minus;2); <em>beta (&beta;<sup>&minus;</sup>)</em> turns a neutron into a proton + electron (A same, Z+1); <em>gamma (&gamma;)</em> sheds energy (no change in A or Z).<br>
+            <strong>Half-life:</strong> t&frac12; is the constant time for half a sample to decay; after <em>n</em> half-lives, <strong>(1/2)<sup>n</sup></strong> remains. <strong>Carbon-14</strong> (t&frac12; &asymp; <strong>5730&nbsp;years</strong>) dates once-living material.<br>
+            <strong>Fission vs fusion:</strong> <em>fission</em> splits a heavy nucleus (e.g., uranium-235) into lighter nuclei + neutrons (a chain reaction); <em>fusion</em> combines light nuclei &mdash; <strong><sup>2</sup><sub>1</sub>H + <sup>3</sup><sub>1</sub>H &rarr; <sup>4</sup><sub>2</sub>He + <sup>1</sup><sub>0</sub>n</strong> &mdash; and powers the Sun. Both release energy from a tiny lost mass via <strong>E = mc<sup>2</sup></strong>.<br>
+            <strong>Medical isotopes:</strong> <em>technetium-99m</em> (gamma, short ~6-hour half-life) for imaging; <em>iodine-131</em> for thyroid therapy (the thyroid concentrates iodine).<br>
+            <strong>Dose units:</strong> the <em>gray (Gy)</em> measures energy absorbed (1 J/kg); the <em>sievert (Sv)</em> weights that dose by how damaging the radiation type is. They are not the same number.<br>
+            <strong>Where the field is now (broad strokes &mdash; verify before citing any specific):</strong> scientists are currently pursuing <em>controlled fusion</em> for power (magnetic-confinement tokamaks and inertial/laser approaches; laboratories have recently produced a fusion reaction that released more energy than was delivered to the fuel, though a working power plant is still years away); <em>advanced and small modular fission reactors</em> and better long-term waste strategies; and, in medicine, <em>targeted radionuclide therapies</em> that deliver a radioisotope directly to diseased tissue. Keep these general in your writing unless you can verify a specific figure.
+        </div>
+    </div>
+
+    <!-- Reasoning toolkit -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129504; YOUR REASONING TOOLKIT (how to build the case study)</div>
+        <div style="font-size: 15px; color: #666; line-height:1.55; margin-bottom:14px;">Use these steps in your own words &mdash; don't just copy the headings.</div>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:12px;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Step 1 &mdash; Trace the history accurately, then bring it to now.</strong></div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.6;">Lay out the arc your application rests on: Becquerel's discovery (1896), the Curies (polonium and radium, 1898; that radioactivity comes from the nucleus), and Rutherford (alpha/beta identified; the first transmutation, 1919), through to the present understanding &mdash; and then to where scientists are taking the field <em>now</em>. Use the toolkit dates and facts &mdash; don't invent quotes or specifics.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:12px;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Step 2 &mdash; Make a claim and back it with the nuclear chemistry.</strong></div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.6;">Pick application A or B and state a clear position on its responsible use. Then ground it in the chemistry that <em>matters for your case</em> &mdash; the decay/reaction type, half-life, the energy from E = mc<sup>2</sup>, fission vs fusion &mdash; not just a general opinion.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px;">
+            <div style="font-size:16px; color:#0E1C42; margin-bottom:6px;"><strong>Step 3 &mdash; Weigh the costs honestly, then decide.</strong></div>
+            <div style="font-size:15px; color:#1a2340; line-height:1.6;">No nuclear technology is free of trade-offs: waste, accident risk, and the difficulty of fusion for power; radiation dose and risk for medicine. Name the <em>strongest</em> objection to your position, then answer it &mdash; reasoning from evidence, not preference (Honesty).</div>
+        </div>
+    </div>
+
+    <!-- Required sections -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; STRUCTURE: WRITE THESE SECTIONS</div>
+
+        <div style="font-size: 15px; color: #666; line-height:1.55; margin-bottom:14px;">Your capstone must include all six sections below. Together they carry the five moves of a full investigation &mdash; <em>investigate a contemporary problem, analyze its history, evaluate the evidence, connect to current research, and present a CER conclusion</em> &mdash; plus an honest societal cost/benefit.</div>
+
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>The contemporary problem (investigate).</strong> Name the modern nuclear application you're investigating (A nuclear energy, or B medical isotopes) and the real-world problem or question it addresses today &mdash; for example, generating low-carbon electricity, or diagnosing and treating disease. Set up why it matters now.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>Historical development (analyze the history).</strong> Trace the arc your application rests on: Becquerel's discovery (1896) &rarr; Marie and Pierre Curie (radioactivity named; polonium and radium, 1898; Marie Curie's Nobel Prizes in Physics 1903 and Chemistry 1911) &rarr; Rutherford (identified alpha and beta; the first transmutation, 1919) &rarr; to the present understanding. Explain the Nature-of-Science idea: radioactivity is a property of the <em>nucleus</em>, which helped overturn the indivisible-atom model &mdash; a case of a scientific model changing as evidence improved.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>Claim &amp; evidence &mdash; the nuclear chemistry (evaluate evidence).</strong> State a clear, defensible <strong>claim</strong> about the responsible use of your application (e.g., &ldquo;Used responsibly, nuclear power is a justified low-carbon energy source,&rdquo; or &ldquo;Medical radioisotopes are worth their small radiation risk when the diagnostic benefit is real&rdquo;). Then <strong>evaluate the evidence</strong> behind it: the relevant decay or reaction type, the half-life (and why it suits the job), the energy released via E = mc<sup>2</sup>, and &mdash; for energy &mdash; how fission and/or fusion work. Use the toolkit values accurately and keep fission and fusion distinct.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>Connection to current research.</strong> Show where the field is going <em>now</em>: for energy, controlled fusion (tokamaks; inertial/laser approaches) or advanced/small modular reactors and waste strategies; for medicine, newer targeted radioisotope therapies. Frame it as &ldquo;scientists are currently exploring&hellip;,&rdquo; keep specifics general unless you can verify them, and name one <strong>open question</strong> the field has not yet settled.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>Societal cost / benefit &amp; responsibility.</strong> Weigh the real benefits against the real risks (low-carbon power vs waste and accident risk; diagnostic benefit vs radiation dose). Name the <strong>strongest objection</strong> to your position and answer it. Reason from evidence, not preference (Honesty thread; Responsibility virtue).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #0E1C42; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">6</div>
+            <div style="font-size: 17px; color: #1a2340; line-height: 1.6;"><strong>CER conclusion (present a Claim&ndash;Evidence&ndash;Reasoning conclusion).</strong> Close with an explicit CER statement: restate your <strong>Claim</strong>, cite the strongest <strong>Evidence</strong> (the nuclear chemistry and the cost/benefit), and give the <strong>Reasoning</strong> that ties them together. End on the big idea: <em>the same nuclear change Curie first glimpsed can heal or harm, power or pollute &mdash; and using it well means understanding the chemistry and owning the costs.</em></div>
+        </div>
+    </div>
+
+    <!-- Length & style -->
+    <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#9998; LENGTH &amp; STYLE</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Aim for roughly <strong>600&ndash;800 words</strong> across the six sections. Use correct terminology &mdash; <em>nucleus, radioactivity, alpha/beta/gamma decay, half-life, fission, fusion, E = mc<sup>2</sup>, dose.</em> The history, the chemistry, the current-research connection, and the reasoning are what's graded &mdash; not polished prose. Ground your claim in the nuclear chemistry, not a hunch, and keep fission and fusion separate.</div>
+    </div>
+
+    <!-- AI-as-Instrument awareness -->
+    <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-top: 3px solid #E74C3C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #8A1F16; margin-bottom: 8px;">&#9888;&#65039; A NOTE ON USING AI TOOLS</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">An AI tool will happily write you a history of Curie or a paragraph on nuclear power &mdash; and it can get things <em>wrong</em>: inventing a date, a half-life, or a dose or energy figure; confusing fission with fusion; or <em>overstating</em> how mature a technology like fusion power really is. If you consult one, treat it as a <em>draft to check</em>, never an answer to paste: verify every historical claim and every nuclear value against this assignment's toolkit and the primary evidence, and re-check the chemistry yourself. The instrument proposes; <em>your</em> reasoning verifies. That is exactly the AI-literacy skill this assignment is built to grow.</div>
+    </div>
+
+    <!-- M365 reminder (Band C 9-10) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128193; M365 REMINDER</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Write your case study in <strong>Microsoft Word</strong> from your school M365 account. Name your file <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_NuclearCaseStudy_CHEM1H</code>, save it to your <strong>Optima &rarr; Science</strong> OneDrive course folder, and submit through Canvas. New here? See the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide&rdquo;</strong> page in this module.</div>
+        <div style="font-size: 14px; color: #8a6d1d; margin-top: 8px;"><em>M365 Skill You're Practicing: structuring a historical case study and an evidence-based argument with headings in Word. If your teacher returns comments for revision, turn on Track Changes before revising.</em></div>
+    </div>
+
+    <!-- RUBRIC -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS GRADED (TEACHER RUBRIC &mdash; build natively as a Canvas Rubric)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 640px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334; width:24%;">Criterion</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full marks</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Developing</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Historical development (Becquerel &rarr; Curie &rarr; Rutherford &rarr; present)</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">The arc is accurate (Becquerel 1896; the Curies &mdash; polonium and radium, 1898; two Nobel Prizes, 1903 &amp; 1911; Rutherford's alpha/beta and 1919 transmutation) and connected to the Nature-of-Science idea that the indivisible-atom model changed as evidence improved.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">History thin, vague, or contains errors / invented specifics; only a single figure; no link to changing models.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">18</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Contemporary problem &amp; claim</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Names a real contemporary problem the chosen application (A or B) addresses, and states a clear, specific, defensible claim about its responsible use.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Problem unclear or missing; claim vague, missing, or only restates the prompt.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">12</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Evidence &mdash; nuclear chemistry (evaluated)</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Correct, relevant nuclear chemistry, evaluated not just listed: the decay/reaction type, half-life and why it suits the job, energy via E = mc<sup>2</sup>, and (for energy) fission vs fusion kept distinct &mdash; with toolkit values used accurately.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Chemistry thin, incomplete, or wrong (e.g., fission/fusion confused, half-life logic mis-stated, invented figures).</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">22</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Connection to current research</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Connects the application to where the field is going now (hedged, e.g. fusion, advanced reactors, or targeted radioisotope therapies) and names an open question &mdash; without overstating maturity or inventing specifics.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">No current-research link, or claims are overstated / fabricated; no open question.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">13</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Societal cost/benefit &amp; responsibility</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Weighs genuine benefits and risks, names the strongest objection and answers it, reasoning from evidence not preference (neither dismissing nor exaggerating the risk).</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Trade-offs missing, generic, or one-sided; no counterargument; risk treated as catastrophic or as zero.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">22</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">CER conclusion &amp; communication</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Conclusion is an explicit Claim&ndash;Evidence&ndash;Reasoning statement that ties back to the claim and names the big idea; correct terminology, clear organized writing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Conclusion thin or just restates; not a CER; terms misused; disorganized.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">13</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">100 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">The nuclear-chemistry evidence and the cost/benefit reasoning carry the most weight &mdash; a confident position with no chemistry behind it, or one that ignores the trade-offs, earns little. Reason from the nucleus up.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M9 Case Study &mdash; Marie Curie &amp; the Atom Within</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Submit your Word <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">.docx</code> through Canvas (OneDrive tab or file upload). If your teacher returns it with comments, revise with Track Changes on and resubmit as a <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">_Revision1</code> file.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Nuclear Chemistry &amp; Its Applications</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Module 9 Writing Assignment &middot; Marie Curie &amp; the Atom Within (Nuclear Case Study)</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

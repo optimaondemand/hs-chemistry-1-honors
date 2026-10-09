@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 5 · Week 2 — Hands-On: Gas Stoichiometry &amp; Partial-Pressure Data (Excel)</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 13px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 2</div>
+        <div style="font-size: 13px; color: #666;">Lessons 5.03&ndash;5.04</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On &middot; Excel</div>
+        <div style="font-size: 13px; color: #666;">Data analysis &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 2 &middot; Hands-On (Excel)</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Gas Stoichiometry &amp; Partial-Pressure Data</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> the molar volume of a gas at STP (22.4 L/mol) and gas-volume ratios as mole ratios (5.03), and Dalton's law of partial pressures plus the over-water correction (5.04) &mdash; now run across several trials in Excel, where the spreadsheet does the repetitive arithmetic so you can focus on the chemistry.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work, and it rehearses exactly the gas calculations the rest of the module leans on.</div>
+    </div>
+
+    <!-- Assignment Overview -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128203; ASSIGNMENT OVERVIEW</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">You'll build <strong>two tables</strong> in <strong>Excel</strong>. In <strong>Part A</strong>, you process six gas-stoichiometry trials &mdash; three where a measured volume of oxygen reacts (2&nbsp;H<sub>2</sub> + O<sub>2</sub> &rarr; 2&nbsp;H<sub>2</sub>O), and three where a measured mass of limestone decomposes (CaCO<sub>3</sub> &rarr; CaO + CO<sub>2</sub>) &mdash; computing the volume of product gas at STP. In <strong>Part B</strong>, you process gas mixtures and gas-collection data &mdash; totaling partial pressures, finding mole fractions, and correcting for water vapor. Then you'll analyze what the data reveal.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">Across real trials, how do a measured volume, a measured mass, and a measured pressure each become a count of gas &mdash; and what gets left out if you skip a correction?</div>
+    </div>
+
+    <!-- Constants -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 16px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#128290; CONSTANTS YOU'LL NEED</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.7;">Molar volume at STP: <strong>22.4 L/mol</strong>. &nbsp; Molar mass: <strong>CaCO<sub>3</sub> = 100.09 g/mol</strong>. &nbsp; Mole ratios: <strong>O<sub>2</sub> : H<sub>2</sub>O = 1 : 2</strong> and <strong>CaCO<sub>3</sub> : CO<sub>2</sub> = 1 : 1</strong>. &nbsp; Water vapor pressure at 25 &deg;C: <strong>23.8 mmHg</strong>. &nbsp; (1 atm = 760 mmHg.)</div>
+    </div>
+
+    <!-- Reason-in-words-before-calculating step -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#9997;&#65039; BEFORE YOU CALCULATE &middot; PUT THE REASONING IN WORDS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 12px;">Chemistry is reasoning first, arithmetic second. <strong>Before you build a single formula</strong>, write two or three sentences (in your notebook or a text box in the spreadsheet) answering each of these in plain words &mdash; no numbers yet:</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.8; font-size:16px; color:#0e1c42;">
+            <strong>1.</strong> For a <em>volume</em> trial (1&ndash;3), how does a measured volume of O<sub>2</sub> become a volume of H<sub>2</sub>O vapor? Why can you use the coefficient ratio directly, without ever converting to moles?<br>
+            <strong>2.</strong> For a <em>mass</em> trial (4&ndash;6), why does finding the CO<sub>2</sub> volume take an extra step that the volume trials don't? What is that step, in words?<br>
+            <strong>3.</strong> For the gas collected over water, what will you do to the measured total pressure, and <em>why</em> &mdash; what is in that container besides the gas you want?
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your reasoning &mdash; model answer (read only after you've written yours)</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>1.</strong> Both O<sub>2</sub> and H<sub>2</sub>O are gases at the same temperature and pressure, so by Avogadro's law equal volumes hold equal numbers of molecules &mdash; the volume ratio <em>is</em> the mole ratio. That lets me multiply the O<sub>2</sub> volume straight by the coefficient ratio (2 H<sub>2</sub>O per 1 O<sub>2</sub>) without going through moles at all.<br>
+                <strong>2.</strong> In the mass trials the reactant CaCO<sub>3</sub> is a <em>solid</em>, not a gas, so there is no volume-ratio shortcut. I have to cross the mole bridge: grams &rarr; moles (divide by molar mass), moles CaCO<sub>3</sub> &rarr; moles CO<sub>2</sub> (1:1 ratio), then moles &rarr; volume (multiply by 22.4 L/mol). The extra step is converting the solid's mass to moles before I can reach a gas volume.<br>
+                <strong>3.</strong> I will <em>subtract</em> the water vapor pressure (23.8 mmHg at 25 &deg;C) from the measured total, because a gas collected over water shares the space with evaporated water. The gauge reads dry gas <em>plus</em> water vapor, and only the dry-gas part is my product.
+            </div>
+        </details>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">This written reasoning is part of your &ldquo;Analysis + self-check&rdquo; work &mdash; it is scored under that rubric row, not as separate points.</div>
+    </div>
+
+    <!-- The data set — Part A -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART A DATA &middot; SIX GAS-STOICHIOMETRY TRIALS (volume of product gas at STP)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Trials 1&ndash;3 use <strong>2 H<sub>2</sub> + O<sub>2</sub> &rarr; 2 H<sub>2</sub>O</strong> (all gases at STP, H<sub>2</sub> in excess). Trials 4&ndash;6 use <strong>CaCO<sub>3</sub> &rarr; CaO + CO<sub>2</sub></strong>. Type this data into Excel exactly as shown.</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:520px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Trial</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Reaction</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Amount of reactant given</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Product gas asked for (at STP)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">11.2 L O&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of H&#8322;O vapor</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">5.0 L O&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of H&#8322;O vapor</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">3</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2 H&#8322; + O&#8322; &rarr; 2 H&#8322;O</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">22.4 L O&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of H&#8322;O vapor</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">CaCO&#8323; &rarr; CaO + CO&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">10.0 g CaCO&#8323;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of CO&#8322;</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">5</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">CaCO&#8323; &rarr; CaO + CO&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">50.0 g CaCO&#8323;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of CO&#8322;</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">6</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">CaCO&#8323; &rarr; CaO + CO&#8322;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">25.0 g CaCO&#8323;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">L of CO&#8322;</td></tr>
+        </table>
+        </div>
+    </div>
+
+    <!-- The data set — Part B -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART B DATA &middot; GAS MIXTURES &amp; GAS COLLECTED OVER WATER (25 &deg;C)</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Mixtures M1&ndash;M3 contain only N<sub>2</sub> and O<sub>2</sub>. Collections W1&ndash;W3 are a gas captured over water at 25 &deg;C. Type this into a second table in Excel.</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:520px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Sample</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">P(N&#8322;) (atm)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">P(O&#8322;) (atm)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Total measured P over water (mmHg)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">M1</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.60</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.40</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">M2</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1.50</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.50</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">M3</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.80</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">W1</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">760.0</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">W2</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">745.0</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">W3</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">&mdash;</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">800.0</td></tr>
+        </table>
+        </div>
+    </div>
+
+    <!-- Directions / Excel steps -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; WHAT TO DO IN EXCEL</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part A &mdash; volume trials (1&ndash;3).</strong> Add a <strong>mol O&#8322;</strong> column with a formula like <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=11.2/22.4</code> (volume &divide; molar volume). Then a <strong>mol H&#8322;O</strong> column = mol O&#8322; &times; 2 (the 1:2 ratio). Then a <strong>volume H&#8322;O at STP (L)</strong> column = mol H&#8322;O &times; 22.4.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part A &mdash; mass trials (4&ndash;6).</strong> Add a <strong>mol CaCO&#8323;</strong> column = mass &divide; 100.09. Then <strong>mol CO&#8322;</strong> = mol CaCO&#8323; &times; 1 (the 1:1 ratio). Then <strong>volume CO&#8322; at STP (L)</strong> = mol CO&#8322; &times; 22.4.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Sanity-check Trials 1&ndash;3 a second way.</strong> Since both reactant and product are gases at the same conditions, the volume ratio equals the mole ratio: O&#8322; volume &times; 2 should equal your H&#8322;O volume. Add a <strong>Volume-ratio check</strong> column (<code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=O2_volume*2</code>) and confirm it matches.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part B &mdash; mixtures (M1&ndash;M3).</strong> Add a <strong>Total P (atm)</strong> column = P(N&#8322;) + P(O&#8322;) (Dalton's law), and a <strong>mole fraction N&#8322;</strong> column = P(N&#8322;) &divide; Total P. A formula like <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=B2/(B2+C2)</code> works.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Part B &mdash; over-water (W1&ndash;W3).</strong> Add a <strong>P(dry gas) (mmHg)</strong> column = total &minus; 23.8 (the water vapor pressure at 25 &deg;C). A formula like <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=D5-23.8</code> works. Fill down all three collections.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">6</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In cells or a text box below the tables, answer the three <strong>Analysis Questions</strong> below.</div>
+        </div>
+    </div>
+
+    <!-- Analysis questions -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#10067; ANALYSIS QUESTIONS (answer in your spreadsheet)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.8; font-size:16px; color:#0e1c42;">
+            <strong>A.</strong> In Trials 1&ndash;3 you found the H&#8322;O volume two ways &mdash; through the mole bridge (&divide;22.4, &times;2, &times;22.4) and through the volume ratio (&times;2). Did the two methods agree? Explain <em>why</em> the volume-ratio shortcut works for these trials but would <em>not</em> work for Trials 4&ndash;6.<br>
+            <strong>B.</strong> For mixtures M1&ndash;M3, do the mole fractions of N&#8322; and O&#8322; in each sample add up to 1? Show one example, and explain why this must always be true for a complete gas mixture.<br>
+            <strong>C.</strong> For collections W1&ndash;W3, how much pressure did the water vapor account for in each case, and was it the same number every time? If a student forgot the over-water correction, would they report <em>too much</em> or <em>too little</em> dry gas &mdash; and why does that matter for an honest result?
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>Part A results (rounded to 3 sig figs):</strong><br>
+                &bull; <strong>Trial 1</strong> &mdash; mol O&#8322; = 11.2/22.4 = 0.500; mol H&#8322;O = 1.00; <strong>volume H&#8322;O = 22.4 L</strong>. Volume-ratio check: 11.2 &times; 2 = 22.4 L &#10003;<br>
+                &bull; <strong>Trial 2</strong> &mdash; mol O&#8322; = 5.0/22.4 = 0.223; mol H&#8322;O = 0.446; <strong>volume H&#8322;O = 10.0 L</strong>. Volume-ratio check: 5.0 &times; 2 = 10.0 L &#10003;<br>
+                &bull; <strong>Trial 3</strong> &mdash; mol O&#8322; = 22.4/22.4 = 1.00; mol H&#8322;O = 2.00; <strong>volume H&#8322;O = 44.8 L</strong>. Volume-ratio check: 22.4 &times; 2 = 44.8 L &#10003;<br>
+                &bull; <strong>Trial 4</strong> &mdash; mol CaCO&#8323; = 10.0/100.09 = 0.0999; mol CO&#8322; = 0.0999; <strong>volume CO&#8322; = 2.24 L</strong>.<br>
+                &bull; <strong>Trial 5</strong> &mdash; mol CaCO&#8323; = 50.0/100.09 = 0.500; mol CO&#8322; = 0.500; <strong>volume CO&#8322; = 11.2 L</strong>.<br>
+                &bull; <strong>Trial 6</strong> &mdash; mol CaCO&#8323; = 25.0/100.09 = 0.250; mol CO&#8322; = 0.250; <strong>volume CO&#8322; = 5.60 L</strong>.<br><br>
+                <strong>Part B results:</strong><br>
+                &bull; <strong>M1</strong> &mdash; Total P = 0.60 + 0.40 = <strong>1.00 atm</strong>; x(N&#8322;) = 0.60/1.00 = <strong>0.60</strong> (x(O&#8322;) = 0.40).<br>
+                &bull; <strong>M2</strong> &mdash; Total P = 1.50 + 0.50 = <strong>2.00 atm</strong>; x(N&#8322;) = 1.50/2.00 = <strong>0.75</strong> (x(O&#8322;) = 0.25).<br>
+                &bull; <strong>M3</strong> &mdash; Total P = 0.80 + 0.20 = <strong>1.00 atm</strong>; x(N&#8322;) = 0.80/1.00 = <strong>0.80</strong> (x(O&#8322;) = 0.20).<br>
+                &bull; <strong>W1</strong> &mdash; P(dry gas) = 760.0 &minus; 23.8 = <strong>736.2 mmHg</strong>.<br>
+                &bull; <strong>W2</strong> &mdash; P(dry gas) = 745.0 &minus; 23.8 = <strong>721.2 mmHg</strong>.<br>
+                &bull; <strong>W3</strong> &mdash; P(dry gas) = 800.0 &minus; 23.8 = <strong>776.2 mmHg</strong>.<br><br>
+                <strong>A.</strong> Yes &mdash; both methods give the same H&#8322;O volume for Trials 1&ndash;3. The volume-ratio shortcut works <em>only</em> because both the O&#8322; and the H&#8322;O are gases measured at the same temperature and pressure, so equal volumes mean equal moles (Avogadro's law) and the volume ratio equals the coefficient ratio. In Trials 4&ndash;6 the reactant CaCO&#8323; is a <em>solid</em>, not a gas, so its mass has no volume-ratio relationship to the CO&#8322; gas; you must cross the mole bridge through grams &rarr; moles &rarr; volume.<br>
+                <strong>B.</strong> Yes. Example (M2): x(N&#8322;) = 0.75 and x(O&#8322;) = 0.25, and 0.75 + 0.25 = 1.00. The mole fractions of all gases in a mixture must sum to 1 because together they account for every molecule present &mdash; there is nothing left over. (M1: 0.60 + 0.40 = 1; M3: 0.80 + 0.20 = 1.)<br>
+                <strong>C.</strong> The water vapor accounted for <strong>23.8 mmHg in every case</strong> &mdash; the same number, because vapor pressure depends only on temperature (here, 25 &deg;C), not on how much gas was collected. A student who forgot the correction would use the full total (e.g., 760 instead of 736.2 mmHg), reporting <em>too much</em> dry gas &mdash; they would be counting water vapor as if it were product. Honest measurement means subtracting what isn't yours.
+            </div>
+        </details>
+    </div>
+
+    <!-- M365 reminder (Band C 9-10) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128193; M365 REMINDER</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Build this in <strong>Microsoft Excel</strong> from your school M365 account. Name your file <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_GasData_CHEM1H</code>, save it to your <strong>Optima &rarr; Science</strong> OneDrive course folder, and submit through Canvas. New here? See the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide&rdquo;</strong> page in this module.</div>
+        <div style="font-size: 14px; color: #8a6d1d; margin-top: 8px;"><em>M365 Skill You're Practicing: filling formulas down a column &amp; building a calculation from a constant (Excel).</em></div>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part A: working mole-bridge columns produce the volume of product gas at STP for all six trials, with the volume-ratio check matching for Trials 1&ndash;3.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Part B: total pressure and mole fraction computed for M1&ndash;M3, and dry-gas pressure computed for W1&ndash;W3.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The reason-in-words step written <em>before</em> calculating, and all three Analysis Questions answered, then checked against the answer keys.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part A &mdash; gas stoichiometry<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Mole-bridge columns and product-gas volumes present, with formulas filled down all six trials; volume-ratio check matches for 1&ndash;3.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some columns missing or numbers typed by hand instead of formulas.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Part B &mdash; partial pressures<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Total pressure &amp; mole fraction correct for M1&ndash;M3; dry-gas pressure correct for W1&ndash;W3.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Computed for some samples, or a recurring formula error.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning + analysis + self-check<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">The reason-in-words step is written before calculating, and all three analysis questions are answered, then checked and corrected.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some questions missing or not checked.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer key lets you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M5 W2 Hands-On &mdash; Gas Stoichiometry &amp; Partial-Pressure Data (Excel)</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Upload your Excel file (<code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">.xlsx</code>) through Canvas (OneDrive tab or file upload).</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a formula gives a result you don't trust, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Gas Laws &amp; Thermochemistry</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 2 Hands-On &middot; Gas Stoichiometry &amp; Partial-Pressure Data (Excel)</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

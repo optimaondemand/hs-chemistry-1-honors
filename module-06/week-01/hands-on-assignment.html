@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 6 · Week 1 — Hands-On: Intermolecular Forces &amp; Boiling-Point Prediction</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q3 &middot; Module 6</div>
+        <div style="font-size: 13px; color: #666;">Liquids, Solids, Solutions &amp; Colloids</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 1</div>
+        <div style="font-size: 13px; color: #666;">Lessons 6.01&ndash;6.03</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Doing chemistry &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 1 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Intermolecular Forces &amp; Boiling-Point Prediction</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> the three intermolecular forces and boiling-point reasoning (6.01), surface tension / viscosity / capillary action and water's special properties (6.02), and the phase transitions and heating curves (6.03).</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work. Nine items: identify forces, rank boiling points with justification, explain properties from the forces, read a phase transition, and &mdash; last &mdash; a short <strong>data-analysis writing step</strong> where you predict in words <em>before</em> you read a boiling-point data table, then interpret the trend.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">Given only a substance's structure, can I reason out the forces between its molecules &mdash; and from those forces, predict the physical properties I'd actually measure?</div>
+    </div>
+
+    <!-- Toolkit -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#129518; YOUR TOOLKIT (USE THESE EXACT IDEAS)</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.8;">
+            <strong>The three IMFs (weakest &rarr; strongest, comparable size):</strong> London dispersion &lt; dipole-dipole &lt; hydrogen bonding. (Full ionic/covalent <em>bonds</em> are stronger still.)<br>
+            <strong>Hydrogen bonding requires:</strong> H bonded to N, O, or F.<br>
+            <strong>London dispersion:</strong> present in <em>all</em> substances; stronger with more electrons / larger molar mass.<br>
+            <strong>Key rule:</strong> stronger forces &rarr; higher melting and boiling points.<br>
+            <strong>Cohesion</strong> = pull of a liquid for itself &middot; <strong>Adhesion</strong> = pull of a liquid for a surface.<br>
+            <strong>Heating curve:</strong> temperature plateaus during a phase change (energy breaks forces, doesn't raise temperature).
+        </div>
+    </div>
+
+    <!-- Directions -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; STUDENT DIRECTIONS</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In the Canvas <strong>text-entry box</strong>, number your responses 1&ndash;9. For ranking and explaining items, <strong>show your reasoning</strong> (which force, and why), not just the final answer.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Work each part <em>before</em> you open its <strong>&#9654; Check your thinking</strong> box. The keys are there to confirm your reasoning, not replace it.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Always name the <strong>strongest</strong> force present, and remember London dispersion is in <em>everything</em>.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART A: identify the IMFs ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129514; PART A &middot; IDENTIFY THE INTERMOLECULAR FORCES (problems 1&ndash;3)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>1.</strong> Name the <strong>strongest</strong> intermolecular force present in each: <strong>(a)</strong> O<sub>2</sub> (nonpolar), <strong>(b)</strong> NH<sub>3</sub> (polar, H bonded to N), <strong>(c)</strong> HCl (polar, H bonded to Cl).</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>2.</strong> A classmate says water (H<sub>2</sub>O) and methane (CH<sub>4</sub>) should have similar boiling points because both are small molecules. Name the strongest force in each, and explain why this reasoning is wrong.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>3.</strong> Which intermolecular force is present in <em>every</em> one of the substances above &mdash; and why is it found in all of them?</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part A answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>1.</strong> (a) O<sub>2</sub> &rarr; <strong>London dispersion only</strong> (nonpolar). (b) NH<sub>3</sub> &rarr; <strong>hydrogen bonding</strong> (H on N). (c) HCl &rarr; <strong>dipole-dipole</strong> (polar, but H is on Cl, not N/O/F, so no hydrogen bonding).<br>
+                <strong>2.</strong> Water's strongest force is <strong>hydrogen bonding</strong>; methane's is <strong>London dispersion only</strong>. Size alone doesn't set boiling point &mdash; the <em>type</em> of force does. Water's hydrogen bonds are far stronger, so it takes much more energy to separate water molecules. (Water boils at 100&nbsp;&deg;C; methane at about &minus;161&nbsp;&deg;C.)<br>
+                <strong>3.</strong> <strong>London dispersion forces.</strong> They come from the motion of electrons, and every substance has electrons &mdash; so dispersion is present in all of them (it is the <em>only</em> force in nonpolar O<sub>2</sub>, and acts alongside the stronger forces in NH<sub>3</sub> and HCl).
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART B: rank boiling points ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127777;&#65039; PART B &middot; RANK THE BOILING POINTS, WITH JUSTIFICATION (problems 4&ndash;5)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>4.</strong> Rank <strong>helium (He)</strong>, <strong>methane (CH<sub>4</sub>)</strong>, and <strong>water (H<sub>2</sub>O)</strong> from <em>lowest</em> to <em>highest</em> boiling point. State the strongest force in each and justify the order.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>5.</strong> Ethane (CH<sub>3</sub>CH<sub>3</sub>) and ethanol (CH<sub>3</sub>CH<sub>2</sub>OH) have nearly the same molar mass, yet ethanol boils far higher (about 78&nbsp;&deg;C) than ethane (about &minus;89&nbsp;&deg;C). Which boils higher, and what single structural feature explains the huge difference?</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part B answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>4.</strong> <strong>He &lt; CH<sub>4</sub> &lt; H<sub>2</sub>O.</strong> Helium &mdash; a tiny nonpolar atom with the weakest possible London dispersion &mdash; is lowest. Methane is also nonpolar (dispersion only) but larger, with more electrons, so its dispersion forces are stronger &mdash; middle. Water hydrogen-bonds, the strongest of the three forces &mdash; highest. (You can rank these from the forces alone, with no temperatures.)<br>
+                <strong>5.</strong> <strong>Ethanol</strong> boils higher. The one difference is ethanol's <strong>&ndash;OH (hydroxyl) group</strong>, which lets it form <strong>hydrogen bonds</strong>; ethane (only C and H) has just weak London dispersion. The functional group sets the physical property through the force it enables.
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART C: explain a property ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128167; PART C &middot; EXPLAIN A PROPERTY FROM THE FORCES (problems 6&ndash;7)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>6.</strong> A water strider rests on a pond's surface, and a gently placed paper clip floats on water in a glass. Name the property responsible and explain it in terms of the forces on a surface molecule.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>7.</strong> Explain, at the molecular level, <strong>why ice floats</strong> on liquid water &mdash; and why that is unusual compared with most substances.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part C answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>6.</strong> <strong>Surface tension.</strong> A molecule deep in the liquid is pulled equally in all directions, but a surface molecule has no neighbors above, so the net pull is <em>inward</em>. This makes the surface behave like a stretched skin that resists being broken &mdash; strong enough (thanks to water's hydrogen bonding) to support a light, gently placed object like a strider or a paper clip.<br>
+                <strong>7.</strong> When water freezes, its <strong>hydrogen bonds hold the molecules in an open, spacious lattice</strong> with gaps, so solid ice is <em>less</em> dense than liquid water and floats. This is unusual: most substances pack <em>closer</em> when they freeze, so their solids are denser and sink. The floating ice insulates the water below.
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART D: heating curve / phase transition ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128293; PART D &middot; READ A PHASE TRANSITION (problem 8)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>8.</strong> A sample of ice is heated steadily. On the heating curve, the temperature climbs, then goes <strong>flat at 0&nbsp;&deg;C</strong> for a while, climbs again, then goes <strong>flat at 100&nbsp;&deg;C</strong>. <strong>(a)</strong> What is happening during each flat plateau? <strong>(b)</strong> Why does the temperature hold constant even though heat is still being added? <strong>(c)</strong> Name the two phase transitions occurring (in order), and say whether each absorbs or releases energy.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part D worked answer</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>(a)</strong> The first plateau (0&nbsp;&deg;C) is the ice <strong>melting</strong> to liquid water; the second plateau (100&nbsp;&deg;C) is the liquid water <strong>boiling (vaporizing)</strong> to steam.<br>
+                <strong>(b)</strong> During a phase change the added energy goes into <strong>breaking intermolecular forces</strong> (pulling the molecules apart) rather than raising their kinetic energy, so the temperature stays constant until the change is complete.<br>
+                <strong>(c)</strong> In order: <strong>melting (fusion)</strong>, then <strong>vaporization</strong> &mdash; both <strong>absorb</strong> energy (endothermic).<br><br>
+                <em>Check yourself: did you reason from the forces in every item, and name the strongest force present (remembering dispersion is in everything)?</em>
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART E: data-analysis writing ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9997;&#65039; PART E &middot; DATA-ANALYSIS WRITING: PREDICT IN WORDS, THEN READ THE DATA (problem 9)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>9.</strong> Below are the measured boiling points of five molecules of similar or increasing size.<br><br>
+            <strong>(a) Before you look hard at the numbers</strong> &mdash; in <em>words</em> (no calculating, no sorting yet) &mdash; predict which molecule will boil <em>lowest</em> and which will boil <em>highest</em>, and name the one force that decides it. Write one or two sentences.<br><br>
+            <strong>(b) Now study the data table</strong> and write <strong>3&ndash;4 sentences</strong> analyzing the trend: which molecules rely only on London dispersion, which add dipole-dipole, and which can hydrogen-bond &mdash; and describe how the measured boiling points line up (or don't) with the strength order. Point out <em>one</em> place where molar mass (dispersion) and force <em>type</em> both matter.</div>
+        </div>
+        <div style="overflow-x:auto; margin:10px 0;">
+        <table style="width:100%; border-collapse:collapse; min-width:460px;">
+            <thead>
+                <tr style="background:#0E1C42;">
+                    <th style="padding:9px 12px; font-size:13px; color:#fff; text-align:left; border:1px solid #334;">Substance</th>
+                    <th style="padding:9px 12px; font-size:13px; color:#fff; text-align:left; border:1px solid #334;">Formula</th>
+                    <th style="padding:9px 12px; font-size:13px; color:#fff; text-align:left; border:1px solid #334;">Boiling point (&deg;C)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background:#fff;"><td style="padding:8px 12px; font-size:15px; color:#0e1c42; border:1px solid #D0D9E8;">methane</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">CH<sub>4</sub></td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">&minus;161</td></tr>
+                <tr style="background:#F4F6FA;"><td style="padding:8px 12px; font-size:15px; color:#0e1c42; border:1px solid #D0D9E8;">ethane</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">C<sub>2</sub>H<sub>6</sub></td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">&minus;89</td></tr>
+                <tr style="background:#fff;"><td style="padding:8px 12px; font-size:15px; color:#0e1c42; border:1px solid #D0D9E8;">formaldehyde</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">CH<sub>2</sub>O</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">&minus;19</td></tr>
+                <tr style="background:#F4F6FA;"><td style="padding:8px 12px; font-size:15px; color:#0e1c42; border:1px solid #D0D9E8;">methanol</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">CH<sub>3</sub>OH</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">+65</td></tr>
+                <tr style="background:#fff;"><td style="padding:8px 12px; font-size:15px; color:#0e1c42; border:1px solid #D0D9E8;">ethanol</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">C<sub>2</sub>H<sub>5</sub>OH</td><td style="padding:8px 12px; font-size:15px; color:#1a2340; border:1px solid #D0D9E8;">+78</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part E model answer</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>(a) Prediction (in words):</strong> Methane should boil <em>lowest</em> &mdash; it is small and nonpolar, so only weak London dispersion acts. Ethanol should boil <em>highest</em> &mdash; its &ndash;OH group lets it hydrogen-bond, the strongest of the three forces. The deciding force is <strong>hydrogen bonding</strong> (present in the molecules with an &ndash;OH).<br><br>
+                <strong>(b) Analysis of the data:</strong> The table confirms the prediction. <strong>Methane (CH<sub>4</sub>)</strong> and <strong>ethane (C<sub>2</sub>H<sub>6</sub>)</strong> are nonpolar, so they feel <em>only</em> London dispersion &mdash; and they boil lowest (&minus;161 and &minus;89&nbsp;&deg;C). <strong>Formaldehyde (CH<sub>2</sub>O)</strong> is polar, so it adds <em>dipole-dipole</em> attraction and boils higher (&minus;19&nbsp;&deg;C). <strong>Methanol and ethanol</strong> both carry an &ndash;OH group, so they <em>hydrogen-bond</em> &mdash; and they boil far higher (+65 and +78&nbsp;&deg;C). The measured points climb exactly with the strength order: dispersion &lt; dipole-dipole &lt; hydrogen bonding.<br><br>
+                <strong>Where both molar mass AND force type matter:</strong> Methane vs. ethane shows dispersion alone &mdash; same force type, but ethane is larger (more electrons), so it boils ~70 degrees higher purely from stronger dispersion. Ethanol vs. methanol shows the same idea among the hydrogen-bonders: both hydrogen-bond, but the larger ethanol boils a bit higher. So <em>within</em> one force type, size (dispersion) breaks the tie; <em>across</em> force types, the stronger type wins outright.<br><br>
+                <em>Check yourself: did you write your word-prediction in (a) before sorting the numbers, and does your analysis name the force type for each molecule rather than just re-listing the temperatures?</em>
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All 8 problems attempted with your <em>reasoning</em> shown (which force, and why), not just final answers.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Boiling-point rankings are justified by the strength order of the forces, and hydrogen bonding is correctly limited to H bonded to N, O, or F.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">In Problem 9 you wrote your word-prediction <em>before</em> reading the data table, then analyzed the trend by naming the force type for each molecule (not just re-listing the temperatures).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">You attempted each item before checking, and corrected any you missed.</div>
+        </div>
+    </div>
+
+    <!-- Rubric -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Identify forces &amp; rank boiling points (1&ndash;5)<br /><span style="font-size: 12px; color: #777;">10 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Strongest force named for each substance; rankings justified by the strength order; H-bonding correctly limited to N/O/F.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some forces mislabeled, a ranking unjustified, or an item skipped.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">10</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Explain properties &amp; phase transitions (6&ndash;8)<br /><span style="font-size: 12px; color: #777;">4 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Surface tension, ice floating, and the heating-curve plateaus each explained at the molecular level (forces, not just labels).</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">An explanation only restates the term, or one problem skipped.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">4</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Data-analysis writing: predict in words, then interpret the boiling-point table (9)<br /><span style="font-size: 12px; color: #777;">4 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">A word-prediction written before the data; analysis names the force type for each molecule and ties the measured trend to the strength order.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Only the temperatures are re-listed, or the prediction is skipped.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">4</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Honest self-check<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Attempted before checking; corrections noted where needed.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Little evidence of an honest first attempt.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer keys above let you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M6 W1 Hands-On &mdash; Intermolecular Forces &amp; Boiling-Point Prediction</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Type your numbered responses directly into the Canvas <strong>text-entry box</strong> (or attach a photo of your paper work). No separate file is required this week.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If you get stuck, submit what you have with a note on where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Liquids, Solids, Solutions &amp; Colloids</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 1 Hands-On &middot; Intermolecular Forces &amp; Boiling-Point Prediction</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

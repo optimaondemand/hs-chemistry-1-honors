@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 8 · Week 4 — Hands-On: Rate-Law Determination (Excel)</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q4 &middot; Module 8</div>
+        <div style="font-size: 13px; color: #666;">Electrochemistry, Redox &amp; Kinetics</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 4</div>
+        <div style="font-size: 13px; color: #666;">Lessons 8.08&ndash;8.10</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On &middot; Excel</div>
+        <div style="font-size: 13px; color: #666;">Data analysis &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 4 &middot; Hands-On (Excel)</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Rate-Law Determination from Initial-Rate Data</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> the rate law rate = k[A]<sup>m</sup>[B]<sup>n</sup> (8.09) and the method of initial rates &mdash; comparing trials where one concentration changes at a time to find each reactant's order. Here you take a real set of initial-rate data into Excel, determine the orders <em>from the data</em>, write the rate law, and compute the rate constant k &mdash; exactly the reasoning a chemist uses at the bench.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work, and it puts the central kinetics rule into practice: orders come from experiment, never from the coefficients.</div>
+    </div>
+
+    <!-- Assignment Overview -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128203; ASSIGNMENT OVERVIEW</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A chemist studied the reaction <strong>A + B &rarr; products</strong> by running four trials, each time changing one starting concentration while holding the other fixed, and measured the <strong>initial rate</strong> of each. In <strong>Excel</strong>, you'll enter the data table, then <strong>compare trials</strong> to find the <strong>order in A</strong> and the <strong>order in B</strong>, write the <strong>rate law</strong>, and use one trial to <strong>compute the rate constant k</strong> by formula. Excel does the arithmetic; the chemistry &mdash; reasoning out the orders from how the rate responds &mdash; is your job.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">When you double one reactant's concentration, the rate sometimes doubles and sometimes quadruples. How does watching <em>which</em> of those happens &mdash; trial by trial &mdash; let you read the reaction's hidden orders straight out of the data?</div>
+    </div>
+
+    <!-- The data set -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; YOUR DATA &middot; FOUR INITIAL-RATE TRIALS FOR A + B &rarr; PRODUCTS</div>
+        <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 12px 0;">Type this table into Excel exactly as shown. Each row is one experiment with different starting concentrations.</p>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse: collapse; min-width:480px;">
+            <tr style="background:#0E1C42;">
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Trial</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">[A] (M)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">[B] (M)</th>
+                <th style="padding:9px 12px; color:#fff; text-align:left; border:1px solid #334;">Initial rate (M/s)</th>
+            </tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">1</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.0050</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">2</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.0100</td></tr>
+            <tr style="background:#FFFFFF;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">3</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.10</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.0200</td></tr>
+            <tr style="background:#F4F6FA;"><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">4</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.20</td><td style="padding:8px 12px; border:1px solid #D0D9E8; color:#1a2340;">0.0400</td></tr>
+        </table>
+        </div>
+        <div style="font-size: 14px; color: #777; font-style: italic; margin-top: 10px;">Note the design: trials 1&amp;2 change only [A]; trials 1&amp;3 change only [B]. Trial 4 changes both and is your independent check.</div>
+    </div>
+
+    <!-- Worked example -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#129518; HOW THE METHOD WORKS (A SHORT REMINDER)</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-bottom: 10px;">To find an order, compare two trials in which <em>only that reactant</em> changes, and see how the rate responds: rate <strong>&times;2</strong> &rarr; first order; rate <strong>&times;4</strong> &rarr; second order; rate <strong>unchanged (&times;1)</strong> &rarr; zero order. (That's 2 raised to the order: 2<sup>1</sup>=2, 2<sup>2</sup>=4, 2<sup>0</sup>=1.) Once you have the orders, plug one trial's numbers into rate = k[A]<sup>m</sup>[B]<sup>n</sup> and solve for k.</div>
+    </div>
+
+    <!-- AI-as-instrument red callout -->
+    <div style="background: #FDECEC; border-left: 5px solid #C0392B; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #C0392B; margin-bottom: 8px;">&#129302; AI AS AN INSTRUMENT &middot; VERIFY, DON'T TRUST</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">If you ask an AI assistant for the rate law, it will very often hand back the <em>coefficients</em> of the equation as the orders &mdash; here it might guess &ldquo;first order in A, first order in B&rdquo; just because the equation reads A + B. <strong>That is the exact mistake this assignment trains you to avoid.</strong> The orders are hiding in the <em>data</em>, not the equation. Determine each order yourself by comparing the trials, and confirm your rate constant k comes out the same from more than one trial. Use AI to check your <em>arithmetic</em> if you like &mdash; but the orders must come from the experiment, verified by hand.</div>
+    </div>
+
+    <!-- Directions / Excel steps -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; WHAT TO DO IN EXCEL</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Enter the four-row table with headers in row 1: <strong>Trial</strong>, <strong>[A] (M)</strong>, <strong>[B] (M)</strong>, <strong>Initial rate (M/s)</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Find the order in A.</strong> Compare trials 1 and 2 (where [B] is fixed). In a cell, compute the rate ratio with a formula like <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=rate2/rate1</code>. Decide from the ratio (×2, ×4, or ×1) whether A is first, second, or zero order, and type the order in a labeled cell <strong>m</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Find the order in B.</strong> Compare trials 1 and 3 (where [A] is fixed) with <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=rate3/rate1</code>. Decide the order in B and type it in a labeled cell <strong>n</strong>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Write the rate law</strong> in a text cell using your m and n: rate = k[A]<sup>m</sup>[B]<sup>n</sup>. Also compute the <strong>overall order</strong> in a cell: <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=m+n</code>.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;"><strong>Compute k</strong> from Trial 1 in a labeled cell, using your orders. With m and n in place, a formula like <code style="background:#F4F6FA;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">=rate1/((A1)^m*(B1)^n)</code> gives the rate constant. Then repeat with Trial 4 to confirm you get the <em>same</em> k.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">6</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In cells or a text box below the table, answer the three <strong>Analysis Questions</strong> below.</div>
+        </div>
+    </div>
+
+    <!-- Analysis questions -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#10067; ANALYSIS QUESTIONS (answer in your spreadsheet)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; line-height:1.8; font-size:16px; color:#0e1c42;">
+            <strong>A.</strong> What is the order in A and the order in B? For each, name the two trials you compared and the rate ratio that told you the order.<br>
+            <strong>B.</strong> Write the full rate law and state the overall order. Then show your computation of k from Trial 1, including its units.<br>
+            <strong>C.</strong> A classmate says &ldquo;the equation is A + B, so it must be first order in each.&rdquo; Using your data, explain in one or two sentences why you cannot get the orders from the equation &mdash; and what the data actually show.<br>
+            <strong>D.</strong> <em>Justify the order in B directly from the data table.</em> In two or three sentences, name the two trials you compared, state exactly what [B] did and what the rate did, and explain why that factor points to the order you assigned &mdash; as if you were defending it to a skeptical lab partner.
+        </div>
+
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 14px 0 0 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your work &mdash; answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>Order in A (trials 1 &amp; 2, [B] fixed):</strong> [A] doubles (0.10 &rarr; 0.20) and the rate doubles (0.0050 &rarr; 0.0100), ratio = 2. Rate &times;2 &rarr; <strong>first order in A (m = 1).</strong><br><br>
+                <strong>Order in B (trials 1 &amp; 3, [A] fixed):</strong> [B] doubles (0.10 &rarr; 0.20) and the rate quadruples (0.0050 &rarr; 0.0200), ratio = 4. Rate &times;4 &rarr; <strong>second order in B (n = 2).</strong><br><br>
+                <strong>Rate law:</strong> rate = <strong>k[A][B]<sup>2</sup></strong> &mdash; overall order = 1 + 2 = <strong>3 (third order).</strong><br><br>
+                <strong>Rate constant from Trial 1:</strong> 0.0050 = k(0.10)(0.10)<sup>2</sup> = k(0.10)(0.010) = k(0.0010), so k = 0.0050 / 0.0010 = <strong>5.0 M<sup>&minus;2</sup>&middot;s<sup>&minus;1</sup>.</strong><br>
+                <strong>Check with Trial 4:</strong> k = 0.0400 / [(0.20)(0.20)<sup>2</sup>] = 0.0400 / [(0.20)(0.040)] = 0.0400 / 0.0080 = <strong>5.0 M<sup>&minus;2</sup>&middot;s<sup>&minus;1</sup>.</strong> &#10003; Same k &mdash; the rate law is consistent.<br><br>
+                <strong>A.</strong> Order in A = 1 (trials 1&amp;2, ratio 2); order in B = 2 (trials 1&amp;3, ratio 4).<br>
+                <strong>B.</strong> rate = k[A][B]<sup>2</sup>; overall order 3; k = 5.0 M<sup>&minus;2</sup>&middot;s<sup>&minus;1</sup> (units chosen so rate comes out in M/s for a third-order reaction).<br>
+                <strong>C.</strong> The orders come from <em>experiment</em>, not the equation. The data show the reaction is second order in B (doubling [B] quadrupled the rate), which the coefficients could never have told us. Reading orders off the equation would have given the wrong rate law.<br>
+                <strong>D.</strong> <em>Model answer:</em> Comparing Trials 1 and 3 (where [A] is held fixed at 0.10 M), [B] doubles from 0.10 M to 0.20 M and the initial rate quadruples from 0.0050 M/s to 0.0200 M/s &mdash; a rate ratio of 4. Because doubling a concentration multiplies the rate by 2 raised to that reactant's order, and 2&sup2; = 4, the reaction must be <strong>second order in B (n = 2)</strong>. Holding [A] constant is what makes this fair: the ×4 response can only be due to the change in [B].
+            </div>
+        </details>
+    </div>
+
+    <!-- M365 reminder (Band C 9-10) -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 8px;">&#128193; M365 REMINDER</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.6;">Build this in <strong>Microsoft Excel</strong> from your school M365 account. Name your file <code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">LastName_FirstName_RateLaw_CHEM1H</code>, save it to your <strong>Optima &rarr; Science</strong> OneDrive course folder, and submit through Canvas. New here? See the pinned <strong>&ldquo;M365 Setup &amp; File Organization Guide&rdquo;</strong> page in this module.</div>
+        <div style="font-size: 14px; color: #8a6d1d; margin-top: 8px;"><em>M365 Skill You're Practicing: building rate ratios with cell references and using exponent formulas (the <code style="background:#fff;border:1px solid #D0D9E8;border-radius:3px;padding:0 4px;">^</code> operator) to chain a calculation to a final value in Excel.</em></div>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The four-trial data table is entered, and the rate ratios for A and B are computed by formula.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The order in A (<strong>1</strong>) and order in B (<strong>2</strong>) are identified from the data, the rate law <strong>rate = k[A][B]<sup>2</sup></strong> is written, and the overall order (<strong>3</strong>) is stated.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">k is computed by formula and confirmed from a second trial (<strong>k = 5.0 M<sup>&minus;2</sup>&middot;s<sup>&minus;1</sup></strong>), and all three Analysis Questions are answered, then checked against the answer key.</div>
+        </div>
+    </div>
+
+    <!-- Rubric (completion-based) -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Data &amp; rate ratios<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All four trials entered and the rate ratios for A and B computed by formula.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some data missing, or ratios typed by hand instead of by formula.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Orders, rate law &amp; k<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Orders identified from the data, rate law written, and k computed by formula and confirmed.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Rate law or k missing, or orders read off the coefficients.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Analysis + self-check<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All three questions answered, then checked and corrected.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some questions missing or not checked.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer key lets you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M8 W4 Hands-On &mdash; Rate-Law Determination (Excel)</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Upload your Excel file (<code style="background:#fff;border:1px solid #D0D9E8;border-radius:4px;padding:1px 5px;">.xlsx</code>) through Canvas (OneDrive tab or file upload).</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If a formula gives a result you don't trust, submit what you have with a note about where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 4 &middot; Electrochemistry, Redox &amp; Kinetics</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 4 Hands-On &middot; Rate-Law Determination (Excel)</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>

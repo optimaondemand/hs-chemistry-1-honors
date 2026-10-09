@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 5 · Week 3 — Hands-On: Kinetic Theory &amp; Effusion</title>
+</head>
+<body style="margin:0;padding:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#ffffff;">
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">CHEMISTRY I HONORS</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 18px; color: #0e1c42;">Q3 &middot; Module 5</div>
+        <div style="font-size: 13px; color: #666;">Gas Laws &amp; Thermochemistry</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Week</div>
+        <div style="font-size: 18px; color: #0e1c42;">Week 3</div>
+        <div style="font-size: 13px; color: #666;">Lessons 5.05&ndash;5.06</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Type</div>
+        <div style="font-size: 18px; color: #0e1c42; font-style: italic;">Weekly Hands-On</div>
+        <div style="font-size: 13px; color: #666;">Doing chemistry &middot; self-check</div>
+    </div>
+    <div style="flex: 1; min-width: 150px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Points</div>
+        <div style="font-size: 16px; color: #0e1c42;">Assignment</div>
+        <div style="display: inline-block; background: #C7922C; color: #ffffff; font-size: 14px; padding: 3px 12px; border-radius: 10px; margin-top: 6px;">20 pts</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+<!-- ═══════════════════════════════════════════════════════════════════════
+     OPTIMA READ-ALOUD PLAYER — drop-in snippet for GitHub-hosted lesson pages
+     ═══════════════════════════════════════════════════════════════════════
+
+     WHAT IT DOES
+       Adds a "Listen" player that reads the page aloud using the browser's
+       built-in Web Speech API (no accounts, no API keys, works offline once
+       the page is loaded). The paragraph currently being read is highlighted
+       in pale gold and scrolled into view. Works inside a Canvas iframe.
+
+     WHERE TO PASTE
+       Into any GitHub-hosted Optima lesson page (the full-HTML-document kind,
+       NOT Canvas RCE pages — the RCE strips <script>). Paste this whole block
+       just inside the body wrapper, right BEFORE the first content card.
+
+     OPTIONS
+       • Add  data-ra-skip  to any element the reader should NOT read
+         (e.g. the local preview banner, decorative text, answer keys).
+       • Add  data-readaloud-root  to one container to limit reading to it.
+         Default scope: the .canvas-frame wrapper, else <body>.
+
+     NOTES
+       • The player never reads itself, <button> labels, or hidden elements
+         (so unrevealed widget feedback stays unread until shown).
+       • If the browser has no speech voices, the player disables itself
+         with a friendly message instead of breaking the page.
+-->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+    <!-- Lavender title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 8px;">Week 3 &middot; Hands-On</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 6px;">Kinetic Theory &amp; Effusion Problem Set</div>
+        <div style="font-size: 15px; color: #666;">Assignment &middot; 20 pts &middot; Completion + self-check</div>
+    </div>
+
+    <!-- Content Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; WHAT THIS BUILDS ON</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 8px;"><strong>From this week's lessons:</strong> the kinetic-molecular theory, average kinetic energy and absolute temperature, Graham's law of effusion, and the conditions where real gases deviate from the ideal gas law.</div>
+        <div style="font-size: 15px; color: #666; font-style: italic;">This is your week's &ldquo;doing chemistry&rdquo; work &mdash; nine problems (plus a short &ldquo;explain in words&rdquo; warm-up) that turn the theory into numbers, predictions, and a data-based argument. No spreadsheet needed; a calculator with a square-root key is enough.</div>
+    </div>
+
+    <!-- Focus Question -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#127919; FOCUS QUESTION</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; line-height: 1.6;">Given two gases at the same temperature, can I predict which moves faster, by how much, and where the ideal model can &mdash; and can't &mdash; be trusted?</div>
+    </div>
+
+    <!-- Toolkit -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 16px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 10px;">&#129518; YOUR TOOLKIT (USE THESE EXACT VALUES)</div>
+        <div style="font-size: 16px; color: #1a2340; line-height: 1.8;">
+            <strong>Graham's law of effusion:</strong> rate<sub>1</sub> / rate<sub>2</sub> = &radic;(M<sub>2</sub> / M<sub>1</sub>) &nbsp;&mdash;&nbsp; the lighter gas (smaller M) is faster<br>
+            <strong>Average kinetic energy &prop; absolute temperature (K):</strong> at one temperature, all gases share the same average KE<br>
+            <strong>Molar masses (g/mol):</strong> H<sub>2</sub> 2.016 &middot; He 4.00 &middot; CH<sub>4</sub> 16.04 &middot; N<sub>2</sub> 28.02 &middot; O<sub>2</sub> 32.00 &middot; CO<sub>2</sub> 44.01 &middot; Cl<sub>2</sub> 70.90<br>
+            <strong>Real gases deviate most at:</strong> high pressure and low temperature
+        </div>
+    </div>
+
+    <!-- Directions -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; border-top: 3px solid #0E1C42;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#128221; STUDENT DIRECTIONS</div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">In the Canvas <strong>text-entry box</strong>, number your responses 1&ndash;9 (and include the short &ldquo;explain before you calculate&rdquo; note at the top). For calculation problems, <strong>show your setup</strong> (the ratio under the square root, or the reasoning), not just the final answer.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Work each problem <em>before</em> you open its <strong>&#9654; Check your thinking</strong> box. Carry at least 3 significant figures; round sensibly at the end.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="min-width: 26px; height: 26px; border-radius: 50%; background: #C7922C; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">For every Graham's-law answer, run the quick sanity check: <strong>the lighter gas wins</strong>, so its rate-over-the-other should be a number greater than 1. If it isn't, you flipped the masses.</div>
+        </div>
+    </div>
+
+    <!-- ===== PART A: Graham's law ratios ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129514; PART A &middot; GRAHAM'S-LAW RATIOS (problems 1&ndash;4)</div>
+
+        <!-- Explain-in-words-before-calculating prompt -->
+        <div style="background: #E8F6FB; border-left: 5px solid #2196D0; border-radius: 6px; padding: 14px 18px; margin-bottom: 12px;">
+            <div style="font-size: 11px; color: #1B6A94; margin-bottom: 8px;">&#9998; EXPLAIN BEFORE YOU CALCULATE (do this first)</div>
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;">Before you touch the formula, write <strong>one or two sentences in words</strong> (no equation): for two gases at the <em>same temperature</em>, why does the lighter gas effuse faster? Naming the reason before you compute keeps the numbers meaningful &mdash; you should always be able to say what a calculation <em>means</em>.</div>
+            <details style="margin-top: 10px;">
+                <summary style="font-size: 15px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking</summary>
+                <div style="font-size: 15px; color: #1a2340; line-height: 1.6; margin-top: 8px; padding-top: 8px; border-top: 1px solid #D0E6EF;">At one temperature, every gas has the <strong>same average kinetic energy</strong>. Since kinetic energy is &frac12;<em>mv</em>&sup2;, a lighter molecule must move at a <strong>higher speed</strong> to carry that same energy &mdash; so it reaches and slips through the pinhole more often. The formula rate&#8321;/rate&#8322; = &radic;(M&#8322;/M&#8321;) just puts a number on that idea.</div>
+            </details>
+        </div>
+
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>1.</strong> How many times faster does <strong>helium (He)</strong> effuse than <strong>oxygen (O<sub>2</sub>)</strong>? Let He be gas 1.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>2.</strong> How many times faster does <strong>hydrogen (H<sub>2</sub>)</strong> effuse than <strong>carbon dioxide (CO<sub>2</sub>)</strong>? Let H<sub>2</sub> be gas 1.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>3.</strong> How many times faster does <strong>methane (CH<sub>4</sub>)</strong> effuse than <strong>oxygen (O<sub>2</sub>)</strong>? Let CH<sub>4</sub> be gas 1.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>4.</strong> How many times faster does <strong>nitrogen (N<sub>2</sub>)</strong> effuse than <strong>chlorine (Cl<sub>2</sub>)</strong>? Let N<sub>2</sub> be gas 1.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part A answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                Use rate<sub>1</sub>/rate<sub>2</sub> = &radic;(M<sub>2</sub>/M<sub>1</sub>) &mdash; masses flip relative to the rates.<br>
+                <strong>1.</strong> &radic;(32.00 / 4.00) = &radic;8.00 = <strong>2.83</strong> &rarr; He effuses 2.83&times; faster than O<sub>2</sub>.<br>
+                <strong>2.</strong> &radic;(44.01 / 2.016) = &radic;21.83 = <strong>4.67</strong> &rarr; H<sub>2</sub> effuses 4.67&times; faster than CO<sub>2</sub>.<br>
+                <strong>3.</strong> &radic;(32.00 / 16.04) = &radic;1.995 = <strong>1.41</strong> &rarr; CH<sub>4</sub> effuses 1.41&times; faster than O<sub>2</sub>.<br>
+                <strong>4.</strong> &radic;(70.90 / 28.02) = &radic;2.530 = <strong>1.59</strong> &rarr; N<sub>2</sub> effuses 1.59&times; faster than Cl<sub>2</sub>.<br>
+                <em>Each answer is greater than 1 because the lighter gas (gas 1) wins &mdash; the sanity check holds every time.</em>
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART B: ranking speeds ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#129516; PART B &middot; RANK THE SPEEDS (problems 5&ndash;6)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>5.</strong> These gases are all at the <strong>same temperature</strong>: O<sub>2</sub>, He, CO<sub>2</sub>, H<sub>2</sub>, N<sub>2</sub>. Rank them from <strong>fastest to slowest</strong> average molecular speed, and state the single rule you used.</div>
+        </div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>6.</strong> Two flasks at the same temperature hold <strong>helium</strong> and <strong>chlorine (Cl<sub>2</sub>)</strong>. (a) Which gas has the higher average kinetic energy? (b) Which gas has the higher average speed? Explain how both answers can be true at once.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part B answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>5.</strong> At one temperature, lighter = faster. Order the molar masses: H<sub>2</sub> 2.016 &lt; He 4.00 &lt; N<sub>2</sub> 28.02 &lt; O<sub>2</sub> 32.00 &lt; CO<sub>2</sub> 44.01. So fastest &rarr; slowest is <strong>H<sub>2</sub> &gt; He &gt; N<sub>2</sub> &gt; O<sub>2</sub> &gt; CO<sub>2</sub></strong>. Rule used: at the same temperature all gases share the same average kinetic energy, so the lightest molecules move fastest.<br>
+                <strong>6.</strong> (a) <strong>Equal</strong> &mdash; same temperature means the same average kinetic energy for both. (b) <strong>Helium</strong> has the higher average speed. Both hold because KE = ½mv²: helium is far lighter than Cl<sub>2</sub> (4.00 vs. 70.90 g/mol), so it must move faster to carry the same energy.
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART C: KE & temperature reasoning ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128293; PART C &middot; KINETIC ENERGY &amp; TEMPERATURE (problem 7)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>7.</strong> A sample of neon gas is warmed from <strong>200 K to 400 K</strong>. (a) What happens to the average kinetic energy of its particles, and by roughly what factor? (b) Explain, using the kinetic-molecular theory, why warming the gas in a rigid sealed container raises its pressure. (c) Why must temperature be in kelvins, not Celsius, for the kinetic-energy relationship to work?</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part C answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>7. (a)</strong> Average kinetic energy is proportional to the absolute temperature, and 400 K is twice 200 K, so the average kinetic energy roughly <strong>doubles</strong> (the particles move faster). <strong>(b)</strong> Faster particles strike the rigid walls harder and more often; since the volume can't change, the pressure rises (this is Gay-Lussac's law explained by the theory). <strong>(c)</strong> The Kelvin scale starts at absolute zero, the point of zero molecular motion, so kinetic energy is truly proportional to it. Doubling 200&nbsp;K to 400&nbsp;K doubles the energy; doubling a Celsius value has no such meaning because its zero is arbitrary.
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART D: ideal vs non-ideal ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#10052;&#65039; PART D &middot; IDEAL vs. NON-IDEAL (problem 8)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>8.</strong> For each condition below, predict whether the gas will behave <strong>nearly ideal</strong> or will <strong>deviate noticeably</strong> from PV = nRT, and give a one-line reason for each.<br>
+            &nbsp;&nbsp;(a) Carbon dioxide compressed to very high pressure at room temperature.<br>
+            &nbsp;&nbsp;(b) Helium at low pressure and high temperature.<br>
+            &nbsp;&nbsp;(c) A gas cooled to a temperature just above where it would condense to a liquid.<br>
+            &nbsp;&nbsp;(d) Then name the two ideal-gas assumptions that fail in non-ideal conditions.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part D answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>8. (a) Deviates noticeably</strong> &mdash; very high pressure crowds the particles so their own volume and attractions matter. <strong>(b) Nearly ideal</strong> &mdash; low pressure and high temperature keep particles far apart and fast-moving; this is the model's home turf. <strong>(c) Deviates noticeably</strong> &mdash; near condensing, slow particles feel one another's attractions strongly. <strong>(d)</strong> The two failing assumptions: that particles have <strong>no volume of their own</strong> (fails at high pressure) and that particles have <strong>no attraction for one another</strong> (fails at low temperature). Van der Waals corrected for each.<br><br>
+                <em>Check yourself: did your reasons connect &ldquo;crowded&rdquo; to particle volume and &ldquo;cold/slow&rdquo; to attractions?</em>
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== PART E: data-analysis write-up ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; PART E &middot; ANALYZE THE DATA, THEN WRITE (problem 9)</div>
+        <div style="background:#EEF1F8; border-radius:8px; padding:14px 18px; margin-bottom:10px;">
+            <div style="font-size:16px; color:#0e1c42; line-height:1.6;"><strong>9.</strong> An unknown <strong>light gas</strong> and <strong>oxygen (O<sub>2</sub>)</strong> are released through identical pinholes under the same temperature and pressure. Measured effusion times:<br><br>
+            &nbsp;&nbsp;&bull;&nbsp; unknown light gas: fully effuses in <strong>30. s</strong><br>
+            &nbsp;&nbsp;&bull;&nbsp; oxygen (O<sub>2</sub>): fully effuses in <strong>85 s</strong><br><br>
+            <strong>(a)</strong> Use the <em>times</em> to find the rate ratio (rate<sub>light</sub> / rate<sub>O&#8322;</sub>). Remember: the faster gas takes <em>less</em> time, so rate is inversely proportional to time.<br>
+            <strong>(b)</strong> In <strong>2&ndash;3 sentences</strong>, interpret the data: what do these times tell you about the light gas's molar mass compared with oxygen, and &mdash; using Graham's law &mdash; argue whether the light gas could be <strong>helium</strong>. Support your claim with the number you found.</div>
+        </div>
+        <details style="background: #FFFFFF; border: 1px solid #D0D9E8; border-left: 4px solid #C7922C; border-radius: 6px; padding: 12px 18px; margin: 8px 0;">
+            <summary style="font-size: 16px; color: #0E1C42; cursor: pointer; list-style: none;"><span style="color: #C7922C;">&#9654;</span>&nbsp; Check your thinking &mdash; Part E answer key</summary>
+            <div style="font-size: 16px; color: #1a2340; line-height: 1.8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EEF1F8;">
+                <strong>9. (a)</strong> Because rate is inversely proportional to time, rate<sub>light</sub>/rate<sub>O&#8322;</sub> = t<sub>O&#8322;</sub>/t<sub>light</sub> = 85 / 30 = <strong>2.83</strong>. The light gas effuses about 2.83&times; faster than oxygen.<br>
+                <strong>(b)</strong> A sample write-up: <em>&ldquo;The light gas is 2.83 times faster than oxygen, so by Graham's law it must be much lighter. Setting 2.83 = &radic;(M<sub>O&#8322;</sub>/M<sub>light</sub>) gives 2.83&sup2; = 32.00/M<sub>light</sub>, so M<sub>light</sub> = 32.00 / 8.0 &asymp; 4.0 g/mol. That matches helium (4.00 g/mol), so the data are consistent with the light gas being helium.&rdquo;</em> Notice how the measured ratio (2.83) is the same number as the He-vs-O&#8322; ratio you found in problem 1 &mdash; the experiment and the theory agree.<br><br>
+                <em>Data-analysis habit: you turned raw times into a rate ratio, then used it as evidence to support a claim about identity. That "claim &rarr; evidence &rarr; reasoning" move is exactly what a lab report does.</em>
+            </div>
+        </details>
+    </div>
+
+    <!-- Success Criteria -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; SUCCESS CRITERIA</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">All 9 problems attempted, plus the &ldquo;explain before you calculate&rdquo; note. The four Graham's-law problems (1&ndash;4) show the ratio under the square root, not just a final number.</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Each Graham's-law answer passes the sanity check (lighter gas faster &rarr; ratio greater than 1).</div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span>
+            <div style="font-size: 18px; color: #1a2340; line-height: 1.6;">The reasoning problems (5&ndash;8) give a stated rule or cause, not just a yes/no; and problem 9 shows the rate ratio computed from the data <em>and</em> a 2&ndash;3 sentence interpretation that uses it as evidence &mdash; all attempted before checking.</div>
+        </div>
+    </div>
+
+    <!-- Rubric -->
+    <div style="background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; overflow-x: auto;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128202; HOW THIS IS SCORED (COMPLETION)</div>
+        <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+            <thead>
+                <tr style="background: #0E1C42;">
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Criteria</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Full credit</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: left; border: 1px solid #334;">Partial</th>
+                    <th style="padding: 10px 12px; font-size: 13px; color: #fff; text-align: center; border: 1px solid #334;">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Graham's-law ratios (1&ndash;4)<br /><span style="font-size: 12px; color: #777;">8 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">All four set up as &radic;(M&#8322;/M&#8321;) with the ratio shown and sanity-checked.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Some missing setup, flipped masses, or unattempted.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">8</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning problems (5&ndash;8)<br /><span style="font-size: 12px; color: #777;">6 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Each gives a stated rule/cause, not just an answer.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Answers present but reasoning thin or missing.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">6</td>
+                </tr>
+                <tr style="background: #FFFFFF;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Explain-first note + data write-up (9)<br /><span style="font-size: 12px; color: #777;">4 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Reasoning stated in words before calculating; problem 9 computes the ratio from the data and interprets it in 2&ndash;3 sentences.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Write-up missing, number-only with no interpretation, or unattempted.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">4</td>
+                </tr>
+                <tr style="background: #F4F6FA;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #0e1c42; border: 1px solid #D0D9E8; vertical-align: top;">Honest self-check<br /><span style="font-size: 12px; color: #777;">2 pts</span></td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Attempted before checking; corrections noted where needed.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; vertical-align: top;">Little evidence of an honest first attempt.</td>
+                    <td style="padding: 10px 12px; font-size: 14px; color: #1a2340; border: 1px solid #D0D9E8; text-align: center; vertical-align: top;">2</td>
+                </tr>
+                <tr style="background: #0E1C42;">
+                    <td style="padding: 10px 12px; font-size: 15px; color: #ffffff; border: 1px solid #55C8E8; text-align: right;" colspan="3">Total:</td>
+                    <td style="padding: 10px 12px; font-size: 16px; color: #55c8e8; border: 1px solid #55C8E8; text-align: center;">20 pts</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 13px; color: #666; font-style: italic; margin-top: 10px;">Scored on completion and honest effort &mdash; the answer keys above let you confirm accuracy yourself. This is practice, not a test.</div>
+    </div>
+
+    <!-- Submission -->
+    <div style="background: #FDF3E3; border-left: 5px solid #C7922C; border-radius: 6px; padding: 18px 22px; margin-bottom: 24px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128228; SUBMISSION INSTRUCTIONS</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Canvas Assignment Name:</strong> M5 W3 Hands-On &mdash; Kinetic Theory &amp; Effusion</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;">Type your numbered, worked responses directly into the Canvas <strong>text-entry box</strong> (or attach a photo of your paper work). No separate file is required.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65; margin-bottom: 10px;"><strong>Due:</strong> By the end of Week 3.</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">If you get stuck, submit what you have with a note on where you got stuck &mdash; that's useful information, not a penalty.</div>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; CHEMISTRY I HONORS &middot; Quarter 3 &middot; Gas Laws &amp; Thermochemistry</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Week 3 Hands-On &middot; Kinetic Theory &amp; Effusion Problem Set</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+</body>
+</html>
